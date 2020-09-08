@@ -1,0 +1,211 @@
+name: TRM Infrastructure Deployment
+
+on:
+  push:
+    branches:
+    - staging
+
+jobs:
+  infrastructure_common:
+    name: Manage Common Infrastructure
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      TF_VAR_project: techlabs-trm-test
+      TF_VAR_region: europe-west3
+    outputs:
+      artifact_registry_repository_prefix: ${{ steps.terraform_output.outputs.artifact_registry_repository_prefix }}
+    defaults:
+      run:
+        working-directory: infrastructure/common
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.29
+        terraform_wrapper: false
+
+    - name: terraform init
+      run: terraform init
+
+    - name: terraform apply
+      run: terraform apply -auto-approve
+
+    - name: terraform output
+      id: terraform_output
+      run: |
+        echo "::set-output name=artifact_registry_repository_prefix::$(terraform output artifact_registry_repository_prefix)"
+
+  hasura_image:
+    name: Build & Push Hasura Image
+    runs-on: ubuntu-latest
+    needs: [infrastructure_common]
+    defaults:
+      run:
+        working-directory: database
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup gcloud
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '308.0.0'
+        service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
+        export_default_credentials: true
+
+    - name: Configure gcloud Auth for Docker
+      run: gcloud auth configure-docker europe-west3-docker.pkg.dev
+
+    - name: Build Hasura image
+      # ${GITHUB_REF##*/} gets branch name
+      run: docker build -t ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/} .
+
+    - name: Push Hasura image
+      # ${GITHUB_REF##*/} gets branch name
+      run: docker push ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/}
+
+  infrastructure_app:
+    name: Manage App Infrastructure
+    runs-on: ubuntu-latest
+    needs: [hasura_image]
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      TF_VAR_database_passwords: ${{ secrets.TF_VAR_DATABASE_PASSWORDS }}
+      TF_VAR_gsuite_domain: ${{ secrets.TF_VAR_GSUITE_DOMAIN }}
+      TF_VAR_hasura_jwt_keys: ${{ secrets.TF_VAR_HASURA_JWT_KEYS }}
+      TF_VAR_hasura_passwords: ${{ secrets.TF_VAR_HASURA_PASSWORDS }}
+      TF_VAR_oauth_client_id: ${{ secrets.TF_VAR_OAUTH_CLIENT_ID }}
+      TF_VAR_oauth_client_secret: ${{ secrets.TF_VAR_OAUTH_CLIENT_SECRET }}
+      TF_VAR_project: techlabs-trm-test
+      TF_VAR_region: europe-west3
+    outputs:
+      hasura_url: ${{ steps.terraform_output.outputs.hasura_url }}
+      functions_auth_url: ${{ steps.terraform_output.outputs.functions_auth_url }}
+    defaults:
+      run:
+        working-directory: infrastructure/app
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.29
+        terraform_wrapper: false
+
+    - name: terraform init
+      run: terraform init
+
+    - name: terraform workspace select
+      run: terraform workspace select ${GITHUB_REF##*/}
+
+    - name: terraform apply
+      run: terraform apply -auto-approve
+
+    - name: terraform output
+      id: terraform_output
+      run: |
+        echo "::set-output name=hasura_url::$(terraform output hasura_url)"
+        echo "::set-output name=functions_auth_url::$(terraform output functions_auth_url)"
+
+    - name: Upload frontend config
+      uses: actions/upload-artifact@v2
+      with:
+        name: frontend-config
+        path: infrastructure/app/output/config.*.js
+        if-no-files-found: error
+
+  frontend_build:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    needs: [infrastructure_app]
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Download frontend config
+      uses: actions/download-artifact@v2
+      with:
+        name: frontend-config
+        path: frontend/src
+
+    - name: Rename frontend config
+      run: mv src/config.${GITHUB_REF##*/}.js src/config.js
+
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '14'
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v2
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('frontend/**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: yarn install
+      run: yarn install
+
+    - name: yarn build
+      run: yarn build
+
+    - name: Upload frontend build
+      uses: actions/upload-artifact@v2
+      with:
+        name: frontend-build
+        path: frontend/build
+        if-no-files-found: error
+
+  frontend_deploy:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    needs: [frontend_build]
+    steps:
+    - name: Get deploy repo
+      id: deploy-repo
+      run: echo "::set-output name=repository::TechLabs-Berlin/trm-frontend-${GITHUB_REF##*/}"
+
+    - name: Checkout deploy repo
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ steps.deploy-repo.outputs.repository }}
+        path: deploy
+        ssh-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+    - name: Download frontend build
+      uses: actions/download-artifact@v2
+      with:
+        name: frontend-build
+        path: build
+
+    - name: Copy frontend build to deploy repo
+      run: |
+        cp -r deploy/.git deploy/CNAME deploy/README.md build/
+
+    - name: Configure git
+      run: |
+        git config --global user.email "berlin@techlabs.org"
+        git config --global user.name "TechLabs Berlin GitHub Workflow"
+
+    - name: Commit deploy repo
+      run: |
+        git add --all --force .
+        git commit -m "Add frontend build at $(date +%FT%T%Z)"
+      working-directory: build
+
+    - name: Push deploy repo
+      run: git push
+      working-directory: build
