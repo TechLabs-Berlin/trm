@@ -1,7 +1,7 @@
 output "hasura_url" {
-  value = google_cloud_run_service.hasura.status[0].url
+  value = module.database.hasura_url
 }
 
 output "functions_auth_url" {
-  value = google_cloudfunctions_function.functions_auth.https_trigger_url
+  value = module.functions_auth.https_trigger_url
 }
