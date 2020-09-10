@@ -203,7 +203,7 @@ jobs:
     - name: Commit deploy repo
       run: |
         git add --all --force .
-        git commit -m "Add frontend build at $(date +%FT%T%Z)"
+        git commit -m "Add frontend build at $(date +%FT%T%Z)" --allow-empty
       working-directory: build
 
     - name: Push deploy repo
