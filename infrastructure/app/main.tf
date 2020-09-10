@@ -30,8 +30,6 @@ data "terraform_remote_state" "common" {
 
 locals {
   database_instance_name    = data.terraform_remote_state.common.outputs.database_instance_name
-  database_instance_ip      = data.terraform_remote_state.common.outputs.database_instance_ip
-  vpc_access_connector_name = data.terraform_remote_state.common.outputs.vpc_access_connector_name
   storage_bucket_name       = data.terraform_remote_state.common.outputs.storage_bucket_name
 }
 
@@ -39,9 +37,8 @@ module "database" {
   source = "./modules/database"
 
   project                   = var.project
+  region = var.region
   database_instance_name    = local.database_instance_name
-  database_instance_ip      = local.database_instance_ip
-  vpc_access_connector_name = local.vpc_access_connector_name
   database_passwords        = var.database_passwords
   hasura_passwords          = var.hasura_passwords
   hasura_jwt_keys           = var.hasura_jwt_keys

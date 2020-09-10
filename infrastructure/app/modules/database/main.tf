@@ -1,3 +1,7 @@
+locals {
+  cloudsql_instance_name = "${var.project}:${var.region}:${var.database_instance_name}"
+}
+
 resource "google_sql_database" "main" {
   provider = google-beta
 
@@ -31,7 +35,7 @@ resource "google_cloud_run_service" "hasura" {
         image = "europe-west3-docker.pkg.dev/techlabs-trm-test/trm/hasura:${terraform.workspace}"
         env {
           name  = "HASURA_GRAPHQL_DATABASE_URL"
-          value = "postgres://trm-${terraform.workspace}:${var.database_passwords[terraform.workspace]}@${var.database_instance_ip}/trm-${terraform.workspace}?sslmode=require"
+          value = "postgres://trm-${terraform.workspace}:${var.database_passwords[terraform.workspace]}@/trm-${terraform.workspace}?host=/cloudsql/${local.cloudsql_instance_name}&sslmode=require"
         }
         env {
           name  = "HASURA_GRAPHQL_ENABLE_CONSOLE"
@@ -69,7 +73,7 @@ resource "google_cloud_run_service" "hasura" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale"        = "1"
-        "run.googleapis.com/vpc-access-connector" = var.vpc_access_connector_name
+        "run.googleapis.com/cloudsql-instances" = local.cloudsql_instance_name
         "run.googleapis.com/client-name"          = "terraform"
       }
     }
