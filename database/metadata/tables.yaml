@@ -1,0 +1,33 @@
+- table:
+    schema: public
+    name: form_submissions
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      uuid: id
+- table:
+    schema: public
+    name: forms
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      uuid: id
+- table:
+    schema: public
+    name: locations
+- table:
+    schema: public
+    name: semesters
+- table:
+    schema: public
+    name: techie_lifecycle_states
+- table:
+    schema: public
+    name: techies
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      uuid: id
+- table:
+    schema: public
+    name: typeform_users

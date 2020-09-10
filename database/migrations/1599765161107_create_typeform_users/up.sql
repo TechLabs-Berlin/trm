@@ -1,17 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE techies (
+CREATE TABLE typeform_users (
   uuid UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
-  semester TEXT NOT NULL REFERENCES semesters (value),
-  state TEXT NOT NULL REFERENCES techie_lifecycle_states (value),
-  first_name TEXT,
-  last_name TEXT,
-  email TEXT,
+  email TEXT NOT NULL,
+  token TEXT NOT NULL,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT pkey_tbl PRIMARY KEY (uuid)
+  CONSTRAINT typeform_users_pkey PRIMARY KEY (uuid)
 );
 
-CREATE INDEX techies_location_semester ON techies (location, semester);
+CREATE UNIQUE INDEX typeform_users_location_unique ON typeform_users (location);

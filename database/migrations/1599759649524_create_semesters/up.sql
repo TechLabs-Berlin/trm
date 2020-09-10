@@ -3,3 +3,4 @@ CREATE TABLE semesters (
 );
 
 INSERT INTO semesters VALUES ('S_2020_01');
+INSERT INTO semesters VALUES ('S_2020_02');
