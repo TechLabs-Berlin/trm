@@ -1,0 +1,38 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres:12
+    restart: always
+    volumes:
+    - db_data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+  hasura:
+    # to get a dev console:
+    #   $ docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser
+    #   open http://localhost:9695
+    build:
+      context: database
+    ports:
+    - "8080:8080" # API
+    - "9693:9693" # Migrations API
+    - "9695:9695" # Migrations Console
+    depends_on:
+    - postgres
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+    volumes:
+      - ./database/migrations:/migrations
+      - ./database/metadata:/metadata
+volumes:
+  db_data:
