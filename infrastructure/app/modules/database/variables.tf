@@ -20,3 +20,5 @@ variable "hasura_passwords" {
 variable "hasura_jwt_keys" {
   type = map
 }
+
+variable "fn_url_typeform_webhook" {}

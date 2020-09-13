@@ -62,6 +62,10 @@ resource "google_cloud_run_service" "hasura" {
           name  = "HASURA_GRAPHQL_CLI_ENVIRONMENT"
           value = "default"
         }
+        env {
+          name  = "FN_URL_TYPEFORM_WEBHOOK"
+          value = var.fn_url_typeform_webhook
+        }
         resources {
           limits = {
             cpu    = "1000m"

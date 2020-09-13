@@ -7,7 +7,7 @@ data "archive_file" "main" {
 resource "google_storage_bucket_object" "main" {
   provider = google-beta
 
-  name   = format("app/%s/%s#%s", terraform.workspace, "auth.zip", data.archive_file.main.output_md5)
+  name   = format("app/%s/%s-%s.zip", terraform.workspace, var.name, data.archive_file.main.output_md5)
   bucket = var.storage_bucket_name
   source = data.archive_file.main.output_path
 }

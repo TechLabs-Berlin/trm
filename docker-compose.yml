@@ -31,8 +31,22 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      FN_URL_TYPEFORM_WEBHOOK: http://node:8000/typeform-webhook
     volumes:
       - ./database/migrations:/migrations
       - ./database/metadata:/metadata
+  # node:
+  #   image: node:12-alpine
+  #   entrypoint: /bin/sh
+  #   volumes:
+  #     - .:/app
+  #   working_dir: /app
+  #   ports:
+  #     - 8000:8000
+  #   environment:
+  #     # random JWT key
+  #     JWT_KEY: OuioICBdLTcxtIJRJojP2EtmmoUraDO3xkSDRciNO2E72ikef/5QkmHGhgVL17XnelyPIJbhwaWYaS023oXVYs4vyPsbDov0en20o9UGfqB96P6+6UxW9yPCVcUdpl
+  #     GRAPHQL_URL: http://hasura:8080/v1/graphql
+  #     TYPEFORM_CALLBACK_URL: https://example.invalid
 volumes:
   db_data:

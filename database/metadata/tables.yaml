@@ -12,6 +12,28 @@
     custom_root_fields: {}
     custom_column_names:
       uuid: id
+  event_triggers:
+  - name: typeform-webhook
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+      update:
+        columns:
+        - imports_techies
+        - description
+        - form_id
+        - location
+        - secret
+        - created_at
+        - updated_at
+        - webhook_installed_at
+        - uuid
+    retry_conf:
+      num_retries: 3
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: FN_URL_TYPEFORM_WEBHOOK
 - table:
     schema: public
     name: locations

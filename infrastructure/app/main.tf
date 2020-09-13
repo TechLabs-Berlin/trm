@@ -36,6 +36,9 @@ locals {
 module "database" {
   source = "./modules/database"
 
+  // TODO refactor into map & use custom domain when available
+  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/typeform-webhook"
+
   project                   = var.project
   region = var.region
   database_instance_name    = local.database_instance_name
@@ -56,6 +59,22 @@ module "functions_auth" {
     OAUTH_CLIENT_SECRET = var.oauth_credentials[terraform.workspace].client_secret,
     GSUITE_DOMAIN       = var.gsuite_domain,
     JWT_KEY             = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG               = "1" // TODO add config variable
+  }
+}
+
+module "functions_typeform_webhook" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/typeform-webhook"
+  name                = "typeform-webhook"
+  storage_bucket_name = local.storage_bucket_name
+  environment_variables = {
+    GRAPHQL_URL           = "${module.database.hasura_url}/v1/graphql"
+    TYPEFORM_CALLBACK_URL = "https://example.invalid"
+    JWT_KEY               = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG                 = "1" // TODO add config variable
   }
 }
 
