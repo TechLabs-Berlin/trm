@@ -11,7 +11,7 @@ This project aims to provide a **standardized platform** across TechLabs locatio
 
 ## Architecture
 
-![TRM project architecture](doc/architecture.svg)
+![TRM project architecture](doc/resources/architecture.svg)
 
 As for the main components, we have Hasura, the TRM Dashboard, and some [serverless functions](https://www.twilio.com/docs/glossary/what-is-serverless-architecture) for integrating external providers.
 
@@ -22,14 +22,16 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 
 ## Deployment
 
-The project is deployed on [Google Cloud Platform (GCP)](https://cloud.google.com/). The infrastructure (see [`/infrastructure/`](/infrastructure/)) is managed with [Terraform](https://www.terraform.io/) in two projects:
+The project is deployed on [Google Cloud Platform (GCP)](https://cloud.google.com/). Follow the [guide for setting up GCP](/docs/google-cloud-setup.md).
+
+The infrastructure (see [`/infrastructure/`](/infrastructure/)) is managed with [Terraform](https://www.terraform.io/) in two projects:
 
 - [`/infrastructure/common`](/infrastructure/common) for all shared resources between environments: the Cloud SQL PostgreSQL database and a Google Artifact Registry Repository
 - [`/infrastructure/app`](/infrastructure/app) provides resources for a specific environment: the Hasura instance as a [Cloud Run](https://cloud.google.com/run) service, and the serverless functions in [Cloud Functions](https://cloud.google.com/functions)
 
 The TRM Dashbaord is deployed on [GitHub pages](https://pages.github.com/):
 
-- [`TechLabs-Berlin/trm-frontend-staging`](github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment 
+- [`TechLabs-Berlin/trm-frontend-staging`](github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
 
 The deployment process runs the [GitHub Actions](https://github.com/features/actions) [`deploy` workflow](/.github/workflows/deploy.yml)  for every push to the deployment branches:
 
@@ -71,7 +73,7 @@ The deployment process runs the [GitHub Actions](https://github.com/features/act
 
 ## Contributing
 
-We appreciate any contribution and are happy to get in touch. If you see a problem, please [open an issue](https://github.com/TechLabs-Berlin/trm/issues/new) in this repository. For write access to this repository, please send a message on our [Slack Channel](https://techlabs-mgmt.slack.com/archives/C017RB4P0PL) 
+We appreciate any contribution and are happy to get in touch. If you see a problem, please [open an issue](https://github.com/TechLabs-Berlin/trm/issues/new) in this repository. For write access to this repository, please send a message on our [Slack Channel](https://techlabs-mgmt.slack.com/archives/C017RB4P0PL)
 
 To contribute code, we use a Pull Request workflow:
 
@@ -80,5 +82,5 @@ To contribute code, we use a Pull Request workflow:
 
 ## License
 
-The `TechLabs-Berlin/trm` project is [licensed MIT](LICENSE.txt). Learn more about MIT license on [_choosealicense.com_](https://choosealicense.com/licenses/mit/). 
+The `TechLabs-Berlin/trm` project is [licensed MIT](LICENSE.txt). Learn more about MIT license on [_choosealicense.com_](https://choosealicense.com/licenses/mit/).
 
