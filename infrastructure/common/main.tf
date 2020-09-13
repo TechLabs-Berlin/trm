@@ -11,6 +11,13 @@ provider "google-beta" {
   region  = var.region
 }
 
+resource "google_dns_managed_zone" "main" {
+  provider   = google-beta
+
+  name        = "trm"
+  dns_name    = "${var.domain}."
+}
+
 resource "google_sql_database_instance" "main" {
   provider   = google-beta
 

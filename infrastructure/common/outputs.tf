@@ -9,3 +9,7 @@ output "artifact_registry_repository_prefix" {
 output "storage_bucket_name" {
   value = "techlabs-trm-test-state"
 }
+
+output "dns_name_servers" {
+  value = google_dns_managed_zone.main.name_servers
+}
