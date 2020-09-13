@@ -13,6 +13,7 @@ jobs:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
       TF_VAR_project: techlabs-trm-test
       TF_VAR_region: europe-west3
+      TF_VAR_domain: trm.bln.techlabs.org
     outputs:
       artifact_registry_repository_prefix: ${{ steps.terraform_output.outputs.artifact_registry_repository_prefix }}
     defaults:
@@ -78,10 +79,10 @@ jobs:
       TF_VAR_gsuite_domain: ${{ secrets.TF_VAR_GSUITE_DOMAIN }}
       TF_VAR_hasura_jwt_keys: ${{ secrets.TF_VAR_HASURA_JWT_KEYS }}
       TF_VAR_hasura_passwords: ${{ secrets.TF_VAR_HASURA_PASSWORDS }}
-      TF_VAR_oauth_client_id: ${{ secrets.TF_VAR_OAUTH_CLIENT_ID }}
-      TF_VAR_oauth_client_secret: ${{ secrets.TF_VAR_OAUTH_CLIENT_SECRET }}
+      TF_VAR_oauth_credentials: ${{ secrets.TF_VAR_OAUTH_CREDENTIALS }}
       TF_VAR_project: techlabs-trm-test
       TF_VAR_region: europe-west3
+      TF_VAR_domain: trm.bln.techlabs.org
     outputs:
       hasura_url: ${{ steps.terraform_output.outputs.hasura_url }}
       functions_auth_url: ${{ steps.terraform_output.outputs.functions_auth_url }}

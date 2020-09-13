@@ -52,8 +52,8 @@ module "functions_auth" {
   name                = "trm-auth"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    OAUTH_CLIENT_ID     = var.oauth_client_id,
-    OAUTH_CLIENT_SECRET = var.oauth_client_secret,
+    OAUTH_CLIENT_ID     = var.oauth_credentials[terraform.workspace].client_id,
+    OAUTH_CLIENT_SECRET = var.oauth_credentials[terraform.workspace].client_secret,
     GSUITE_DOMAIN       = var.gsuite_domain,
     JWT_KEY             = var.hasura_jwt_keys[terraform.workspace]
   }
@@ -65,7 +65,7 @@ resource "local_file" "frontend_config" {
   content = templatefile("${path.module}/config.js.tmpl", {
     hasura_url         = module.database.hasura_url,
     functions_auth_url = module.functions_auth.https_trigger_url,
-    oauth_client_id    = var.oauth_client_id,
+    oauth_client_id    = var.oauth_credentials[terraform.workspace].client_id,
     gsuite_domain      = var.gsuite_domain
   })
 }

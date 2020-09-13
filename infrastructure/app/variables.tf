@@ -9,6 +9,7 @@ variable "hasura_passwords" {
 variable "hasura_jwt_keys" {
   type = map
 }
-variable "oauth_client_id" {}
-variable "oauth_client_secret" {}
+variable "oauth_credentials" {
+  type = map
+}
 variable "gsuite_domain" {}
