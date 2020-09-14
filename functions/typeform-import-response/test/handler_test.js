@@ -7,7 +7,7 @@ describe('handler', () => {
     return request(app)
       .post('/typeform-import-response')
       .then((res) => {
-        expect(res.statusCode).to.equal(200)
+        expect(res.statusCode).to.equal(400)
       })
   })
 })

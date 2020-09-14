@@ -1,4 +1,5 @@
 const generator = require('../util/generator')
+const responseHandler = require('../handler/response')
 
 module.exports = ({hasura, log}) => {
   return {
@@ -35,12 +36,14 @@ module.exports = ({hasura, log}) => {
         return
       }
 
-      const formSubmissionID = await hasura.createFormSubmission({
-        typeformResponseToken: token,
-        typeformEvent: payload,
-        answers: {},
-        formID
-      })
+      const formSubmissionID = await hasura.createFormSubmission(
+        responseHandler.getResponse({
+          typeformResponseToken: token,
+          typeformEvent: payload,
+          response,
+          formID
+        })
+      )
 
       if(!form.imports_techies) {
         return

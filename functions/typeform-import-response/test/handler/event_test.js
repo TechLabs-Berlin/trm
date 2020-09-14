@@ -1,4 +1,3 @@
-const { expect } = require('chai')
 const log = require('../../util/logger')({
   debugLoggingEnabled: false
 })
