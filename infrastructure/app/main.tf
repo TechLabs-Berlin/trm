@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   // TODO refactor into map & use custom domain when available
-  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/typeform-webhook-${terraform.workspace}"
+  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/tf-webhook-${terraform.workspace}"
 
   project                 = var.project
   region                  = var.region
@@ -74,7 +74,7 @@ module "functions_typeform_webhook" {
 
   project             = var.project
   source_path         = "${path.module}/../../functions/typeform-webhook"
-  name                = "typeform-webhook-${terraform.workspace}"
+  name                = "tf-webhook-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
     NODE_ENV              = terraform.workspace
@@ -90,7 +90,7 @@ module "functions_typeform_import_response" {
 
   project             = var.project
   source_path         = "${path.module}/../../functions/typeform-import-response"
-  name                = "typeform-import-response-${terraform.workspace}"
+  name                = "tf-import-response-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
     NODE_ENV    = terraform.workspace
