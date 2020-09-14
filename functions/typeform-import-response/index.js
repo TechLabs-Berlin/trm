@@ -1,7 +1,5 @@
-const newTypeformStore = require('./store/typeform')
 const newEventHandler = require('./handler/event')
 const newHasuraStore = require('./store/hasura')
-const callbackUtil = require('./util/callback')
 const config = require('./config')()
 const log = require('./util/logger')({
   debugLoggingEnabled: config.debug
@@ -12,10 +10,6 @@ const fetch = require('./util/fetch')({
 const jwt = require('./util/jwt')({
   jwtKey: config.jwtKey
 })
-const typeform = newTypeformStore({
-  log,
-  fetch
-})
 const hasura = newHasuraStore({
   graphqlURL: config.graphqlURL,
   token: jwt.generate(),
@@ -23,8 +17,6 @@ const hasura = newHasuraStore({
   log
 })
 const eventHandler = newEventHandler({
-  callbackURL: config.typeformCallbackURL,
-  typeform,
   hasura,
   log
 })
@@ -34,8 +26,16 @@ exports.handler = async (req, res) => {
     res.status(405).send('method not allowed')
     return
   }
+  const formID = req.query.formID
+  if(!formID) {
+    res.status(400).send('invalid request')
+    return
+  }
   try {
-    await eventHandler.handleEvent(req.body)
+    await eventHandler.handleEvent({
+      payload: req.body,
+      formID
+    })
     res.status(204).send()
   } catch(error) {
     log.error(`Event handler errored`, { message: error.message, stack: error.stack, error })

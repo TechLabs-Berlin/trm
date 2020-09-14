@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   // TODO refactor into map & use custom domain when available
-  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/typeform-webhook"
+  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/typeform-webhook-${terraform.workspace}"
 
   project                 = var.project
   region                  = var.region
@@ -58,7 +58,7 @@ module "functions_auth" {
 
   project             = var.project
   source_path         = "${path.module}/../../functions/auth"
-  name                = "trm-auth"
+  name                = "trm-auth-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
     OAUTH_CLIENT_ID     = var.oauth_credentials[terraform.workspace].client_id,
@@ -74,13 +74,29 @@ module "functions_typeform_webhook" {
 
   project             = var.project
   source_path         = "${path.module}/../../functions/typeform-webhook"
-  name                = "typeform-webhook"
+  name                = "typeform-webhook-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
+    NODE_ENV              = terraform.workspace
     GRAPHQL_URL           = module.database.hasura_url
-    TYPEFORM_CALLBACK_URL = "https://example.invalid"
+    TYPEFORM_CALLBACK_URL = module.functions_typeform_import_response.https_trigger_url
     JWT_KEY               = var.hasura_jwt_keys[terraform.workspace]
     DEBUG                 = "1" // TODO add config variable
+  }
+}
+
+module "functions_typeform_import_response" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/typeform-import-response"
+  name                = "typeform-import-response-${terraform.workspace}"
+  storage_bucket_name = local.storage_bucket_name
+  environment_variables = {
+    NODE_ENV    = terraform.workspace
+    GRAPHQL_URL = module.database.hasura_url
+    JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG       = "1" // TODO add config variable
   }
 }
 
