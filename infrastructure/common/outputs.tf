@@ -10,6 +10,14 @@ output "storage_bucket_name" {
   value = "techlabs-trm-test-state"
 }
 
-output "dns_name_servers" {
+output "google_dns_name_servers" {
   value = google_dns_managed_zone.main.name_servers
+}
+
+output "google_dns_name" {
+  value = google_dns_managed_zone.main.dns_name
+}
+
+output "google_dns_managed_zone" {
+  value = google_dns_managed_zone.main.name
 }

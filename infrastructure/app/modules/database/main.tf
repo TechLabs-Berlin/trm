@@ -77,9 +77,9 @@ resource "google_cloud_run_service" "hasura" {
 
     metadata {
       annotations = {
-        "autoscaling.knative.dev/maxScale"        = "1"
+        "autoscaling.knative.dev/maxScale"      = "1"
         "run.googleapis.com/cloudsql-instances" = local.cloudsql_instance_name
-        "run.googleapis.com/client-name"          = "terraform"
+        "run.googleapis.com/client-name"        = "terraform"
       }
     }
   }
@@ -89,6 +89,31 @@ resource "google_cloud_run_service" "hasura" {
   location = var.location
   project  = var.project
 }
+
+resource "google_cloud_run_domain_mapping" "hasura" {
+  provider = google-beta
+  location = var.location
+  name     = "${var.api_dns_name_prefixes[terraform.workspace]}${var.domain}"
+
+  metadata {
+    namespace = var.project
+  }
+
+  spec {
+    route_name = google_cloud_run_service.hasura.name
+  }
+}
+
+resource "google_dns_record_set" "hasura" {
+  provider = google-beta
+
+  name         = "${google_cloud_run_domain_mapping.hasura.status[0].resource_records[0].name}.${var.google_dns_name}"
+  managed_zone = var.google_dns_managed_zone
+  type         = google_cloud_run_domain_mapping.hasura.status[0].resource_records[0].type
+  ttl          = 86400
+  rrdatas      = [google_cloud_run_domain_mapping.hasura.status[0].resource_records[0].rrdata]
+}
+
 
 data "google_iam_policy" "noauth" {
   provider = google-beta

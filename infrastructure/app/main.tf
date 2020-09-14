@@ -29,8 +29,10 @@ data "terraform_remote_state" "common" {
 }
 
 locals {
-  database_instance_name    = data.terraform_remote_state.common.outputs.database_instance_name
-  storage_bucket_name       = data.terraform_remote_state.common.outputs.storage_bucket_name
+  database_instance_name  = data.terraform_remote_state.common.outputs.database_instance_name
+  storage_bucket_name     = data.terraform_remote_state.common.outputs.storage_bucket_name
+  google_dns_name         = data.terraform_remote_state.common.outputs.google_dns_name
+  google_dns_managed_zone = data.terraform_remote_state.common.outputs.google_dns_managed_zone
 }
 
 module "database" {
@@ -39,12 +41,16 @@ module "database" {
   // TODO refactor into map & use custom domain when available
   fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/typeform-webhook"
 
-  project                   = var.project
-  region = var.region
-  database_instance_name    = local.database_instance_name
-  database_passwords        = var.database_passwords
-  hasura_passwords          = var.hasura_passwords
-  hasura_jwt_keys           = var.hasura_jwt_keys
+  project                 = var.project
+  region                  = var.region
+  database_instance_name  = local.database_instance_name
+  database_passwords      = var.database_passwords
+  hasura_passwords        = var.hasura_passwords
+  hasura_jwt_keys         = var.hasura_jwt_keys
+  domain                  = var.domain
+  api_dns_name_prefixes   = var.api_dns_name_prefixes
+  google_dns_name         = local.google_dns_name
+  google_dns_managed_zone = local.google_dns_managed_zone
 }
 
 module "functions_auth" {
@@ -71,11 +77,21 @@ module "functions_typeform_webhook" {
   name                = "typeform-webhook"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    GRAPHQL_URL           = "${module.database.hasura_url}/v1/graphql"
+    GRAPHQL_URL           = module.database.hasura_url
     TYPEFORM_CALLBACK_URL = "https://example.invalid"
     JWT_KEY               = var.hasura_jwt_keys[terraform.workspace]
     DEBUG                 = "1" // TODO add config variable
   }
+}
+
+resource "google_dns_record_set" "frontend" {
+  provider = google-beta
+
+  name         = "${var.frontend_dns_name_prefixes[terraform.workspace]}${local.google_dns_name}"
+  managed_zone = local.google_dns_managed_zone
+  type         = "CNAME"
+  ttl          = 86400
+  rrdatas      = [var.frontend_cname_record]
 }
 
 resource "local_file" "frontend_config" {

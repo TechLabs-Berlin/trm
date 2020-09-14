@@ -22,3 +22,11 @@ variable "hasura_jwt_keys" {
 }
 
 variable "fn_url_typeform_webhook" {}
+
+variable "domain" {}
+
+variable "api_dns_name_prefixes" {}
+
+variable "google_dns_name" {}
+
+variable "google_dns_managed_zone" {}

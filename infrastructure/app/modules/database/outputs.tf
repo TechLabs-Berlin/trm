@@ -1,3 +1,3 @@
 output "hasura_url" {
-  value = google_cloud_run_service.hasura.status[0].url
+  value = "https://${trimsuffix(google_dns_record_set.hasura.name, ".")}/v1/graphql"
 }

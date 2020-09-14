@@ -19,7 +19,7 @@ In the sidebar at _APIs & Services_ , select _Credentials_
 
 **Create the Credentials for _staging_**
 
-1. At _Credentials_, click _Create Credentials_ 
+1. At _Credentials_, click _Create Credentials_
 1. Choose _OAuth client ID_
 2. As Application type, choose _Web application_ and set the name to _trm-staging_
 3. For the Authorized JavaScript origins, set:
@@ -32,7 +32,7 @@ In the sidebar at _APIs & Services_ , select _Credentials_
 
 **Create the Credentials for _production_**
 
-1. At _Credentials_, click _Create Credentials_ 
+1. At _Credentials_, click _Create Credentials_
 1. Choose _OAuth client ID_
 2. As Application type, choose _Web application_ and set the name to _trm-production_
 4. For the Authorized JavaScript origins, set:
@@ -43,10 +43,10 @@ In the sidebar at _APIs & Services_ , select _Credentials_
 
 ## Setup DNS
 
-1. Take note of the `dns_name_servers` output variable of the [`/infrastructure/common`](/infrastructure/common) Terraform project. You can get the value by e.g. running `terraform output dns_name_servers`. The output looks like this:
+1. Take note of the `dns_name_servers` output variable of the [`/infrastructure/common`](/infrastructure/common) Terraform project. You can get the value by e.g. running `terraform output google_dns_name_servers`. The output looks like this:
 
    ```
-   $ terraform output dns_name_servers
+   $ terraform output google_dns_name_servers
    [
      "ns-cloud-a1.googledomains.com.",
      "ns-cloud-a2.googledomains.com.",
