@@ -5,6 +5,8 @@
     custom_root_fields: {}
     custom_column_names:
       uuid: id
+      techie_uuid: techie_id
+      form_uuid: form_id
 - table:
     schema: public
     name: forms
@@ -53,3 +55,7 @@
 - table:
     schema: public
     name: typeform_users
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      uuid: id
