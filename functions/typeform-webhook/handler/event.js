@@ -19,7 +19,7 @@ module.exports = ({typeform, hasura, callbackURL, log}) => {
       const newState = payload.event.data.new
       const typeformToken = await hasura.getTypeformToken({ location: newState.location })
       const webhookCallbackURL = callbackUtil.createFullCallbackURL({
-        formID: newState.id,
+        formID: newState.uuid,
         callbackURL
       })
       let needsUpdate = false
@@ -53,9 +53,9 @@ module.exports = ({typeform, hasura, callbackURL, log}) => {
       })
       log.info('Updated webhook', { id })
 
-      log.info('Setting webhookInstalledAt', { id, formID: newState.id })
-      await hasura.setWebhookInstalledAt({ formID: newState.id })
-      log.info('Setting webhookInstalledAt complete', { id, formID: newState.id })
+      log.info('Setting webhookInstalledAt', { id, formID: newState.uuid })
+      await hasura.setWebhookInstalledAt({ formID: newState.uuid })
+      log.info('Setting webhookInstalledAt complete', { id, formID: newState.uuid })
     }
   }
 }
