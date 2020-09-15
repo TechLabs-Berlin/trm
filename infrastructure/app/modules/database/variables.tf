@@ -21,7 +21,7 @@ variable "hasura_jwt_keys" {
   type = map
 }
 
-variable "fn_url_typeform_webhook" {}
+variable "fn_url_typeform" {}
 
 variable "domain" {}
 

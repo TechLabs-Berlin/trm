@@ -335,6 +335,39 @@ describe('store', () => {
           expect(result).to.deep.equal(['lk00m5eq3j3wff5ngp3lk00m8mbh2zzc'])
         })
       })
+      describe('setWebhookInstalledAt', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "update_forms": {
+                  "affected_rows": 1
+                }
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          return hasura.setWebhookInstalledAt({
+            formID: "FORM_ID"
+          })
+        })
+      })
     })
   })
 })

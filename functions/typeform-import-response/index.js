@@ -22,6 +22,7 @@ const typeform = newTypeformStore({
   log
 })
 const eventHandler = newEventHandler({
+  functionURL: config.functionURL,
   hasura,
   typeform,
   log

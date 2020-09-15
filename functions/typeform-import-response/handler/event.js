@@ -1,9 +1,10 @@
 const generator = require('../util/generator')
+const callbackUtil = require('../util/callback')
 const responseHandler = require('../handler/response')
 
 const tableName = 'forms'
 
-module.exports = ({hasura, typeform, log}) => {
+module.exports = ({hasura, typeform, functionURL, log}) => {
   return {
     // see https://developer.typeform.com/webhooks/example-payload/
     handleOne: async ({formID, payload}) => {
@@ -76,6 +77,37 @@ module.exports = ({hasura, typeform, log}) => {
       }
       const newState = payload.event.data.new
       const typeformToken = await hasura.getTypeformToken({ location: newState.location })
+      const webhookCallbackURL = callbackUtil.createFullCallbackURL({
+        formID: newState.uuid,
+        callbackURL: functionURL
+      })
+
+      let webhookNeedsUpdate = false
+
+      if(!newState.webhook_installed_at) {
+        webhookNeedsUpdate = true
+      }
+      if(!webhookNeedsUpdate) {
+        const existingWebhook = await typeform.checkWebhook({
+          id: newState.form_id,
+          token: typeformToken
+        })
+        if(!existingWebhook.installed) {
+          webhookNeedsUpdate = true
+        } else if(existingWebhook.url !== webhookCallbackURL) {
+          webhookNeedsUpdate = true
+        }
+      }
+      if(!webhookNeedsUpdate) {
+        log.info('Webhook doesn\'t need update', { id })
+      } else {
+        await typeform.updateWebhook({
+          id: newState.form_id,
+          callbackURL: webhookCallbackURL,
+          secret: newState.secret,
+          token: typeformToken
+        })
+      }
 
       await typeform.getFormResponsesPaginated({
         id: newState.form_id,

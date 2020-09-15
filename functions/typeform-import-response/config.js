@@ -9,6 +9,11 @@ module.exports = () => {
   }
   const graphqlURL = process.env.GRAPHQL_URL
 
+  if(!('FUNCTION_URL' in process.env)) {
+    throw new Error('FUNCTION_URL is unset')
+  }
+  const functionURL = process.env.FUNCTION_URL
+
   let debug = false
   if('DEBUG' in process.env) {
     debug = true
@@ -17,6 +22,7 @@ module.exports = () => {
   return {
     jwtKey,
     graphqlURL,
+    functionURL,
     debug
   }
 }

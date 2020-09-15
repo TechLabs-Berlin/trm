@@ -63,8 +63,8 @@ resource "google_cloud_run_service" "hasura" {
           value = "default"
         }
         env {
-          name  = "FN_URL_TYPEFORM_WEBHOOK"
-          value = var.fn_url_typeform_webhook
+          name  = "FN_URL_TYPEFORM"
+          value = var.fn_url_typeform
         }
         resources {
           limits = {

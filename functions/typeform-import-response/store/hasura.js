@@ -244,6 +244,33 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       return data.form_submissions
         .map(submission => submission.typeform_response_token)
         .filter(Boolean) // removes falsy elements in case typeform_response_token is undefined
+    },
+    setWebhookInstalledAt: async ({ formID }) => {
+      const data = await fetchQuery({
+        query: `
+          mutation SetWebhookInstalledAt($formID: uuid) {
+            update_forms(where: {id: {_eq: $formID}}, _set: {webhook_installed_at: "now()"}) {
+              affected_rows
+            }
+          }
+        `,
+        variables: {
+          formID
+        }
+      })
+
+      if(
+        !data.update_forms ||
+        !data.update_forms.affected_rows ||
+        data.update_forms.affected_rows !== 1
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: result.data
+        })
+      }
+
+      return
     }
   }
 }

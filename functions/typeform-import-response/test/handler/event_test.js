@@ -47,7 +47,11 @@ describe('event handler', () => {
             getFormResponsesPaginated: ({id, token, callback}) => callback([
                 { token: 'token1', answers: [] },
                 { token: 'token2', answers: [] }
-            ])
+            ]),
+            checkWebhook: () => {
+                return { installed: false }
+            },
+            updateWebhook: () => undefined
           }
           const handler = newEventHandler({
               hasura,

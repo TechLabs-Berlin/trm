@@ -38,8 +38,7 @@ locals {
 module "database" {
   source = "./modules/database"
 
-  // TODO refactor into map & use custom domain when available
-  fn_url_typeform_webhook = "https://europe-west3-techlabs-trm-test.cloudfunctions.net/tf-webhook-${terraform.workspace}"
+  fn_url_typeform = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
 
   project                 = var.project
   region                  = var.region
@@ -69,34 +68,19 @@ module "functions_auth" {
   }
 }
 
-module "functions_typeform_webhook" {
-  source = "./modules/function"
-
-  project             = var.project
-  source_path         = "${path.module}/../../functions/typeform-webhook"
-  name                = "tf-webhook-${terraform.workspace}"
-  storage_bucket_name = local.storage_bucket_name
-  environment_variables = {
-    NODE_ENV              = terraform.workspace
-    GRAPHQL_URL           = module.database.hasura_url
-    TYPEFORM_CALLBACK_URL = module.functions_typeform_import_response.https_trigger_url
-    JWT_KEY               = var.hasura_jwt_keys[terraform.workspace]
-    DEBUG                 = "1" // TODO add config variable
-  }
-}
-
-module "functions_typeform_import_response" {
+module "functions_typeform" {
   source = "./modules/function"
 
   project             = var.project
   source_path         = "${path.module}/../../functions/typeform-import-response"
-  name                = "tf-import-response-${terraform.workspace}"
+  name                = "typeform-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    NODE_ENV    = terraform.workspace
-    GRAPHQL_URL = module.database.hasura_url
-    JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
-    DEBUG       = "1" // TODO add config variable
+    NODE_ENV     = terraform.workspace
+    GRAPHQL_URL  = module.database.hasura_url
+    JWT_KEY      = var.hasura_jwt_keys[terraform.workspace]
+    FUNCTION_URL = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}"
+    DEBUG        = "1" // TODO add config variable
   }
 }
 

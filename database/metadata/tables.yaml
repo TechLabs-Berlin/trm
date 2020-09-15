@@ -104,7 +104,7 @@
         location:
           _eq: x-hasura-location
   event_triggers:
-  - name: typeform-webhook
+  - name: typeform
     definition:
       enable_manual: true
       insert:
@@ -115,16 +115,16 @@
         - description
         - form_id
         - location
-        - secret
         - created_at
         - updated_at
         - webhook_installed_at
+        - secret
         - uuid
     retry_conf:
       num_retries: 3
       interval_sec: 10
       timeout_sec: 60
-    webhook_from_env: FN_URL_TYPEFORM_WEBHOOK
+    webhook_from_env: FN_URL_TYPEFORM
 - table:
     schema: public
     name: locations
