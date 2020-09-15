@@ -31,6 +31,27 @@
           location:
             _eq: x-hasura-location
       allow_aggregations: true
+  event_triggers:
+  - name: form-submission
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+      update:
+        columns:
+        - answers
+        - typeform_event
+        - typeform_response_token
+        - created_at
+        - updated_at
+        - form_uuid
+        - techie_uuid
+        - uuid
+    retry_conf:
+      num_retries: 3
+      interval_sec: 10
+      timeout_sec: 60
+    webhook_from_env: FN_URL_FORM_SUBMISSION
 - table:
     schema: public
     name: forms

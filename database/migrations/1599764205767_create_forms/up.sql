@@ -3,6 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE forms (
   uuid UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
+  semester TEXT NOT NULL REFERENCES semesters (value),
   form_id TEXT NOT NULL,
   secret UUID NOT NULL DEFAULT uuid_generate_v1(),
   description TEXT,

@@ -66,6 +66,10 @@ resource "google_cloud_run_service" "hasura" {
           name  = "FN_URL_TYPEFORM"
           value = var.fn_url_typeform
         }
+        env {
+          name  = "FN_URL_FORM_SUBMISSION"
+          value = var.fn_url_form_submission
+        }
         resources {
           limits = {
             cpu    = "1000m"

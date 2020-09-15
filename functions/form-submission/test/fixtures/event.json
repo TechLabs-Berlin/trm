@@ -1,0 +1,439 @@
+{
+  "event": {
+      "session_variables": {
+          "x-hasura-role": "admin"
+      },
+      "op": "INSERT",
+      "data": {
+          "old": null,
+          "new": {
+              "answers": {
+                  "email": {
+                      "value": "some@mail.invalid",
+                      "type": "email"
+                  },
+                  "techie_key": {
+                    "value": "Sandra123",
+                    "type": "text"
+                  },
+                  "multiple_choice": {
+                      "value": "b",
+                      "type": "choice"
+                  },
+                  "phone": {
+                      "value": "+49171244234234",
+                      "type": "phone_number"
+                  },
+                  "rating": {
+                      "value": 2,
+                      "type": "number"
+                  },
+                  "short_text": {
+                      "value": "short",
+                      "type": "text"
+                  },
+                  "dropdown": {
+                      "value": "b",
+                      "type": "choice"
+                  },
+                  "website": {
+                      "value": "https://github.com",
+                      "type": "url"
+                  },
+                  "yes_no": {
+                      "value": true,
+                      "type": "boolean"
+                  },
+                  "date": {
+                      "value": "12020-12-01",
+                      "type": "date"
+                  },
+                  "picture_choice": {
+                      "value": "a",
+                      "type": "choice"
+                  },
+                  "opinion": {
+                      "value": 6,
+                      "type": "number"
+                  },
+                  "long_text": {
+                      "value": "long",
+                      "type": "text"
+                  },
+                  "number": {
+                      "value": 123,
+                      "type": "number"
+                  },
+                  "legal": {
+                      "value": true,
+                      "type": "boolean"
+                  },
+                  "multiple_choice_multiple": {
+                      "value": [
+                          "b"
+                      ],
+                      "type": "choices"
+                  },
+                  "file": {
+                      "value": "https://api.typeform.com/responses/files/9e4494476b663d15a2dcd9af7db087ed655de284ccf01f73e01aaf2ca43fc2eb/config.staging_4.js",
+                      "type": "file_url"
+                  },
+                  "mail": {
+                      "value": "felix@mail.invalid",
+                      "type": "email"
+                  }
+              },
+              "uuid": "2541c2ee-f768-11ea-a95a-42010a9c0ff0",
+              "techie_uuid": null,
+              "form_uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+              "updated_at": "2020-09-15T15:28:46.153686",
+              "created_at": "2020-09-15T15:28:46.153686",
+              "typeform_event": {
+                  "event_type": "form_response",
+                  "form_response": {
+                      "form_id": "HFPjx8K0",
+                      "landed_at": "2020-09-14T16:55:57Z",
+                      "answers": [
+                          {
+                              "field": {
+                                  "id": "yPS1mB8dnWRq",
+                                  "type": "short_text",
+                                  "ref": "short_text"
+                              },
+                              "text": "short",
+                              "type": "text"
+                          },
+                          {
+                              "field": {
+                                  "id": "wjsQFC6fPrYu",
+                                  "type": "long_text",
+                                  "ref": "long_text"
+                              },
+                              "text": "long",
+                              "type": "text"
+                          },
+                          {
+                              "field": {
+                                  "id": "beVzYxjPMwxf",
+                                  "type": "multiple_choice",
+                                  "ref": "multiple_choice"
+                              },
+                              "type": "choice",
+                              "choice": {
+                                  "label": "b"
+                              }
+                          },
+                          {
+                              "field": {
+                                  "id": "sTcMXnwUOebD",
+                                  "type": "multiple_choice",
+                                  "ref": "multiple_choice_multiple"
+                              },
+                              "choices": {
+                                  "labels": [
+                                      "b"
+                                  ]
+                              },
+                              "type": "choices"
+                          },
+                          {
+                              "field": {
+                                  "id": "ZyOfowtJMIyW",
+                                  "type": "phone_number",
+                                  "ref": "phone"
+                              },
+                              "phone_number": "+49171244234234",
+                              "type": "phone_number"
+                          },
+                          {
+                              "field": {
+                                  "id": "bJIbXD6x7til",
+                                  "type": "picture_choice",
+                                  "ref": "picture_choice"
+                              },
+                              "type": "choice",
+                              "choice": {
+                                  "label": "a"
+                              }
+                          },
+                          {
+                              "field": {
+                                  "id": "LdsMCAvwDHgr",
+                                  "type": "yes_no",
+                                  "ref": "yes_no"
+                              },
+                              "boolean": true,
+                              "type": "boolean"
+                          },
+                          {
+                              "email": "felix@mail.invalid",
+                              "field": {
+                                  "id": "6s9QJKSXz1Tv",
+                                  "type": "email",
+                                  "ref": "mail"
+                              },
+                              "type": "email"
+                          },
+                          {
+                              "field": {
+                                  "id": "51lpwXDdkQwE",
+                                  "type": "opinion_scale",
+                                  "ref": "opinion"
+                              },
+                              "type": "number",
+                              "number": 6
+                          },
+                          {
+                              "field": {
+                                  "id": "yDI4Kcnmp7sF",
+                                  "type": "rating",
+                                  "ref": "rating"
+                              },
+                              "type": "number",
+                              "number": 2
+                          },
+                          {
+                              "field": {
+                                  "id": "LsckiGbsrdTG",
+                                  "type": "date",
+                                  "ref": "date"
+                              },
+                              "date": "2020-12-01",
+                              "type": "date"
+                          },
+                          {
+                              "field": {
+                                  "id": "q1VSf2jhGonF",
+                                  "type": "number",
+                                  "ref": "number"
+                              },
+                              "type": "number",
+                              "number": 123
+                          },
+                          {
+                              "field": {
+                                  "id": "LyFQzXzo2jJH",
+                                  "type": "dropdown",
+                                  "ref": "dropdown"
+                              },
+                              "type": "choice",
+                              "choice": {
+                                  "label": "b"
+                              }
+                          },
+                          {
+                              "field": {
+                                  "id": "NBphIIrOphTu",
+                                  "type": "legal",
+                                  "ref": "legal"
+                              },
+                              "boolean": true,
+                              "type": "boolean"
+                          },
+                          {
+                              "file_url": "https://api.typeform.com/responses/files/9e4494476b663d15a2dcd9af7db087ed655de284ccf01f73e01aaf2ca43fc2eb/config.staging_4.js",
+                              "field": {
+                                  "id": "LnFHiVkPb039",
+                                  "type": "file_upload",
+                                  "ref": "file"
+                              },
+                              "type": "file_url"
+                          },
+                          {
+                              "field": {
+                                  "id": "X8e9H6Fod6Lx",
+                                  "type": "website",
+                                  "ref": "website"
+                              },
+                              "url": "https://github.com",
+                              "type": "url"
+                          }
+                      ],
+                      "definition": {
+                          "id": "HFPjx8K0",
+                          "title": "TRM Import Test",
+                          "fields": [
+                              {
+                                  "id": "yPS1mB8dnWRq",
+                                  "title": "Short Text",
+                                  "type": "short_text",
+                                  "ref": "short_text",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "wjsQFC6fPrYu",
+                                  "title": "Long Text",
+                                  "type": "long_text",
+                                  "ref": "long_text",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "beVzYxjPMwxf",
+                                  "title": "Multiple Choice",
+                                  "choices": [
+                                      {
+                                          "id": "hdpvvQNsjqTQ",
+                                          "label": "a"
+                                      },
+                                      {
+                                          "id": "PJWSX083JSP6",
+                                          "label": "b"
+                                      },
+                                      {
+                                          "id": "mwCFpocGVNOy",
+                                          "label": "c"
+                                      }
+                                  ],
+                                  "type": "multiple_choice",
+                                  "ref": "multiple_choice",
+                                  "properties": {}
+                              },
+                              {
+                                  "allow_multiple_selections": true,
+                                  "id": "sTcMXnwUOebD",
+                                  "title": "Multiple Choice Multiple",
+                                  "choices": [
+                                      {
+                                          "id": "yxZcWzzqbA9m",
+                                          "label": "a"
+                                      },
+                                      {
+                                          "id": "rQbCrMdNyMux",
+                                          "label": "b"
+                                      },
+                                      {
+                                          "id": "uoLAfnmxhqkP",
+                                          "label": "c"
+                                      }
+                                  ],
+                                  "type": "multiple_choice",
+                                  "allow_other_choice": true,
+                                  "ref": "multiple_choice_multiple",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "ZyOfowtJMIyW",
+                                  "title": "Phone number",
+                                  "type": "phone_number",
+                                  "ref": "phone",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "bJIbXD6x7til",
+                                  "title": "Picture Choice",
+                                  "choices": [
+                                      {
+                                          "id": "Nbc1mpvwmuGF",
+                                          "label": "a"
+                                      },
+                                      {
+                                          "id": "atiuw6ui2Go3",
+                                          "label": "b"
+                                      }
+                                  ],
+                                  "type": "picture_choice",
+                                  "ref": "picture_choice",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "LdsMCAvwDHgr",
+                                  "title": "Yes no",
+                                  "type": "yes_no",
+                                  "ref": "yes_no",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "6s9QJKSXz1Tv",
+                                  "title": "E-Mail",
+                                  "type": "email",
+                                  "ref": "mail",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "51lpwXDdkQwE",
+                                  "title": "Opinion",
+                                  "type": "opinion_scale",
+                                  "ref": "opinion",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "yDI4Kcnmp7sF",
+                                  "title": "Rating",
+                                  "type": "rating",
+                                  "ref": "rating",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "LsckiGbsrdTG",
+                                  "title": "Date",
+                                  "type": "date",
+                                  "ref": "date",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "q1VSf2jhGonF",
+                                  "title": "Number",
+                                  "type": "number",
+                                  "ref": "number",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "LyFQzXzo2jJH",
+                                  "title": "Dropdown",
+                                  "type": "dropdown",
+                                  "ref": "dropdown",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "NBphIIrOphTu",
+                                  "title": "Legal",
+                                  "type": "legal",
+                                  "ref": "legal",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "LnFHiVkPb039",
+                                  "title": "File",
+                                  "type": "file_upload",
+                                  "ref": "file",
+                                  "properties": {}
+                              },
+                              {
+                                  "id": "X8e9H6Fod6Lx",
+                                  "title": "Website",
+                                  "type": "website",
+                                  "ref": "website",
+                                  "properties": {}
+                              }
+                          ]
+                      },
+                      "token": "2tdwww935658jofagf2tdwwwsz6vxwub",
+                      "hidden": {
+                          "hidden": "xxxxx"
+                      },
+                      "submitted_at": "2020-09-14T16:56:50Z"
+                  },
+                  "event_id": "01EJ6RRDC7ZRB6JM2E2G09M6D8"
+              },
+              "typeform_response_token": "2tdwww935658jofagf2tdwwwsz6vxwub"
+          }
+      },
+      "trace_context": {
+          "trace_id": 6434341471351048000,
+          "span_id": 5642289691242793000
+      }
+  },
+  "created_at": "2020-09-15T15:28:46.153686Z",
+  "id": "ee2b5f6b-91e5-48fd-9d50-997a0ff1293f",
+  "delivery_info": {
+      "max_retries": 0,
+      "current_retry": 0
+  },
+  "trigger": {
+      "name": "form-submission"
+  },
+  "table": {
+      "schema": "public",
+      "name": "form_submissions"
+  }
+}

@@ -1,4 +1,3 @@
-const generator = require('../util/generator')
 const callbackUtil = require('../util/callback')
 const responseHandler = require('../handler/response')
 
@@ -48,21 +47,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         })
       )
 
-      if(!form.imports_techies) {
-        return
-      }
-
-      const techieID = await hasura.createTechie({
-        location: form.location,
-        semester: 'S_2020_02', // TODO make dynamic
-        state: 'APPLICANT',
-        techieKey: generator.generateTechieKey()
-      })
-
-      await hasura.associateTechieWithFormSubmission({
-        techieID,
-        formSubmissionID
-      })
+      return
     },
 
     handleAll: async ({payload}) => {

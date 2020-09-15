@@ -23,6 +23,8 @@ variable "hasura_jwt_keys" {
 
 variable "fn_url_typeform" {}
 
+variable "fn_url_form_submission" {}
+
 variable "domain" {}
 
 variable "api_dns_name_prefixes" {}

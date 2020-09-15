@@ -38,7 +38,8 @@ locals {
 module "database" {
   source = "./modules/database"
 
-  fn_url_typeform = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
+  fn_url_typeform        = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
+  fn_url_form_submission = "https://${var.region}-${var.project}.cloudfunctions.net/form-submission-${terraform.workspace}"
 
   project                 = var.project
   region                  = var.region
@@ -72,7 +73,7 @@ module "functions_typeform" {
   source = "./modules/function"
 
   project             = var.project
-  source_path         = "${path.module}/../../functions/typeform-import-response"
+  source_path         = "${path.module}/../../functions/typeform"
   name                = "typeform-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
@@ -81,6 +82,21 @@ module "functions_typeform" {
     JWT_KEY      = var.hasura_jwt_keys[terraform.workspace]
     FUNCTION_URL = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}"
     DEBUG        = "1" // TODO add config variable
+  }
+}
+
+module "functions_form_submission" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/form-submission"
+  name                = "form-submission-${terraform.workspace}"
+  storage_bucket_name = local.storage_bucket_name
+  environment_variables = {
+    NODE_ENV    = terraform.workspace
+    GRAPHQL_URL = module.database.hasura_url
+    JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG       = "1" // TODO add config variable
   }
 }
 
