@@ -58,12 +58,12 @@ exports.handler = async (req, res) => {
     res.status(400).send('invalid gsuite domain')
     return
   }
-  const groups = await google.getGroups({ userKey, accessToken })
+  // TODO enable when Groups API can be accessed through service account with domain-wide delegation
+  // const groups = await google.getGroups({ userKey, accessToken })
 
   const token = jwt.sign(authorization.getPayload({
     name,
-    email,
-    groups
+    email
   }), config.jwtKey)
 
   res.status(200).send(JSON.stringify({token}))

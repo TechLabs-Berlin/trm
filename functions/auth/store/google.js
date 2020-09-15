@@ -39,6 +39,43 @@ module.exports = ({fetch, log}) => {
         groups.push(group.email)
         return groups
       }, [])
+    },
+    getGroupMembers: async ({group, accessToken}) => {
+      const resp = await fetch(
+        `https://www.googleapis.com/admin/directory/v1/groups/${encodeURIComponent(group)}/members`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }
+      )
+
+      const result = await resp.json()
+
+      if(!resp.ok) {
+        log.debug(`Google API returned an error`, { error: result })
+        return Promise.reject({
+          reason: `Google API responded with ${resp.status}`,
+          error: result
+        })
+      }
+
+      if(!('members' in result)) {
+        return Promise.reject({
+          reason: `Google API returned invalid response, expected to find members`,
+          error: result
+        })
+      }
+
+      return result.members.reduce((members, member) => {
+        if(!('email' in member)) {
+          return members
+        }
+
+        members.push(member.email)
+        return members
+      }, [])
     }
   }
 }
