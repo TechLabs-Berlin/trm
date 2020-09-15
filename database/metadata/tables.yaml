@@ -84,6 +84,7 @@
       - description
       - form_id
       - imports_techies
+      - semester
       - updated_at
       backend_only: false
   select_permissions:
@@ -94,6 +95,7 @@
       - description
       - form_id
       - imports_techies
+      - semester
       - updated_at
       - uuid
       - webhook_installed_at
@@ -109,6 +111,7 @@
       - description
       - form_id
       - imports_techies
+      - semester
       - updated_at
       filter:
         location:
