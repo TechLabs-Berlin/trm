@@ -4,39 +4,65 @@ const log = require('../../util/logger')({
 const newEventHandler = require('../../handler/event')
 
 describe('event handler', () => {
-  it('handles typeform form_response events', () => {
-    const hasura = {
-      getForm: () => {
-        return {
-          "id": "14c3bc2a-f67c-11ea-a595-0242c0a85002",
-          "webhook_installed_at": null,
-          "updated_at": "2020-09-14T11:18:57.295439",
-          "secret": "14c3bd7e-f67c-11ea-a595-0242c0a85002",
-          "location": "BERLIN",
-          "imports_techies": false,
-          "form_id": "",
-          "created_at": "2020-09-14T11:18:57.295439",
-          "description": null
+  describe('handleOne', () => {
+    it('handles typeform form_response events', () => {
+        const hasura = {
+            getForm: () => {
+            return {
+                "id": "14c3bc2a-f67c-11ea-a595-0242c0a85002",
+                "webhook_installed_at": null,
+                "updated_at": "2020-09-14T11:18:57.295439",
+                "secret": "14c3bd7e-f67c-11ea-a595-0242c0a85002",
+                "location": "BERLIN",
+                "imports_techies": false,
+                "form_id": "",
+                "created_at": "2020-09-14T11:18:57.295439",
+                "description": null
+            }
+            },
+            doesFormSubmissionExist: () => false,
+            createFormSubmission: () => 'a017fed8-f67e-11ea-a52d-0242c0a85002',
+            createTechie: () => '13dc8930-f682-11ea-a595-0242c0a85002',
+            associateTechieWithFormSubmission: () => undefined
         }
-      },
-      doesFormSubmissionExist: () => false,
-      createFormSubmission: () => 'a017fed8-f67e-11ea-a52d-0242c0a85002',
-      createTechie: () => '13dc8930-f682-11ea-a595-0242c0a85002',
-      associateTechieWithFormSubmission: () => undefined
-    }
-    const handler = newEventHandler({
-      hasura,
-      log
+        const handler = newEventHandler({
+            hasura,
+            log
+        })
+        return handler.handleOne({
+            formID: '',
+            payload: onePayload
+        })
     })
-    return handler.handleEvent({
-      formID: '',
-      payload
-    })
+  })
+
+  describe('handleAll', () => {
+      it('handles hasura events', () => {
+          const hasura = {
+            getTypeformToken: () => 'TOKEN',
+            getExistingTypeformResponseTokensForForm: () => ['token2'],
+            createFormSubmission: () => 'UUID'
+          }
+          const typeform = {
+            getFormResponsesPaginated: ({id, token, callback}) => callback([
+                { token: 'token1', answers: [] },
+                { token: 'token2', answers: [] }
+            ])
+          }
+          const handler = newEventHandler({
+              hasura,
+              typeform,
+              log
+          })
+          return handler.handleAll({
+              payload: allPayload
+          })
+      })
   })
 })
 
 // Sample payload from https://developer.typeform.com/webhooks/example-payload/
-const payload = JSON.parse(`
+const onePayload = JSON.parse(`
 {
   "event_id": "LtWXD3crgy",
   "event_type": "form_response",
@@ -256,5 +282,57 @@ const payload = JSON.parse(`
           }
       ]
   }
+}
+`)
+
+const allPayload = JSON.parse(`
+{
+    "event": {
+        "session_variables": {
+            "x-hasura-role": "admin"
+        },
+        "op": "UPDATE",
+        "data": {
+            "old": {
+                "form_id": "HFPjx8K0",
+                "imports_techies": true,
+                "location": "BERLIN",
+                "uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+                "webhook_installed_at": "2020-09-14T13:31:47.309937",
+                "secret": "SECRET",
+                "updated_at": "2020-09-14T13:24:44.954927",
+                "created_at": "2020-09-14T13:24:44.954927",
+                "description": "TRM Import Test"
+            },
+            "new": {
+                "form_id": "HFPjx8K0",
+                "imports_techies": true,
+                "location": "BERLIN",
+                "uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+                "webhook_installed_at": "2020-09-14T13:33:38.450266",
+                "secret": "SECRET",
+                "updated_at": "2020-09-14T13:24:44.954927",
+                "created_at": "2020-09-14T13:24:44.954927",
+                "description": "TRM Import Test"
+            }
+        },
+        "trace_context": {
+            "trace_id": 707207211483485000,
+            "span_id": 17760883705472678000
+        }
+    },
+    "created_at": "2020-09-14T13:33:38.450266Z",
+    "id": "68ade6e1-8be4-4e8a-85e7-a8153c9fb6ea",
+    "delivery_info": {
+        "max_retries": 3,
+        "current_retry": 0
+    },
+    "trigger": {
+        "name": "typeform-webhook"
+    },
+    "table": {
+        "schema": "public",
+        "name": "forms"
+    }
 }
 `)

@@ -1,17 +1,19 @@
 const generator = require('../util/generator')
 const responseHandler = require('../handler/response')
 
-module.exports = ({hasura, log}) => {
+const tableName = 'forms'
+
+module.exports = ({hasura, typeform, log}) => {
   return {
     // see https://developer.typeform.com/webhooks/example-payload/
-    handleEvent: async ({formID, payload}) => {
+    handleOne: async ({formID, payload}) => {
       const id = payload.event_id
 
-      log.info(`Received event ${id}`, { id })
-      log.debug('Event details', { id, payload })
+      log.info(`Received event ${id}`, { type: 'one', id })
+      log.debug('Event details', { type: 'one', id, payload })
 
       if(payload.event_type !== 'form_response') {
-        log.info(`unsupported event type ${payload.event_type}`, { id })
+        log.info(`unsupported event type ${payload.event_type}`, { type: 'one', id })
         return Promise.reject(`Unsupported event type ${payload.event_type}`)
       }
 
@@ -32,7 +34,7 @@ module.exports = ({hasura, log}) => {
       })
 
       if(formSubmissionExists) {
-        log.info(`Form submission with token ${token} exists, ignoring`, { id })
+        log.info(`Form submission with token ${token} exists, ignoring`, { type: 'one', id })
         return
       }
 
@@ -59,6 +61,50 @@ module.exports = ({hasura, log}) => {
       await hasura.associateTechieWithFormSubmission({
         techieID,
         formSubmissionID
+      })
+    },
+
+    handleAll: async ({payload}) => {
+      const { id } = payload
+
+      log.info(`Received event ${id}`, { type: 'all', id })
+      log.debug(`Event details`, { type: 'all', id, payload })
+
+      if(payload.table.name !== tableName) {
+        log.info(`Event doesn't belong to ${tableName}, ignoring`, { type: 'all', id })
+        return Promise.reject(`Event doesn't belong to ${tableName}`)
+      }
+      const newState = payload.event.data.new
+      const typeformToken = await hasura.getTypeformToken({ location: newState.location })
+
+      await typeform.getFormResponsesPaginated({
+        id: newState.form_id,
+        token: typeformToken,
+        callback: async (responses) => {
+          const typeformResponseTokens = responses.map(r => r.token)
+          const existingTypeformResponseTokens = await hasura.getExistingTypeformResponseTokensForForm({
+            formID: newState.uuid,
+            typeformResponseTokens
+          })
+          const newTypeformResponseTokens = typeformResponseTokens.filter(t => !existingTypeformResponseTokens.includes(t))
+          log.debug(`Found ${newTypeformResponseTokens.length} new responses, importing`, { type: 'all', id })
+          for(const typeformResponseToken of newTypeformResponseTokens) {
+            const response = responses.find(r => r.token === typeformResponseToken)
+            if(!response) {
+              log.warning(`Expected to find response with token ${typeformResponseToken} but didn't`, { type: 'all', id })
+              continue
+            }
+            const formSubmissionID = await hasura.createFormSubmission(
+              responseHandler.getResponse({
+                typeformEvent: response,
+                formID: newState.uuid,
+                typeformResponseToken,
+                response
+              })
+            )
+            log.debug(`Created form submission ${formSubmissionID}`, { id })
+          }
+        }
       })
     }
   }

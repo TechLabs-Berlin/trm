@@ -1,5 +1,6 @@
 const newEventHandler = require('./handler/event')
 const newHasuraStore = require('./store/hasura')
+const newTypeformStore = require('./store/typeform')
 const config = require('./config')()
 const log = require('./util/logger')({
   debugLoggingEnabled: config.debug
@@ -16,8 +17,13 @@ const hasura = newHasuraStore({
   fetch,
   log
 })
+const typeform = newTypeformStore({
+  fetch,
+  log
+})
 const eventHandler = newEventHandler({
   hasura,
+  typeform,
   log
 })
 
@@ -26,16 +32,28 @@ exports.handler = async (req, res) => {
     res.status(405).send('method not allowed')
     return
   }
-  const formID = req.query.formID
-  if(!formID) {
+  const op = req.query.op
+  if(!op || !['one', 'all'].includes(op)) {
     res.status(400).send('invalid request')
     return
   }
+
   try {
-    await eventHandler.handleEvent({
-      payload: req.body,
-      formID
-    })
+    if(op === 'one') {
+      const formID = req.query.formID
+      if(!formID) {
+        res.status(400).send('invalid request')
+        return
+      }
+      await eventHandler.handleOne({
+        payload: req.body,
+        formID
+      })
+    } else if(op === 'all') {
+      await eventHandler.handleAll({
+        payload: req.body
+      })
+    }
     res.status(204).send()
   } catch(error) {
     log.error(`Event handler errored`, { message: error.message, stack: error.stack, error })

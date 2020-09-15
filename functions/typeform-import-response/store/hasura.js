@@ -187,6 +187,63 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       }
 
       return
+    },
+    getTypeformToken: async ({ location }) => {
+      const data = await fetchQuery({
+        query: `
+          query GetTypeformToken($location: String) {
+            typeform_users(where: {location: {_eq: $location}}, limit: 1) {
+              token
+            }
+          }
+        `,
+        variables: {
+          location
+        }
+      })
+
+      if(
+        !data.typeform_users ||
+        !Array.isArray(data.typeform_users) ||
+        data.typeform_users.length === 0 ||
+        !('token' in data.typeform_users[0])
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: result.data
+        })
+      }
+
+      return data.typeform_users[0].token
+    },
+    getExistingTypeformResponseTokensForForm: async ({ formID, typeformResponseTokens }) => {
+      const data = await fetchQuery({
+        query: `
+          query GetTypeformTokenForForm($formID: uuid!, $typeformResponseTokens: [String!]!) {
+            form_submissions(where: {form_id: {_eq: $formID}, typeform_response_token: {_in: $typeformResponseTokens}}) {
+              typeform_response_token
+            }
+          }
+        `,
+        variables: {
+          formID,
+          typeformResponseTokens
+        }
+      })
+
+      if(
+        !data.form_submissions ||
+        !Array.isArray(data.form_submissions)
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: result.data
+        })
+      }
+
+      return data.form_submissions
+        .map(submission => submission.typeform_response_token)
+        .filter(Boolean) // removes falsy elements in case typeform_response_token is undefined
     }
   }
 }

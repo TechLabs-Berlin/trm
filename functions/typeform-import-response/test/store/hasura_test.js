@@ -263,6 +263,78 @@ describe('store', () => {
           formSubmissionID: "a017fed8-f67e-11ea-a52d-0242c0a85002"
         })
       })
+      describe('getTypeformToken', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "typeform_users": [
+                  {
+                    "token": "TFTOKEN"
+                  }
+                ]
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', async () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          const result = await hasura.getTypeformToken({
+            formID: "FORM_ID"
+          })
+          expect(result).to.equal('TFTOKEN')
+        })
+      })
+      describe('getExistingTypeformResponseTokensForForm', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "form_submissions": [
+                  {
+                    "typeform_response_token": "lk00m5eq3j3wff5ngp3lk00m8mbh2zzc"
+                  }
+                ]
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', async () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          const result = await hasura.getExistingTypeformResponseTokensForForm({
+            formID: "FORM_ID"
+          })
+          expect(result).to.deep.equal(['lk00m5eq3j3wff5ngp3lk00m8mbh2zzc'])
+        })
+      })
     })
   })
 })
