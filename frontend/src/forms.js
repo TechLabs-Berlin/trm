@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Filter, List, Datagrid, DateField, TextField, BooleanField, Edit, SimpleForm, TextInput, BooleanInput, Create } from 'react-admin';
+import { Filter, List, Datagrid, DateField, TextField, BooleanField, Edit, SimpleForm, TextInput, BooleanInput, SelectInput, Create } from 'react-admin';
 
 const FormFilter = (props) => (
   <Filter {...props}>
@@ -22,6 +22,10 @@ export const FormEdit = props => (
   <Edit {...props}>
       <SimpleForm>
           <TextInput source="form_id" />
+          <SelectInput source="semester" choices={[
+            { id: 'S_2020_01', name: '2020-01' },
+            { id: 'S_2020_02', name: '2020-02' },
+          ]} />
           <TextInput source="description" />
           <BooleanInput source="imports_techies" />
           <DateField source="webhook_installed_at" showTime={true} />
@@ -33,6 +37,10 @@ export const FormCreate = props => (
   <Create {...props}>
     <SimpleForm>
           <TextInput source="form_id" />
+          <SelectInput source="semester" choices={[
+            { id: 'S_2020_01', name: '2020-01' },
+            { id: 'S_2020_02', name: '2020-02' },
+          ]} />
           <TextInput source="description" />
           <BooleanInput source="imports_techies" />
           <DateField source="webhook_installed_at" />
