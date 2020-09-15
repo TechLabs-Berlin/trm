@@ -5,9 +5,6 @@ const TechieFilter = (props) => (
   <Filter {...props}>
       <TextInput label="Search" source="techie_key" alwaysOn />
       <TextInput source="email" />
-      <SelectInput source="location" choices={[
-                  { id: 'BERLIN', name: 'Berlin' },
-                ]} />
       <SelectInput source="semester" choices={[
         { id: 'S_2020_01', name: '2020-01' },
         { id: 'S_2020_02', name: '2020-02' },
@@ -26,9 +23,6 @@ const TechieFilter = (props) => (
 export const TechieList = props => (
     <List {...props} filters={<TechieFilter />}>
         <Datagrid rowClick="edit">
-            <SelectField source="location" choices={[
-                  { id: 'BERLIN', name: 'Berlin' },
-                ]} />
             <SelectField source="semester" choices={[
               { id: 'S_2020_01', name: '2020-01' },
               { id: 'S_2020_02', name: '2020-02' },
@@ -50,9 +44,6 @@ export const TechieList = props => (
 export const TechieEdit = props => (
   <Edit {...props}>
       <SimpleForm>
-          <SelectInput source="location" choices={[
-            { id: 'BERLIN', name: 'Berlin' },
-          ]} />
           <SelectInput source="semester" choices={[
             { id: 'S_2020_01', name: '2020-01' },
             { id: 'S_2020_02', name: '2020-02' },
@@ -74,9 +65,6 @@ export const TechieEdit = props => (
 export const TechieCreate = props => (
   <Create {...props}>
     <SimpleForm>
-          <SelectInput source="location" choices={[
-                  { id: 'BERLIN', name: 'Berlin' },
-                ]} />
           <SelectInput source="semester" choices={[
             { id: 'S_2020_01', name: '2020-01' },
             { id: 'S_2020_02', name: '2020-02' },

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Filter, List, Datagrid, DateField, SelectField, TextField, BooleanField, Edit, SimpleForm, TextInput, SelectInput, BooleanInput, Create } from 'react-admin';
+import { Filter, List, Datagrid, DateField, TextField, BooleanField, Edit, SimpleForm, TextInput, BooleanInput, Create } from 'react-admin';
 
 const FormFilter = (props) => (
   <Filter {...props}>
@@ -11,9 +11,6 @@ const FormFilter = (props) => (
 export const FormList = props => (
     <List {...props} filters={<FormFilter />}>
         <Datagrid rowClick="edit">
-            <SelectField source="location" choices={[
-                  { id: 'BERLIN', name: 'Berlin' },
-                ]} />
             <TextField source="form_id" />
             <TextField source="description" />
             <BooleanField source="imports_techies" />
@@ -24,9 +21,6 @@ export const FormList = props => (
 export const FormEdit = props => (
   <Edit {...props}>
       <SimpleForm>
-          <SelectInput source="location" choices={[
-            { id: 'BERLIN', name: 'Berlin' },
-          ]} />
           <TextInput source="form_id" />
           <TextInput source="description" />
           <BooleanInput source="imports_techies" />
@@ -38,9 +32,6 @@ export const FormEdit = props => (
 export const FormCreate = props => (
   <Create {...props}>
     <SimpleForm>
-          <SelectInput source="location" choices={[
-            { id: 'BERLIN', name: 'Berlin' },
-          ]} />
           <TextInput source="form_id" />
           <TextInput source="description" />
           <BooleanInput source="imports_techies" />
