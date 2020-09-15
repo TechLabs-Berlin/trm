@@ -1,6 +1,20 @@
 const GoogleAuth = require('google-auth-library')
 const jwt = require('jsonwebtoken')
 
+const newGoogleStore = require('./store/google')
+const authorization = require('./store/authorization')
+const config = require('./config')()
+const log = require('./util/logger')({
+  debugLoggingEnabled: config.debug
+})
+const fetch = require('./util/fetch')({
+  log
+})
+const google = newGoogleStore({
+  fetch,
+  log
+})
+
 exports.handler = async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
   if (req.method === 'OPTIONS') {
@@ -25,33 +39,32 @@ exports.handler = async (req, res) => {
 
   // Fetch Access Token from Google
   const oauth2 = new GoogleAuth.OAuth2Client({
-    clientId: process.env.OAUTH_CLIENT_ID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    clientId: config.oAuthClientID,
+    clientSecret: config.oAuthClientSecret,
     redirectUri: 'postmessage' // important if code received through client-side "Sign in with Google" button
   })
   const tokenRes = await oauth2.getToken(code)
-  // const accessToken = tokenRes.tokens.access_token
+  const accessToken = tokenRes.tokens.access_token
   const idToken = tokenRes.tokens.id_token
   const ticket = await oauth2.verifyIdToken({
     idToken,
-    audience: process.env.OAUTH_CLIENT_ID
+    audience: config.oAuthClientID
   })
   const hd = ticket.payload.hd
   const name = ticket.payload.name
   const email = ticket.payload.email
-  if(hd !== process.env.GSUITE_DOMAIN) {
+  const userKey = ticket.payload.sub
+  if(hd !== config.gSuiteDomain) {
     res.status(400).send('invalid gsuite domain')
     return
   }
+  const groups = await google.getGroups({ userKey, accessToken })
 
-  const token = jwt.sign({
+  const token = jwt.sign(authorization.getPayload({
     name,
     email,
-    'https://hasura.io/jwt/claims': {
-      'x-hasura-allowed-roles': ['admin'],
-      'x-hasura-default-role': 'admin'
-    }
-  }, process.env.JWT_KEY)
+    groups
+  }), config.jwtKey)
 
   res.status(200).send(JSON.stringify({token}))
   return
