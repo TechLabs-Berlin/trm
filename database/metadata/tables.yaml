@@ -7,6 +7,30 @@
       uuid: id
       techie_uuid: techie_id
       form_uuid: form_id
+  object_relationships:
+  - name: form
+    using:
+      foreign_key_constraint_on: form_uuid
+  - name: techie
+    using:
+      foreign_key_constraint_on: techie_uuid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uuid
+      - form_uuid
+      - techie_uuid
+      - typeform_response_token
+      - answers
+      - typeform_event
+      - created_at
+      - updated_at
+      filter:
+        form:
+          location:
+            _eq: x-hasura-location
+      allow_aggregations: true
 - table:
     schema: public
     name: forms
@@ -14,6 +38,71 @@
     custom_root_fields: {}
     custom_column_names:
       uuid: id
+  object_relationships:
+  - name: locationByLocation
+    using:
+      foreign_key_constraint_on: location
+  array_relationships:
+  - name: form_submissions
+    using:
+      foreign_key_constraint_on:
+        column: form_uuid
+        table:
+          schema: public
+          name: form_submissions
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+      columns:
+      - created_at
+      - description
+      - form_id
+      - imports_techies
+      - updated_at
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - description
+      - form_id
+      - imports_techies
+      - updated_at
+      - uuid
+      - webhook_installed_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - description
+      - form_id
+      - imports_techies
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        location:
+          _eq: x-hasura-location
   event_triggers:
   - name: typeform-webhook
     definition:
@@ -39,12 +128,71 @@
 - table:
     schema: public
     name: locations
+  array_relationships:
+  - name: forms
+    using:
+      foreign_key_constraint_on:
+        column: location
+        table:
+          schema: public
+          name: forms
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: location
+        table:
+          schema: public
+          name: techies
+  - name: typeform_users
+    using:
+      foreign_key_constraint_on:
+        column: location
+        table:
+          schema: public
+          name: typeform_users
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: semesters
+  array_relationships:
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: semester
+        table:
+          schema: public
+          name: techies
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: techie_lifecycle_states
+  array_relationships:
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: public
+          name: techies
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: techies
@@ -52,6 +200,85 @@
     custom_root_fields: {}
     custom_column_names:
       uuid: id
+  object_relationships:
+  - name: locationByLocation
+    using:
+      foreign_key_constraint_on: location
+  - name: semesterBySemester
+    using:
+      foreign_key_constraint_on: semester
+  - name: techie_lifecycle_state
+    using:
+      foreign_key_constraint_on: state
+  array_relationships:
+  - name: form_submissions
+    using:
+      foreign_key_constraint_on:
+        column: techie_uuid
+        table:
+          schema: public
+          name: form_submissions
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+      columns:
+      - created_at
+      - email
+      - first_name
+      - last_name
+      - semester
+      - state
+      - techie_key
+      - updated_at
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - email
+      - first_name
+      - last_name
+      - semester
+      - state
+      - techie_key
+      - updated_at
+      - uuid
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - email
+      - first_name
+      - last_name
+      - semester
+      - state
+      - techie_key
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        location:
+          _eq: x-hasura-location
 - table:
     schema: public
     name: typeform_users
@@ -59,3 +286,7 @@
     custom_root_fields: {}
     custom_column_names:
       uuid: id
+  object_relationships:
+  - name: locationByLocation
+    using:
+      foreign_key_constraint_on: location
