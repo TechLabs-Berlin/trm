@@ -40,13 +40,18 @@ module.exports = {
       return locations
     }, [])
 
+    let location = locations[0]
+    if(!location) {
+      location = 'TEST'
+    }
+
     return {
       name,
       email,
       'https://hasura.io/jwt/claims': {
         'x-hasura-allowed-roles': roles,
         'x-hasura-default-role': defaultRole,
-        'x-hasura-locations': locations
+        'x-hasura-location': location
       }
     }
   }
