@@ -444,6 +444,44 @@ describe('store', () => {
         })
         expect(result).to.deep.equal({found: true, techie: {id: 'b6b2bcea-f68e-11ea-a653-42010a9c0ff0'}})
       })
+      describe('updateTechieMasterData', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "update_techies_by_pk": {
+                  "id": "b6b2bcea-f68e-11ea-a653-42010a9c0ff0"
+                }
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          return hasura.updateTechieMasterData({
+            id: "b6b2bcea-f68e-11ea-a653-42010a9c0ff0",
+            email: "mail.de",
+            firstName: "Hans",
+            lastName: "Wurst",
+            state: "APPLICANT",
+            techieKey: "Hands33"
+          })
+        })
+      })
     })
   })
 })

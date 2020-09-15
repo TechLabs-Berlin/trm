@@ -52,6 +52,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               form_id
               imports_techies
               location
+              semester
               secret
               updated_at
               webhook_installed_at
@@ -70,7 +71,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -97,7 +98,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -126,7 +127,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -155,7 +156,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -182,7 +183,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -210,7 +211,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -237,7 +238,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
         })
       }
 
@@ -266,7 +267,123 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
-          error: result.data
+          error: data
+        })
+      }
+
+      return
+    },
+    findTechieByTechieKey: async ({ location, semester, techieKey }) => {
+      const data = await fetchQuery({
+        query: `
+          query FindTechieByTechieKey($location: String!, $semester: String!, $techieKey: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester: {_eq: $semester}, techie_key: {_eq: $techieKey }}}) {
+              id
+              semester
+              state
+              techie_key
+              first_name
+              last_name
+              email
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          location,
+          semester,
+          techieKey
+        }
+      })
+
+      if(
+        !data.techies ||
+        !Array.isArray(data.techies)
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: data
+        })
+      }
+
+      if(data.techies.length == 0) {
+        return {
+          found: false
+        }
+      }
+
+      return {
+        found: true,
+        techie: data.techies[0]
+      }
+    },
+    findTechieByEmail: async ({ location, semester, email }) => {
+      const data = await fetchQuery({
+        query: `
+          query FindTechieByTechieKey($location: String!, $semester: String!, $email: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester: {_eq: $semester}, email: {_eq: $email }}}) {
+              id
+              semester
+              state
+              techie_key
+              first_name
+              last_name
+              email
+              created_at
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          location,
+          semester,
+          email
+        }
+      })
+
+      if(
+        !data.techies ||
+        !Array.isArray(data.techies)
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: data
+        })
+      }
+
+      if(data.techies.length == 0) {
+        return {
+          found: false
+        }
+      }
+
+      return {
+        found: true,
+        techie: data.techies[0]
+      }
+    },
+    // id is expected to be included in attributes
+    updateTechieMasterData: async (attributes) => {
+      const data = await fetchQuery({
+        query: `
+          mutation UpdateTechieMasterData($id: uuid!, $email: String, $firstName: String, $lastName: String!, $state: String!, $techieKey: String!) {
+            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $firstName, last_name: $lastName, state: $state, techie_key: $techieKey, updated_at: "now()"}) {
+              id
+            }
+          }
+        `,
+        variables: attributes
+      })
+
+      if(
+        !data.update_techies_by_pk ||
+        !('id' in data.update_techies_by_pk) ||
+        data.update_techies_by_pk.id !== attributes.id
+      ) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: data
         })
       }
 

@@ -368,6 +368,120 @@ describe('store', () => {
           })
         })
       })
+      describe('findTechieByTechieKey', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "techies": [
+                  {
+                    "id": "b6b2bcea-f68e-11ea-a653-42010a9c0ff0"
+                  }
+                ]
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', async () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          const result = await hasura.findTechieByTechieKey({
+            location: 'BERLIN',
+            semester: 'S_2020_01',
+            techieKey: 'Sandra123'
+          })
+          expect(result).to.deep.equal({found: true, techie: {id: 'b6b2bcea-f68e-11ea-a653-42010a9c0ff0'}})
+        })
+      })
+    })
+    describe('findTechieByEmail', () => {
+      before((done) => {
+        nock.disableNetConnect()
+        nock(graphqlBase)
+          .post(graphqlPath)
+          .reply(200, {
+            "data": {
+              "techies": [
+                {
+                  "id": "b6b2bcea-f68e-11ea-a653-42010a9c0ff0"
+                }
+              ]
+            }
+          })
+        done()
+      })
+
+      after(() => {
+        expect(nock.isDone()).to.be.true
+        nock.cleanAll()
+        nock.enableNetConnect()
+      })
+
+      it('works', async () => {
+        const hasura = newHasuraStore({
+          graphqlURL,
+          token,
+          fetch,
+          log
+        })
+        const result = await hasura.findTechieByEmail({
+          location: 'BERLIN',
+          semester: 'S_2020_01',
+          email: 'sandra@mail.net'
+        })
+        expect(result).to.deep.equal({found: true, techie: {id: 'b6b2bcea-f68e-11ea-a653-42010a9c0ff0'}})
+      })
+      describe('updateTechieMasterData', () => {
+        before((done) => {
+          nock.disableNetConnect()
+          nock(graphqlBase)
+            .post(graphqlPath)
+            .reply(200, {
+              "data": {
+                "update_techies_by_pk": {
+                  "id": "b6b2bcea-f68e-11ea-a653-42010a9c0ff0"
+                }
+              }
+            })
+          done()
+        })
+
+        after(() => {
+          expect(nock.isDone()).to.be.true
+          nock.cleanAll()
+          nock.enableNetConnect()
+        })
+
+        it('works', () => {
+          const hasura = newHasuraStore({
+            graphqlURL,
+            token,
+            fetch,
+            log
+          })
+          return hasura.updateTechieMasterData({
+            id: "b6b2bcea-f68e-11ea-a653-42010a9c0ff0",
+            email: "mail.de",
+            firstName: "Hans",
+            lastName: "Wurst",
+            state: "APPLICANT",
+            techieKey: "Hands33"
+          })
+        })
+      })
     })
   })
 })
