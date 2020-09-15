@@ -20,18 +20,24 @@ module.exports = ({hasura, log}) => {
 
       let techieID = null
       if('email' in newState.answers) {
-        techieID = await hasura.findTechieByEmail({
+        const result = await hasura.findTechieByEmail({
           location: form.location,
           semester: form.semester,
           email: newState.answers.email.value
         })
+        if(result.found) {
+          techieID = result.techie.id
+        }
       }
       if(techieID === null && ('techie_key' in newState.answers)) {
-        techieID = await hasura.findTechieByTechieKey({
+        const result = await hasura.findTechieByTechieKey({
           location: form.location,
           semester: form.semester,
           techieKey: newState.answers.techie_key.value
         })
+        if(result.found) {
+          techieID = result.techie.id
+        }
       }
       if(techieID === null && form.imports_techies && !newState.techie_uuid) {
         techieID = await hasura.createTechie({

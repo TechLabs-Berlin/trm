@@ -15,8 +15,8 @@ describe('event handler', () => {
               imports_techies: true
             }
           },
-          findTechieByEmail: () => null,
-          findTechieByTechieKey: () => null,
+          findTechieByEmail: () => {return {found: false}},
+          findTechieByTechieKey: () => {return {found: false}},
           createTechie: () => 'TECHIE_ID',
           associateTechieWithFormSubmission: () => undefined
         }
