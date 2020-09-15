@@ -5,6 +5,10 @@
 3. Set the TRM project as the active project:
    ![Setting the TRM project as the active project](resources/gcp-console-project.png)
 
+## Enable APIs
+
+- [Admin SDK](https://console.cloud.google.com/apis/library/admin.googleapis.com) – for Google Auth
+
 ## Setup OAuth
 
 In the sidebar at _APIs & Services_ , select _Credentials_
