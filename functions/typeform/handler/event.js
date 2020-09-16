@@ -92,6 +92,9 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
           secret: newState.secret,
           token: typeformToken
         })
+        await hasura.setWebhookInstalledAt({
+          formID: newState.form_id
+        })
       }
 
       await typeform.getFormResponsesPaginated({

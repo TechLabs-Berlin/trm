@@ -41,7 +41,8 @@ describe('event handler', () => {
           const hasura = {
             getTypeformToken: () => 'TOKEN',
             getExistingTypeformResponseTokensForForm: () => ['token2'],
-            createFormSubmission: () => 'UUID'
+            createFormSubmission: () => 'UUID',
+            setWebhookInstalledAt: () => undefined
           }
           const typeform = {
             getFormResponsesPaginated: ({id, token, callback}) => callback([
