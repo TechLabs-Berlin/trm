@@ -15,10 +15,12 @@ describe('event handler', () => {
               imports_techies: true
             }
           },
+          findTechieByID: () => {return {found: false}},
           findTechieByEmail: () => {return {found: false}},
           findTechieByTechieKey: () => {return {found: false}},
-          createTechie: () => 'TECHIE_ID',
-          associateTechieWithFormSubmission: () => undefined
+          createTechie: () => {return {id: 'TECHIE_ID'}},
+          associateTechieWithFormSubmission: () => undefined,
+          updateTechieMasterData: () => undefined
         }
         const handler = newEventHandler({
             hasura,

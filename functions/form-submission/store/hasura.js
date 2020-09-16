@@ -16,7 +16,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     const result = await resp.json()
 
     if(!resp.ok) {
-      log.debug(`GraphQL API returned an error`, { error: result })
+      log.debug(`GraphQL API returned an error`, { query: body, error: result })
       return Promise.reject({
         reason: `GraphQL API responded with ${resp.status}`,
         error: result
@@ -24,6 +24,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     }
 
     if(typeof result.errors !== 'undefined') {
+      log.debug('GraphQL API responded with an error result', { query: body, error: result.errors })
       return Promise.reject({
         reason: `GraphQL API responded with an error result`,
         error: result.errors
@@ -31,11 +32,14 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     }
 
     if(!('data' in result)) {
+      log.debug('GraphQL API result does not contain data', { query: body, result })
       return Promise.reject({
         reason: 'Expected result from GraphQL API to contain data',
         error: result
       })
     }
+
+    log.debug('GraphQL data', { query: body, data: result.data })
 
     return result.data
   }
@@ -139,6 +143,14 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
           mutation CreateTechie($location: String, $semester: String, $state: String, $techieKey: String) {
             insert_techies_one(object: {location: $location, semester: $semester, state: $state, techie_key: $techieKey, created_at: "now()", updated_at: "now()"}) {
               id
+              semester
+              state
+              techie_key
+              first_name
+              last_name
+              email
+              created_at
+              updated_at
             }
           }
         `,
@@ -150,17 +162,14 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         }
       })
 
-      if(
-        !data.insert_techies_one ||
-        !('id' in data.insert_techies_one)
-        ) {
+      if(!data.insert_techies_one) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
           error: data
         })
       }
 
-      return data.insert_techies_one.id
+      return data.insert_techies_one
     },
     associateTechieWithFormSubmission: async ({ techieID, formSubmissionID }) => {
       const data = await fetchQuery({
@@ -273,6 +282,45 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
 
       return
     },
+    findTechieByID: async ({ id }) => {
+      const data = await fetchQuery({
+        query: `
+          query GetTechie($id: uuid!) {
+            techies_by_pk(id: $id) {
+              created_at
+              email
+              first_name
+              id
+              last_name
+              location
+              semester
+              state
+              techie_key
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          id
+        }
+      })
+
+      if(!('techies_by_pk' in data)) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: data
+        })
+      }
+
+      if(!data.techies_by_pk) {
+        return { found: false }
+      }
+
+      return {
+        found: true,
+        techie: data.techies_by_pk
+      }
+    },
     findTechieByTechieKey: async ({ location, semester, techieKey }) => {
       const data = await fetchQuery({
         query: `
@@ -352,7 +400,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         })
       }
 
-      if(data.techies.length == 0) {
+      if(data.techies.length === 0) {
         return {
           found: false
         }
@@ -367,8 +415,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
         query: `
-          mutation UpdateTechieMasterData($id: uuid!, $email: String, $firstName: String, $lastName: String!, $state: String!, $techieKey: String!) {
-            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $firstName, last_name: $lastName, state: $state, techie_key: $techieKey, updated_at: "now()"}) {
+          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String!, $state: String!, $techie_key: String!) {
+            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, updated_at: "now()"}) {
               id
             }
           }

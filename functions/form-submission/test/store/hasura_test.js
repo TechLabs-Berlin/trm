@@ -227,7 +227,7 @@ describe('store', () => {
           state: 'APPLICANT',
           techieKey: 'hamster123'
         })
-        expect(result).to.be.a('string')
+        expect(result).to.be.a('object')
       })
     })
     describe('associateTechieWithFormSubmission', () => {
@@ -365,6 +365,96 @@ describe('store', () => {
           })
           return hasura.setWebhookInstalledAt({
             formID: "FORM_ID"
+          })
+        })
+      })
+      describe('findTechieByEmail', () => {
+        describe('if techie exists', () => {
+          before((done) => {
+            nock.disableNetConnect()
+            nock(graphqlBase)
+              .post(graphqlPath)
+              .reply(200, {
+                "data": {
+                  "techies_by_pk": {
+                    "created_at": "2020-09-15T19:18:41.364654",
+                    "email": null,
+                    "first_name": null,
+                    "id": "43d66dca-f788-11ea-b03c-42010a9c0ff0",
+                    "last_name": null,
+                    "location": "BERLIN",
+                    "semester": "S_2020_02",
+                    "state": "APPLICANT",
+                    "techie_key": "Esteban_Lebsack85",
+                    "updated_at": "2020-09-15T19:18:41.364654"
+                  }
+                }
+              })
+            done()
+          })
+
+          after(() => {
+            expect(nock.isDone()).to.be.true
+            nock.cleanAll()
+            nock.enableNetConnect()
+          })
+
+          it('works', async () => {
+            const hasura = newHasuraStore({
+              graphqlURL,
+              token,
+              fetch,
+              log
+            })
+            const result = await hasura.findTechieByID({
+              id: '43d66dca-f788-11ea-b03c-42010a9c0ff0'
+            })
+            expect(result.found).to.be.true
+            expect(result.techie).to.deep.equal({
+              "created_at": "2020-09-15T19:18:41.364654",
+              "email": null,
+              "first_name": null,
+              "id": "43d66dca-f788-11ea-b03c-42010a9c0ff0",
+              "last_name": null,
+              "location": "BERLIN",
+              "semester": "S_2020_02",
+              "state": "APPLICANT",
+              "techie_key": "Esteban_Lebsack85",
+              "updated_at": "2020-09-15T19:18:41.364654"
+            })
+          })
+        })
+        describe('if techie does not exist', () => {
+          before((done) => {
+            nock.disableNetConnect()
+            nock(graphqlBase)
+              .post(graphqlPath)
+              .reply(200, {
+                "data": {
+                  "techies_by_pk": null
+                }
+              })
+            done()
+          })
+
+          after(() => {
+            expect(nock.isDone()).to.be.true
+            nock.cleanAll()
+            nock.enableNetConnect()
+          })
+
+          it('works', async () => {
+            const hasura = newHasuraStore({
+              graphqlURL,
+              token,
+              fetch,
+              log
+            })
+            const result = await hasura.findTechieByID({
+              id: '43d66dca-f788-11ea-b03c-42010a9c0ff0'
+            })
+            expect(result.found).to.be.false
+            expect(result.techie).not.to.exist
           })
         })
       })
