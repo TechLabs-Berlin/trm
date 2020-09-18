@@ -9,7 +9,7 @@ const FormFilter = (props) => (
 );
 
 export const FormList = props => (
-    <List {...props} filters={<FormFilter />}>
+    <List {...props} filters={<FormFilter />} perPage={25}>
         <Datagrid rowClick="edit">
             <TextField source="form_id" />
             <TextField source="description" />

@@ -30,7 +30,6 @@ const authProvider = {
     return Promise.resolve()
   },
   getPermissions: () => {
-    console.log('getPermissions')
     const role = localStorage.getItem('permissions');
     return role ? Promise.resolve(role) : Promise.reject();
   }
