@@ -142,6 +142,7 @@
 - table:
     schema: public
     name: locations
+  is_enum: true
   array_relationships:
   - name: forms
     using:
@@ -157,6 +158,13 @@
         table:
           schema: public
           name: semesters
+  - name: team_members
+    using:
+      foreign_key_constraint_on:
+        column: location
+        table:
+          schema: public
+          name: team_members
   - name: techies
     using:
       foreign_key_constraint_on:
@@ -257,7 +265,75 @@
           _eq: x-hasura-location
 - table:
     schema: public
+    name: team_members
+  object_relationships:
+  - name: locationByLocation
+    using:
+      foreign_key_constraint_on: location
+  array_relationships:
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: assigned_team_member_id
+        table:
+          schema: public
+          name: techies
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-location
+      columns:
+      - description
+      - email
+      - first_name
+      - last_name
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - description
+      - email
+      - first_name
+      - id
+      - last_name
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - description
+      - email
+      - first_name
+      - last_name
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        location:
+          _eq: x-hasura-location
+- table:
+    schema: public
     name: techie_lifecycle_states
+  is_enum: true
   array_relationships:
   - name: techies
     using:
@@ -283,9 +359,18 @@
   - name: semester
     using:
       foreign_key_constraint_on: semester_id
+  - name: team_member
+    using:
+      foreign_key_constraint_on: assigned_team_member_id
   - name: techie_lifecycle_state
     using:
       foreign_key_constraint_on: state
+  - name: trackByApplicationTrackChoice
+    using:
+      foreign_key_constraint_on: application_track_choice
+  - name: trackByTrack
+    using:
+      foreign_key_constraint_on: track
   array_relationships:
   - name: form_responses
     using:
@@ -298,14 +383,19 @@
   - role: user
     permission:
       columns:
+      - application_successful
+      - application_track_choice
+      - assigned_team_member_id
       - created_at
       - email
       - first_name
       - id
       - last_name
+      - notes
       - semester_id
       - state
       - techie_key
+      - track
       - updated_at
       filter: {}
       allow_aggregations: true
@@ -313,11 +403,16 @@
   - role: user
     permission:
       columns:
+      - application_successful
+      - application_track_choice
+      - assigned_team_member_id
       - email
       - first_name
       - last_name
+      - notes
       - semester_id
       - state
+      - track
       - updated_at
       filter:
         location:
@@ -327,6 +422,32 @@
           _eq: x-hasura-location
       set:
         location: x-hasura-Location
+- table:
+    schema: public
+    name: tracks
+  is_enum: true
+  array_relationships:
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: track
+        table:
+          schema: public
+          name: techies
+  - name: techiesByApplicationTrackChoice
+    using:
+      foreign_key_constraint_on:
+        column: application_track_choice
+        table:
+          schema: public
+          name: techies
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: typeform_users

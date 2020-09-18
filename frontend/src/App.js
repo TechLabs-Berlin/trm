@@ -4,6 +4,7 @@ import UserIcon from '@material-ui/icons/People';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import CommentIcon from '@material-ui/icons/Comment';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
 import dataProvider from './dataProvider';
 import authProvider from './authProvider';
@@ -14,6 +15,7 @@ import { TechieList, TechieEdit } from './techies';
 import { FormList, FormEdit, FormCreate } from './forms';
 import { SemesterList, SemesterEdit, SemesterCreate } from './semesters';
 import { FormResponseList, FormResponseShow } from './form_responses';
+import { TeamMemberList, TeamMemberEdit, TeamMemberCreate } from './team_members';
 
 class App extends Component {
   render() {
@@ -29,6 +31,7 @@ class App extends Component {
             <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} icon={ChatBubbleOutlineIcon} />
             <Resource name="form_responses" list={FormResponseList} show={FormResponseShow} icon={CommentIcon} />
             <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} icon={QueryBuilderIcon} />
+            <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} icon={PeopleOutlineIcon} />
           </Admin>
       );
   }

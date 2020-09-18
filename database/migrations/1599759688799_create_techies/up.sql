@@ -9,6 +9,11 @@ CREATE TABLE techies (
   first_name TEXT,
   last_name TEXT,
   email TEXT,
+  track TEXT REFERENCES tracks (value),
+  application_track_choice TEXT REFERENCES tracks (value),
+  application_successful BOOLEAN,
+  notes TEXT,
+  assigned_team_member_id UUID REFERENCES team_members (id),
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

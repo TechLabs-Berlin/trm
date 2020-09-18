@@ -34,8 +34,17 @@ export const FormResponseList = props => (
     </List>
 );
 
+const FormResponseTitle = ({ record }) => {
+    if(record && record.form && record.form.description) {
+      return <span>Form Response to Form <strong>{record.form.description}</strong></span>
+    } else if(record && record.id) {
+      return <span>Form Response <strong>{record.id}</strong></span>
+    }
+    return <span>Form Response</span>;
+};
+
 export const FormResponseShow = props => (
-  <Show {...props}>
+    <Show title={<FormResponseTitle /> } {...props}>
       <SimpleShowLayout>
         <TabbedForm toolbar={null}>
             <FormTab label="Answers">

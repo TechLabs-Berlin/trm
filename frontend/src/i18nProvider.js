@@ -4,6 +4,7 @@ import polyglotI18nProvider from 'ra-i18n-polyglot';
 let messages = {
   resources: {
     techies: {
+      name: 'Techie |||| Techies',
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
@@ -22,6 +23,13 @@ let messages = {
         'form.description': 'Form',
         'techie.first_name': 'First Name',
         'techie.last_name': 'Last Name'
+      }
+    },
+    team_members: {
+      name: 'Team Member |||| Team Members',
+      fields: {
+        first_name: 'First Name',
+        last_name: 'Last Name',
       }
     }
   },

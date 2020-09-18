@@ -18,8 +18,17 @@ export const SemesterList = props => (
     </List>
 );
 
+const SemesterTitle = ({ record }) => {
+  if(record && record.description) {
+    return <span>Semester <strong>{record.description}</strong></span>
+  } else if(record && record.id) {
+    return <span>Semester <strong>{record.id}</strong></span>
+  }
+  return <span>Semester</span>;
+};
+
 export const SemesterEdit = props => (
-  <Edit {...props}>
+  <Edit title={<SemesterTitle />} {...props}>
       <SimpleForm>
           <TextInput source="description" />
           <DateInput source="starts_at" />

@@ -19,8 +19,18 @@ export const FormList = props => (
     </List>
 );
 
+const FormTitle = ({ record }) => {
+  let title = ''
+  if(record && record.description) {
+    title = record.description
+  } else if(record && record.id) {
+    title = record.id
+  }
+  return <span>Form <strong>{title}</strong></span>;
+};
+
 export const FormEdit = props => (
-  <Edit {...props}>
+  <Edit title={<FormTitle />} {...props}>
       <SimpleForm>
           <TextInput source="typeform_id" />
           <ReferenceInput label="Semester" source="semester_id" reference="semesters">
