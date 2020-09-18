@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-export const FormSubmissionAnswersField = ({ record = {}}) => {
+export const FormResponseAnswersField = ({ record = {}}) => {
   return (
     <List>
       {Object.entries(record.answers).map(([key, answer]) => {
@@ -22,6 +22,6 @@ export const FormSubmissionAnswersField = ({ record = {}}) => {
   )
 }
 
-FormSubmissionAnswersField.defaultProps = {
+FormResponseAnswersField.defaultProps = {
   addLabel: true
 }

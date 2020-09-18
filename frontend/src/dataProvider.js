@@ -31,7 +31,7 @@ const buildProvider = () => {
   })
   const buildFieldsCustom = (type) => {
     let res = buildFields(type);
-    if (type.name === 'form_submissions') {
+    if (type.name === 'form_responses') {
         // here we add additional fields we want to query for apps.
         // we are using the graphql-ast-types functions which is ast representation for graphql
         res.push(

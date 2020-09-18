@@ -17,7 +17,8 @@
     "react-google-login": "^5.1.21",
     "react-json-view": "^1.19.1",
     "react-moment": "^0.9.7",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "typeface-nunito-sans": "^0.0.72"
   },
   "scripts": {
     "start": "react-scripts start",

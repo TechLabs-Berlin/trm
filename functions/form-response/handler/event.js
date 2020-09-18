@@ -1,7 +1,7 @@
 const generator = require('../util/generator')
 const techieutil = require('../util/techie')
 
-const tableName = 'form_submissions'
+const tableName = 'form_responses'
 
 module.exports = ({hasura, log}) => {
   return {
@@ -17,19 +17,19 @@ module.exports = ({hasura, log}) => {
       }
 
       const newState = payload.event.data.new
-      const form = await hasura.getForm({ id: newState.form_uuid })
+      const form = await hasura.getForm({ id: newState.form_id })
 
       let techie = null
-      if(newState.techie_uuid) {
+      if(newState.techie_id) {
         log.info('Looking up techie by id', { id })
         const result = await hasura.findTechieByID({
-          id: newState.techie_uuid
+          id: newState.techie_id
         })
         if(result.found) {
           techie = result.techie
         }
       }
-      if(!techie && 'email' in newState.answers) {
+      if(!techie && ('email' in newState.answers)) {
         log.info('Looking up techie by email', { id })
         const result = await hasura.findTechieByEmail({
           location: form.location,
@@ -55,7 +55,7 @@ module.exports = ({hasura, log}) => {
         log.info('Creating techie', { id })
         techie = await hasura.createTechie({
           location: form.location,
-          semester: form.semester,
+          semesterID: form.semester_id,
           state: 'APPLICANT',
           techieKey: generator.generateTechieKey()
         })
@@ -63,11 +63,11 @@ module.exports = ({hasura, log}) => {
 
       if(techie) {
         log.info(`Processing techie ${techie.id}`, { id })
-        await hasura.associateTechieWithFormSubmission({
-          formSubmissionID: newState.uuid,
+        await hasura.associateTechieWithFormResponse({
+          formResponseID: newState.id,
           techieID: techie.id
         })
-        log.debug(`Associated techie ${techie.id} with form submission ${newState.uuid}`, { id })
+        log.debug(`Associated techie ${techie.id} with form response ${newState.id}`, { id })
         const updatedTechieMasterData = techieutil.processTechieMasterData({
           attributes: techie,
           formAnswers: newState.answers

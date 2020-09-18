@@ -5,7 +5,7 @@ const app = require('../app')
 describe('handler', () => {
   it.skip('should return a username', () => {
     return request(app)
-      .post('/form-submission')
+      .post('/form-response')
       .then((res) => {
         expect(res.statusCode).to.equal(204)
       })

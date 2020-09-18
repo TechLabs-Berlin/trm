@@ -38,8 +38,8 @@ locals {
 module "database" {
   source = "./modules/database"
 
-  fn_url_typeform        = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
-  fn_url_form_submission = "https://${var.region}-${var.project}.cloudfunctions.net/form-submission-${terraform.workspace}"
+  fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
+  fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
 
   project                 = var.project
   region                  = var.region
@@ -85,12 +85,12 @@ module "functions_typeform" {
   }
 }
 
-module "functions_form_submission" {
+module "functions_form_response" {
   source = "./modules/function"
 
   project             = var.project
-  source_path         = "${path.module}/../../functions/form-submission"
-  name                = "form-submission-${terraform.workspace}"
+  source_path         = "${path.module}/../../functions/form-response"
+  name                = "form-response-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
     NODE_ENV    = terraform.workspace

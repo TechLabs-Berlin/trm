@@ -83,9 +83,9 @@
                       "type": "email"
                   }
               },
-              "uuid": "2541c2ee-f768-11ea-a95a-42010a9c0ff0",
-              "techie_uuid": null,
-              "form_uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+              "id": "2541c2ee-f768-11ea-a95a-42010a9c0ff0",
+              "techie_id": null,
+              "form_id": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
               "updated_at": "2020-09-15T15:28:46.153686",
               "created_at": "2020-09-15T15:28:46.153686",
               "typeform_event": {
@@ -430,10 +430,10 @@
       "current_retry": 0
   },
   "trigger": {
-      "name": "form-submission"
+      "name": "form-response"
   },
   "table": {
       "schema": "public",
-      "name": "form_submissions"
+      "name": "form_responses"
   }
 }

@@ -19,7 +19,7 @@ describe('event handler', () => {
           findTechieByEmail: () => {return {found: false}},
           findTechieByTechieKey: () => {return {found: false}},
           createTechie: () => {return {id: 'TECHIE_ID'}},
-          associateTechieWithFormSubmission: () => undefined,
+          associateTechieWithFormResponse: () => undefined,
           updateTechieMasterData: () => undefined
         }
         const handler = newEventHandler({

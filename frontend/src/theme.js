@@ -5,5 +5,8 @@ export const theme = createMuiTheme({
     primary: {
       main: '#fb1d5c'
     }
+  },
+  typography: {
+    fontFamily: ['Nunito Sans', 'Helvetica', 'Arial', 'sans-serif']
   }
 });

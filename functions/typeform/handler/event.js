@@ -27,18 +27,17 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         return Promise.reject('form_response does not contain token')
       }
 
-      const form = await hasura.getForm({ id: formID })
-      const formSubmissionExists = await hasura.doesFormSubmissionExist({
+      const formResponseExists = await hasura.doesFormResponseExist({
         typeformResponseToken: token,
         formID
       })
 
-      if(formSubmissionExists) {
-        log.info(`Form submission with token ${token} exists, ignoring`, { type: 'one', id })
+      if(formResponseExists) {
+        log.info(`Form response with token ${token} exists, ignoring`, { type: 'one', id })
         return
       }
 
-      const formSubmissionID = await hasura.createFormSubmission(
+      const formResponseID = await hasura.createFormResponse(
         responseHandler.getResponse({
           typeformResponseToken: token,
           typeformEvent: payload,
@@ -46,6 +45,8 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
           formID
         })
       )
+
+      log.info(`Created form response ID ${formResponseID}`, { type: 'one', id })
 
       return
     },
@@ -63,7 +64,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
       const newState = payload.event.data.new
       const typeformToken = await hasura.getTypeformToken({ location: newState.location })
       const webhookCallbackURL = callbackUtil.createFullCallbackURL({
-        formID: newState.uuid,
+        formID: newState.id,
         callbackURL: functionURL
       })
 
@@ -74,7 +75,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
       }
       if(!webhookNeedsUpdate) {
         const existingWebhook = await typeform.checkWebhook({
-          id: newState.form_id,
+          id: newState.typeform_id,
           token: typeformToken
         })
         if(!existingWebhook.installed) {
@@ -87,23 +88,25 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         log.info('Webhook doesn\'t need update', { id })
       } else {
         await typeform.updateWebhook({
-          id: newState.form_id,
+          id: newState.typeform_id,
           callbackURL: webhookCallbackURL,
           secret: newState.secret,
           token: typeformToken
         })
+        log.info('Webhook updated', { id })
         await hasura.setWebhookInstalledAt({
-          formID: newState.form_id
+          formID: newState.id
         })
+        log.info('webhook_installed_at updated', { id })
       }
 
       await typeform.getFormResponsesPaginated({
-        id: newState.form_id,
+        id: newState.typeform_id,
         token: typeformToken,
         callback: async (responses) => {
           const typeformResponseTokens = responses.map(r => r.token)
           const existingTypeformResponseTokens = await hasura.getExistingTypeformResponseTokensForForm({
-            formID: newState.uuid,
+            formID: newState.id,
             typeformResponseTokens
           })
           const newTypeformResponseTokens = typeformResponseTokens.filter(t => !existingTypeformResponseTokens.includes(t))
@@ -114,15 +117,15 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
               log.warning(`Expected to find response with token ${typeformResponseToken} but didn't`, { type: 'all', id })
               continue
             }
-            const formSubmissionID = await hasura.createFormSubmission(
+            const formResponseID = await hasura.createFormResponse(
               responseHandler.getResponse({
                 typeformEvent: response,
-                formID: newState.uuid,
+                formID: newState.id,
                 typeformResponseToken,
                 response
               })
             )
-            log.debug(`Created form submission ${formSubmissionID}`, { id })
+            log.debug(`Created form response ${formResponseID}`, { id })
           }
         }
       })

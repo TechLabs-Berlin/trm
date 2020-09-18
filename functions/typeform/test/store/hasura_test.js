@@ -26,7 +26,7 @@ describe('store', () => {
                     "id": "460eceba-f40a-11ea-9986-0242c0a85002",
                     "created_at": "2020-09-11T08:39:15.021875",
                     "description": "Test Form 2",
-                    "form_id": "b138yZof",
+                    "typeform_id": "b138yZof",
                     "imports_techies": true,
                     "location": "BERLIN",
                     "secret": "SECRET",
@@ -90,15 +90,15 @@ describe('store', () => {
         })
       })
     })
-    describe('doesFormSubmissionExist', () => {
-      describe('submission exists', () => {
+    describe('doesFormResponseExist', () => {
+      describe('response exists', () => {
         before((done) => {
           nock.disableNetConnect()
           nock(graphqlBase)
             .post(graphqlPath)
             .reply(200, {
               "data": {
-                "form_submissions": [
+                "form_responses": [
                   {
                     "id": "460eceba-f40a-11ea-9986-0242c0a85002",
                   }
@@ -121,18 +121,18 @@ describe('store', () => {
             fetch,
             log
           })
-          const result = await hasura.doesFormSubmissionExist('460eceba-f40a-11ea-9986-0242c0a85002', 'RESPONSE_TOKEN')
+          const result = await hasura.doesFormResponseExist('460eceba-f40a-11ea-9986-0242c0a85002', 'RESPONSE_TOKEN')
           expect(result).to.be.true
         })
       })
-      describe('form submission does not exist', () => {
+      describe('form response does not exist', () => {
         before((done) => {
           nock.disableNetConnect()
           nock(graphqlBase)
             .post(graphqlPath)
             .reply(200, {
               "data": {
-                "form_submissions": []
+                "form_responses": []
               }
             })
           done()
@@ -151,19 +151,19 @@ describe('store', () => {
             fetch,
             log
           })
-          const result = await hasura.doesFormSubmissionExist('460eceba-f40a-11ea-9986-0242c0a85002', 'RESPONSE_TOKEN')
+          const result = await hasura.doesFormResponseExist('460eceba-f40a-11ea-9986-0242c0a85002', 'RESPONSE_TOKEN')
           expect(result).to.be.false
         })
       })
     })
-    describe('createFormSubmission', () => {
+    describe('createFormResponse', () => {
       before((done) => {
         nock.disableNetConnect()
         nock(graphqlBase)
           .post(graphqlPath)
           .reply(200, {
             "data": {
-              "insert_form_submissions_one": {
+              "insert_form_responses_one": {
                 "id": "a017fed8-f67e-11ea-a52d-0242c0a85002"
               }
             }
@@ -184,7 +184,7 @@ describe('store', () => {
           fetch,
           log
         })
-        const result = await hasura.createFormSubmission({
+        const result = await hasura.createFormResponse({
           formID: "460eceba-f40a-11ea-9986-0242c0a85002",
           typeformResponseToken: 'RESPONSE_TOKEN',
           typeformEvent: {some: 'data'},
@@ -227,17 +227,17 @@ describe('store', () => {
           state: 'APPLICANT',
           techieKey: 'hamster123'
         })
-        expect(result).to.be.a('string')
+        expect(result).to.be.a('object')
       })
     })
-    describe('associateTechieWithFormSubmission', () => {
+    describe('associateTechieWithFormResponse', () => {
       before((done) => {
         nock.disableNetConnect()
         nock(graphqlBase)
           .post(graphqlPath)
           .reply(200, {
             "data": {
-              "update_form_submissions_by_pk": {
+              "update_form_responses_by_pk": {
                 "id": "a017fed8-f67e-11ea-a52d-0242c0a85002"
               }
             }
@@ -258,9 +258,9 @@ describe('store', () => {
           fetch,
           log
         })
-        return hasura.associateTechieWithFormSubmission({
+        return hasura.associateTechieWithFormResponse({
           techieID: "13dc8930-f682-11ea-a595-0242c0a85002",
-          formSubmissionID: "a017fed8-f67e-11ea-a52d-0242c0a85002"
+          formResponseID: "a017fed8-f67e-11ea-a52d-0242c0a85002"
         })
       })
       describe('getTypeformToken', () => {
@@ -294,7 +294,7 @@ describe('store', () => {
             log
           })
           const result = await hasura.getTypeformToken({
-            formID: "FORM_ID"
+            location: "BERLIN"
           })
           expect(result).to.equal('TFTOKEN')
         })
@@ -306,7 +306,7 @@ describe('store', () => {
             .post(graphqlPath)
             .reply(200, {
               "data": {
-                "form_submissions": [
+                "form_responses": [
                   {
                     "typeform_response_token": "lk00m5eq3j3wff5ngp3lk00m8mbh2zzc"
                   }
@@ -365,6 +365,96 @@ describe('store', () => {
           })
           return hasura.setWebhookInstalledAt({
             formID: "FORM_ID"
+          })
+        })
+      })
+      describe('findTechieByEmail', () => {
+        describe('if techie exists', () => {
+          before((done) => {
+            nock.disableNetConnect()
+            nock(graphqlBase)
+              .post(graphqlPath)
+              .reply(200, {
+                "data": {
+                  "techies_by_pk": {
+                    "created_at": "2020-09-15T19:18:41.364654",
+                    "email": null,
+                    "first_name": null,
+                    "id": "43d66dca-f788-11ea-b03c-42010a9c0ff0",
+                    "last_name": null,
+                    "location": "BERLIN",
+                    "semester": "S_2020_02",
+                    "state": "APPLICANT",
+                    "techie_key": "Esteban_Lebsack85",
+                    "updated_at": "2020-09-15T19:18:41.364654"
+                  }
+                }
+              })
+            done()
+          })
+
+          after(() => {
+            expect(nock.isDone()).to.be.true
+            nock.cleanAll()
+            nock.enableNetConnect()
+          })
+
+          it('works', async () => {
+            const hasura = newHasuraStore({
+              graphqlURL,
+              token,
+              fetch,
+              log
+            })
+            const result = await hasura.findTechieByID({
+              id: '43d66dca-f788-11ea-b03c-42010a9c0ff0'
+            })
+            expect(result.found).to.be.true
+            expect(result.techie).to.deep.equal({
+              "created_at": "2020-09-15T19:18:41.364654",
+              "email": null,
+              "first_name": null,
+              "id": "43d66dca-f788-11ea-b03c-42010a9c0ff0",
+              "last_name": null,
+              "location": "BERLIN",
+              "semester": "S_2020_02",
+              "state": "APPLICANT",
+              "techie_key": "Esteban_Lebsack85",
+              "updated_at": "2020-09-15T19:18:41.364654"
+            })
+          })
+        })
+        describe('if techie does not exist', () => {
+          before((done) => {
+            nock.disableNetConnect()
+            nock(graphqlBase)
+              .post(graphqlPath)
+              .reply(200, {
+                "data": {
+                  "techies_by_pk": null
+                }
+              })
+            done()
+          })
+
+          after(() => {
+            expect(nock.isDone()).to.be.true
+            nock.cleanAll()
+            nock.enableNetConnect()
+          })
+
+          it('works', async () => {
+            const hasura = newHasuraStore({
+              graphqlURL,
+              token,
+              fetch,
+              log
+            })
+            const result = await hasura.findTechieByID({
+              id: '43d66dca-f788-11ea-b03c-42010a9c0ff0'
+            })
+            expect(result.found).to.be.false
+            expect(result.techie).not.to.exist
           })
         })
       })

@@ -16,7 +16,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     const result = await resp.json()
 
     if(!resp.ok) {
-      log.debug(`GraphQL API returned an error`, { error: result })
+      log.debug(`GraphQL API returned an error`, { query: body, error: result })
       return Promise.reject({
         reason: `GraphQL API responded with ${resp.status}`,
         error: result
@@ -24,6 +24,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     }
 
     if(typeof result.errors !== 'undefined') {
+      log.debug('GraphQL API responded with an error result', { query: body, error: result.errors })
       return Promise.reject({
         reason: `GraphQL API responded with an error result`,
         error: result.errors
@@ -31,11 +32,14 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     }
 
     if(!('data' in result)) {
+      log.debug('GraphQL API result does not contain data', { query: body, result })
       return Promise.reject({
         reason: 'Expected result from GraphQL API to contain data',
         error: result
       })
     }
+
+    log.debug('GraphQL data', { query: body, data: result.data })
 
     return result.data
   }
@@ -44,15 +48,15 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     getForm: async ({ id }) => {
       const data = await fetchQuery({
         query: `
-          query GetForm($id: uuid) {
+          query GetForm($id: uuid!) {
             forms(where: {id: {_eq: $id}}, limit: 1) {
               id
               created_at
               description
-              form_id
+              typeform_id
               imports_techies
               location
-              semester
+              semester_id
               secret
               updated_at
               webhook_installed_at
@@ -77,24 +81,24 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
 
       return data.forms[0]
     },
-    doesFormSubmissionExist: async ({ formID, typeformResponseToken }) => {
+    doesFormResponseExist: async ({ typeformID, typeformResponseToken }) => {
       const data = await fetchQuery({
         query: `
-          query GetFormSubmission($formID: uuid, $typeformResponseToken: String) {
-            form_submissions(where: {form_id: {_eq: $formID}, typeform_response_token: {_eq: $typeformResponseToken}}, limit: 1) {
+          query GetFormResponse($typeformID: uuid!, $typeformResponseToken: String!) {
+            form_responses(where: {typeform_id: {_eq: $typeformID}, typeform_response_token: {_eq: $typeformResponseToken}}, limit: 1) {
               id
             }
           }
         `,
         variables: {
-          formID,
+          typeformID,
           typeformResponseToken
         }
       })
 
       if(
-        !data.form_submissions ||
-        !Array.isArray(data.form_submissions)
+        !data.form_responses ||
+        !Array.isArray(data.form_responses)
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
@@ -102,13 +106,13 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         })
       }
 
-      return data.form_submissions.length >= 1
+      return data.form_responses.length >= 1
     },
-    createFormSubmission: async ({ formID, typeformResponseToken, typeformEvent, answers }) => {
+    createFormResponse: async ({ formID, typeformResponseToken, typeformEvent, answers }) => {
       const data = await fetchQuery({
         query: `
-          mutation CreateFormSubmission($formID: uuid, $typeformResponseToken: String, $typeformEvent: jsonb, $answers: jsonb) {
-            insert_form_submissions_one(object: {form_id: $formID, typeform_response_token: $typeformResponseToken, typeform_event: $typeformEvent, answers: $answers, created_at: "now()", updated_at: "now()"}) {
+          mutation CreateFormResponse($formID: uuid!, $typeformResponseToken: String!, $typeformEvent: jsonb!, $answers: jsonb!) {
+            insert_form_responses_one(object: {form_id: $formID, typeform_response_token: $typeformResponseToken, typeform_event: $typeformEvent, answers: $answers}) {
               id
             }
           }
@@ -122,8 +126,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       })
 
       if(
-        !data.insert_form_submissions_one ||
-        !('id' in data.insert_form_submissions_one)
+        !data.insert_form_responses_one ||
+        !('id' in data.insert_form_responses_one)
         ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
@@ -131,55 +135,60 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         })
       }
 
-      return data.insert_form_submissions_one.id
+      return data.insert_form_responses_one.id
     },
-    createTechie: async ({ location, semester, state, techieKey }) => {
+    createTechie: async ({ location, semesterID, state, techieKey }) => {
       const data = await fetchQuery({
         query: `
-          mutation CreateTechie($location: String, $semester: String, $state: String, $techieKey: String) {
-            insert_techies_one(object: {location: $location, semester: $semester, state: $state, techie_key: $techieKey, created_at: "now()", updated_at: "now()"}) {
+          mutation CreateTechie($location: String, $semesterID: uuid!, $state: String!, $techieKey: String!) {
+            insert_techies_one(object: {location: $location, semester_id: $semesterID, state: $state, techie_key: $techieKey}) {
               id
+              semester
+              state
+              techie_key
+              first_name
+              last_name
+              email
+              created_at
+              updated_at
             }
           }
         `,
         variables: {
           location,
-          semester,
+          semesterID,
           state,
           techieKey
         }
       })
 
-      if(
-        !data.insert_techies_one ||
-        !('id' in data.insert_techies_one)
-        ) {
+      if(!data.insert_techies_one) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
           error: data
         })
       }
 
-      return data.insert_techies_one.id
+      return data.insert_techies_one
     },
-    associateTechieWithFormSubmission: async ({ techieID, formSubmissionID }) => {
+    associateTechieWithFormResponse: async ({ techieID, formResponseID }) => {
       const data = await fetchQuery({
         query: `
-          mutation CreateTechie($techieID: uuid, $formSubmissionID: uuid!) {
-            update_form_submissions_by_pk(pk_columns: {id: $formSubmissionID}, _set: {techie_id: $techieID}) {
+          mutation CreateTechie($techieID: uuid!, $formResponseID: uuid!) {
+            update_form_responses_by_pk(pk_columns: {id: $formResponseID}, _set: {techie_id: $techieID, updated_at: "now()"}) {
               id
             }
           }
         `,
         variables: {
           techieID,
-          formSubmissionID
+          formResponseID
         }
       })
 
       if(
-        !data.update_form_submissions_by_pk ||
-        !('id' in data.update_form_submissions_by_pk)
+        !data.update_form_responses_by_pk ||
+        !('id' in data.update_form_responses_by_pk)
         ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
@@ -192,7 +201,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     getTypeformToken: async ({ location }) => {
       const data = await fetchQuery({
         query: `
-          query GetTypeformToken($location: String) {
+          query GetTypeformToken($location: String!) {
             typeform_users(where: {location: {_eq: $location}}, limit: 1) {
               token
             }
@@ -221,7 +230,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       const data = await fetchQuery({
         query: `
           query GetTypeformTokenForForm($formID: uuid!, $typeformResponseTokens: [String!]!) {
-            form_submissions(where: {form_id: {_eq: $formID}, typeform_response_token: {_in: $typeformResponseTokens}}) {
+            form_responses(where: {form_id: {_eq: $formID}, typeform_response_token: {_in: $typeformResponseTokens}}) {
               typeform_response_token
             }
           }
@@ -233,8 +242,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       })
 
       if(
-        !data.form_submissions ||
-        !Array.isArray(data.form_submissions)
+        !data.form_responses ||
+        !Array.isArray(data.form_responses)
       ) {
         return Promise.reject({
           reason: `GraphQL API responded with an invalid result`,
@@ -242,15 +251,15 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         })
       }
 
-      return data.form_submissions
-        .map(submission => submission.typeform_response_token)
+      return data.form_responses
+        .map(response => response.typeform_response_token)
         .filter(Boolean) // removes falsy elements in case typeform_response_token is undefined
     },
     setWebhookInstalledAt: async ({ formID }) => {
       const data = await fetchQuery({
         query: `
-          mutation SetWebhookInstalledAt($formID: uuid) {
-            update_forms(where: {id: {_eq: $formID}}, _set: {webhook_installed_at: "now()"}) {
+          mutation SetWebhookInstalledAt($formID: uuid!) {
+            update_forms(where: {id: {_eq: $formID}}, _set: {webhook_installed_at: "now()", updated_at: "now()"}) {
               affected_rows
             }
           }
@@ -273,13 +282,52 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
 
       return
     },
+    findTechieByID: async ({ id }) => {
+      const data = await fetchQuery({
+        query: `
+          query GetTechie($id: uuid!) {
+            techies_by_pk(id: $id) {
+              created_at
+              email
+              first_name
+              id
+              last_name
+              location
+              semester_id
+              state
+              techie_key
+              updated_at
+            }
+          }
+        `,
+        variables: {
+          id
+        }
+      })
+
+      if(!('techies_by_pk' in data)) {
+        return Promise.reject({
+          reason: `GraphQL API responded with an invalid result`,
+          error: data
+        })
+      }
+
+      if(!data.techies_by_pk) {
+        return { found: false }
+      }
+
+      return {
+        found: true,
+        techie: data.techies_by_pk
+      }
+    },
     findTechieByTechieKey: async ({ location, semester, techieKey }) => {
       const data = await fetchQuery({
         query: `
-          query FindTechieByTechieKey($location: String!, $semester: String!, $techieKey: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester: {_eq: $semester}, techie_key: {_eq: $techieKey }}}) {
+          query FindTechieByTechieKey($location: String!, $semester_id: uuid!, $techieKey: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semester_id}, techie_key: {_eq: $techieKey }}}) {
               id
-              semester
+              semester_id
               state
               techie_key
               first_name
@@ -321,8 +369,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     findTechieByEmail: async ({ location, semester, email }) => {
       const data = await fetchQuery({
         query: `
-          query FindTechieByTechieKey($location: String!, $semester: String!, $email: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester: {_eq: $semester}, email: {_eq: $email }}}) {
+          query FindTechieByTechieKey($location: String!, $semester_id: uuid!, $email: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semester_id}, email: {_eq: $email }}}) {
               id
               semester
               state
@@ -352,7 +400,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         })
       }
 
-      if(data.techies.length == 0) {
+      if(data.techies.length === 0) {
         return {
           found: false
         }
@@ -367,8 +415,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
         query: `
-          mutation UpdateTechieMasterData($id: uuid!, $email: String, $firstName: String, $lastName: String!, $state: String!, $techieKey: String!) {
-            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $firstName, last_name: $lastName, state: $state, techie_key: $techieKey, updated_at: "now()"}) {
+          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: String!, $techie_key: String!) {
+            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, updated_at: "now()"}) {
               id
             }
           }

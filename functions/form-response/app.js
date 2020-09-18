@@ -5,6 +5,6 @@ const func = require('./index')
 
 app.use(express.json())
 app.use(morgan('dev'));
-app.post('/form-submission', func.handler)
+app.post('/form-response', func.handler)
 
 module.exports = app

@@ -15,15 +15,15 @@ describe('event handler', () => {
                 "secret": "14c3bd7e-f67c-11ea-a595-0242c0a85002",
                 "location": "BERLIN",
                 "imports_techies": false,
-                "form_id": "",
+                "typeform_id": "",
                 "created_at": "2020-09-14T11:18:57.295439",
                 "description": null
             }
             },
-            doesFormSubmissionExist: () => false,
-            createFormSubmission: () => 'a017fed8-f67e-11ea-a52d-0242c0a85002',
+            doesFormResponseExist: () => false,
+            createFormResponse: () => 'a017fed8-f67e-11ea-a52d-0242c0a85002',
             createTechie: () => '13dc8930-f682-11ea-a595-0242c0a85002',
-            associateTechieWithFormSubmission: () => undefined
+            associateTechieWithFormResponse: () => undefined
         }
         const handler = newEventHandler({
             hasura,
@@ -41,7 +41,7 @@ describe('event handler', () => {
           const hasura = {
             getTypeformToken: () => 'TOKEN',
             getExistingTypeformResponseTokensForForm: () => ['token2'],
-            createFormSubmission: () => 'UUID',
+            createFormResponse: () => 'UUID',
             setWebhookInstalledAt: () => undefined
           }
           const typeform = {
@@ -299,10 +299,10 @@ const allPayload = JSON.parse(`
         "op": "UPDATE",
         "data": {
             "old": {
-                "form_id": "HFPjx8K0",
+                "typeform_id": "HFPjx8K0",
                 "imports_techies": true,
                 "location": "BERLIN",
-                "uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+                "id": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
                 "webhook_installed_at": "2020-09-14T13:31:47.309937",
                 "secret": "SECRET",
                 "updated_at": "2020-09-14T13:24:44.954927",
@@ -310,10 +310,10 @@ const allPayload = JSON.parse(`
                 "description": "TRM Import Test"
             },
             "new": {
-                "form_id": "HFPjx8K0",
+                "typeform_id": "HFPjx8K0",
                 "imports_techies": true,
                 "location": "BERLIN",
-                "uuid": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
+                "id": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
                 "webhook_installed_at": "2020-09-14T13:33:38.450266",
                 "secret": "SECRET",
                 "updated_at": "2020-09-14T13:24:44.954927",

@@ -1,19 +1,20 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE forms (
-  uuid UUID NOT NULL DEFAULT uuid_generate_v1(),
+  id UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
-  semester TEXT NOT NULL REFERENCES semesters (value),
-  form_id TEXT NOT NULL,
-  secret UUID NOT NULL DEFAULT uuid_generate_v1(),
+  semester_id UUID NOT NULL REFERENCES semesters (id),
+  typeform_id TEXT NOT NULL,
+  typeform_secret UUID NOT NULL DEFAULT uuid_generate_v1(),
   description TEXT,
   webhook_installed_at TIMESTAMP WITHOUT TIME ZONE,
   imports_techies BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT forms_pkey PRIMARY KEY (uuid)
+  CONSTRAINT forms_pkey PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX forms_uuid ON forms (uuid);
-CREATE INDEX forms_location ON forms (location);
+CREATE UNIQUE INDEX forms_id ON forms (id);
+CREATE UNIQUE INDEX forms_typeform_id ON forms (typeform_id);
+CREATE INDEX forms_location ON forms (location, semester_id);

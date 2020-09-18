@@ -16,8 +16,8 @@ let messages = {
         imports_techies: 'Imports Techies?'
       }
     },
-    form_submissions: {
-      name: 'Form Submission |||| Form Submissions',
+    form_responses: {
+      name: 'Form Response |||| Form Responses',
       fields: {
         'form.description': 'Form',
         'techie.first_name': 'First Name',

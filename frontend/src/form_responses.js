@@ -5,25 +5,26 @@ import {
     Datagrid,
     TextField,
     TextInput,
+    ReferenceField,
     Show,
     SimpleShowLayout,
     TabbedForm,
     FormTab,
     DateField
 } from 'react-admin';
-import { FormSubmissionAnswersField } from './fields/formSubmissionAnswers';
+import { FormResponseAnswersField } from './fields/formResponseAnswers';
 import { JSONField } from './fields/json'
 import { RelativeTimeField } from './fields/relativeTime'
 
-const FormSubmissionFilter = (props) => (
+const FormResponseFilter = (props) => (
   <Filter {...props}>
-      <TextInput label="Search by form_id" source="form_id" alwaysOn />
+      <TextInput label="Search by typeform_id" source="typeform_id" alwaysOn />
       <TextInput source="typeform_response_token" />
   </Filter>
 );
 
-export const FormSubmissionList = props => (
-    <List {...props} filters={<FormSubmissionFilter />} perPage={25} sort={{ field: 'created_at', order: 'DESC' }}>
+export const FormResponseList = props => (
+    <List {...props} filters={<FormResponseFilter />} perPage={25} sort={{ field: 'created_at', order: 'DESC' }}>
         <Datagrid rowClick="show">
             <TextField source="form.description" />
             <TextField source="techie.first_name" />
@@ -33,13 +34,16 @@ export const FormSubmissionList = props => (
     </List>
 );
 
-export const FormSubmissionShow = props => (
+export const FormResponseShow = props => (
   <Show {...props}>
       <SimpleShowLayout>
         <TabbedForm toolbar={null}>
             <FormTab label="Answers">
-                <DateField source="created_at" showTime={true}/>
-                <FormSubmissionAnswersField label="Answers" />
+                <ReferenceField label="Form" source="form_id" reference="forms">
+                    <TextField source="description" />
+                </ReferenceField>
+                <DateField source="created_at" showTime={true} />
+                <FormResponseAnswersField label="Answers" />
             </FormTab>
             <FormTab label="Details">
                 <TextField source="form_id" />

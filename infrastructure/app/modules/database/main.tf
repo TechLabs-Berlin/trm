@@ -67,8 +67,8 @@ resource "google_cloud_run_service" "hasura" {
           value = var.fn_url_typeform
         }
         env {
-          name  = "FN_URL_FORM_SUBMISSION"
-          value = var.fn_url_form_submission
+          name  = "FN_URL_FORM_RESPONSE"
+          value = var.fn_url_form_response
         }
         resources {
           limits = {
