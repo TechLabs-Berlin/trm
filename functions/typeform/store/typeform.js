@@ -71,6 +71,32 @@ module.exports = ({fetch, log}) => {
       } while(responses.length > 0 && lastResponseToken !== null)
     },
 
+    getForm: async ({ id, token }) => {
+      const url = `${typeformAPIBaseURL}/forms/${id}`
+      const resp = await fetch(
+        url,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      )
+
+      const body = await resp.json()
+
+      if(!resp.ok) {
+        log.debug(`getForm at ${url} returned an error`, { error: body })
+        return Promise.reject({
+          reason: `Typeform getForm responded with ${resp.status}`,
+          error: body
+        })
+      }
+
+      log.debug(`Form from ${url}`, { body })
+      return body
+    },
+
     // see https://developer.typeform.com/webhooks/reference/retrieve-single-webhook/
     checkWebhook: async ({ id, token }) => {
       const url = `${typeformAPIBaseURL}/forms/${id}/webhooks/${webhookTag}`

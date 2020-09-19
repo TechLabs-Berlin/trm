@@ -66,11 +66,8 @@ const getAnswer = (answer) => {
   }
 }
 
-const getResponse = ({typeformResponseToken, typeformEvent, response, formID}) => {
-  if(!('answers' in response)) {
-    throw new Error('expected answers to be included in response')
-  }
-  const answers = response.answers.reduce((answers, answer) => {
+const getResponse = ({typeformResponseToken, typeformEvent, answers, fields, formID}) => {
+  const processedAnswers = answers.reduce((answers, answer, i) => {
     if(
       !('field' in answer) ||
       !('ref' in answer.field) ||
@@ -78,19 +75,31 @@ const getResponse = ({typeformResponseToken, typeformEvent, response, formID}) =
       return answers
     }
 
+    const genericFields = { index: i }
+    let field = null
+    if(answer.field.id) {
+      field = fields.find(f => f.id === answer.field.id)
+    }
+    if(field && field.title) {
+      genericFields.title = field.title
+    }
+
     const processedAnswer = getAnswer(answer)
     if(!processedAnswer) {
       return answers
     }
 
-    answers[answer.field.ref] = processedAnswer
+    answers[answer.field.ref] = {
+      ...genericFields,
+      ...processedAnswer
+    }
     return answers
   }, {})
 
   return {
+    answers: processedAnswers,
     typeformResponseToken,
     typeformEvent,
-    answers,
     formID
   }
 }

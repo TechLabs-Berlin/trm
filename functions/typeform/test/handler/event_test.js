@@ -45,6 +45,11 @@ describe('event handler', () => {
             setWebhookInstalledAt: () => undefined
           }
           const typeform = {
+            getForm: () => {
+                return {
+                    "fields": []
+                }
+            },
             getFormResponsesPaginated: ({id, token, callback}) => callback([
                 { token: 'token1', answers: [] },
                 { token: 'token2', answers: [] }
@@ -52,7 +57,7 @@ describe('event handler', () => {
             checkWebhook: () => {
                 return { installed: false }
             },
-            updateWebhook: () => undefined
+            updateWebhook: () => undefined,
           }
           const handler = newEventHandler({
               hasura,

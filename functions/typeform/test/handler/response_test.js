@@ -180,16 +180,20 @@ describe('response handler', () => {
       const resp = response.getResponse({
         typeformResponseToken: '0tu5dow00gadadccm0tu5dbz1sqma4vp',
         typeformEvent: {},
-        response: formResponse,
+        answers: formResponse.answers,
+        fields: formResponse.definition.fields,
         formID: '3889c213-a1af-4cab-8a2c-c39533b2482d'
       })
 
       expect(resp.answers).to.deep.equal({
         "mood": {
+          "index": 0,
+          "title": "Hi, how are you?",
           "type": "text",
           "value": "Still fine."
         },
         "picture_choice": {
+          "index": 2,
           "type": "choice",
           "value": "a"
         }

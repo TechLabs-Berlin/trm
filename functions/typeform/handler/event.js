@@ -41,7 +41,8 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         responseHandler.getResponse({
           typeformResponseToken: token,
           typeformEvent: payload,
-          response,
+          answers: response.answers,
+          fields: response.definition.fields,
           formID
         })
       )
@@ -100,6 +101,11 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         log.info('webhook_installed_at updated', { id })
       }
 
+      const form = await typeform.getForm({
+        id: newState.typeform_id,
+        token: typeformToken
+      })
+
       await typeform.getFormResponsesPaginated({
         id: newState.typeform_id,
         token: typeformToken,
@@ -117,12 +123,17 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
               log.warning(`Expected to find response with token ${typeformResponseToken} but didn't`, { type: 'all', id })
               continue
             }
+            if(!('answers' in response)) {
+              log.warning(`Expected to find answers in response with token ${typeformResponseToken}, but didn't`, { type: all, id })
+              continue
+            }
             const formResponseID = await hasura.createFormResponse(
               responseHandler.getResponse({
                 typeformEvent: response,
                 formID: newState.id,
                 typeformResponseToken,
-                response
+                answers: response.answers,
+                fields: form.fields,
               })
             )
             log.debug(`Created form response ${formResponseID}`, { id })
