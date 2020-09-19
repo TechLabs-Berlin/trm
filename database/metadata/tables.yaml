@@ -31,16 +31,6 @@
       enable_manual: true
       insert:
         columns: '*'
-      update:
-        columns:
-        - answers
-        - typeform_event
-        - typeform_response_token
-        - created_at
-        - updated_at
-        - form_id
-        - techie_id
-        - id
     retry_conf:
       num_retries: 3
       interval_sec: 10
@@ -145,16 +135,6 @@
       enable_manual: true
       insert:
         columns: '*'
-      update:
-        columns:
-        - description
-        - typeform_id
-        - location
-        - created_at
-        - updated_at
-        - webhook_installed_at
-        - typeform_secret
-        - id
     retry_conf:
       num_retries: 3
       interval_sec: 10
