@@ -20,7 +20,7 @@ resource "google_cloudfunctions_function" "main" {
 
   available_memory_mb   = 128
   timeout               = var.timeout
-  max_instances         = 1
+  max_instances         = 10
   source_archive_bucket = var.storage_bucket_name
   source_archive_object = google_storage_bucket_object.main.name
   trigger_http          = true
