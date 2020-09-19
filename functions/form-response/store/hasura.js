@@ -81,17 +81,17 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
 
       return data.forms[0]
     },
-    doesFormResponseExist: async ({ typeformID, typeformResponseToken }) => {
+    doesFormResponseExist: async ({ formID, typeformResponseToken }) => {
       const data = await fetchQuery({
         query: `
-          query GetFormResponse($typeformID: uuid!, $typeformResponseToken: String!) {
-            form_responses(where: {typeform_id: {_eq: $typeformID}, typeform_response_token: {_eq: $typeformResponseToken}}, limit: 1) {
+          query GetFormResponse($formID: uuid!, $typeformResponseToken: String!) {
+            form_responses(where: {form_id: {_eq: $formID}, typeform_response_token: {_eq: $typeformResponseToken}}, limit: 1) {
               id
             }
           }
         `,
         variables: {
-          typeformID,
+          formID,
           typeformResponseToken
         }
       })
