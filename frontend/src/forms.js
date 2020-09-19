@@ -1,6 +1,8 @@
 import * as React from "react";
-import { Filter, List, Datagrid, DateField, TextField, BooleanField, ReferenceManyField, ReferenceInput, Edit, SimpleForm, TextInput, BooleanInput, SelectInput, Create } from 'react-admin';
+import { Filter, List, Datagrid, DateField, TextField, ReferenceManyField, ReferenceInput, Edit, SimpleForm, TextInput, SelectInput, Create } from 'react-admin';
+import { FormTypeSelectField } from "./fields/formTypeSelect";
 import { RelativeTimeField } from './fields/relativeTime'
+import { FormTypeSelectInput } from "./inputs/formTypeSelect";
 
 const FormFilter = (props) => (
   <Filter {...props}>
@@ -13,8 +15,8 @@ export const FormList = props => (
     <List {...props} filters={<FormFilter />} perPage={25}>
         <Datagrid rowClick="edit">
             <TextField source="typeform_id" />
+            <FormTypeSelectField source="form_type" />
             <TextField source="description" />
-            <BooleanField source="imports_techies" />
         </Datagrid>
     </List>
 );
@@ -32,12 +34,12 @@ const FormTitle = ({ record }) => {
 export const FormEdit = props => (
   <Edit title={<FormTitle />} {...props}>
       <SimpleForm>
-          <TextInput source="typeform_id" />
           <ReferenceInput label="Semester" source="semester_id" reference="semesters">
               <SelectInput optionText="description" />
           </ReferenceInput>
+          <TextInput source="typeform_id" />
+          <FormTypeSelectInput source="form_type" />
           <TextInput source="description" />
-          <BooleanInput source="imports_techies" />
           <DateField source="webhook_installed_at" showTime={true} />
           <ReferenceManyField label="Form Responses" reference="form_responses" target="form_id">
               <Datagrid rowClick="show">
@@ -54,13 +56,12 @@ export const FormEdit = props => (
 export const FormCreate = props => (
   <Create {...props}>
     <SimpleForm>
-          <TextInput source="typeform_id" />
           <ReferenceInput label="Semester" source="semester_id" reference="semesters">
               <SelectInput optionText="description" />
           </ReferenceInput>
+          <TextInput source="typeform_id" />
+          <FormTypeSelectInput source="form_type" />
           <TextInput source="description" />
-          <BooleanInput source="imports_techies" />
-          <DateField source="webhook_installed_at" />
       </SimpleForm>
   </Create>
 );

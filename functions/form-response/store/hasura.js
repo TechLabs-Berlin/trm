@@ -54,7 +54,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               created_at
               description
               typeform_id
-              imports_techies
+              form_type
               location
               semester_id
               secret

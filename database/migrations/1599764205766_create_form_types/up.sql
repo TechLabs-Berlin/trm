@@ -1,0 +1,7 @@
+CREATE TABLE form_types (
+  value text PRIMARY KEY
+);
+
+INSERT INTO form_types VALUES ('APPLICATION');
+INSERT INTO form_types VALUES ('PERSONALIZED');
+INSERT INTO form_types VALUES ('ANONYMOUS');

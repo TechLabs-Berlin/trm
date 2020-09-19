@@ -27,7 +27,7 @@ describe('store', () => {
                     "created_at": "2020-09-11T08:39:15.021875",
                     "description": "Test Form 2",
                     "typeform_id": "b138yZof",
-                    "imports_techies": true,
+                    "form_type": 'APPLICATION',
                     "location": "BERLIN",
                     "secret": "SECRET",
                     "updated_at": "2020-09-11T08:39:15.021875",

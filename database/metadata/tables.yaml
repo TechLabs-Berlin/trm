@@ -48,8 +48,30 @@
     webhook_from_env: FN_URL_FORM_RESPONSE
 - table:
     schema: public
+    name: form_types
+  is_enum: true
+  array_relationships:
+  - name: forms
+    using:
+      foreign_key_constraint_on:
+        column: form_type
+        table:
+          schema: public
+          name: forms
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
     name: forms
   object_relationships:
+  - name: formTypeByFormType
+    using:
+      foreign_key_constraint_on: form_type
   - name: locationByLocation
     using:
       foreign_key_constraint_on: location
@@ -74,7 +96,7 @@
         location: x-hasura-Location
       columns:
       - description
-      - imports_techies
+      - form_type
       - semester_id
       - typeform_id
       backend_only: false
@@ -84,8 +106,8 @@
       columns:
       - created_at
       - description
+      - form_type
       - id
-      - imports_techies
       - semester_id
       - typeform_id
       - updated_at
@@ -99,7 +121,7 @@
     permission:
       columns:
       - description
-      - imports_techies
+      - form_type
       - semester_id
       - typeform_id
       - updated_at
@@ -125,7 +147,6 @@
         columns: '*'
       update:
         columns:
-        - imports_techies
         - description
         - typeform_id
         - location

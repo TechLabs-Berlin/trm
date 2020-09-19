@@ -51,7 +51,7 @@ module.exports = ({hasura, log}) => {
           techie = result.techie
         }
       }
-      if(!techie && form.imports_techies) {
+      if(!techie && form.form_type === 'APPLICATION') {
         log.info('Creating techie', { id })
         techie = await hasura.createTechie({
           location: form.location,

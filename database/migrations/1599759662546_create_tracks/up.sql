@@ -1,0 +1,8 @@
+CREATE TABLE tracks (
+  value text PRIMARY KEY
+);
+
+INSERT INTO tracks VALUES ('DS');
+INSERT INTO tracks VALUES ('AI');
+INSERT INTO tracks VALUES ('WEBDEV');
+INSERT INTO tracks VALUES ('UX');
