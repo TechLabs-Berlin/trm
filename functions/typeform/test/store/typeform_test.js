@@ -28,7 +28,7 @@ describe('store', () => {
             ]
           })
         nock(typeformBase)
-          .get(`${responsesPath}?page_size=100&after=B`)
+          .get(`${responsesPath}?page_size=100&before=A`)
           .reply(200, {
             total_items: 3,
             page_count: 2,
@@ -38,7 +38,7 @@ describe('store', () => {
             ]
           })
         nock(typeformBase)
-          .get(`${responsesPath}?page_size=100&after=D`)
+          .get(`${responsesPath}?page_size=100&before=D`)
           .reply(200, {
             total_items: 3,
             page_count: 2,

@@ -9,7 +9,7 @@ module.exports = ({fetch, log}) => {
       page_size: 100
     }
     if(lastResponseToken) {
-      query.after = lastResponseToken
+      query.before = lastResponseToken
     }
     const resp = await fetch(
       `${typeformAPIBaseURL}/forms/${id}/responses?${querystring.stringify(query)}`,
@@ -38,15 +38,9 @@ module.exports = ({fetch, log}) => {
       })
     }
 
-    // initially the response is sorted by submitted_at DESC (newest response on top),
-    // with after= it is sorted so that the newest response is at the bottom
-    // so we need to take the first token if lastResponseToken is unset and the last token otherwise
+    // the response is sorted by submitted_at DESC (newest response on top)
     if(result.items.length > 0) {
-      if(lastResponseToken) {
-        lastResponseToken = result.items[result.items.length-1].token
-      } else {
-        lastResponseToken = result.items[0].token
-      }
+      lastResponseToken = result.items[result.items.length-1].token
     } else {
       lastResponseToken = null
     }
