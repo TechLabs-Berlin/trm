@@ -76,6 +76,7 @@ module "functions_typeform" {
   source_path         = "${path.module}/../../functions/typeform"
   name                = "typeform-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
+  timeout             = 180
   environment_variables = {
     NODE_ENV     = terraform.workspace
     GRAPHQL_URL  = module.database.hasura_url

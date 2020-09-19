@@ -9,3 +9,7 @@ variable "storage_bucket_name" {}
 variable "environment_variables" {
   type = map
 }
+
+variable "timeout" {
+  default = 30
+}
