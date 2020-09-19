@@ -54,10 +54,10 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               created_at
               description
               typeform_id
-              imports_techies
+              form_type
               location
               semester_id
-              secret
+              typeform_secret
               updated_at
               webhook_installed_at
             }
@@ -140,10 +140,10 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     createTechie: async ({ location, semesterID, state, techieKey }) => {
       const data = await fetchQuery({
         query: `
-          mutation CreateTechie($location: String, $semesterID: uuid!, $state: String!, $techieKey: String!) {
+          mutation CreateTechie($location: locations_enum!, $semesterID: uuid!, $state: techie_lifecycle_states_enum!, $techieKey: String!) {
             insert_techies_one(object: {location: $location, semester_id: $semesterID, state: $state, techie_key: $techieKey}) {
               id
-              semester
+              semester_id
               state
               techie_key
               first_name
@@ -201,7 +201,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     getTypeformToken: async ({ location }) => {
       const data = await fetchQuery({
         query: `
-          query GetTypeformToken($location: String!) {
+          query GetTypeformToken($location: locations_enum!) {
             typeform_users(where: {location: {_eq: $location}}, limit: 1) {
               token
             }
@@ -321,11 +321,11 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         techie: data.techies_by_pk
       }
     },
-    findTechieByTechieKey: async ({ location, semester, techieKey }) => {
+    findTechieByTechieKey: async ({ location, semesterID, techieKey }) => {
       const data = await fetchQuery({
         query: `
-          query FindTechieByTechieKey($location: String!, $semester_id: uuid!, $techieKey: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semester_id}, techie_key: {_eq: $techieKey }}}) {
+          query FindTechieByTechieKey($location: locations_enum!, $semesterID: uuid!, $techieKey: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, techie_key: {_eq: $techieKey }}}) {
               id
               semester_id
               state
@@ -340,7 +340,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         `,
         variables: {
           location,
-          semester,
+          semesterID,
           techieKey
         }
       })
@@ -366,13 +366,13 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         techie: data.techies[0]
       }
     },
-    findTechieByEmail: async ({ location, semester, email }) => {
+    findTechieByEmail: async ({ location, semesterID, email }) => {
       const data = await fetchQuery({
         query: `
-          query FindTechieByTechieKey($location: String!, $semester_id: uuid!, $email: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semester_id}, email: {_eq: $email }}}) {
+          query FindTechieByTechieKey($location: locations_enum!, $semesterID: uuid!, $email: String!) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, email: {_eq: $email }}}) {
               id
-              semester
+              semester_id
               state
               techie_key
               first_name
@@ -385,7 +385,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
         `,
         variables: {
           location,
-          semester,
+          semesterID,
           email
         }
       })
@@ -415,7 +415,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
         query: `
-          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: String!, $techie_key: String!) {
+          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: techie_lifecycle_states_enum!, $techie_key: String!) {
             update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, updated_at: "now()"}) {
               id
             }

@@ -29,7 +29,7 @@ describe('store', () => {
                     "typeform_id": "b138yZof",
                     "imports_techies": true,
                     "location": "BERLIN",
-                    "secret": "SECRET",
+                    "typeform_secret": "SECRET",
                     "updated_at": "2020-09-11T08:39:15.021875",
                     "webhook_installed_at": "2020-09-13T15:20:59.181605"
                   }

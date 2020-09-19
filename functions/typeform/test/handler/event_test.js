@@ -12,7 +12,7 @@ describe('event handler', () => {
                 "id": "14c3bc2a-f67c-11ea-a595-0242c0a85002",
                 "webhook_installed_at": null,
                 "updated_at": "2020-09-14T11:18:57.295439",
-                "secret": "14c3bd7e-f67c-11ea-a595-0242c0a85002",
+                "typeform_secret": "14c3bd7e-f67c-11ea-a595-0242c0a85002",
                 "location": "BERLIN",
                 "imports_techies": false,
                 "typeform_id": "",
@@ -304,7 +304,7 @@ const allPayload = JSON.parse(`
                 "location": "BERLIN",
                 "id": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
                 "webhook_installed_at": "2020-09-14T13:31:47.309937",
-                "secret": "SECRET",
+                "typeform_secret": "SECRET",
                 "updated_at": "2020-09-14T13:24:44.954927",
                 "created_at": "2020-09-14T13:24:44.954927",
                 "description": "TRM Import Test"
@@ -315,7 +315,7 @@ const allPayload = JSON.parse(`
                 "location": "BERLIN",
                 "id": "a78a7290-f68d-11ea-972a-42010a9c0ff0",
                 "webhook_installed_at": "2020-09-14T13:33:38.450266",
-                "secret": "SECRET",
+                "typeform_secret": "SECRET",
                 "updated_at": "2020-09-14T13:24:44.954927",
                 "created_at": "2020-09-14T13:24:44.954927",
                 "description": "TRM Import Test"

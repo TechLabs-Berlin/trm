@@ -90,7 +90,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         await typeform.updateWebhook({
           id: newState.typeform_id,
           callbackURL: webhookCallbackURL,
-          secret: newState.secret,
+          secret: newState.typeform_secret,
           token: typeformToken
         })
         log.info('Webhook updated', { id })

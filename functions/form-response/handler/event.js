@@ -33,7 +33,7 @@ module.exports = ({hasura, log}) => {
         log.info('Looking up techie by email', { id })
         const result = await hasura.findTechieByEmail({
           location: form.location,
-          semester: form.semester,
+          semesterID: form.semester_id,
           email: newState.answers.email.value
         })
         if(result.found) {
@@ -44,7 +44,7 @@ module.exports = ({hasura, log}) => {
         log.info('Looking up techie by techie_key', { id })
         const result = await hasura.findTechieByTechieKey({
           location: form.location,
-          semester: form.semester,
+          semesterID: form.semester_id,
           techieKey: newState.answers.techie_key.value
         })
         if(result.found) {
