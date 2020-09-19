@@ -24,18 +24,10 @@ const TechieFilter = (props) => (
   <Filter {...props}>
       <TextInput label="Search" source="techie_key" alwaysOn />
       <TextInput source="email" />
-      <SelectInput source="semester" choices={[
-        { id: 'S_2020_01', name: '2020-01' },
-        { id: 'S_2020_02', name: '2020-02' },
-      ]} />
-      <SelectInput source="state" choices={[
-        { id: 'PROSPECT', name: 'Prospect' },
-        { id: 'APPLICANT', name: 'Applicant' },
-        { id: 'REJECTED', name: 'Rejected' },
-        { id: 'LEARNER', name: 'Learner' },
-        { id: 'DROPPED', name: 'Dropped' },
-        { id: 'ALUMNI', name: 'Alumni' },
-      ]} />
+      <ReferenceInput label="Semester" source="semester_id" reference="semesters">
+        <SelectInput  optionText="description" />
+      </ReferenceInput>
+      <StateSelectInput source="state" />
   </Filter>
 );
 

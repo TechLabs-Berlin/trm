@@ -4,8 +4,9 @@ import {
     List,
     Datagrid,
     TextField,
-    TextInput,
+    ReferenceInput,
     ReferenceField,
+    SelectInput,
     Show,
     SimpleShowLayout,
     TabbedForm,
@@ -18,8 +19,9 @@ import { RelativeTimeField } from './fields/relativeTime'
 
 const FormResponseFilter = (props) => (
   <Filter {...props}>
-      <TextInput label="Search by typeform_id" source="typeform_id" alwaysOn />
-      <TextInput source="typeform_response_token" />
+      <ReferenceInput label="Form" source="form_id" reference="forms">
+        <SelectInput  optionText="description" />
+      </ReferenceInput>
   </Filter>
 );
 
