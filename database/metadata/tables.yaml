@@ -214,6 +214,9 @@
   - name: locationByLocation
     using:
       foreign_key_constraint_on: location
+  - name: termByTerm
+    using:
+      foreign_key_constraint_on: term
   array_relationships:
   - name: forms
     using:
@@ -243,6 +246,7 @@
       - description
       - ends_at
       - starts_at
+      - term
       backend_only: false
   select_permissions:
   - role: user
@@ -255,6 +259,7 @@
       - ends_at
       - id
       - starts_at
+      - term
       - updated_at
       filter:
         location:
@@ -269,6 +274,7 @@
       - description
       - ends_at
       - starts_at
+      - term
       - updated_at
       filter:
         location:
@@ -443,6 +449,24 @@
           _eq: x-hasura-location
       set:
         location: x-hasura-Location
+- table:
+    schema: public
+    name: terms
+  array_relationships:
+  - name: semesters
+    using:
+      foreign_key_constraint_on:
+        column: term
+        table:
+          schema: public
+          name: semesters
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: tracks

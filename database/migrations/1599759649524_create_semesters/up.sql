@@ -3,6 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE semesters (
   id UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
+  term TEXT NOT NULL REFERENCES terms (value),
   description TEXT NOT NULL,
   starts_at TIMESTAMP WITHOUT TIME ZONE,
   ends_at TIMESTAMP WITHOUT TIME ZONE,
@@ -16,3 +17,4 @@ CREATE TABLE semesters (
 
 CREATE UNIQUE INDEX semesters_id ON semesters (id);
 CREATE INDEX semesters_location ON semesters (location);
+CREATE INDEX semesters_term ON semesters (term, location);

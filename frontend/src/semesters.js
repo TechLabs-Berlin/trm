@@ -9,10 +9,13 @@ import {
   DateInput,
   Create
 } from 'react-admin';
+import { TermSelectField } from "./fields/termSelect";
+import { TermSelectInput } from "./inputs/termSelect";
 
 export const SemesterList = props => (
     <List {...props} perPage={25}>
         <Datagrid rowClick="edit">
+            <TermSelectField source="term" />
             <TextField source="description" />
         </Datagrid>
     </List>
@@ -30,6 +33,7 @@ const SemesterTitle = ({ record }) => {
 export const SemesterEdit = props => (
   <Edit title={<SemesterTitle />} {...props}>
       <SimpleForm>
+          <TermSelectInput source="term" />
           <TextInput source="description" />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
@@ -42,6 +46,7 @@ export const SemesterEdit = props => (
 export const SemesterCreate = props => (
   <Create {...props}>
     <SimpleForm>
+          <TermSelectInput source="term" />
           <TextInput source="description" />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />

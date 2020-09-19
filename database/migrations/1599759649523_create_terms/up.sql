@@ -1,0 +1,7 @@
+CREATE TABLE terms (
+  value text PRIMARY KEY
+);
+
+INSERT INTO terms VALUES ('2020_01');
+INSERT INTO terms VALUES ('2020_02');
+INSERT INTO terms VALUES ('2021_01');
