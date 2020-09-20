@@ -41,6 +41,7 @@ const buildProvider = () => {
                 null,
                 null,
                 gqlTypes.selectionSet([
+                    gqlTypes.field(gqlTypes.name('form_type')),
                     gqlTypes.field(gqlTypes.name('description')),
                 ])
             )
