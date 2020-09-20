@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Fragment } from 'react';
 import {
   Filter,
   List,
@@ -13,12 +14,15 @@ import {
   ReferenceInput,
   NullableBooleanInput,
   Toolbar,
-  SaveButton
+  SaveButton,
+  ReferenceField
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
 import { TrackSelectField } from './fields/trackSelect'
 import { TrackSelectInput } from './inputs/trackSelect'
+import BulkUpdateTechieStateButton from "./components/buttons/bulkUpdateTechieState";
+import BulkUpdateAssignedTeamMemberButton from "./components/buttons/bulkUpdateAssignedTeamMember";
 
 const TechieFilter = (props) => (
   <Filter {...props}>
@@ -31,13 +35,23 @@ const TechieFilter = (props) => (
   </Filter>
 );
 
+const TechieBulkActionButtons = props => (
+  <Fragment>
+    <BulkUpdateTechieStateButton {...props} />
+    <BulkUpdateAssignedTeamMemberButton {...props} />
+  </Fragment>
+)
+
 export const TechieList = props => (
-    <List {...props} filters={<TechieFilter />} perPage={25}>
+    <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} perPage={25}>
         <Datagrid rowClick="edit">
             <StateSelectField source="state" />
             <TextField source="first_name" />
             <TextField source="last_name" />
             <TrackSelectField source="application_track_choice" />
+            <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+                <TextField source="first_name" />
+            </ReferenceField>
         </Datagrid>
     </List>
 );

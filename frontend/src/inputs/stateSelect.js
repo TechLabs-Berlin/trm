@@ -18,7 +18,3 @@ StateSelectInput.propTypes = {
   record: PropTypes.object,
   source: PropTypes.string.isRequired,
 };
-
-StateSelectInput.defaultProps = {
-  addLabel: true
-}
