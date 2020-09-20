@@ -23,6 +23,23 @@ const answerExtractors = {
       return {}
     }
     return { last_name: answer.value }
+  },
+  application_track_choice(answer) {
+    if(answer.type !== 'choice') {
+      return {}
+    }
+    switch(answer.value) {
+      case 'Data Science':
+        return { application_track_choice: 'DS' }
+      case 'Artificial Intelligence':
+        return { application_track_choice: 'AI' }
+      case 'Web Development':
+        return { application_track_choice: 'WEBDEV' }
+      case 'User Experience (UX) Design':
+        return { application_track_choice: 'UX' }
+      default:
+        return {}
+    }
   }
 }
 
@@ -39,7 +56,7 @@ module.exports = {
     // selects the given keys from attributesWithExtractors
     const selectedAttributes = pick(
       attributesWithExtractors,
-      'id', 'email', 'first_name', 'last_name', 'state', 'techie_key'
+      'id', 'email', 'first_name', 'last_name', 'state', 'techie_key', 'application_track_choice'
     )
 
     return selectedAttributes

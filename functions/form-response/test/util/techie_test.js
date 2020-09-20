@@ -85,5 +85,54 @@ describe('techie utils', () => {
         last_name: 'NEW'
       })
     })
+    it('extracts application_track_choice', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          application_track_choice: {
+            type: 'choice',
+            value: 'Data Science'
+          }
+        }
+      })).to.deep.equal({
+        application_track_choice: 'DS'
+      })
+
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          application_track_choice: {
+            type: 'choice',
+            value: 'Artificial Intelligence'
+          }
+        }
+      })).to.deep.equal({
+        application_track_choice: 'AI'
+      })
+
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          application_track_choice: {
+            type: 'choice',
+            value: 'Web Development'
+          }
+        }
+      })).to.deep.equal({
+        application_track_choice: 'WEBDEV'
+      })
+
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          application_track_choice: {
+            type: 'choice',
+            value: 'User Experience (UX) Design'
+          }
+        }
+      })).to.deep.equal({
+        application_track_choice: 'UX'
+      })
+    })
   })
 })

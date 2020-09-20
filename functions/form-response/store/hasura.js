@@ -149,6 +149,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
             }
@@ -295,6 +296,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               location
               semester_id
               state
+              application_track_choice
               techie_key
               updated_at
             }
@@ -333,6 +335,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
             }
@@ -378,6 +381,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
             }
@@ -415,8 +419,8 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
         query: `
-          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: techie_lifecycle_states_enum!, $techie_key: String!) {
-            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, updated_at: "now()"}) {
+          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: techie_lifecycle_states_enum!, $techie_key: String!, $application_track_choice: tracks_enum) {
+            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, application_track_choice: $application_track_choice, updated_at: "now()"}) {
               id
             }
           }
