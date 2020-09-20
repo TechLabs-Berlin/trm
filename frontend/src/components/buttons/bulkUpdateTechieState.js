@@ -25,7 +25,7 @@ const BulkUpdateTechieStateButton = ({ selectedIds }) => {
     const unselectAll = useUnselectAll();
     const handleClick = () => setOpen(true);
     const handleDialogClose = () => setOpen(false);
-    const [updateMany, {loading}] = useUpdateMany(
+    const [updateMany] = useUpdateMany(
         'techies',
         selectedIds,
         {state: techieState},
