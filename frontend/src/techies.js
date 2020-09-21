@@ -17,7 +17,8 @@ import {
   Toolbar,
   SaveButton,
   ReferenceField,
-  useDataProvider
+  useDataProvider,
+  BooleanField
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
@@ -55,6 +56,7 @@ export const TechieList = props => (
             <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
                 <TextField source="first_name" />
             </ReferenceField>
+            <BooleanField source="application_successful" />
         </Datagrid>
     </List>
 );

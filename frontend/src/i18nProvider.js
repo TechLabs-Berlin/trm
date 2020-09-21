@@ -8,7 +8,8 @@ let messages = {
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
-        techie_key: 'Techie Key'
+        techie_key: 'Techie Key',
+        application_track_choice: 'Application Track Choice'
       }
     },
     forms: {
