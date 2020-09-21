@@ -8,6 +8,7 @@ import GREY from '@material-ui/core/colors/grey';
 import { GoogleLogin } from 'react-google-login';
 
 import config from './config'
+import { ReactComponent as TechLabsLogo } from './static/techlabs-logo.svg';
 
 const LoginPaper = styled(Paper)({
     padding: '30px',
@@ -62,7 +63,7 @@ const LoginPage = (props) => {
             <Notification />
             <div className={classes.root}>
                 <LoginPaper elevation={3} className={classes.centeredText}>
-                    <img src="techlabs-logo.svg" className={classes.centeredBlock} alt="TechLabs Logo" />
+                    <TechLabsLogo className={classes.centeredBlock} alt="TechLabs Logo" />
                     <h1 className={classes.centeredText}>Techie Relationship Management</h1>
                     <GoogleLogin
                         clientId={config.oAuth.clientId}

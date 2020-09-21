@@ -11,6 +11,7 @@ import authProvider from './authProvider';
 import i18nProvider from './i18nProvider';
 import LoginPage from './login';
 import { theme } from './theme';
+import Layout from './components/trmLayout'
 import { TechieList, TechieEdit } from './techies';
 import { FormList, FormEdit, FormCreate } from './forms';
 import { SemesterList, SemesterEdit, SemesterCreate } from './semesters';
@@ -26,6 +27,7 @@ class App extends Component {
             i18nProvider={i18nProvider}
             loginPage={LoginPage}
             theme={theme}
+            layout={Layout}
           >
             <Resource name="techies" list={TechieList} edit={TechieEdit} icon={UserIcon} />
             <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} icon={ChatBubbleOutlineIcon} />
