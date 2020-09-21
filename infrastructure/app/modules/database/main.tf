@@ -57,11 +57,6 @@ resource "google_cloud_run_service" "hasura" {
           name  = "HASURA_GRAPHQL_JWT_SECRET"
           value = "{\"type\":\"HS256\",\"key\":\"${var.hasura_jwt_keys[terraform.workspace]}\"}"
         }
-        # TODO: check and remove workaround for https://github.com/hasura/graphql-engine/issues/4651
-        env {
-          name  = "HASURA_GRAPHQL_CLI_ENVIRONMENT"
-          value = "default"
-        }
         env {
           name  = "FN_URL_TYPEFORM"
           value = var.fn_url_typeform
@@ -70,10 +65,14 @@ resource "google_cloud_run_service" "hasura" {
           name  = "FN_URL_FORM_RESPONSE"
           value = var.fn_url_form_response
         }
+        env {
+          name  = "SKIP_MIGRATIONS"
+          value = var.skip_migrations
+        }
         resources {
           limits = {
             cpu    = "1000m"
-            memory = "512Mi"
+            memory = "256Mi"
           }
         }
       }

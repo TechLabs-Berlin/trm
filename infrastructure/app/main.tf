@@ -38,6 +38,9 @@ locals {
 module "database" {
   source = "./modules/database"
 
+  # if "1", hasura will not apply migrations - set to "0" when deploying migrations
+  skip_migrations = "1"
+
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
 

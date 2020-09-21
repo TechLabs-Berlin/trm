@@ -32,3 +32,8 @@ variable "api_dns_name_prefixes" {}
 variable "google_dns_name" {}
 
 variable "google_dns_managed_zone" {}
+
+# if "1", hasura will not apply migrations
+variable "skip_migrations" {
+  default = "0"
+}
