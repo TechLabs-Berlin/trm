@@ -61,6 +61,10 @@ jobs:
     - name: Configure gcloud Auth for Docker
       run: gcloud auth configure-docker europe-west3-docker.pkg.dev
 
+    - name: Try to pull existing image
+      continue-on-error: true
+      run: docker pull ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/}
+
     - name: Build Hasura image
       # ${GITHUB_REF##*/} gets branch name
       run: docker build -t ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/} .
