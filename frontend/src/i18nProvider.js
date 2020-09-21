@@ -2,6 +2,14 @@ import englishMessages from 'ra-language-english';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 
 let messages = {
+  trm: {
+    menu: {
+      techies: 'Techies',
+      applications: 'Applications',
+      academy: 'Academy',
+      settings: 'Settings'
+    }
+  },
   resources: {
     techies: {
       name: 'Techie |||| Techies',
@@ -13,6 +21,7 @@ let messages = {
       }
     },
     forms: {
+      name: 'Form |||| Forms',
       fields: {
         form_id: 'Typeform Form ID',
         imports_techies: 'Imports Techies?'
@@ -32,6 +41,9 @@ let messages = {
         first_name: 'First Name',
         last_name: 'Last Name',
       }
+    },
+    semesters: {
+      name: 'Semester |||| Semesters'
     }
   },
   ...englishMessages

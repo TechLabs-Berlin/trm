@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import { Admin, Resource } from 'react-admin';
-import UserIcon from '@material-ui/icons/People';
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import CommentIcon from '@material-ui/icons/Comment';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
-import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
 import dataProvider from './dataProvider';
 import authProvider from './authProvider';
@@ -29,11 +24,11 @@ class App extends Component {
             theme={theme}
             layout={Layout}
           >
-            <Resource name="techies" list={TechieList} edit={TechieEdit} icon={UserIcon} />
-            <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} icon={ChatBubbleOutlineIcon} />
-            <Resource name="form_responses" list={FormResponseList} show={FormResponseShow} icon={CommentIcon} />
-            <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} icon={QueryBuilderIcon} />
-            <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} icon={PeopleOutlineIcon} />
+            <Resource name="techies" list={TechieList} edit={TechieEdit} />
+            <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} />
+            <Resource name="form_responses" list={FormResponseList} show={FormResponseShow} />
+            <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} />
+            <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} />
           </Admin>
       );
   }

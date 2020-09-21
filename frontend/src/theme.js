@@ -8,5 +8,20 @@ export const theme = createMuiTheme({
   },
   typography: {
     fontFamily: ['Nunito Sans', 'Helvetica', 'Arial', 'sans-serif']
+  },
+  overrides: {
+    RaMenuItemLink: {
+        root: {
+            borderLeft: '3px solid #fff',
+        },
+        active: {
+            borderLeft: '3px solid #fb1d5c',
+        },
+    },
+    MuiAppBar: {
+      colorSecondary: {
+          backgroundColor: '#fb1d5c',
+      },
+    }
   }
 });
