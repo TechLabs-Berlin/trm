@@ -33,7 +33,11 @@ exports.handler = async (req, res) => {
     })
     res.status(204).send()
   } catch(error) {
-    log.error(`Event handler errored`, { message: error.message, stack: error.stack, error })
+    if(error instanceof Error) {
+      console.error(error)
+    } else {
+      console.error(new Error(`Rejected Promise: ${JSON.stringify(error)}`))
+    }
     res.status(500).send('internal server error')
   }
 }
