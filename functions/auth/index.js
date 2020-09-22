@@ -51,7 +51,8 @@ exports.handler = async (req, res) => {
     audience: config.oAuthClientID
   })
   const hd = ticket.payload.hd
-  const name = ticket.payload.name
+  const firstName = ticket.payload.given_name
+  const lastName = ticket.payload.family_name
   const email = ticket.payload.email
   const userKey = ticket.payload.sub
   if(hd !== config.gSuiteDomain) {
@@ -62,8 +63,9 @@ exports.handler = async (req, res) => {
   // const groups = await google.getGroups({ userKey, accessToken })
 
   const token = jwt.sign(authorization.getPayload({
-    name,
-    email
+    email,
+    first_name: firstName,
+    last_name: lastName
   }), config.jwtKey)
 
   res.status(200).send(JSON.stringify({token}))
