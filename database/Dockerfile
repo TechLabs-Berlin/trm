@@ -7,10 +7,10 @@ COPY --from=hasura /bin/hasura-cli /usr/local/bin/hasura-cli
 
 # Add non-root user as workaround for https://github.com/hasura/graphql-engine/issues/4651
 RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates libpq5 netcat-openbsd
-#  && wget -sSL -o /usr/local/bin/hasura-cli https://github.com/hasura/graphql-engine/releases/download/v1.3.2/cli-hasura-linux-amd64 \
-#  && chmod +x /usr/local/bin/hasura-cli \
-RUN adduser --system --disabled-login hasura
+ && apt-get install -y --no-install-recommends ca-certificates libpq5 netcat-openbsd \
+ && adduser --system --disabled-login hasura \
+ && mkdir /seeds \
+ && chown hasura:nogroup /seeds
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 USER hasura
 RUN hasura-cli plugin install cli-ext
