@@ -54,6 +54,7 @@ exports.handler = async (req, res) => {
   const firstName = ticket.payload.given_name
   const lastName = ticket.payload.family_name
   const email = ticket.payload.email
+  const avatar = ticket.payload.picture
   const userKey = ticket.payload.sub
   if(hd !== config.gSuiteDomain) {
     res.status(400).send('invalid gsuite domain')
@@ -62,11 +63,19 @@ exports.handler = async (req, res) => {
   // TODO enable when Groups API can be accessed through service account with domain-wide delegation
   // const groups = await google.getGroups({ userKey, accessToken })
 
-  const token = jwt.sign(authorization.getPayload({
-    email,
-    first_name: firstName,
-    last_name: lastName
-  }), config.jwtKey)
+  const token = jwt.sign(
+    authorization.getPayload({
+      email,
+      firstName,
+      lastName,
+      avatar
+    }),
+    config.jwtKey,
+    {
+      algorithm: 'HS256',
+      expiresIn: '3 days'
+    }
+  )
 
   res.status(200).send(JSON.stringify({token}))
   return

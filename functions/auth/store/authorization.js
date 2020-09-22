@@ -2,8 +2,10 @@ const crypto = require('crypto')
 
 module.exports = {
   getPayload: ({
-    name,
     email,
+    firstName,
+    lastName,
+    avatar
   }) => {
     let roles = ['user']
     let defaultRole = 'user'
@@ -16,8 +18,10 @@ module.exports = {
     }
 
     return {
-      name,
       email,
+      firstName,
+      lastName,
+      avatar,
       'https://hasura.io/jwt/claims': {
         'x-hasura-allowed-roles': roles,
         'x-hasura-default-role': defaultRole,
