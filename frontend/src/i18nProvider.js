@@ -17,7 +17,11 @@ let messages = {
         first_name: 'First Name',
         last_name: 'Last Name',
         techie_key: 'Techie Key',
-        application_track_choice: 'Application Track Choice'
+        application_track_choice: 'Application Track Choice',
+        google_account: 'Google Account',
+        github_handle: 'GitHub Handle',
+        edyoucated_handle: 'edyoucated Handle',
+        linkedin_profile_url: 'LinkedIn Profile URL'
       }
     },
     forms: {

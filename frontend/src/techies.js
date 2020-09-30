@@ -18,7 +18,8 @@ import {
   SaveButton,
   ReferenceField,
   useDataProvider,
-  BooleanField
+  BooleanField,
+  NumberInput
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
@@ -129,7 +130,16 @@ export const TechieEdit = props => {
               <StateSelectInput source="state" />
               <TextInput source="first_name" />
               <TextInput source="last_name" />
+              <SelectInput source="gender" allowEmpty={true} choices={[
+                { id: 'male', name: 'Male' },
+                { id: 'female', name: 'Female' }
+              ]} />
+              <NumberInput source="age" />
               <TextInput source="email" />
+              <TextInput source="google_account" />
+              <TextInput source="github_handle" />
+              <TextInput source="edyoucated_handle" />
+              <TextInput source="linkedin_profile_url" />
               <TextField source="techie_key" />
             </FormTab>
             <FormTab label="Application">
