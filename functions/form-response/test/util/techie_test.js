@@ -134,5 +134,105 @@ describe('techie utils', () => {
         application_track_choice: 'UX'
       })
     })
+    it('extracts gender', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          gender: {
+            type: 'choice',
+            value: 'Male'
+          }
+        }
+      })).to.deep.equal({
+        gender: 'male'
+      })
+
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          gender: {
+            type: 'choice',
+            value: 'FemaLe'
+          }
+        }
+      })).to.deep.equal({
+        gender: 'female'
+      })
+
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          gender: {
+            type: 'choice',
+            value: 'Other'
+          }
+        }
+      })).to.deep.equal({})
+    })
+    it('extracts age', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          age: {
+            type: 'number',
+            value: 22
+          }
+        }
+      })).to.deep.equal({
+        age: 22
+      })
+    })
+    it('extracts google_account', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          google_account: {
+            type: 'email',
+            value: 'abc@def.com'
+          }
+        }
+      })).to.deep.equal({
+        google_account: 'abc@def.com'
+      })
+    })
+    it('extracts github_handle', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          github_handle: {
+            type: 'text',
+            value: 'Kathie23'
+          }
+        }
+      })).to.deep.equal({
+        github_handle: 'Kathie23'
+      })
+    })
+    it('extracts edyoucated_handle', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          edyoucated_handle: {
+            type: 'text',
+            value: 'XXKathie23'
+          }
+        }
+      })).to.deep.equal({
+        edyoucated_handle: 'XXKathie23'
+      })
+    })
+    it('extracts linkedin_profile_url', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          linkedin_profile_url: {
+            type: 'url',
+            value: 'https://linkedin.com/someprofile'
+          }
+        }
+      })).to.deep.equal({
+        linkedin_profile_url: 'https://linkedin.com/someprofile'
+      })
+    })
   })
 })

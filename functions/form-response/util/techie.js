@@ -40,6 +40,52 @@ const answerExtractors = {
       default:
         return {}
     }
+  },
+  gender(answer) {
+    if(answer.type !== 'choice') {
+      return {}
+    }
+    switch(answer.value.toLowerCase()) {
+      case 'male':
+        return { gender: 'male' }
+      case 'female':
+        return { gender: 'female' }
+      default:
+        return {}
+    }
+  },
+  age(answer) {
+    if(answer.type !== 'number') {
+      return {}
+    }
+    if(typeof answer.value !== 'number') {
+      return {}
+    }
+    return { age: answer.value }
+  },
+  google_account(answer) {
+    if(answer.type !== 'email') {
+      return {}
+    }
+    return { google_account: answer.value }
+  },
+  github_handle(answer) {
+    if(answer.type !== 'text') {
+      return {}
+    }
+    return { github_handle: answer.value }
+  },
+  edyoucated_handle(answer) {
+    if(answer.type !== 'text') {
+      return {}
+    }
+    return { edyoucated_handle: answer.value }
+  },
+  linkedin_profile_url(answer) {
+    if(answer.type !== 'url') {
+      return {}
+    }
+    return { linkedin_profile_url: answer.value }
   }
 }
 
@@ -56,7 +102,19 @@ module.exports = {
     // selects the given keys from attributesWithExtractors
     const selectedAttributes = pick(
       attributesWithExtractors,
-      'id', 'email', 'first_name', 'last_name', 'state', 'techie_key', 'application_track_choice'
+      'id',
+      'email',
+      'first_name',
+      'last_name',
+      'state',
+      'techie_key',
+      'application_track_choice',
+      'gender',
+      'age',
+      'google_account',
+      'github_handle',
+      'edyoucated_handle',
+      'linkedin_profile_url'
     )
 
     return selectedAttributes
