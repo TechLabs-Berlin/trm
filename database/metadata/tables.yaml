@@ -393,14 +393,20 @@
   - role: user
     permission:
       columns:
+      - age
       - application_successful
       - application_track_choice
       - assigned_team_member_id
       - created_at
+      - edyoucated_handle
       - email
       - first_name
+      - gender
+      - github_handle
+      - google_account
       - id
       - last_name
+      - linkedin_profile_url
       - notes
       - semester_id
       - state
@@ -413,12 +419,18 @@
   - role: user
     permission:
       columns:
+      - age
       - application_successful
       - application_track_choice
       - assigned_team_member_id
+      - edyoucated_handle
       - email
       - first_name
+      - gender
+      - github_handle
+      - google_account
       - last_name
+      - linkedin_profile_url
       - notes
       - semester_id
       - state
