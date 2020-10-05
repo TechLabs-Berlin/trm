@@ -414,7 +414,9 @@
       - techie_key
       - track
       - updated_at
-      filter: {}
+      filter:
+        location:
+          _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
   - role: user
