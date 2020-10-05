@@ -409,6 +409,7 @@
       - linkedin_profile_url
       - notes
       - semester_id
+      - slack_member_id
       - state
       - techie_key
       - track
@@ -433,6 +434,7 @@
       - linkedin_profile_url
       - notes
       - semester_id
+      - slack_member_id
       - state
       - track
       - updated_at
