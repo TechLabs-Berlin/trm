@@ -16,6 +16,7 @@ import {
 import { FormResponseAnswersField } from './fields/formResponseAnswers';
 import { JSONField } from './fields/json'
 import { RelativeTimeField } from './fields/relativeTime'
+import { TechieField } from './fields/techie'
 
 const FormResponseFilter = (props) => (
   <Filter {...props}>
@@ -29,8 +30,9 @@ export const FormResponseList = props => (
     <List {...props} filters={<FormResponseFilter />} perPage={25} sort={{ field: 'created_at', order: 'DESC' }}>
         <Datagrid rowClick="show">
             <TextField source="form.description" />
-            <TextField source="techie.first_name" />
-            <TextField source="techie.last_name" />
+            <ReferenceField label="Techie" source="techie.id" reference="techies">
+              <TechieField />
+            </ReferenceField>
             <RelativeTimeField source="created_at" />
         </Datagrid>
     </List>
@@ -52,6 +54,9 @@ export const FormResponseShow = props => (
             <FormTab label="Answers">
                 <ReferenceField label="Form" source="form_id" reference="forms">
                     <TextField source="description" />
+                </ReferenceField>
+                <ReferenceField label="Techie" source="techie_id" reference="techies">
+                  <TechieField />
                 </ReferenceField>
                 <DateField source="created_at" showTime={true} />
                 <FormResponseAnswersField label="Answers" />

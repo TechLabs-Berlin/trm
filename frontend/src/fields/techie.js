@@ -12,12 +12,17 @@ export const TechieField = ({ record = {} }) => {
           vertical: 'top',
           horizontal: 'right',
         }}>
-          {record.first_name} {record.last_name} {record.email}
+          {record.first_name && record.last_name ? `${record.first_name} ${record.last_name}` : record.email}
       </Badge>
     </React.Fragment>
   )
 }
 
 TechieField.propTypes = {
-  record: PropTypes.object,
+  label: PropTypes.string,
+  record: PropTypes.object
+}
+
+TechieField.defaultProps = {
+  addLabel: true
 }

@@ -57,11 +57,32 @@ const buildProvider = () => {
               null,
               null,
               gqlTypes.selectionSet([
+                  gqlTypes.field(gqlTypes.name('id')),
                   gqlTypes.field(gqlTypes.name('first_name')),
                   gqlTypes.field(gqlTypes.name('last_name')),
               ])
           )
       );
+    } else if(type.name === 'forms') {
+      res.push(
+        gqlTypes.field(
+            gqlTypes.name('form_responses'),
+            null,
+            null,
+            null,
+            gqlTypes.selectionSet([
+                gqlTypes.field(
+                  gqlTypes.name('techie'),
+                  null,
+                  null,
+                  null,
+                  gqlTypes.selectionSet([
+                    gqlTypes.field(gqlTypes.name('id')),
+                  ])
+                )
+            ])
+        )
+    );
     }
     return res;
   };
