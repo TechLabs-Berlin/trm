@@ -152,6 +152,13 @@
         table:
           schema: public
           name: forms
+  - name: projects
+    using:
+      foreign_key_constraint_on:
+        column: location
+        table:
+          schema: public
+          name: projects
   - name: semesters
     using:
       foreign_key_constraint_on:
@@ -189,6 +196,133 @@
       allow_aggregations: true
 - table:
     schema: public
+    name: project_team_members
+  object_relationships:
+  - name: project
+    using:
+      foreign_key_constraint_on: project_id
+  - name: team_member
+    using:
+      foreign_key_constraint_on: team_member_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        project:
+          location:
+            _eq: x-hasura-location
+      columns:
+      - project_id
+      - team_member_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - project_id
+      - team_member_id
+      filter:
+        project:
+          location:
+            _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - project_id
+      - team_member_id
+      filter:
+        project:
+          location:
+            _eq: x-hasura-location
+      check:
+        project:
+          location:
+            _eq: x-hasura-location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        project:
+          location:
+            _eq: x-hasura-location
+- table:
+    schema: public
+    name: projects
+  object_relationships:
+  - name: locationByLocation
+    using:
+      foreign_key_constraint_on: location
+  - name: semester
+    using:
+      foreign_key_constraint_on: semester_id
+  array_relationships:
+  - name: project_team_members
+    using:
+      foreign_key_constraint_on:
+        column: project_id
+        table:
+          schema: public
+          name: project_team_members
+  - name: techies
+    using:
+      foreign_key_constraint_on:
+        column: project_id
+        table:
+          schema: public
+          name: techies
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+      columns:
+      - description
+      - name
+      - semester_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - description
+      - id
+      - name
+      - semester_id
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - description
+      - name
+      - semester_id
+      - updated_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      check:
+        location:
+          _eq: x-hasura-location
+      set:
+        location: x-hasura-Location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        location:
+          _eq: x-hasura-location
+- table:
+    schema: public
     name: semesters
   object_relationships:
   - name: locationByLocation
@@ -205,6 +339,13 @@
         table:
           schema: public
           name: forms
+  - name: projects
+    using:
+      foreign_key_constraint_on:
+        column: semester_id
+        table:
+          schema: public
+          name: projects
   - name: techies
     using:
       foreign_key_constraint_on:
@@ -278,6 +419,13 @@
     using:
       foreign_key_constraint_on: location
   array_relationships:
+  - name: project_team_members
+    using:
+      foreign_key_constraint_on:
+        column: team_member_id
+        table:
+          schema: public
+          name: project_team_members
   - name: techies
     using:
       foreign_key_constraint_on:
@@ -342,6 +490,65 @@
           _eq: x-hasura-location
 - table:
     schema: public
+    name: techie_activity
+  object_relationships:
+  - name: techie
+    using:
+      foreign_key_constraint_on: techie_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        techie:
+          location:
+            _eq: x-hasura-location
+      columns:
+      - techie_id
+      - type
+      - value
+      - week
+      - year
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - techie_id
+      - type
+      - value
+      - week
+      - year
+      filter:
+        techie:
+          location:
+            _eq: x-hasura-location
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - techie_id
+      - type
+      - value
+      - week
+      - year
+      filter:
+        techie:
+          location:
+            _eq: x-hasura-location
+      check:
+        techie:
+          location:
+            _eq: x-hasura-location
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        techie:
+          location:
+            _eq: x-hasura-location
+- table:
+    schema: public
     name: techie_lifecycle_states
   is_enum: true
   array_relationships:
@@ -366,6 +573,9 @@
   - name: locationByLocation
     using:
       foreign_key_constraint_on: location
+  - name: project
+    using:
+      foreign_key_constraint_on: project_id
   - name: semester
     using:
       foreign_key_constraint_on: semester_id
@@ -389,6 +599,13 @@
         table:
           schema: public
           name: form_responses
+  - name: techie_activities
+    using:
+      foreign_key_constraint_on:
+        column: techie_id
+        table:
+          schema: public
+          name: techie_activity
   select_permissions:
   - role: user
     permission:
@@ -408,6 +625,8 @@
       - last_name
       - linkedin_profile_url
       - notes
+      - project_id
+      - receives_certificate
       - semester_id
       - slack_member_id
       - state
@@ -435,6 +654,8 @@
       - last_name
       - linkedin_profile_url
       - notes
+      - project_id
+      - receives_certificate
       - semester_id
       - slack_member_id
       - state

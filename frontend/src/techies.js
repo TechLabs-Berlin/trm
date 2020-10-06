@@ -141,6 +141,7 @@ export const TechieEdit = props => {
               <TextInput source="edyoucated_handle" />
               <TextInput source="linkedin_profile_url" />
               <TextInput source="slack_member_id" />
+              <NullableBooleanInput source="receives_certificate" displayNull />
               <TextField source="techie_key" />
             </FormTab>
             <FormTab label="Application">

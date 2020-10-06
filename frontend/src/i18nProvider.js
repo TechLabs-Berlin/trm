@@ -22,7 +22,9 @@ let messages = {
         google_account: 'Google Account',
         github_handle: 'GitHub Handle',
         edyoucated_handle: 'edyoucated Handle',
-        linkedin_profile_url: 'LinkedIn Profile URL'
+        linkedin_profile_url: 'LinkedIn Profile URL',
+        slack_member_id: 'Slack Member ID',
+        receives_certificate: 'Receives Certificate'
       }
     },
     forms: {
