@@ -12,6 +12,7 @@ import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import DescriptionIcon from '@material-ui/icons/Description';
+import ExploreIcon from '@material-ui/icons/Explore';
 
 import SubMenu from './trmSubMenu'
 
@@ -70,6 +71,15 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
         </SubMenu>
+        <MenuItemLink
+            to={`/techie-activity`}
+            primaryText={translate('trm.menu.techieActivity')}
+            leftIcon={<ExploreIcon />}
+            onClick={onMenuClick}
+            sidebarIsOpen={open}
+            dense={dense}
+            exact
+        />
         <MenuItemLink
             to={`/csv-import`}
             primaryText={translate('trm.menu.csvImport')}

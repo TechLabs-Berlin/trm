@@ -7,6 +7,7 @@ let messages = {
       techies: 'Techies',
       applications: 'Applications',
       academy: 'Academy',
+      techieActivity: 'Techie Activity',
       csvImport: 'CSV Import',
       settings: 'Settings'
     }

@@ -1,0 +1,1 @@
+DROP FUNCTION techie_activity_reports;

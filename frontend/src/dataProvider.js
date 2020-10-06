@@ -21,14 +21,18 @@ let hasuraProvider = null
 
 const hasToken = () => localStorage.getItem('token') !== null
 
-const buildProvider = () => {
+export const buildClient = () => {
   const token = localStorage.getItem('token')
-  const client = new ApolloClient({
+  return new ApolloClient({
     headers: {
       'Authorization': `Bearer ${token}`
     },
     uri: config.graphqlApiURL,
   })
+}
+
+const buildProvider = () => {
+  const client = buildClient()
   const buildFieldsCustom = (type) => {
     let res = buildFields(type);
     if (type.name === 'form_responses') {
