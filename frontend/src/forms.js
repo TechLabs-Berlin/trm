@@ -61,12 +61,18 @@ export const FormEdit = props => {
 
   React.useEffect(() => {
     const update = async() => {
+      if(!props.id) {
+        return
+      }
       const formResp = await dataProvider.getOne('forms', { id: props.id })
-      if(!formResp.data.type === 'PERSONALIZED') {
+      if(!formResp || !formResp.data || formResp.data.form_type !== 'PERSONALIZED') {
         return
       }
       setPersonalized(true)
-      const respondedTechies = formResp.data.form_responses.map(r => r.techie.id)
+      const respondedTechiesResp = await dataProvider.getList('form_responses', {
+        filter: { form_id: props.id }
+      })
+      const respondedTechies = respondedTechiesResp.data.map(t => t.techie.id)
       const techiesResp = await dataProvider.getList('techies', {
         filter: { semester_id: formResp.data.semester_id, state: 'LEARNER' }
       })

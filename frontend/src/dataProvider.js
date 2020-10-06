@@ -63,26 +63,6 @@ const buildProvider = () => {
               ])
           )
       );
-    } else if(type.name === 'forms') {
-      res.push(
-        gqlTypes.field(
-            gqlTypes.name('form_responses'),
-            null,
-            null,
-            null,
-            gqlTypes.selectionSet([
-                gqlTypes.field(
-                  gqlTypes.name('techie'),
-                  null,
-                  null,
-                  null,
-                  gqlTypes.selectionSet([
-                    gqlTypes.field(gqlTypes.name('id')),
-                  ])
-                )
-            ])
-        )
-    );
     }
     return res;
   };
