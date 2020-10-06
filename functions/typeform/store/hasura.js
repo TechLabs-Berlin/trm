@@ -149,8 +149,18 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
+              gender
+              age
+              google_account
+              github_handle
+              edyoucated_handle
+              linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -295,8 +305,18 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               location
               semester_id
               state
+              application_track_choice
               techie_key
               updated_at
+              gender
+              age
+              google_account
+              github_handle
+              edyoucated_handle
+              linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -333,8 +353,18 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
+              gender
+              age
+              google_account
+              github_handle
+              edyoucated_handle
+              linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -378,8 +408,18 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               first_name
               last_name
               email
+              application_track_choice
               created_at
               updated_at
+              gender
+              age
+              google_account
+              github_handle
+              edyoucated_handle
+              linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -415,8 +455,44 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
         query: `
-          mutation UpdateTechieMasterData($id: uuid!, $email: String, $first_name: String, $last_name: String, $state: techie_lifecycle_states_enum!, $techie_key: String!) {
-            update_techies_by_pk(pk_columns: {id: $id}, _set: {email: $email, first_name: $first_name, last_name: $last_name, state: $state, techie_key: $techie_key, updated_at: "now()"}) {
+          mutation UpdateTechieMasterData(
+            $id: uuid!,
+            $email: String,
+            $first_name: String,
+            $last_name: String,
+            $state: techie_lifecycle_states_enum!,
+            $techie_key: String!,
+            $application_track_choice: tracks_enum,
+            $gender: String,
+            $age: smallint,
+            $google_account: String,
+            $github_handle: String,
+            $edyoucated_handle: String,
+            $linkedin_profile_url: String,
+            $slack_member_id: String,
+            $receives_certificate: Boolean,
+            $project_id: uuid
+          ) {
+            update_techies_by_pk(
+              pk_columns: {id: $id},
+              _set: {
+                email: $email,
+                first_name: $first_name,
+                last_name: $last_name,
+                state: $state,
+                techie_key: $techie_key,
+                application_track_choice: $application_track_choice,
+                gender: $gender,
+                age: $age,
+                google_account: $google_account,
+                github_handle: $github_handle,
+                edyoucated_handle: $edyoucated_handle,
+                linkedin_profile_url: $linkedin_profile_url,
+                slack_member_id: $slack_member_id,
+                receives_certificate: $receives_certificate,
+                project_id: $project_id,
+                updated_at: "now()"
+              }) {
               id
             }
           }

@@ -86,6 +86,12 @@ const answerExtractors = {
       return {}
     }
     return { linkedin_profile_url: answer.value }
+  },
+  slack_member_id(answer) {
+    if(answer.type !== 'text') {
+      return {}
+    }
+    return { slack_member_id: answer.value }
   }
 }
 
@@ -114,7 +120,10 @@ module.exports = {
       'google_account',
       'github_handle',
       'edyoucated_handle',
-      'linkedin_profile_url'
+      'linkedin_profile_url',
+      'slack_member_id',
+      'receives_certificate',
+      'project_id'
     )
 
     return selectedAttributes

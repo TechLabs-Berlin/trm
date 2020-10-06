@@ -234,5 +234,18 @@ describe('techie utils', () => {
         linkedin_profile_url: 'https://linkedin.com/someprofile'
       })
     })
+    it('extracts slack_member_id', () => {
+      expect(techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          slack_member_id: {
+            type: 'text',
+            value: 'U1234'
+          }
+        }
+      })).to.deep.equal({
+        slack_member_id: 'U1234'
+      })
+    })
   })
 })

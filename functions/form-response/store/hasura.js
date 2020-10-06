@@ -158,6 +158,9 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               github_handle
               edyoucated_handle
               linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -311,6 +314,9 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               github_handle
               edyoucated_handle
               linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -356,6 +362,9 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               github_handle
               edyoucated_handle
               linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -408,6 +417,9 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
               github_handle
               edyoucated_handle
               linkedin_profile_url
+              slack_member_id
+              receives_certificate
+              project_id
             }
           }
         `,
@@ -456,7 +468,10 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
             $google_account: String,
             $github_handle: String,
             $edyoucated_handle: String,
-            $linkedin_profile_url: String
+            $linkedin_profile_url: String,
+            $slack_member_id: String,
+            $receives_certificate: Boolean,
+            $project_id: uuid
           ) {
             update_techies_by_pk(
               pk_columns: {id: $id},
@@ -473,6 +488,9 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
                 github_handle: $github_handle,
                 edyoucated_handle: $edyoucated_handle,
                 linkedin_profile_url: $linkedin_profile_url,
+                slack_member_id: $slack_member_id,
+                receives_certificate: $receives_certificate,
+                project_id: $project_id,
                 updated_at: "now()"
               }) {
               id
