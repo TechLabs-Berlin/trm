@@ -4,6 +4,7 @@ import { Admin, Resource } from 'react-admin';
 import dataProvider from './dataProvider';
 import authProvider from './authProvider';
 import i18nProvider from './i18nProvider';
+import customRoutes from './customRoutes'
 import LoginPage from './login';
 import { theme } from './theme';
 import Layout from './components/trmLayout'
@@ -20,6 +21,7 @@ class App extends Component {
             dataProvider={dataProvider}
             authProvider={authProvider}
             i18nProvider={i18nProvider}
+            customRoutes={customRoutes}
             loginPage={LoginPage}
             theme={theme}
             layout={Layout}

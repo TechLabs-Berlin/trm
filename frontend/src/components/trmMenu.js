@@ -11,6 +11,7 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 import SubMenu from './trmSubMenu'
 
@@ -69,6 +70,15 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
         </SubMenu>
+        <MenuItemLink
+            to={`/csv-import`}
+            primaryText={translate('trm.menu.csvImport')}
+            leftIcon={<DescriptionIcon />}
+            onClick={onMenuClick}
+            sidebarIsOpen={open}
+            dense={dense}
+            exact
+        />
         <SubMenu
             handleToggle={() => handleToggle('menuSettings')}
             isOpen={state.menuSettings}
