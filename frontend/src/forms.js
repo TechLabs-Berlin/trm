@@ -24,6 +24,7 @@ import {
 } from '@material-ui/core'
 import { FormTypeSelectField } from "./fields/formTypeSelect";
 import { RelativeTimeField } from './fields/relativeTime'
+import { CountListField } from './fields/countList'
 import { TechieField } from './fields/techie'
 import { FormTypeSelectInput } from "./inputs/formTypeSelect";
 
@@ -37,9 +38,12 @@ const FormFilter = (props) => (
 export const FormList = props => (
     <List {...props} filters={<FormFilter />} perPage={25}>
         <Datagrid rowClick="edit">
+            <TextField source="description" />
+            <ReferenceManyField label="# Responses" reference="form_responses" target="form_id" perPage={1000}>
+              <CountListField label="Responses" />
+            </ReferenceManyField>
             <TextField source="typeform_id" />
             <FormTypeSelectField source="form_type" />
-            <TextField source="description" />
         </Datagrid>
     </List>
 );

@@ -18,7 +18,6 @@ import {
   SaveButton,
   ReferenceField,
   useDataProvider,
-  BooleanField,
   NumberInput
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
@@ -31,8 +30,9 @@ import { FormResponseAnswersField } from './fields/formResponseAnswers';
 
 const TechieFilter = (props) => (
   <Filter {...props}>
-      <TextInput label="Search" source="techie_key" alwaysOn />
+      <TextInput label="Search by last name" source="last_name" alwaysOn />
       <TextInput source="email" />
+      <TextInput source="first_name" />
       <ReferenceInput label="Semester" source="semester_id" reference="semesters">
         <SelectInput  optionText="description" />
       </ReferenceInput>
@@ -40,6 +40,8 @@ const TechieFilter = (props) => (
         <SelectInput optionText="first_name" />
       </ReferenceInput>
       <StateSelectInput source="state" />
+      <TrackSelectInput source="track" />
+      <TrackSelectInput source="application_track_choice" />
   </Filter>
 );
 
@@ -50,44 +52,19 @@ const TechieBulkActionButtons = props => (
   </Fragment>
 )
 
-export const TechieList = props => {
-    if(props.location.hash === '#applications') {
-      return (
-        <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} filter={{state: 'APPLICANT'}} perPage={25}>
-            <Datagrid rowClick="edit">
-                <TextField source="first_name" />
-                <TextField source="last_name" />
-                <TrackSelectField source="application_track_choice" />
-                <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
-                    <TextField source="first_name" />
-                </ReferenceField>
-                <BooleanField source="application_successful" />
-            </Datagrid>
-        </List>
-      )
-    } else if(props.location.hash === '#academy') {
-      return (
-        <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} filter={{state: 'LEARNER'}} perPage={25}>
-              <Datagrid rowClick="edit">
-                  <TextField source="first_name" />
-                  <TextField source="last_name" />
-                  <TrackSelectField source="track" />
-              </Datagrid>
-        </List>
-      )
-    } else {
-      return (
-        <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} perPage={25}>
-              <Datagrid rowClick="edit">
-                  <StateSelectField source="state" />
-                  <TextField source="first_name" />
-                  <TextField source="last_name" />
-                  <TrackSelectField source="track" />
-              </Datagrid>
-        </List>
-      )
-    }
-};
+export const TechieList = props => (
+  <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} perPage={25}>
+    <Datagrid rowClick="edit">
+        <StateSelectField source="state" />
+        <TextField source="first_name" />
+        <TextField source="last_name" />
+        <TrackSelectField source="track" />
+        <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+          <TextField source="first_name" />
+        </ReferenceField>
+    </Datagrid>
+  </List>
+);
 
 const TechieEditToolbar = props => (
   <Toolbar {...props} >

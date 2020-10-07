@@ -13,6 +13,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ExploreIcon from '@material-ui/icons/Explore';
+import { stringify } from 'query-string';
 
 import SubMenu from './trmSubMenu'
 
@@ -53,7 +54,13 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
             <MenuItemLink
-                to={{pathname: `/techies`, hash: 'applications'}}
+                to={{pathname: `/techies`, search: stringify({
+                    page: 1,
+                    perPage: 25,
+                    sort: 'id',
+                    order: 'DESC',
+                    filter: JSON.stringify({ state: 'APPLICANT' }),
+                })}}
                 primaryText={translate('trm.menu.applications')}
                 leftIcon={<AssignmentTurnedInIcon />}
                 onClick={onMenuClick}
@@ -62,7 +69,13 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
             <MenuItemLink
-                to={{pathname: `/techies`, hash: 'academy'}}
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'LEARNER' }),
+                })}}
                 primaryText={translate('trm.menu.academy')}
                 leftIcon={<SchoolIcon />}
                 onClick={onMenuClick}
