@@ -17,10 +17,15 @@ import {
   FormTab,
   ReferenceField,
   useDataProvider,
-  ListContextProvider
+  ListContextProvider,
+  downloadCSV
 } from 'react-admin';
+import jsonExport from 'jsonexport/dist'
+import { pick } from 'lodash'
 import {
-  Typography
+  Typography,
+  Grid,
+  Button
 } from '@material-ui/core'
 import { FormTypeSelectField } from "./fields/formTypeSelect";
 import { RelativeTimeField } from './fields/relativeTime'
@@ -90,6 +95,15 @@ export const FormEdit = props => {
     update()
   }, [props.id, dataProvider])
 
+  const exportMissingTechies = () => {
+    const data = Object.values(missingTechies).map(t => pick(t, ['email', 'techie_key', 'first_name', 'last_name']))
+    jsonExport(
+      data, (err, csv) => {
+        downloadCSV(csv, 'missing_techies.csv')
+      }
+    )
+  }
+
   return (
     <Edit title={<FormTitle />} {...props}>
         <TabbedForm>
@@ -123,11 +137,21 @@ export const FormEdit = props => {
                     resource: 'techies', // TODO remove, but throws an error
                     selectedIds: []
                   }}>
-                    <Typography variant='body1'>
-                      As this is a <i>PERSONALIZED</i> form, we expect all Techies with state <i>LEARNER</i> to submit it eventually.
-                      <br/>
-                      Below is a list of Techies who didn't respond to this form yet:
-                    </Typography>
+                    <Grid container justify="space-between">
+                      <Grid item>
+                        <Typography variant='body1'>
+                          As this is a <i>PERSONALIZED</i> form, we expect all Techies with state <i>LEARNER</i> to submit it eventually.
+                          <br/>
+                          Below is a list of <strong>{Object.keys(missingTechies).length} Techies</strong> who didn't respond to this form yet:
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Button variant="contained" color="primary" onClick={exportMissingTechies}>
+                          Export
+                        </Button>
+                      </Grid>
+                    </Grid>
+
                     <Datagrid>
                       <ReferenceField label="Techie" source="id" reference="techies" sortable={false}>
                         <TechieField />
