@@ -25,6 +25,8 @@ variable "fn_url_typeform" {}
 
 variable "fn_url_form_response" {}
 
+variable "fn_url_edyoucated" {}
+
 variable "domain" {}
 
 variable "api_dns_name_prefixes" {}

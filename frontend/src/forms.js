@@ -67,6 +67,7 @@ export const FormEdit = props => {
   const dataProvider = useDataProvider()
   const [isPersonalized, setPersonalized] = React.useState(false)
   const [missingTechies, setMissingTechies] = React.useState({})
+  const [respondedTechies, setRespondedTechies] = React.useState(0)
 
   React.useEffect(() => {
     const update = async() => {
@@ -91,6 +92,7 @@ export const FormEdit = props => {
         return acc
       }, {})
       setMissingTechies(newMissingTechies)
+      setRespondedTechies(respondedTechies.length)
     }
     update()
   }, [props.id, dataProvider])
@@ -116,7 +118,7 @@ export const FormEdit = props => {
               <TextInput source="description" />
               <DateField source="webhook_installed_at" showTime={true} />
             </FormTab>
-            <FormTab label="Responses">
+            <FormTab label={`Responses (${respondedTechies})`}>
               <ReferenceManyField label="Form Responses" reference="form_responses" target="form_id" pagination={<Pagination />}>
                 <Datagrid rowClick="show">
                   <ReferenceField label="Techie" source="techie.id" reference="techies">
@@ -127,7 +129,7 @@ export const FormEdit = props => {
                 </Datagrid>
               </ReferenceManyField>
             </FormTab>
-            {isPersonalized && (<FormTab label="Pending Responses">
+            {isPersonalized && (<FormTab label={`Pending Responses (${Object.keys(missingTechies).length})`}>
               <ListContextProvider value={{
                     data: missingTechies,
                     ids: Object.keys(missingTechies),
@@ -156,6 +158,8 @@ export const FormEdit = props => {
                       <ReferenceField label="Techie" source="id" reference="techies" sortable={false}>
                         <TechieField />
                       </ReferenceField>
+                      <TextField source="email" />
+                      <TextField source="techie_key" />
                     </Datagrid>
                 </ListContextProvider >
             </FormTab>)}

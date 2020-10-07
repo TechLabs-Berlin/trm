@@ -66,6 +66,10 @@ resource "google_cloud_run_service" "hasura" {
           value = var.fn_url_form_response
         }
         env {
+          name  = "FN_URL_EDYOUCATED"
+          value = var.fn_url_edyoucated
+        }
+        env {
           name  = "SKIP_MIGRATIONS"
           value = var.skip_migrations
         }

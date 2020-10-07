@@ -1,1 +1,5 @@
-[]
+- name: edyoucated
+  definition:
+    url_from_env: FN_URL_EDYOUCATED
+    timeout_seconds: 30
+    forward_client_headers: true

@@ -83,6 +83,13 @@ jobs:
       TF_VAR_hasura_jwt_keys: ${{ secrets.TF_VAR_HASURA_JWT_KEYS }}
       TF_VAR_hasura_passwords: ${{ secrets.TF_VAR_HASURA_PASSWORDS }}
       TF_VAR_oauth_credentials: ${{ secrets.TF_VAR_OAUTH_CREDENTIALS }}
+      TF_VAR_edyoucated_username: ${{ secrets.TF_VAR_EDYOUCATED_USERNAME }}
+      TF_VAR_edyoucated_password: ${{ secrets.TF_VAR_EDYOUCATED_PASSWORD }}
+      TF_VAR_edyoucated_user_pool_id: ${{ secrets.TF_VAR_EDYOUCATED_USER_POOL_ID }}
+      TF_VAR_edyoucated_identity_pool_id: ${{ secrets.TF_VAR_EDYOUCATED_IDENTITY_POOL_ID }}
+      TF_VAR_edyoucated_client_id: ${{ secrets.TF_VAR_EDYOUCATED_CLIENT_ID }}
+      TF_VAR_edyoucated_aws_region: ${{ secrets.TF_VAR_EDYOUCATED_AWS_REGION }}
+      TF_VAR_edyoucated_api_url: ${{ secrets.TF_VAR_EDYOUCATED_API_URL }}
       TF_VAR_project: techlabs-trm-test
       TF_VAR_region: europe-west3
       TF_VAR_domain: trm.techlabs.org

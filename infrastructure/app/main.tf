@@ -39,10 +39,11 @@ module "database" {
   source = "./modules/database"
 
   # if "1", hasura will not apply migrations - set to "0" when deploying migrations
-  skip_migrations = "1"
+  skip_migrations = "0"
 
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
+  fn_url_edyoucated    = "https://${var.region}-${var.project}.cloudfunctions.net/edyoucated-${terraform.workspace}"
 
   project                 = var.project
   region                  = var.region
@@ -101,6 +102,27 @@ module "functions_form_response" {
     GRAPHQL_URL = module.database.hasura_url
     JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
     DEBUG       = "1" // TODO add config variable
+  }
+}
+
+module "functions_edyoucated" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/edyoucated"
+  name                = "edyoucated-${terraform.workspace}"
+  storage_bucket_name = local.storage_bucket_name
+  environment_variables = {
+    NODE_ENV                    = terraform.workspace
+    JWT_KEY                     = var.hasura_jwt_keys[terraform.workspace]
+    EDYOUCATED_USERNAME         = var.edyoucated_username
+    EDYOUCATED_PASSWORD         = var.edyoucated_password
+    EDYOUCATED_USER_POOL_ID     = var.edyoucated_user_pool_id
+    EDYOUCATED_IDENTITY_POOL_ID = var.edyoucated_identity_pool_id
+    EDYOUCATED_CLIENT_ID        = var.edyoucated_client_id
+    EDYOUCATED_AWS_REGION       = var.edyoucated_aws_region
+    EDYOUCATED_API_URL          = var.edyoucated_api_url
+    DEBUG                       = "1" // TODO add config variable
   }
 }
 

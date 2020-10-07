@@ -10,6 +10,12 @@ const log = ({severity, message, fields}) => {
 }
 
 module.exports = ({ debugLoggingEnabled }) => {
+  if(debugLoggingEnabled) {
+    log({
+      severity: 'WARNING',
+      message: 'Debug logging enabled'
+    })
+  }
   return {
     debug: (message, fields) => {
       if(!debugLoggingEnabled) {
