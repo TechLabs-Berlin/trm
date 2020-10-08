@@ -7,6 +7,12 @@ let messages = {
       techies: 'Techies',
       applications: 'Applications',
       academy: 'Academy',
+      ds: 'Data Science',
+      ai: 'Artificial Intelligence',
+      webdev: 'Web Development',
+      ux: 'UX Design',
+      dropped: 'Dropped',
+      alumni: 'Alumni',
       techieActivity: 'Techie Activity',
       csvImport: 'CSV Import',
       settings: 'Settings'

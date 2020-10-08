@@ -1,0 +1,17 @@
+<svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1.5" y="13.5" width="4" height="14" stroke="#F27498"/>
+<rect x="8.5" y="22.5" width="4" height="5" stroke="#F27498"/>
+<rect x="15.5" y="17.5" width="4" height="10" stroke="#F27498"/>
+<rect x="22.5" y="23.5" width="4" height="4" stroke="#F27498"/>
+<rect x="1.5" y="11.5" width="4" height="2" rx="0.5" stroke="#F27498"/>
+<rect x="8.5" y="20.5" width="4" height="2" rx="0.5" stroke="#F27498"/>
+<rect x="15.5" y="15.5" width="4" height="2" rx="0.5" stroke="#F27498"/>
+<rect x="22.5" y="21.5" width="4" height="2" rx="0.5" stroke="#F27498"/>
+<circle cx="3" cy="3" r="2.5" stroke="#F27498"/>
+<circle cx="11.5" cy="13.5" r="2" stroke="#F27498"/>
+<circle cx="17.5" cy="6.5" r="2" stroke="#F27498"/>
+<circle cx="24.5" cy="13.5" r="2" stroke="#F27498"/>
+<line x1="19.3536" y1="7.64645" x2="23.3536" y2="11.6464" stroke="#F27498"/>
+<line x1="12.6" y1="11.7" x2="15.6" y2="7.7" stroke="#F27498"/>
+<line x1="4.37963" y1="4.6746" x2="10.3796" y2="11.6746" stroke="#F27498"/>
+</svg>

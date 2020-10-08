@@ -13,6 +13,12 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ExploreIcon from '@material-ui/icons/Explore';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import StarsIcon from '@material-ui/icons/Stars';
+import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
+import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
+import { ReactComponent as WebDevTrackLogo } from '../static/track-webdev-grey.svg';
+import { ReactComponent as UXTrackLogo } from '../static/track-ux-grey.svg';
 import { stringify } from 'query-string';
 
 import SubMenu from './trmSubMenu'
@@ -20,7 +26,7 @@ import SubMenu from './trmSubMenu'
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
   const [state, setState] = useState({
       menuTechies: true,
-      menuSettings: false,
+      menuSettings: true,
   });
   const translate = useTranslate();
   const isXSmall = useMediaQuery((theme) =>
@@ -43,7 +49,13 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             dense={dense}
         >
             <MenuItemLink
-                to={`/techies`}
+                to={{pathname: `/techies`, search: stringify({
+                    page: 1,
+                    perPage: 25,
+                    sort: 'id',
+                    order: 'DESC',
+                    filter: {},
+                })}}
                 primaryText={'All ' + translate(`resources.techies.name`, {
                     smart_count: 2,
                 })}
@@ -78,6 +90,96 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 })}}
                 primaryText={translate('trm.menu.academy')}
                 leftIcon={<SchoolIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'LEARNER', track: 'DS' }),
+                })}}
+                primaryText={translate('trm.menu.ds')}
+                leftIcon={<DSTrackLogo />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'LEARNER', track: 'AI' }),
+                })}}
+                primaryText={translate('trm.menu.ai')}
+                leftIcon={<AITrackLogo />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'LEARNER', track: 'WEBDEV' }),
+                })}}
+                primaryText={translate('trm.menu.webdev')}
+                leftIcon={<WebDevTrackLogo />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'LEARNER', track: 'UX' }),
+                })}}
+                primaryText={translate('trm.menu.ux')}
+                leftIcon={<UXTrackLogo />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'DROPPED' }),
+                })}}
+                primaryText={translate('trm.menu.dropped')}
+                leftIcon={<ExitToAppIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+            <MenuItemLink
+                to={{pathname: `/techies`, search: stringify({
+                  page: 1,
+                  perPage: 25,
+                  sort: 'id',
+                  order: 'DESC',
+                  filter: JSON.stringify({ state: 'ALUMNI' }),
+                })}}
+                primaryText={translate('trm.menu.alumni')}
+                leftIcon={<StarsIcon />}
                 onClick={onMenuClick}
                 sidebarIsOpen={open}
                 dense={dense}
