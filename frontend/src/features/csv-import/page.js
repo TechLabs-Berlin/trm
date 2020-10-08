@@ -72,7 +72,7 @@ const csvSchema = {
   linkedin_profile_url: () => {return []},
   age: () => {return []},
   state: (value) => {
-    const validValues = ['PROSPECT', 'APPLICANT', 'LEARNER', 'DROPPED', 'ALUMNI']
+    const validValues = ['PROSPECT', 'APPLICANT', 'REJECTED', 'LEARNER', 'DROPPED', 'ALUMNI']
     if(!validValues.includes(value)) {
       return [`${value} not in ${validValues.join(', ')}`]
     }

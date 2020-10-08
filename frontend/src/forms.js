@@ -82,7 +82,7 @@ export const FormEdit = props => {
       const respondedTechiesResp = await dataProvider.getList('form_responses', {
         filter: { form_id: props.id }
       })
-      const respondedTechies = respondedTechiesResp.data.map(t => t.techie.id)
+      const respondedTechies = respondedTechiesResp.data.filter(t => !!t.techie).map(t => t.techie.id)
       const techiesResp = await dataProvider.getList('techies', {
         filter: { semester_id: formResp.data.semester_id, state: 'LEARNER' }
       })
