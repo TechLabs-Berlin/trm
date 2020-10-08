@@ -400,7 +400,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
       const data = await fetchQuery({
         query: `
           query FindTechieByTechieKey($location: locations_enum!, $semesterID: uuid!, $email: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, email: {_eq: $email }}}) {
+            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, email: {_ilike: $email }}}) {
               id
               semester_id
               state
