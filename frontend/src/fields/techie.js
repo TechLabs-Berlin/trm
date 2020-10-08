@@ -28,16 +28,14 @@ const TrackLogo = ({ track }) => {
   switch(track) {
     case 'DS':
       return <DSTrackLogo className={classes.logo} />
-      break
     case 'AI':
       return <AITrackLogo className={classes.logo} />
-      break
     case 'WEBDEV':
       return <WebDevTrackLogo className={classes.logo} />
-      break
     case 'UX':
       return <UXTrackLogo className={classes.logo} />
-      break
+    default:
+      return <React.Fragment />
   }
 }
 

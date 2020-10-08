@@ -10,7 +10,6 @@ import {
     Edit,
     TabbedForm,
     FormTab,
-    DateField,
     TextInput,
     Toolbar,
     SaveButton

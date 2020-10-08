@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from 'prop-types'
-import { DateField } from 'react-admin'
 import moment from 'moment'
 
 const TimestampField = ({ record = {}, source, absolute = true, relative = false }) => {
