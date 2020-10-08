@@ -11,7 +11,7 @@ import Layout from './components/trmLayout'
 import { TechieList, TechieEdit } from './techies';
 import { FormList, FormEdit, FormCreate } from './forms';
 import { SemesterList, SemesterEdit, SemesterCreate } from './semesters';
-import { FormResponseList, FormResponseShow } from './form_responses';
+import { FormResponseList, FormResponseEdit } from './form_responses';
 import { TeamMemberList, TeamMemberEdit, TeamMemberCreate } from './team_members';
 
 class App extends Component {
@@ -28,7 +28,7 @@ class App extends Component {
           >
             <Resource name="techies" list={TechieList} edit={TechieEdit} />
             <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} />
-            <Resource name="form_responses" list={FormResponseList} show={FormResponseShow} />
+            <Resource name="form_responses" list={FormResponseList} edit={FormResponseEdit} />
             <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} />
             <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} />
           </Admin>

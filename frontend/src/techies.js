@@ -24,6 +24,7 @@ import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
 import { TrackSelectField } from './fields/trackSelect'
 import { TrackSelectInput } from './inputs/trackSelect'
+import TimestampField from './fields/timestamp'
 import BulkUpdateTechieStateButton from "./components/buttons/bulkUpdateTechieState";
 import BulkUpdateAssignedTeamMemberButton from "./components/buttons/bulkUpdateAssignedTeamMember";
 import { FormResponseAnswersField } from './fields/formResponseAnswers';
@@ -98,8 +99,8 @@ export const TechieEdit = props => {
   }
 
   return (
-    <Edit title={<TechieTitle />} {...props}>
-        <TabbedForm toolbar={<TechieEditToolbar />}>
+    <Edit undoable={false} title={<TechieTitle />} {...props}>
+        <TabbedForm redirect="edit" toolbar={<TechieEditToolbar />}>
             <FormTab label="Master Data">
               <ReferenceInput label="Semester" source="semester_id" reference="semesters">
                   <SelectInput optionText="description" />
@@ -119,7 +120,10 @@ export const TechieEdit = props => {
               <TextInput source="linkedin_profile_url" />
               <TextInput source="slack_member_id" />
               <NullableBooleanInput source="receives_certificate" displayNull />
+              <TextField source="id" />
               <TextField source="techie_key" />
+              <TimestampField source="created_at" relative />
+              <TimestampField source="updated_at" relative />
             </FormTab>
             <FormTab label="Application">
               <TrackSelectField source="application_track_choice" />
@@ -135,7 +139,7 @@ export const TechieEdit = props => {
             </FormTab>
             <FormTab label="Form Submissions">
               <ReferenceManyField label="Form Responses by Techie" reference="form_responses" target="techie_id">
-                <Datagrid rowClick="show">
+                <Datagrid rowClick="edit">
                   <TextField label="Form Description" source="form.description" />
                   <TextField label="Submission created at" source="created_at" />
                 </Datagrid>

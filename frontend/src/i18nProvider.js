@@ -16,6 +16,7 @@ let messages = {
     techies: {
       name: 'Techie |||| Techies',
       fields: {
+        id: 'ID',
         first_name: 'First Name',
         last_name: 'Last Name',
         techie_key: 'Techie Key',
@@ -38,6 +39,7 @@ let messages = {
     form_responses: {
       name: 'Form Response |||| Form Responses',
       fields: {
+        'techie_id': 'Techie ID',
         'form.description': 'Form',
         'techie.first_name': 'First Name',
         'techie.last_name': 'Last Name'

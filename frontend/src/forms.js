@@ -18,19 +18,23 @@ import {
   ReferenceField,
   useDataProvider,
   ListContextProvider,
-  downloadCSV
+  downloadCSV,
+  Toolbar,
+  SaveButton,
+  DeleteButton
 } from 'react-admin';
 import jsonExport from 'jsonexport/dist'
 import { pick } from 'lodash'
 import {
   Typography,
   Grid,
-  Button
+  Button,
+  makeStyles
 } from '@material-ui/core'
 import { FormTypeSelectField } from "./fields/formTypeSelect";
-import { RelativeTimeField } from './fields/relativeTime'
 import { CountListField } from './fields/countList'
 import { TechieField } from './fields/techie'
+import TimestampField from './fields/timestamp'
 import { FormTypeSelectInput } from "./inputs/formTypeSelect";
 
 const FormFilter = (props) => (
@@ -61,7 +65,31 @@ const FormTitle = ({ record }) => {
     title = record.id
   }
   return <span>Form <strong>{title}</strong></span>;
-};
+}
+
+const transformSave = ({ updated_at, ...rest }) => {
+  return {
+    updated_at: (new Date()).toISOString(),
+    ...rest
+  }
+}
+
+const FormEditToolbar = props => {
+  const classes = useStyles()
+  return (
+    <Toolbar {...props} >
+        <SaveButton transform={transformSave} />
+        <div className={classes.grow} />
+        <DeleteButton />
+    </Toolbar>
+  )
+}
+
+const useStyles = makeStyles({
+  grow: {
+    flexGrow: 1
+  }
+})
 
 export const FormEdit = props => {
   const dataProvider = useDataProvider()
@@ -107,8 +135,8 @@ export const FormEdit = props => {
   }
 
   return (
-    <Edit title={<FormTitle />} {...props}>
-        <TabbedForm>
+    <Edit title={<FormTitle />} undoable={false} {...props}>
+        <TabbedForm redirect="edit" toolbar={<FormEditToolbar />}>
             <FormTab label="Form">
               <ReferenceInput label="Semester" source="semester_id" reference="semesters">
                   <SelectInput optionText="description" />
@@ -116,16 +144,17 @@ export const FormEdit = props => {
               <TextInput source="typeform_id" />
               <FormTypeSelectInput source="form_type" />
               <TextInput source="description" />
-              <DateField source="webhook_installed_at" showTime={true} />
+              <TimestampField source="webhook_installed_at" relative />
+              <TimestampField source="created_at" relative />
+              <TimestampField source="updated_at" relative />
             </FormTab>
             <FormTab label={`Responses (${respondedTechies})`}>
-              <ReferenceManyField label="Form Responses" reference="form_responses" target="form_id" pagination={<Pagination />}>
-                <Datagrid rowClick="show">
+              <ReferenceManyField label="Form Responses" reference="form_responses" target="form_id" pagination={<Pagination />} sort={{field: 'created_at', order: 'DESC'}}>
+                <Datagrid rowClick="edit">
                   <ReferenceField label="Techie" source="techie.id" reference="techies">
                     <TechieField />
                   </ReferenceField>
-                  <TextField label="Time" source="created_at" />
-                  <RelativeTimeField label="Time ago" source="created_at" />
+                  <TimestampField label="Time ago" source="created_at" absolute={false} relative />
                 </Datagrid>
               </ReferenceManyField>
             </FormTab>

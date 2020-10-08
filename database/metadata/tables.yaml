@@ -25,6 +25,20 @@
           location:
             _eq: x-hasura-location
       allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - techie_id
+      - updated_at
+      filter:
+        form:
+          location:
+            _eq: x-hasura-location
+      check:
+        form:
+          location:
+            _eq: x-hasura-location
   event_triggers:
   - name: form-response
     definition:

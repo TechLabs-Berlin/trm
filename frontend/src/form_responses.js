@@ -7,16 +7,19 @@ import {
     ReferenceInput,
     ReferenceField,
     SelectInput,
-    Show,
-    SimpleShowLayout,
+    Edit,
     TabbedForm,
     FormTab,
-    DateField
+    DateField,
+    TextInput,
+    Toolbar,
+    SaveButton
 } from 'react-admin';
 import { FormResponseAnswersField } from './fields/formResponseAnswers';
 import { JSONField } from './fields/json'
-import { RelativeTimeField } from './fields/relativeTime'
 import { TechieField } from './fields/techie'
+import TimestampField from './fields/timestamp'
+import UpdateRecordsButton from './components/buttons/updateRecords'
 
 const FormResponseFilter = (props) => (
   <Filter {...props}>
@@ -24,16 +27,22 @@ const FormResponseFilter = (props) => (
         <SelectInput  optionText="description" />
       </ReferenceInput>
   </Filter>
-);
+)
+
+const FormResponseBulkActionButtons = props => (
+  <React.Fragment>
+    <UpdateRecordsButton {...props} />
+  </React.Fragment>
+)
 
 export const FormResponseList = props => (
-    <List {...props} filters={<FormResponseFilter />} perPage={25} sort={{ field: 'created_at', order: 'DESC' }}>
-        <Datagrid rowClick="show">
+    <List {...props} filters={<FormResponseFilter />} bulkActionButtons={<FormResponseBulkActionButtons />} perPage={25} sort={{ field: 'created_at', order: 'DESC' }}>
+        <Datagrid rowClick="edit">
             <TextField source="form.description" />
             <ReferenceField label="Techie" source="techie.id" reference="techies">
               <TechieField />
             </ReferenceField>
-            <RelativeTimeField source="created_at" />
+            <TimestampField source="created_at" absolute={false} relative />
         </Datagrid>
     </List>
 );
@@ -47,10 +56,23 @@ const FormResponseTitle = ({ record }) => {
     return <span>Form Response</span>;
 };
 
-export const FormResponseShow = props => (
-    <Show title={<FormResponseTitle /> } {...props}>
-      <SimpleShowLayout>
-        <TabbedForm toolbar={null}>
+const transformSave = ({ id, techie_id }) => {
+  return {
+    id,
+    techie_id: !!techie_id ? techie_id : null,
+    updated_at: (new Date()).toISOString(),
+  }
+}
+
+const FormResponseEditToolbar = props => (
+  <Toolbar {...props} >
+      <SaveButton transform={transformSave} />
+  </Toolbar>
+)
+
+export const FormResponseEdit = props => (
+    <Edit title={<FormResponseTitle /> } undoable={false} {...props}>
+        <TabbedForm redirect="edit" toolbar={<FormResponseEditToolbar />}>
             <FormTab label="Answers">
                 <ReferenceField label="Form" source="form_id" reference="forms">
                     <TextField source="description" />
@@ -58,8 +80,10 @@ export const FormResponseShow = props => (
                 <ReferenceField label="Techie" source="techie_id" reference="techies">
                   <TechieField />
                 </ReferenceField>
-                <DateField source="created_at" showTime={true} />
+                <TextInput source="techie_id" />
                 <FormResponseAnswersField label="Answers" />
+                <TimestampField source="created_at" relative />
+                <TimestampField source="updated_at" relative />
             </FormTab>
             <FormTab label="Details">
                 <TextField source="form_id" />
@@ -67,9 +91,9 @@ export const FormResponseShow = props => (
                 <TextField source="typeform_response_token" />
                 <JSONField source="answers" />
                 <JSONField source="typeform_event" />
-                <DateField source="created_at" showTime={true}/>
+                <TimestampField source="created_at" relative />
+                <TimestampField source="updated_at" relative />
           </FormTab>
         </TabbedForm>
-      </SimpleShowLayout>
-  </Show>
+  </Edit>
 );

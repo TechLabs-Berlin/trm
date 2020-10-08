@@ -31,8 +31,8 @@ const SemesterTitle = ({ record }) => {
 };
 
 export const SemesterEdit = props => (
-  <Edit title={<SemesterTitle />} {...props}>
-      <SimpleForm>
+  <Edit undoable={false} title={<SemesterTitle />} {...props}>
+      <SimpleForm redirect="edit">
           <TermSelectInput source="term" />
           <TextInput source="description" />
           <DateInput source="starts_at" />
@@ -45,7 +45,7 @@ export const SemesterEdit = props => (
 
 export const SemesterCreate = props => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm undoable={false}>
           <TermSelectInput source="term" />
           <TextInput source="description" />
           <DateInput source="starts_at" />
