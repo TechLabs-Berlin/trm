@@ -26,6 +26,7 @@ import SubMenu from './trmSubMenu'
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
   const [state, setState] = useState({
       menuTechies: true,
+      menuReports: true,
       menuSettings: true,
   });
   const translate = useTranslate();
@@ -186,24 +187,24 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
         </SubMenu>
-        <MenuItemLink
-            to={`/techie-activity`}
-            primaryText={translate('trm.menu.techieActivity')}
-            leftIcon={<ExploreIcon />}
-            onClick={onMenuClick}
+        <SubMenu
+            handleToggle={() => handleToggle('menuReports')}
+            isOpen={state.menuReports}
             sidebarIsOpen={open}
+            name="trm.menu.reports"
+            icon={<ExploreIcon />}
             dense={dense}
-            exact
-        />
-        <MenuItemLink
-            to={`/csv-import`}
-            primaryText={translate('trm.menu.csvImport')}
-            leftIcon={<DescriptionIcon />}
-            onClick={onMenuClick}
-            sidebarIsOpen={open}
-            dense={dense}
-            exact
-        />
+        >
+            <MenuItemLink
+                to={`/techie-activity`}
+                primaryText={translate('trm.menu.techieActivity')}
+                leftIcon={<ExploreIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+            />
+        </SubMenu>
         <SubMenu
             handleToggle={() => handleToggle('menuSettings')}
             isOpen={state.menuSettings}
@@ -251,6 +252,15 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 onClick={onMenuClick}
                 sidebarIsOpen={open}
                 dense={dense}
+            />
+            <MenuItemLink
+                to={`/csv-import`}
+                primaryText={translate('trm.menu.csvImport')}
+                leftIcon={<DescriptionIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
             />
         </SubMenu>
         {isXSmall && logout}
