@@ -1,0 +1,5 @@
+query($location: locations_enum!) {
+  typeform_users(where: {location: {_eq: $location}}, limit: 1) {
+    token
+  }
+}

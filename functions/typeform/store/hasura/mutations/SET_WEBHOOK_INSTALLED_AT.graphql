@@ -1,0 +1,5 @@
+mutation($formID: uuid!) {
+  update_forms(where: {id: {_eq: $formID}}, _set: {webhook_installed_at: "now()", updated_at: "now()"}) {
+    affected_rows
+  }
+}

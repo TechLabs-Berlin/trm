@@ -11,7 +11,7 @@ const fetch = require('./util/fetch')({
 const jwt = require('./util/jwt')({
   jwtKey: config.jwtKey
 })
-const hasura = newHasuraStore({
+const buildHasura = newHasuraStore({
   graphqlURL: config.graphqlURL,
   token: jwt.generate(),
   fetch,
@@ -23,7 +23,7 @@ const typeform = newTypeformStore({
 })
 const eventHandler = newEventHandler({
   functionURL: config.functionURL,
-  hasura,
+  buildHasura,
   typeform,
   log
 })

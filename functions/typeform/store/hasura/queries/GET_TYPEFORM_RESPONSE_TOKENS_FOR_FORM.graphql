@@ -1,0 +1,5 @@
+query($formID: uuid!, $typeformResponseTokens: [String!]!) {
+  form_responses(where: {form_id: {_eq: $formID}, typeform_response_token: {_in: $typeformResponseTokens}}) {
+    typeform_response_token
+  }
+}

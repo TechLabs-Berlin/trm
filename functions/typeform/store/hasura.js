@@ -1,4 +1,8 @@
-module.exports = ({graphqlURL, token, fetch, log}) => {
+var buildRepo = require('./hasura/repository')
+
+module.exports = async ({graphqlURL, token, fetch, log}) => {
+  const { queries, mutations } = await buildRepo()
+
   const fetchQuery = async (body) => {
     const resp = await fetch(
       graphqlURL,
@@ -47,22 +51,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
   return {
     getForm: async ({ id }) => {
       const data = await fetchQuery({
-        query: `
-          query GetForm($id: uuid!) {
-            forms(where: {id: {_eq: $id}}, limit: 1) {
-              id
-              created_at
-              description
-              typeform_id
-              form_type
-              location
-              semester_id
-              typeform_secret
-              updated_at
-              webhook_installed_at
-            }
-          }
-        `,
+        query: queries.fetch('GET_FORM'),
         variables: {
           id
         }
@@ -83,13 +72,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     doesFormResponseExist: async ({ formID, typeformResponseToken }) => {
       const data = await fetchQuery({
-        query: `
-          query GetFormResponse($formID: uuid!, $typeformResponseToken: String!) {
-            form_responses(where: {form_id: {_eq: $formID}, typeform_response_token: {_eq: $typeformResponseToken}}, limit: 1) {
-              id
-            }
-          }
-        `,
+        query: queries.fetch('GET_FORM_RESPONSE'),
         variables: {
           formID,
           typeformResponseToken
@@ -110,13 +93,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     createFormResponse: async ({ formID, typeformResponseToken, typeformEvent, answers }) => {
       const data = await fetchQuery({
-        query: `
-          mutation CreateFormResponse($formID: uuid!, $typeformResponseToken: String!, $typeformEvent: jsonb!, $answers: jsonb!) {
-            insert_form_responses_one(object: {form_id: $formID, typeform_response_token: $typeformResponseToken, typeform_event: $typeformEvent, answers: $answers}) {
-              id
-            }
-          }
-        `,
+        query: mutations.fetch('CREATE_FORM_RESPONSE'),
         variables: {
           formID,
           typeformResponseToken,
@@ -139,31 +116,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     createTechie: async ({ location, semesterID, state, techieKey }) => {
       const data = await fetchQuery({
-        query: `
-          mutation CreateTechie($location: locations_enum!, $semesterID: uuid!, $state: techie_lifecycle_states_enum!, $techieKey: String!) {
-            insert_techies_one(object: {location: $location, semester_id: $semesterID, state: $state, techie_key: $techieKey}) {
-              id
-              semester_id
-              state
-              techie_key
-              first_name
-              last_name
-              email
-              application_track_choice
-              created_at
-              updated_at
-              gender
-              age
-              google_account
-              github_handle
-              edyoucated_handle
-              linkedin_profile_url
-              slack_member_id
-              receives_certificate
-              project_id
-            }
-          }
-        `,
+        query: mutations.fetch('CREATE_TECHIE'),
         variables: {
           location,
           semesterID,
@@ -183,13 +136,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     associateTechieWithFormResponse: async ({ techieID, formResponseID }) => {
       const data = await fetchQuery({
-        query: `
-          mutation CreateTechie($techieID: uuid!, $formResponseID: uuid!) {
-            update_form_responses_by_pk(pk_columns: {id: $formResponseID}, _set: {techie_id: $techieID, updated_at: "now()"}) {
-              id
-            }
-          }
-        `,
+        query: mutations.fetch('UPDATE_FORM_RESPONSE'),
         variables: {
           techieID,
           formResponseID
@@ -210,13 +157,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     getTypeformToken: async ({ location }) => {
       const data = await fetchQuery({
-        query: `
-          query GetTypeformToken($location: locations_enum!) {
-            typeform_users(where: {location: {_eq: $location}}, limit: 1) {
-              token
-            }
-          }
-        `,
+        query: queries.fetch('GET_TYPEFORM_TOKEN'),
         variables: {
           location
         }
@@ -238,13 +179,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     getExistingTypeformResponseTokensForForm: async ({ formID, typeformResponseTokens }) => {
       const data = await fetchQuery({
-        query: `
-          query GetTypeformTokenForForm($formID: uuid!, $typeformResponseTokens: [String!]!) {
-            form_responses(where: {form_id: {_eq: $formID}, typeform_response_token: {_in: $typeformResponseTokens}}) {
-              typeform_response_token
-            }
-          }
-        `,
+        query: queries.fetch('GET_TYPEFORM_RESPONSE_TOKENS_FOR_FORM'),
         variables: {
           formID,
           typeformResponseTokens
@@ -267,13 +202,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     setWebhookInstalledAt: async ({ formID }) => {
       const data = await fetchQuery({
-        query: `
-          mutation SetWebhookInstalledAt($formID: uuid!) {
-            update_forms(where: {id: {_eq: $formID}}, _set: {webhook_installed_at: "now()", updated_at: "now()"}) {
-              affected_rows
-            }
-          }
-        `,
+        query: mutations.fetch('SET_WEBHOOK_INSTALLED_AT'),
         variables: {
           formID
         }
@@ -294,32 +223,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     findTechieByID: async ({ id }) => {
       const data = await fetchQuery({
-        query: `
-          query GetTechie($id: uuid!) {
-            techies_by_pk(id: $id) {
-              created_at
-              email
-              first_name
-              id
-              last_name
-              location
-              semester_id
-              state
-              application_track_choice
-              techie_key
-              updated_at
-              gender
-              age
-              google_account
-              github_handle
-              edyoucated_handle
-              linkedin_profile_url
-              slack_member_id
-              receives_certificate
-              project_id
-            }
-          }
-        `,
+        query: queries.fetch('GET_TECHIE_BY_ID'),
         variables: {
           id
         }
@@ -343,31 +247,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     findTechieByTechieKey: async ({ location, semesterID, techieKey }) => {
       const data = await fetchQuery({
-        query: `
-          query FindTechieByTechieKey($location: locations_enum!, $semesterID: uuid!, $techieKey: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, techie_key: {_eq: $techieKey }}}) {
-              id
-              semester_id
-              state
-              techie_key
-              first_name
-              last_name
-              email
-              application_track_choice
-              created_at
-              updated_at
-              gender
-              age
-              google_account
-              github_handle
-              edyoucated_handle
-              linkedin_profile_url
-              slack_member_id
-              receives_certificate
-              project_id
-            }
-          }
-        `,
+        query: queries.fetch('GET_TECHIE_BY_TECHIE_KEY'),
         variables: {
           location,
           semesterID,
@@ -398,31 +278,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     },
     findTechieByEmail: async ({ location, semesterID, email }) => {
       const data = await fetchQuery({
-        query: `
-          query FindTechieByTechieKey($location: locations_enum!, $semesterID: uuid!, $email: String!) {
-            techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, email: {_ilike: $email }}}) {
-              id
-              semester_id
-              state
-              techie_key
-              first_name
-              last_name
-              email
-              application_track_choice
-              created_at
-              updated_at
-              gender
-              age
-              google_account
-              github_handle
-              edyoucated_handle
-              linkedin_profile_url
-              slack_member_id
-              receives_certificate
-              project_id
-            }
-          }
-        `,
+        query: queries.fetch('GET_TECHIE_BY_EMAIL'),
         variables: {
           location,
           semesterID,
@@ -454,49 +310,7 @@ module.exports = ({graphqlURL, token, fetch, log}) => {
     // id is expected to be included in attributes
     updateTechieMasterData: async (attributes) => {
       const data = await fetchQuery({
-        query: `
-          mutation UpdateTechieMasterData(
-            $id: uuid!,
-            $email: String,
-            $first_name: String,
-            $last_name: String,
-            $state: techie_lifecycle_states_enum!,
-            $techie_key: String!,
-            $application_track_choice: tracks_enum,
-            $gender: String,
-            $age: smallint,
-            $google_account: String,
-            $github_handle: String,
-            $edyoucated_handle: String,
-            $linkedin_profile_url: String,
-            $slack_member_id: String,
-            $receives_certificate: Boolean,
-            $project_id: uuid
-          ) {
-            update_techies_by_pk(
-              pk_columns: {id: $id},
-              _set: {
-                email: $email,
-                first_name: $first_name,
-                last_name: $last_name,
-                state: $state,
-                techie_key: $techie_key,
-                application_track_choice: $application_track_choice,
-                gender: $gender,
-                age: $age,
-                google_account: $google_account,
-                github_handle: $github_handle,
-                edyoucated_handle: $edyoucated_handle,
-                linkedin_profile_url: $linkedin_profile_url,
-                slack_member_id: $slack_member_id,
-                receives_certificate: $receives_certificate,
-                project_id: $project_id,
-                updated_at: "now()"
-              }) {
-              id
-            }
-          }
-        `,
+        query: mutations.fetch('UPDATE_TECHIE_MASTER_DATA'),
         variables: attributes
       })
 

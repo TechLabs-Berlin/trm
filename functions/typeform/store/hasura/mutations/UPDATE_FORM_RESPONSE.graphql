@@ -1,0 +1,5 @@
+mutation($formResponseID: uuid!, $techieID: uuid!) {
+  update_form_responses_by_pk(pk_columns: {id: $formResponseID}, _set: {techie_id: $techieID, updated_at: "now()"}) {
+    id
+  }
+}

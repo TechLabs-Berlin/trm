@@ -46,7 +46,7 @@ describe('store', () => {
         })
 
         it('returns the form', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -75,8 +75,8 @@ describe('store', () => {
           nock.enableNetConnect()
         })
 
-        it('rejects', () => {
-          const hasura = newHasuraStore({
+        it('rejects', async () => {
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -115,7 +115,7 @@ describe('store', () => {
         })
 
         it('returns true', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -145,7 +145,7 @@ describe('store', () => {
         })
 
         it('returns false', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -178,7 +178,7 @@ describe('store', () => {
       })
 
       it('returns the ID', async () => {
-        const hasura = newHasuraStore({
+        const hasura = await newHasuraStore({
           graphqlURL,
           token,
           fetch,
@@ -215,7 +215,7 @@ describe('store', () => {
       })
 
       it('returns the ID', async () => {
-        const hasura = newHasuraStore({
+        const hasura = await newHasuraStore({
           graphqlURL,
           token,
           fetch,
@@ -251,8 +251,8 @@ describe('store', () => {
         nock.enableNetConnect()
       })
 
-      it('works', () => {
-        const hasura = newHasuraStore({
+      it('works', async () => {
+        const hasura = await newHasuraStore({
           graphqlURL,
           token,
           fetch,
@@ -287,7 +287,7 @@ describe('store', () => {
         })
 
         it('works', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -323,7 +323,7 @@ describe('store', () => {
         })
 
         it('works', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -356,8 +356,8 @@ describe('store', () => {
           nock.enableNetConnect()
         })
 
-        it('works', () => {
-          const hasura = newHasuraStore({
+        it('works', async () => {
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -400,7 +400,7 @@ describe('store', () => {
           })
 
           it('works', async () => {
-            const hasura = newHasuraStore({
+            const hasura = await newHasuraStore({
               graphqlURL,
               token,
               fetch,
@@ -444,7 +444,7 @@ describe('store', () => {
           })
 
           it('works', async () => {
-            const hasura = newHasuraStore({
+            const hasura = await newHasuraStore({
               graphqlURL,
               token,
               fetch,
@@ -482,7 +482,7 @@ describe('store', () => {
         })
 
         it('works', async () => {
-          const hasura = newHasuraStore({
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,
@@ -521,7 +521,7 @@ describe('store', () => {
       })
 
       it('works', async () => {
-        const hasura = newHasuraStore({
+        const hasura = await newHasuraStore({
           graphqlURL,
           token,
           fetch,
@@ -555,8 +555,8 @@ describe('store', () => {
           nock.enableNetConnect()
         })
 
-        it('works', () => {
-          const hasura = newHasuraStore({
+        it('works', async () => {
+          const hasura = await newHasuraStore({
             graphqlURL,
             token,
             fetch,

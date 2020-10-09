@@ -1,0 +1,23 @@
+query($location: locations_enum!, $semesterID: uuid!, $techieKey: String!) {
+  techies(limit: 1, where: {_and: {location: {_eq: $location}, semester_id: {_eq: $semesterID}, techie_key: {_eq: $techieKey }}}) {
+    id
+    semester_id
+    state
+    techie_key
+    first_name
+    last_name
+    email
+    application_track_choice
+    created_at
+    updated_at
+    gender
+    age
+    google_account
+    github_handle
+    edyoucated_handle
+    linkedin_profile_url
+    slack_member_id
+    receives_certificate
+    project_id
+  }
+}

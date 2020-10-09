@@ -1,0 +1,24 @@
+query($id: uuid!) {
+  techies_by_pk(id: $id) {
+    created_at
+    email
+    first_name
+    id
+    last_name
+    location
+    semester_id
+    state
+    application_track_choice
+    techie_key
+    updated_at
+    gender
+    age
+    google_account
+    github_handle
+    edyoucated_handle
+    linkedin_profile_url
+    slack_member_id
+    receives_certificate
+    project_id
+  }
+}

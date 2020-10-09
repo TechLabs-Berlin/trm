@@ -1,0 +1,14 @@
+query($id: uuid!) {
+  forms(where: {id: {_eq: $id}}, limit: 1) {
+    id
+    created_at
+    description
+    typeform_id
+    form_type
+    location
+    semester_id
+    typeform_secret
+    updated_at
+    webhook_installed_at
+  }
+}

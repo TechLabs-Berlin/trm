@@ -1,0 +1,5 @@
+mutation($formID: uuid!, $typeformResponseToken: String!, $typeformEvent: jsonb!, $answers: jsonb!) {
+  insert_form_responses_one(object: {form_id: $formID, typeform_response_token: $typeformResponseToken, typeform_event: $typeformEvent, answers: $answers}) {
+    id
+  }
+}
