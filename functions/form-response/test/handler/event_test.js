@@ -7,7 +7,7 @@ const newEventHandler = require('../../handler/event')
 describe('event handler', () => {
   describe('handle', () => {
     it('handles hasura events', () => {
-        const hasura = {
+        const trmAPI = {
           getForm: () => {
             return {
               location: 'BERLIN',
@@ -23,7 +23,7 @@ describe('event handler', () => {
           updateTechieMasterData: () => undefined
         }
         const handler = newEventHandler({
-            hasura,
+            buildTRMAPI: Promise.resolve(trmAPI),
             log
         })
         return handler.handle({

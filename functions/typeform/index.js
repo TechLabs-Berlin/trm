@@ -1,5 +1,4 @@
 const newEventHandler = require('./handler/event')
-const newHasuraStore = require('./store/hasura')
 const newTypeformStore = require('./store/typeform')
 const config = require('./config')()
 const log = require('./util/logger')({
@@ -11,7 +10,7 @@ const fetch = require('./util/fetch')({
 const jwt = require('./util/jwt')({
   jwtKey: config.jwtKey
 })
-const buildHasura = newHasuraStore({
+const buildTRMAPI = require('trm-api')({
   graphqlURL: config.graphqlURL,
   token: jwt.generate(),
   fetch,
@@ -23,7 +22,7 @@ const typeform = newTypeformStore({
 })
 const eventHandler = newEventHandler({
   functionURL: config.functionURL,
-  buildHasura,
+  buildTRMAPI,
   typeform,
   log
 })

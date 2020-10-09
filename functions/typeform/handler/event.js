@@ -3,10 +3,11 @@ const responseHandler = require('../handler/response')
 
 const tableName = 'forms'
 
-module.exports = ({hasura, typeform, functionURL, log}) => {
+module.exports = ({buildTRMAPI, typeform, functionURL, log}) => {
   return {
     // see https://developer.typeform.com/webhooks/example-payload/
     handleOne: async ({formID, payload}) => {
+      const trmAPI = await buildTRMAPI
       const id = payload.event_id
 
       log.info(`Received event ${id}`, { type: 'one', id })
@@ -27,7 +28,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         return Promise.reject('form_response does not contain token')
       }
 
-      const formResponseExists = await hasura.doesFormResponseExist({
+      const formResponseExists = await trmAPI.doesFormResponseExist({
         typeformResponseToken: token,
         formID
       })
@@ -37,7 +38,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         return
       }
 
-      const formResponseID = await hasura.createFormResponse(
+      const formResponseID = await trmAPI.createFormResponse(
         responseHandler.getResponse({
           typeformResponseToken: token,
           typeformEvent: payload,
@@ -53,6 +54,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
     },
 
     handleAll: async ({payload}) => {
+      const trmAPI = await buildTRMAPI
       const { id } = payload
 
       log.info(`Received event ${id}`, { type: 'all', id })
@@ -63,7 +65,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         return Promise.reject(`Event doesn't belong to ${tableName}`)
       }
       const newState = payload.event.data.new
-      const typeformToken = await hasura.getTypeformToken({ location: newState.location })
+      const typeformToken = await trmAPI.getTypeformToken({ location: newState.location })
       const webhookCallbackURL = callbackUtil.createFullCallbackURL({
         formID: newState.id,
         callbackURL: functionURL
@@ -95,7 +97,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
           token: typeformToken
         })
         log.info('Webhook updated', { id })
-        await hasura.setWebhookInstalledAt({
+        await trmAPI.setWebhookInstalledAt({
           formID: newState.id
         })
         log.info('webhook_installed_at updated', { id })
@@ -111,7 +113,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
         token: typeformToken,
         callback: async (responses) => {
           const typeformResponseTokens = responses.map(r => r.token)
-          const existingTypeformResponseTokens = await hasura.getExistingTypeformResponseTokensForForm({
+          const existingTypeformResponseTokens = await trmAPI.getExistingTypeformResponseTokensForForm({
             formID: newState.id,
             typeformResponseTokens
           })
@@ -127,7 +129,7 @@ module.exports = ({hasura, typeform, functionURL, log}) => {
               log.warning(`Expected to find answers in response with token ${typeformResponseToken}, but didn't`, { type: all, id })
               continue
             }
-            const formResponseID = await hasura.createFormResponse(
+            const formResponseID = await trmAPI.createFormResponse(
               responseHandler.getResponse({
                 typeformEvent: response,
                 formID: newState.id,

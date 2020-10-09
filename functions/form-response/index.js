@@ -1,5 +1,4 @@
 const newEventHandler = require('./handler/event')
-const newHasuraStore = require('./store/hasura')
 const config = require('./config')()
 const log = require('./util/logger')({
   debugLoggingEnabled: config.debug
@@ -10,14 +9,14 @@ const fetch = require('./util/fetch')({
 const jwt = require('./util/jwt')({
   jwtKey: config.jwtKey
 })
-const hasura = newHasuraStore({
+const buildTRMAPI = require('trm-api')({
   graphqlURL: config.graphqlURL,
   token: jwt.generate(),
   fetch,
   log
 })
 const eventHandler = newEventHandler({
-  hasura,
+  buildTRMAPI,
   log
 })
 

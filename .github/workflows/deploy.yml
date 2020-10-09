@@ -104,6 +104,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Prepare function dependencies
+      run: |
+        rm functions/typeform/pkg/trm-api
+        cp -rp lib/trm-api functions/typeform/pkg
+
+        rm functions/form-response/pkg/trm-api
+        cp -rp lib/trm-api functions/form-response/pkg
+      working-directory: .
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:

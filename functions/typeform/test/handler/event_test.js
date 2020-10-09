@@ -6,7 +6,7 @@ const newEventHandler = require('../../handler/event')
 describe('event handler', () => {
   describe('handleOne', () => {
     it('handles typeform form_response events', () => {
-        const hasura = {
+        const trmAPI = {
             getForm: () => {
             return {
                 "id": "14c3bc2a-f67c-11ea-a595-0242c0a85002",
@@ -26,7 +26,7 @@ describe('event handler', () => {
             associateTechieWithFormResponse: () => undefined
         }
         const handler = newEventHandler({
-            hasura,
+            buildTRMAPI: Promise.resolve(trmAPI),
             log
         })
         return handler.handleOne({
@@ -38,7 +38,7 @@ describe('event handler', () => {
 
   describe('handleAll', () => {
       it('handles hasura events', () => {
-          const hasura = {
+          const trmAPI = {
             getTypeformToken: () => 'TOKEN',
             getExistingTypeformResponseTokensForForm: () => ['token2'],
             createFormResponse: () => 'UUID',
@@ -60,7 +60,7 @@ describe('event handler', () => {
             updateWebhook: () => undefined,
           }
           const handler = newEventHandler({
-              hasura,
+              buildTRMAPI: Promise.resolve(trmAPI),
               typeform,
               log
           })

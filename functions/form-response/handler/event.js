@@ -3,9 +3,10 @@ const techieutil = require('../util/techie')
 
 const tableName = 'form_responses'
 
-module.exports = ({hasura, log}) => {
+module.exports = ({buildTRMAPI, log}) => {
   return {
     handle: async ({payload}) => {
+      const trmAPI = await buildTRMAPI
       const { id } = payload
 
       log.info(`Received event ${id}`, { id })
@@ -17,12 +18,12 @@ module.exports = ({hasura, log}) => {
       }
 
       const newState = payload.event.data.new
-      const form = await hasura.getForm({ id: newState.form_id })
+      const form = await trmAPI.getForm({ id: newState.form_id })
 
       let techie = null
       if(newState.techie_id) {
         log.info('Looking up techie by id', { id })
-        const result = await hasura.findTechieByID({
+        const result = await trmAPI.findTechieByID({
           id: newState.techie_id
         })
         if(result.found) {
@@ -31,7 +32,7 @@ module.exports = ({hasura, log}) => {
       }
       if(!techie && ('email' in newState.answers)) {
         log.info('Looking up techie by email', { id })
-        const result = await hasura.findTechieByEmail({
+        const result = await trmAPI.findTechieByEmail({
           location: form.location,
           semesterID: form.semester_id,
           email: newState.answers.email.value
@@ -42,7 +43,7 @@ module.exports = ({hasura, log}) => {
       }
       if(!techie && ('techie_key' in newState.answers)) {
         log.info('Looking up techie by techie_key', { id })
-        const result = await hasura.findTechieByTechieKey({
+        const result = await trmAPI.findTechieByTechieKey({
           location: form.location,
           semesterID: form.semester_id,
           techieKey: newState.answers.techie_key.value
@@ -53,7 +54,7 @@ module.exports = ({hasura, log}) => {
       }
       if(!techie && form.form_type === 'APPLICATION') {
         log.info('Creating techie', { id })
-        techie = await hasura.createTechie({
+        techie = await trmAPI.createTechie({
           location: form.location,
           semesterID: form.semester_id,
           state: 'APPLICANT',
@@ -63,7 +64,7 @@ module.exports = ({hasura, log}) => {
 
       if(techie) {
         log.info(`Processing techie ${techie.id}`, { id })
-        await hasura.associateTechieWithFormResponse({
+        await trmAPI.associateTechieWithFormResponse({
           formResponseID: newState.id,
           techieID: techie.id
         })
@@ -72,7 +73,7 @@ module.exports = ({hasura, log}) => {
           attributes: techie,
           formAnswers: newState.answers
         })
-        await hasura.updateTechieMasterData(updatedTechieMasterData)
+        await trmAPI.updateTechieMasterData(updatedTechieMasterData)
         log.debug(`Updated techie master data`, { masterData: updatedTechieMasterData, id })
         return
       }
