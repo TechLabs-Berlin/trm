@@ -40,3 +40,23 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
 }
+
+resource "google_cloud_scheduler_job" "main" {
+  count = var.schedule != null ? 1 : 0
+
+  project          = google_cloudfunctions_function.main.project
+  region           = google_cloudfunctions_function.main.region
+  name             = "trm-function-${var.name}"
+  schedule         = var.schedule
+  time_zone        = "Europe/Berlin"
+  attempt_deadline = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "POST"
+    uri         = google_cloudfunctions_function.main.https_trigger_url
+  }
+}

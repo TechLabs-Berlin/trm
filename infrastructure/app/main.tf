@@ -126,6 +126,23 @@ module "functions_edyoucated" {
   }
 }
 
+module "functions_activity_import" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/activity-import"
+  name                = "activity-import-${terraform.workspace}"
+  storage_bucket_name = local.storage_bucket_name
+  timeout             = 120
+  schedule            = "*/10 * * * *"
+  environment_variables = {
+    NODE_ENV    = terraform.workspace
+    JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
+    GRAPHQL_URL = module.database.hasura_url
+    DEBUG       = "1" // TODO add config variable
+  }
+}
+
 resource "google_dns_record_set" "frontend" {
   provider = google-beta
 

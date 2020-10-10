@@ -1,0 +1,13 @@
+mutation($id: uuid!, $edyoucatedUserID: String, $edyoucatedNextImportAfter: timestamp!) {
+  update_techies_by_pk(
+    pk_columns: {
+      id: $id
+    },
+    _set: {
+      edyoucated_user_id: $edyoucatedUserID,
+      edyoucated_next_import_after: $edyoucatedNextImportAfter,
+      updated_at: "now()"
+    }) {
+    id
+  }
+}

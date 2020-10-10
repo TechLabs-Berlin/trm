@@ -1,0 +1,28 @@
+mutation($techieID: uuid!, $year: smallint!, $week: smallint!, $type: String!, $value: Int!, $edyoucatedImportedAt: timestamp!, $edyoucatedNextImportAfter: timestamp! ) {
+  insert_techie_activity(
+    objects: {
+      techie_id: $techieID,
+      type: $type,
+      value: $value,
+      week: $week,
+      year: $year
+    },
+    on_conflict: {
+      constraint: techie_activity_unique,
+      update_columns: value
+    }) {
+    affected_rows
+  }
+  update_techies_by_pk(
+    pk_columns: {
+      id: $techieID
+    },
+    _set: {
+      edyoucated_imported_at: $edyoucatedImportedAt
+      edyoucated_next_import_after: $edyoucatedNextImportAfter,
+      updated_at: "now()"
+    }
+  ) {
+    id
+  }
+}

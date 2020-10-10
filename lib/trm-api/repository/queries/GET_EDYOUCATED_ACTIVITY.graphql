@@ -1,0 +1,6 @@
+query($userIDs: [String!]!) {
+  edyoucated_activity(userIDs: $userIDs) {
+    id
+    value
+  }
+}

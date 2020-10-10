@@ -1,0 +1,6 @@
+query {
+  techies(where: {_and: {edyoucated_user_id: {_is_null: false}, edyoucated_next_import_after: {_lte: "now()"}}}) {
+    id
+    edyoucated_user_id
+  }
+}

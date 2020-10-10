@@ -13,3 +13,7 @@ variable "environment_variables" {
 variable "timeout" {
   default = 30
 }
+
+variable "schedule" {
+  default = null
+}

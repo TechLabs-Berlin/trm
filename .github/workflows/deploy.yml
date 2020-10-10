@@ -111,6 +111,9 @@ jobs:
 
         rm functions/form-response/pkg/trm-api
         cp -rp lib/trm-api functions/form-response/pkg
+
+        rm functions/activity-import/pkg/trm-api
+        cp -rp lib/trm-api functions/activity-import/pkg
       working-directory: .
 
     - name: Setup Terraform
