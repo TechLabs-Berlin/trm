@@ -632,6 +632,7 @@
       - edyoucated_handle
       - edyoucated_imported_at
       - edyoucated_next_import_after
+      - edyoucated_user_id
       - email
       - first_name
       - gender

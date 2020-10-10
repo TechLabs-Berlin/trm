@@ -35,7 +35,8 @@ let messages = {
         slack_member_id: 'Slack Member ID',
         receives_certificate: 'Receives Certificate',
         edyoucated_imported_at: 'Imported edyoucated activity at',
-        edyoucated_next_import_after: 'Will import edyoucated activity after'
+        edyoucated_next_import_after: 'Will import edyoucated activity after',
+        edyoucated_user_id: 'edyoucated User ID'
       }
     },
     forms: {
