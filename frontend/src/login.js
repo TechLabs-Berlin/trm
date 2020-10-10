@@ -68,7 +68,7 @@ const LoginPage = (props) => {
                     <GoogleLogin
                         clientId={config.oAuth.clientId}
                         hostedDomain={config.oAuth.hostedDomain}
-                        scope="profile email https://www.googleapis.com/auth/admin.directory.group.readonly"
+                        scope="profile email openid"
                         responseType="code"
                         onSuccess={responseGoogle}
                         onFailure={responseGoogle}

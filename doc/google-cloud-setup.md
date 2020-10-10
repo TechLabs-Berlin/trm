@@ -17,7 +17,7 @@ In the sidebar at _APIs & Services_ , select _Credentials_
 
 1. Set the application type to _Internal_
 2. Set the Application name to _TechLabs TRM_
-3. Set the Scopes for Google APIs to _email_, _profile_, _openid_, and _https://www.googleapis.com/auth/admin.directory.group.readonly_
+3. Set the Scopes for Google APIs to _email_, _profile_, and _openid_
 4. Set the Authorized domains to _techlabs.org_
 5. Click _Save_
 
@@ -44,6 +44,29 @@ In the sidebar at _APIs & Services_ , select _Credentials_
 5. For the Authorized redirect URIs, set:
    - `https://trm.techlabs.org/oauth/callback`
 6. Take note of Client ID and Client secret
+
+**Create a Service Account for _auth_**
+
+1. Go to _IAM & Admin_, click _Service Accounts_
+2. Click _Create Service Account_
+3. For service account name set _trm-auth_
+4. Skip service account permissions (click _continue_)
+5. Skip grant users access to this service account (click _done_)
+6. Locate the service account in the table, under _Actions_ choose _Edit_
+7. Click _Show Domain-Wide Delegation_, enable _Enable G Suite Domain-wide Delegation_
+8. Click _Save_ and return to the edit view
+9. Copy _Client ID_ at Domain-wide Delegation
+
+At the G Suite Admin Console ([admin.google.com](https://admin.google.com)):
+
+1. Go to _Security_ and click on _API controls_
+2. Select _Manage Domain Wide Delegation_
+3. Click _Add new_
+4. In the Client ID field, enter the client ID copied in the first step
+5. In the OAuth Scopes field, enter `https://www.googleapis.com/auth/admin.directory.group.readonly`
+6. Click _Authorize_
+
+See [docs for domain-wide delegation](https://developers.google.com/admin-sdk/directory/v1/guides/delegation).
 
 ## Setup DNS
 
