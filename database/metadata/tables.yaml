@@ -630,6 +630,8 @@
       - assigned_team_member_id
       - created_at
       - edyoucated_handle
+      - edyoucated_imported_at
+      - edyoucated_next_import_after
       - email
       - first_name
       - gender
@@ -660,6 +662,8 @@
       - application_track_choice
       - assigned_team_member_id
       - edyoucated_handle
+      - edyoucated_imported_at
+      - edyoucated_next_import_after
       - email
       - first_name
       - gender

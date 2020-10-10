@@ -122,6 +122,8 @@ export const TechieEdit = props => {
               <NullableBooleanInput source="receives_certificate" displayNull />
               <TextField source="id" />
               <TextField source="techie_key" />
+              <TimestampField source="edyoucated_imported_at" relative />
+              <TimestampField source="edyoucated_next_import_after" relative />
               <TimestampField source="created_at" relative />
               <TimestampField source="updated_at" relative />
             </FormTab>

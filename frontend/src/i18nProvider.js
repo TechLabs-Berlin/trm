@@ -33,7 +33,9 @@ let messages = {
         edyoucated_handle: 'edyoucated Handle',
         linkedin_profile_url: 'LinkedIn Profile URL',
         slack_member_id: 'Slack Member ID',
-        receives_certificate: 'Receives Certificate'
+        receives_certificate: 'Receives Certificate',
+        edyoucated_imported_at: 'Imported edyoucated activity at',
+        edyoucated_next_import_after: 'Will import edyoucated activity after'
       }
     },
     forms: {
