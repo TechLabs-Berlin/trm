@@ -70,6 +70,10 @@ resource "google_cloud_run_service" "hasura" {
           value = var.fn_url_edyoucated
         }
         env {
+          name  = "FN_URL_GSHEETS"
+          value = var.fn_url_gsheets
+        }
+        env {
           name  = "SKIP_MIGRATIONS"
           value = var.skip_migrations
         }

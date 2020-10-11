@@ -17,3 +17,7 @@ variable "timeout" {
 variable "schedule" {
   default = null
 }
+
+variable "service_account_email" {
+  default = null
+}

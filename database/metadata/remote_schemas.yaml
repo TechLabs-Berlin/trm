@@ -3,3 +3,8 @@
     url_from_env: FN_URL_EDYOUCATED
     timeout_seconds: 30
     forward_client_headers: true
+- name: gsheets
+  definition:
+    url_from_env: FN_URL_GSHEETS
+    timeout_seconds: 60
+    forward_client_headers: true

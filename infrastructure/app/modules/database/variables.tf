@@ -27,6 +27,8 @@ variable "fn_url_form_response" {}
 
 variable "fn_url_edyoucated" {}
 
+variable "fn_url_gsheets" {}
+
 variable "domain" {}
 
 variable "api_dns_name_prefixes" {}

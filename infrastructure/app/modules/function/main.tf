@@ -26,6 +26,7 @@ resource "google_cloudfunctions_function" "main" {
   trigger_http          = true
   entry_point           = "handler"
   environment_variables = var.environment_variables
+  service_account_email = var.service_account_email
 
   project = var.project
 }

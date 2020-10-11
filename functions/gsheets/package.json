@@ -1,0 +1,22 @@
+{
+  "name": "trm-gsheets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node dev.js",
+    "test": "mocha --recursive"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-log": "^0.2.0",
+    "apollo-server": "^2.18.2",
+    "apollo-server-cloud-functions": "^2.18.2",
+    "googleapis": "^61.0.0",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {}
+}
