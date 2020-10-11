@@ -1,0 +1,3 @@
+mutation($folderID: String, $name: String, $sheetName: String, $contentJSON: String) {
+  update_gsheet_content(folderID: $folderID, name: $name, sheetName: $sheetName, contentJSON: $contentJSON)
+}

@@ -16,6 +16,7 @@ const buildTRMAPI = require('trm-api')({
   log
 })
 const eventHandler = newEventHandler({
+  trmDataFolderID: config.trmDataFolderID,
   buildTRMAPI,
   log
 })

@@ -56,6 +56,9 @@ module.exports = ({ log }) => {
         range: sheetName
       })
       const values = sheetResp.data.values
+      if(!values) {
+        return []
+      }
       log.debug('Got sheet', { values })
       if(values.length < 2) {
         log.info('Sheet only has one row, can\'t extract data')

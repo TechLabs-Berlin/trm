@@ -137,10 +137,11 @@ module "functions_activity_import" {
   timeout             = 120
   schedule            = "* */4 * * *"
   environment_variables = {
-    NODE_ENV    = terraform.workspace
-    JWT_KEY     = var.hasura_jwt_keys[terraform.workspace]
-    GRAPHQL_URL = module.database.hasura_url
-    DEBUG       = "1" // TODO add config variable
+    NODE_ENV           = terraform.workspace
+    JWT_KEY            = var.hasura_jwt_keys[terraform.workspace]
+    GRAPHQL_URL        = module.database.hasura_url
+    TRM_DATA_FOLDER_ID = var.trm_data_folder_id
+    DEBUG              = "1" // TODO add config variable
   }
 }
 

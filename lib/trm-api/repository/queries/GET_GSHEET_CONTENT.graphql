@@ -1,0 +1,3 @@
+query($folderID: String, $name: String, $sheetName: String) {
+  gsheet_content(folderID: $folderID, name: $name, sheetName: $sheetName)
+}

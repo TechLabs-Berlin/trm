@@ -9,6 +9,11 @@ module.exports = () => {
   }
   const graphqlURL = process.env.GRAPHQL_URL
 
+  if(!('TRM_DATA_FOLDER_ID' in process.env)) {
+    throw new Error('TRM_DATA_FOLDER_ID is unset')
+  }
+  const trmDataFolderID = process.env.TRM_DATA_FOLDER_ID
+
   let debug = false
   if('DEBUG' in process.env) {
     debug = true
@@ -17,6 +22,7 @@ module.exports = () => {
   return {
     jwtKey,
     graphqlURL,
+    trmDataFolderID,
     debug
   }
 }

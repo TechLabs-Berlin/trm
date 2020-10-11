@@ -1,0 +1,6 @@
+query($slackMemberIDs: [String!]!) {
+  techies(where: {slack_member_id: {_in: $slackMemberIDs}}) {
+    slack_member_id
+    id
+  }
+}

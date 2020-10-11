@@ -31,6 +31,14 @@ describe('event handler', () => {
             value: 10
           }]),
           updateTechieActivity: () => {},
+          getGSheetContent: () => ([
+            { 'User ID': 'SLACK_USER_A', 'Days active': '11', 'Messages posted': '2' },
+            { 'User ID': 'SLACK_USER_B', 'Days active': '2', 'Messages posted': '0' },
+          ]),
+          getTechiesWithSlackMemberIDs: () => ([
+            { id: 'TECHIE_A', slack_member_id: 'SLACK_USER_A' },
+          ]),
+          updateGSheetContent: () => {}
         }
         const handler = newEventHandler({
             buildTRMAPI: Promise.resolve(trmAPI),
