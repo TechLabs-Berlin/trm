@@ -2,6 +2,10 @@ import * as React from "react";
 import PropTypes from 'prop-types';
 
 import {
+  useTranslate
+} from 'react-admin'
+
+import {
   Chip,
   Avatar,
   makeStyles,
@@ -29,19 +33,29 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const byType = (a, b) => ('' + a.type).localeCompare(b.type)
+const transformActivity = ({ type, value }) => {
+  if(type !== 'edyoucated') return { type, value }
+  return {
+    value: (value / 60).toFixed(1),
+    type,
+  }
+}
+
 export const ActivityField = ({ source, record = {}}) => {
   const classes = useStyles()
+  const translate = useTranslate()
   if(!(source in record)) {
     return <React.Fragment />
   }
   return (
     <div>
-      {record[source].map(activity => (
+      {record[source].sort(byType).map(transformActivity).map(activity => (
         <Chip
           key={activity.type}
           className={classes.chip + ' ' + (activity.value > 0 && classes.chipActive)}
           avatar={<Avatar className={activity.value > 0 ? classes.orange : classes.grey}>{activity.value}</Avatar>}
-          label={activity.type}
+          label={translate(`resources.techie_activity.fields.type_values.${activity.type}`)}
           variant="outlined"
         />
       ))}

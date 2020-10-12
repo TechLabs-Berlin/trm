@@ -64,6 +64,15 @@ let messages = {
     },
     semesters: {
       name: 'Semester |||| Semesters'
+    },
+    techie_activity: {
+      fields: {
+        type_values: {
+          edyoucated: 'hours learned',
+          slack_activity: 'read Slack',
+          slack_participation: 'been active on Slack'
+        }
+      }
     }
   },
   ...englishMessages

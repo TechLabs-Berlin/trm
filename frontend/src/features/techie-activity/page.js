@@ -78,6 +78,20 @@ export const TechieActivityPage = () => {
           }
         }
         const byWeek = groupBy(records, report => `${report.year}-${report.week}`)
+        const weeks = Object.keys(byWeek).sort()
+        let previousWeek
+        for(const week of weeks) {
+          if(!previousWeek) previousWeek = week
+
+          const edyoucatedPrevious = byWeek[previousWeek].find(a => a.type === 'edyoucated')
+          const edyoucatedThis = byWeek[week].find(a => a.type === 'edyoucated')
+
+          if(edyoucatedPrevious && edyoucatedThis) {
+            edyoucatedThis.value = edyoucatedThis.value - edyoucatedPrevious.value
+          }
+
+          previousWeek = week
+        }
         newActivity[email] = {
           id: email,
           ...byWeek,
