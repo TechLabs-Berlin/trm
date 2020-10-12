@@ -3,7 +3,8 @@ const responseHandler = require('../handler/response')
 
 const tableName = 'forms'
 
-module.exports = ({buildTRMAPI, typeform, functionURL, log}) => {
+module.exports = ({buildTRMAPI, typeform, functionURL, environment, log}) => {
+  const webhookTag = `trm-${environment}`
   return {
     // see https://developer.typeform.com/webhooks/example-payload/
     handleOne: async ({formID, payload}) => {
@@ -79,7 +80,8 @@ module.exports = ({buildTRMAPI, typeform, functionURL, log}) => {
       if(!webhookNeedsUpdate) {
         const existingWebhook = await typeform.checkWebhook({
           id: newState.typeform_id,
-          token: typeformToken
+          token: typeformToken,
+          tag: webhookTag,
         })
         if(!existingWebhook.installed) {
           webhookNeedsUpdate = true
@@ -92,6 +94,7 @@ module.exports = ({buildTRMAPI, typeform, functionURL, log}) => {
       } else {
         await typeform.updateWebhook({
           id: newState.typeform_id,
+          tag: webhookTag,
           callbackURL: webhookCallbackURL,
           secret: newState.typeform_secret,
           token: typeformToken

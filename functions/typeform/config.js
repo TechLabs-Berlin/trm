@@ -1,4 +1,9 @@
 module.exports = () => {
+  if(!('NODE_ENV' in process.env)) {
+    throw new Error('NODE_ENV is unset')
+  }
+  const environment = process.env.NODE_ENV
+
   if(!('JWT_KEY' in process.env)) {
     throw new Error('JWT_KEY is unset')
   }
@@ -20,6 +25,7 @@ module.exports = () => {
   }
 
   return {
+    environment,
     jwtKey,
     graphqlURL,
     functionURL,

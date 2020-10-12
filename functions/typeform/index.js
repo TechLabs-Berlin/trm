@@ -22,6 +22,7 @@ const typeform = newTypeformStore({
 })
 const eventHandler = newEventHandler({
   functionURL: config.functionURL,
+  environment: config.environment,
   buildTRMAPI,
   typeform,
   log

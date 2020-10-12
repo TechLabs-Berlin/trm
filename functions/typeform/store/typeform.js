@@ -1,7 +1,6 @@
 const querystring = require('querystring')
 
 const typeformAPIBaseURL = 'https://api.typeform.com'
-const webhookTag = 'trm'
 
 module.exports = ({fetch, log}) => {
   const getFormResponsesPage = async ({ id, token, lastResponseToken }) => {
@@ -92,8 +91,8 @@ module.exports = ({fetch, log}) => {
     },
 
     // see https://developer.typeform.com/webhooks/reference/retrieve-single-webhook/
-    checkWebhook: async ({ id, token }) => {
-      const url = `${typeformAPIBaseURL}/forms/${id}/webhooks/${webhookTag}`
+    checkWebhook: async ({ id, token, tag }) => {
+      const url = `${typeformAPIBaseURL}/forms/${id}/webhooks/${tag}`
       const resp = await fetch(
         url,
         {
@@ -128,8 +127,8 @@ module.exports = ({fetch, log}) => {
     },
 
     // see https://developer.typeform.com/webhooks/reference/create-or-update-webhook/
-    updateWebhook: async ({id, callbackURL, secret, token}) => {
-      const url = `${typeformAPIBaseURL}/forms/${id}/webhooks/${webhookTag}`
+    updateWebhook: async ({id, token, tag, callbackURL, secret}) => {
+      const url = `${typeformAPIBaseURL}/forms/${id}/webhooks/${tag}`
       const resp = await fetch(
         url,
         {
