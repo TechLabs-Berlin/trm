@@ -42,8 +42,11 @@ let messages = {
     forms: {
       name: 'Form |||| Forms',
       fields: {
-        form_id: 'Typeform Form ID',
+        typeform_id: 'Typeform Form ID',
         imports_techies: 'Imports Techies?'
+      },
+      helper_texts: {
+        form_id: 'The Typeform ID can be found in the form URL, e.g. https://techlabsorg.typeform.com/to/ID'
       }
     },
     form_responses: {

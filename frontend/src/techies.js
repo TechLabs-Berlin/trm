@@ -18,7 +18,8 @@ import {
   SaveButton,
   ReferenceField,
   useDataProvider,
-  NumberInput
+  NumberInput,
+  required,
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
@@ -103,9 +104,9 @@ export const TechieEdit = props => {
         <TabbedForm redirect="edit" toolbar={<TechieEditToolbar />}>
             <FormTab label="Master Data">
               <ReferenceInput label="Semester" source="semester_id" reference="semesters">
-                  <SelectInput optionText="description" />
+                  <SelectInput optionText="description" validate={required()} />
               </ReferenceInput>
-              <StateSelectInput source="state" />
+              <StateSelectInput source="state" validate={required()} />
               <TextInput source="first_name" />
               <TextInput source="last_name" />
               <SelectInput source="gender" allowEmpty={true} choices={[
@@ -130,7 +131,7 @@ export const TechieEdit = props => {
             </FormTab>
             <FormTab label="Application">
               <TrackSelectField source="application_track_choice" />
-              <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+              <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
                   <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
               </ReferenceInput>
               <NullableBooleanInput source="application_successful" displayNull />

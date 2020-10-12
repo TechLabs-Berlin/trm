@@ -20,7 +20,10 @@ import {
   downloadCSV,
   Toolbar,
   SaveButton,
-  DeleteButton
+  DeleteButton,
+  useTranslate,
+  regex,
+  required
 } from 'react-admin';
 import jsonExport from 'jsonexport/dist'
 import { pick } from 'lodash'
@@ -90,8 +93,11 @@ const useStyles = makeStyles({
   }
 })
 
+const validateTypeformID = [required(), regex(/^[a-zA-Z0-9]{8,}$/, 'Must be a valid Typeform ID')]
+
 export const FormEdit = props => {
   const dataProvider = useDataProvider()
+  const translate = useTranslate()
   const [isPersonalized, setPersonalized] = React.useState(false)
   const [missingTechies, setMissingTechies] = React.useState({})
   const [respondedTechies, setRespondedTechies] = React.useState(0)
@@ -138,11 +144,11 @@ export const FormEdit = props => {
         <TabbedForm redirect="edit" toolbar={<FormEditToolbar />}>
             <FormTab label="Form">
               <ReferenceInput label="Semester" source="semester_id" reference="semesters">
-                  <SelectInput optionText="description" />
+                  <SelectInput optionText="description" validate={required()} />
               </ReferenceInput>
-              <TextInput source="typeform_id" />
-              <FormTypeSelectInput source="form_type" />
-              <TextInput source="description" />
+              <TextInput source="typeform_id" validate={validateTypeformID} helperText={translate('resources.forms.helper_texts.form_id')} />
+              <FormTypeSelectInput source="form_type" validate={required()} />
+              <TextInput source="description" validate={required()} />
               <TimestampField source="webhook_installed_at" relative />
               <TimestampField source="created_at" relative />
               <TimestampField source="updated_at" relative />
@@ -200,11 +206,11 @@ export const FormCreate = props => (
   <Create {...props}>
     <SimpleForm>
           <ReferenceInput label="Semester" source="semester_id" reference="semesters">
-              <SelectInput optionText="description" />
+              <SelectInput optionText="description" validate={required()} />
           </ReferenceInput>
-          <TextInput source="typeform_id" />
-          <FormTypeSelectInput source="form_type" />
-          <TextInput source="description" />
+          <TextInput source="typeform_id" validate={validateTypeformID} />
+          <FormTypeSelectInput source="form_type" validate={required()} />
+          <TextInput source="description" validate={required()} />
       </SimpleForm>
   </Create>
 );

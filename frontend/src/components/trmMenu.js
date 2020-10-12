@@ -32,20 +32,23 @@ import SubMenu from './trmSubMenu'
 import config from '../config'
 
 const useStyles = makeStyles((theme) => ({
-    stagingNotice: {
+    environmentNotice: {
         padding: theme.spacing(1),
         margin: theme.spacing(1),
         marginTop: theme.spacing(2),
         textAlign: 'center',
         lineHeight: '1.3'
     },
-    stagingIcon: {
+    environmentIcon: {
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: theme.spacing(0.5),
         color: orange[300]
     },
+    environmentName: {
+        fontWeight: 'bold'
+    }
 }))
 
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
@@ -290,10 +293,10 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             />
         </SubMenu>
         {isXSmall && logout}
-        {config.environment === 'staging' && (
-            <Paper elevation={2} className={classes.stagingNotice}>
-                <WarningIcon className={classes.stagingIcon} />
-                This is the <strong>staging</strong> environment. Do not use for production data – it might be reset at any time!
+        {config.environment !== 'production' && (
+            <Paper elevation={2} className={classes.environmentNotice}>
+                <WarningIcon className={classes.environmentIcon} />
+                This is the <code className={classes.environmentName}>{config.environment}</code> environment. Do not use this for production data.
             </Paper>
         )}
       </React.Fragment>

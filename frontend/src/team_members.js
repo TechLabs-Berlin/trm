@@ -6,7 +6,8 @@ import {
   Edit,
   SimpleForm,
   TextInput,
-  Create
+  Create,
+  required
 } from 'react-admin';
 
 export const TeamMemberList = props => (
@@ -31,10 +32,10 @@ const TeamMemberTitle = ({ record }) => {
 export const TeamMemberEdit = props => (
   <Edit title={<TeamMemberTitle />} {...props}>
       <SimpleForm>
-          <TextInput source="first_name" />
-          <TextInput source="last_name" />
-          <TextInput source="email" />
-          <TextInput source="description" />
+          <TextInput source="first_name" validate={required()} />
+          <TextInput source="last_name" validate={required()} />
+          <TextInput source="email" validate={required()} />
+          <TextInput source="description" validate={required()} />
       </SimpleForm>
   </Edit>
 );
@@ -42,10 +43,10 @@ export const TeamMemberEdit = props => (
 export const TeamMemberCreate = props => (
   <Create {...props}>
     <SimpleForm>
-          <TextInput source="first_name" />
-          <TextInput source="last_name" />
-          <TextInput source="email" />
-          <TextInput source="description" />
+          <TextInput source="first_name" validate={required()} />
+          <TextInput source="last_name" validate={required()} />
+          <TextInput source="email" validate={required()} />
+          <TextInput source="description" validate={required()} />
       </SimpleForm>
   </Create>
 );

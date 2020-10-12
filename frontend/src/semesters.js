@@ -7,7 +7,8 @@ import {
   SimpleForm,
   TextInput,
   DateInput,
-  Create
+  Create,
+  required
 } from 'react-admin';
 import { TermSelectField } from "./fields/termSelect";
 import { TermSelectInput } from "./inputs/termSelect";
@@ -33,8 +34,8 @@ const SemesterTitle = ({ record }) => {
 export const SemesterEdit = props => (
   <Edit undoable={false} title={<SemesterTitle />} {...props}>
       <SimpleForm redirect="edit">
-          <TermSelectInput source="term" />
-          <TextInput source="description" />
+          <TermSelectInput source="term" validate={required()} />
+          <TextInput source="description" validate={required()} />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />
@@ -46,8 +47,8 @@ export const SemesterEdit = props => (
 export const SemesterCreate = props => (
   <Create {...props}>
     <SimpleForm undoable={false}>
-          <TermSelectInput source="term" />
-          <TextInput source="description" />
+          <TermSelectInput source="term" validate={required()} />
+          <TextInput source="description" validate={required()} />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />
