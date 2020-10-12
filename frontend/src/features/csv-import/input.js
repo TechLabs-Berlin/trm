@@ -86,7 +86,6 @@ const Input = ({ csv, validation, onUpdateCSV }) => {
               <li><strong>age</strong></li>
               <li><strong>state</strong>: one of <i>PROSPECT</i>, <i>APPLICANT</i>, <i>REJECTED</i>, <i>LEARNER</i>, <i>DROPPED</i>, or <i>ALUMNI</i></li>
               <li><strong>track</strong>: one of <i>DS</i>, <i>AI</i>, <i>WEBDEV</i>, or <i>UX</i></li>
-              <li><strong>application_successful</strong>: <i>0</i> or <i>1</i></li>
               <li><strong>gender</strong>: one of <i>male</i>, or <i>female</i></li>
             </ul>
           </p>

@@ -85,13 +85,6 @@ const csvSchema = {
     }
     return []
   },
-  application_successful: (value) => {
-    const validValues = ['0', '1']
-    if(!validValues.includes(value)) {
-      return [`${value} not in ${validValues.join(', ')}`]
-    }
-    return []
-  },
   gender: (value) => {
     const validValues = ['male', 'female']
     if(!validValues.includes(value)) {

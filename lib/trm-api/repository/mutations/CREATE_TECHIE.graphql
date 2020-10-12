@@ -17,7 +17,6 @@ mutation($location: locations_enum!, $semesterID: uuid!, $state: techie_lifecycl
     edyoucated_handle
     linkedin_profile_url
     slack_member_id
-    receives_certificate
     project_id
   }
 }

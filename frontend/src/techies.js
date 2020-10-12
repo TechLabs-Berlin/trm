@@ -121,7 +121,6 @@ export const TechieEdit = props => {
               <TextField source="edyoucated_user_id" />
               <TextInput source="linkedin_profile_url" />
               <TextInput source="slack_member_id" />
-              <NullableBooleanInput source="receives_certificate" displayNull />
               <TextField source="id" />
               <TextField source="techie_key" />
               <TimestampField source="edyoucated_imported_at" relative />
@@ -134,7 +133,6 @@ export const TechieEdit = props => {
               <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
                   <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
               </ReferenceInput>
-              <NullableBooleanInput source="application_successful" displayNull />
               <TextInput multiline source="notes" />
               <FormResponseAnswersField record={applicationForm} label="Application Form" />
             </FormTab>

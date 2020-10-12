@@ -122,7 +122,6 @@ module.exports = {
       'edyoucated_handle',
       'linkedin_profile_url',
       'slack_member_id',
-      'receives_certificate',
       'project_id'
     )
 

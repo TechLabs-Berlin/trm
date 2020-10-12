@@ -625,7 +625,6 @@
     permission:
       columns:
       - age
-      - application_successful
       - application_track_choice
       - assigned_team_member_id
       - created_at
@@ -643,7 +642,6 @@
       - linkedin_profile_url
       - notes
       - project_id
-      - receives_certificate
       - semester_id
       - slack_member_id
       - state
@@ -659,7 +657,6 @@
     permission:
       columns:
       - age
-      - application_successful
       - application_track_choice
       - assigned_team_member_id
       - edyoucated_handle
@@ -674,7 +671,6 @@
       - linkedin_profile_url
       - notes
       - project_id
-      - receives_certificate
       - semester_id
       - slack_member_id
       - state

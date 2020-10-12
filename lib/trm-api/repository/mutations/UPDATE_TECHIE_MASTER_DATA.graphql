@@ -13,7 +13,6 @@ mutation(
   $edyoucated_handle: String,
   $linkedin_profile_url: String,
   $slack_member_id: String,
-  $receives_certificate: Boolean,
   $project_id: uuid
 ) {
   update_techies_by_pk(
@@ -32,7 +31,6 @@ mutation(
       edyoucated_handle: $edyoucated_handle,
       linkedin_profile_url: $linkedin_profile_url,
       slack_member_id: $slack_member_id,
-      receives_certificate: $receives_certificate,
       project_id: $project_id,
       updated_at: "now()"
     }) {
