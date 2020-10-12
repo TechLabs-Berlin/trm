@@ -179,6 +179,7 @@ resource "local_file" "frontend_config" {
   filename        = "${path.module}/output/config.${terraform.workspace}.js"
   file_permission = "0644"
   content = templatefile("${path.module}/config.js.tmpl", {
+    environment        = terraform.workspace,
     hasura_url         = module.database.hasura_url,
     functions_auth_url = module.functions_auth.https_trigger_url,
     oauth_client_id    = var.oauth_credentials[terraform.workspace].client_id,

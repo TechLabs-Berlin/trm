@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from '@material-ui/core';
+import {
+    useMediaQuery,
+    Paper,
+    makeStyles
+} from '@material-ui/core';
 import { useTranslate, MenuItemLink } from 'react-admin';
 import UserIcon from '@material-ui/icons/People';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
@@ -15,6 +19,8 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import ExploreIcon from '@material-ui/icons/Explore';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import StarsIcon from '@material-ui/icons/Stars';
+import WarningIcon from '@material-ui/icons/Warning';
+import orange from '@material-ui/core/colors/orange';
 import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
 import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
 import { ReactComponent as WebDevTrackLogo } from '../static/track-webdev-grey.svg';
@@ -23,7 +29,27 @@ import { stringify } from 'query-string';
 
 import SubMenu from './trmSubMenu'
 
+import config from '../config'
+
+const useStyles = makeStyles((theme) => ({
+    stagingNotice: {
+        padding: theme.spacing(1),
+        margin: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        textAlign: 'center',
+        lineHeight: '1.3'
+    },
+    stagingIcon: {
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: theme.spacing(0.5),
+        color: orange[300]
+    },
+}))
+
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
+  const classes = useStyles()
   const [state, setState] = useState({
       menuTechies: true,
       menuReports: true,
@@ -264,6 +290,12 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             />
         </SubMenu>
         {isXSmall && logout}
+        {config.environment === 'staging' && (
+            <Paper elevation={2} className={classes.stagingNotice}>
+                <WarningIcon className={classes.stagingIcon} />
+                This is the <strong>staging</strong> environment. Do not use for production data – it might be reset at any time!
+            </Paper>
+        )}
       </React.Fragment>
   )
 }
