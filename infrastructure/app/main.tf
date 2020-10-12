@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   # if "1", hasura will not apply migrations - set to "0" when deploying migrations
-  skip_migrations = "0"
+  skip_migrations = "1"
 
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
@@ -135,7 +135,7 @@ module "functions_activity_import" {
   name                = "activity-import-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   timeout             = 120
-  schedule            = "* */4 * * *"
+  schedule            = "0 */4 * * *"
   environment_variables = {
     NODE_ENV           = terraform.workspace
     JWT_KEY            = var.hasura_jwt_keys[terraform.workspace]
