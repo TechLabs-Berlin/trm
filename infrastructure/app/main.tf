@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   # if "1", hasura will not apply migrations - set to "0" when deploying migrations
-  skip_migrations = "1"
+  skip_migrations = "0"
 
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
@@ -170,9 +170,15 @@ resource "google_dns_record_set" "frontend" {
 
   name         = "${var.frontend_dns_name_prefixes[terraform.workspace]}${local.google_dns_name}"
   managed_zone = local.google_dns_managed_zone
-  type         = "CNAME"
+  type         = "A"
   ttl          = 86400
-  rrdatas      = [var.frontend_cname_record]
+  rrdatas = [
+    # see https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+  ]
 }
 
 resource "local_file" "frontend_config" {

@@ -26,9 +26,6 @@ variable "frontend_dns_name_prefixes" {
     production = ""
   }
 }
-variable "frontend_cname_record" {
-  default = "techlabs-berlin.github.io."
-}
 variable "edyoucated_username" {}
 variable "edyoucated_password" {}
 variable "edyoucated_user_pool_id" {}
