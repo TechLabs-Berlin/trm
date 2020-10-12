@@ -13,7 +13,6 @@ import {
   TextInput,
   SelectInput,
   ReferenceInput,
-  NullableBooleanInput,
   Toolbar,
   SaveButton,
   ReferenceField,

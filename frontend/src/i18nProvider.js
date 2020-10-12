@@ -16,7 +16,8 @@ let messages = {
       reports: 'Reports',
       techieActivity: 'Techie Activity',
       csvImport: 'CSV Import',
-      settings: 'Settings'
+      settings: 'Settings',
+      userHandbook: 'User Handbook'
     }
   },
   resources: {

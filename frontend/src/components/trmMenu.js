@@ -15,11 +15,12 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import DescriptionIcon from '@material-ui/icons/Description';
+import SubjectIcon from '@material-ui/icons/Subject';
 import ExploreIcon from '@material-ui/icons/Explore';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import StarsIcon from '@material-ui/icons/Stars';
 import WarningIcon from '@material-ui/icons/Warning';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import orange from '@material-ui/core/colors/orange';
 import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
 import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
@@ -50,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     }
 }))
+
+const openUserGuide = () => {
+    window.open('https://www.notion.so/techlabs/TRM-User-Guide-5cbfa19213084c2f996b8311fcc4d71a', )
+}
 
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
   const classes = useStyles()
@@ -285,13 +290,22 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={`/csv-import`}
                 primaryText={translate('trm.menu.csvImport')}
-                leftIcon={<DescriptionIcon />}
+                leftIcon={<SubjectIcon />}
                 onClick={onMenuClick}
                 sidebarIsOpen={open}
                 dense={dense}
                 exact
             />
         </SubMenu>
+        <MenuItemLink
+                to={`/user-handbook`}
+                primaryText={translate('trm.menu.userHandbook')}
+                leftIcon={<MenuBookIcon />}
+                onClick={openUserGuide}
+                sidebarIsOpen={open}
+                dense={dense}
+                exact
+        />
         {isXSmall && logout}
         {config.environment !== 'production' && (
             <Paper elevation={2} className={classes.environmentNotice}>
