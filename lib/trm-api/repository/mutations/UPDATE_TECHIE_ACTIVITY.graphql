@@ -8,7 +8,7 @@ mutation($techieID: uuid!, $year: smallint!, $week: smallint!, $type: String!, $
       year: $year
     },
     on_conflict: {
-      constraint: techie_activity_unique,
+      constraint: techie_year_week_type_unique,
       update_columns: value
     }) {
     affected_rows
