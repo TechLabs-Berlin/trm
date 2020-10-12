@@ -4,7 +4,7 @@ CREATE TABLE forms (
   id UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
   form_type TEXT NOT NULL REFERENCES form_types (value),
-  semester_id UUID NOT NULL REFERENCES semesters (id),
+  semester_id UUID NOT NULL REFERENCES semesters (id) ON DELETE CASCADE,
   typeform_id TEXT NOT NULL,
   typeform_secret UUID NOT NULL DEFAULT uuid_generate_v1(),
   description TEXT,

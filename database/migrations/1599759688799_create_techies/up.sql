@@ -4,8 +4,8 @@ CREATE TABLE techies (
   id UUID NOT NULL DEFAULT uuid_generate_v1(),
   location TEXT NOT NULL REFERENCES locations (value),
   state TEXT NOT NULL REFERENCES techie_lifecycle_states (value),
-  semester_id UUID NOT NULL REFERENCES semesters (id),
-  project_id UUID REFERENCES projects (id),
+  semester_id UUID NOT NULL REFERENCES semesters (id) ON DELETE CASCADE,
+  project_id UUID REFERENCES projects (id) ON DELETE SET NULL,
   techie_key TEXT NOT NULL,
   first_name TEXT,
   last_name TEXT,
@@ -13,7 +13,7 @@ CREATE TABLE techies (
   track TEXT REFERENCES tracks (value),
   application_track_choice TEXT REFERENCES tracks (value),
   notes TEXT,
-  assigned_team_member_id UUID REFERENCES team_members (id),
+  assigned_team_member_id UUID REFERENCES team_members (id) ON DELETE SET NULL,
   google_account TEXT,
   github_handle TEXT,
   edyoucated_handle TEXT,
@@ -35,3 +35,6 @@ CREATE UNIQUE INDEX techies_techie_key ON techies (techie_key);
 CREATE INDEX techies_location_state ON techies (location, state);
 CREATE INDEX techies_location_techie_key ON techies (location, techie_key);
 CREATE INDEX techies_location_semester_state ON techies (location, semester_id, state);
+CREATE INDEX techies_semester ON techies (semester_id);
+CREATE INDEX techies_project ON techies (project_id);
+CREATE INDEX techies_assigned_team_member ON techies (assigned_team_member_id);

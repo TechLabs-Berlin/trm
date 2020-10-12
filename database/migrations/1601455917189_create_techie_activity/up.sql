@@ -1,5 +1,5 @@
 CREATE TABLE techie_activity (
-  techie_id UUID NOT NULL REFERENCES techies (id),
+  techie_id UUID NOT NULL REFERENCES techies (id) ON DELETE CASCADE,
   year SMALLINT NOT NULL,
   week SMALLINT NOT NULL,
   type TEXT NOT NULL,
