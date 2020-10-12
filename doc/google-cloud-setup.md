@@ -8,6 +8,10 @@
 ## Enable APIs
 
 - [Admin SDK](https://console.cloud.google.com/apis/library/admin.googleapis.com) – for Google Auth
+- Enable Cloud Scheduler API, go to Cloud Scheduler in Console and create a Job to create an App Engine application
+- Enable Google Drive API
+- Enable Google Sheets API
+- Enable IAM
 
 ## Setup OAuth
 
