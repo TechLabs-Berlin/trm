@@ -71,6 +71,7 @@ let messages = {
     techie_activity: {
       fields: {
         type_values: {
+          all: 'all activities',
           edyoucated: 'hours learned',
           slack_activity: 'read Slack',
           slack_participation: 'been active on Slack'
