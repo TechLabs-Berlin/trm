@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   # if "1", hasura will not apply migrations - set to "0" when deploying migrations
-  skip_migrations = "1"
+  skip_migrations = "0"
 
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
@@ -140,7 +140,7 @@ module "functions_activity_import" {
     NODE_ENV           = terraform.workspace
     JWT_KEY            = var.hasura_jwt_keys[terraform.workspace]
     GRAPHQL_URL        = module.database.hasura_url
-    TRM_DATA_FOLDER_ID = var.trm_data_folder_id
+    TRM_DATA_FOLDER_ID = var.trm_data_folder_id[terraform.workspace]
     DEBUG              = "1" // TODO add config variable
   }
 }
@@ -163,6 +163,23 @@ module "functions_gsheets" {
     DEBUG    = "1" // TODO add config variable
   }
   service_account_email = google_service_account.drive.email
+}
+
+module "functions_export" {
+  source = "./modules/function"
+
+  project             = var.project
+  source_path         = "${path.module}/../../functions/export"
+  name                = "export-${terraform.workspace}"
+  storage_bucket_name = local.storage_bucket_name
+  schedule            = "0 * * * *"
+  environment_variables = {
+    NODE_ENV           = terraform.workspace
+    JWT_KEY            = var.hasura_jwt_keys[terraform.workspace]
+    GRAPHQL_URL        = module.database.hasura_url
+    TRM_DATA_FOLDER_ID = var.trm_data_folder_id[terraform.workspace]
+    DEBUG              = "1" // TODO add config variable
+  }
 }
 
 resource "google_dns_record_set" "frontend" {

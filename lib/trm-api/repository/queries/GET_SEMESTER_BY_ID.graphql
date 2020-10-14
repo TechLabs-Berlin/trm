@@ -1,0 +1,17 @@
+query($semesterID: uuid!) {
+  semesters_by_pk(id: $semesterID) {
+    locationByLocation {
+      export_folder_id
+    }
+    location
+    academy_phase_ends_at
+    created_at
+    application_period_ends_at
+    description
+    ends_at
+    id
+    starts_at
+    term
+    updated_at
+  }
+}

@@ -33,4 +33,6 @@ variable "edyoucated_identity_pool_id" {}
 variable "edyoucated_client_id" {}
 variable "edyoucated_aws_region" {}
 variable "edyoucated_api_url" {}
-variable "trm_data_folder_id" {}
+variable "trm_data_folder_id" {
+  type = map
+}

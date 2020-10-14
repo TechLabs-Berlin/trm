@@ -1,0 +1,6 @@
+query($name: String!) {
+  locations(where: {value: {_eq: $name}}, limit: 1) {
+    value
+    export_folder_id
+  }
+}

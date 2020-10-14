@@ -1,0 +1,8 @@
+mutation ($name: String!, $type: String!, $digest: String!, $exportedAt: timestamp!) {
+  insert_exports_one(object: {name: $name, type: $type, exported_at: $exportedAt, digest: $digest}, on_conflict: {constraint: name_type_unique, update_columns: [digest, exported_at]}) {
+    name
+    type
+    digest
+    exported_at
+  }
+}

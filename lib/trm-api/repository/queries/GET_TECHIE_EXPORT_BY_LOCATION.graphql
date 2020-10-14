@@ -1,0 +1,37 @@
+query($name: String!) {
+  techie_export(args: {location: $name}) {
+    age
+    application_track_choice
+    assigned_team_member_id
+    created_at
+    edyoucated_handle
+    edyoucated_imported_at
+    edyoucated_next_import_after
+    edyoucated_user_id
+    email
+    first_name
+    gender
+    github_handle
+    google_account
+    id
+    last_name
+    linkedin_profile_url
+    location
+    notes
+    project_id
+    semester_id
+    slack_member_id
+    state
+    techie_key
+    track
+    updated_at
+    project {
+      name
+    }
+    team_member {
+      first_name
+      last_name
+      description
+    }
+  }
+}

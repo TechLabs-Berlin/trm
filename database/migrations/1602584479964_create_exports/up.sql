@@ -11,7 +11,7 @@ CREATE FUNCTION techie_export(location text)
   RETURNS SETOF techies
 AS
 $body$
-  SELECT * FROM techies WHERE location=location
+  SELECT * FROM techies WHERE location=$1
 $body$
 LANGUAGE SQL STABLE;
 
@@ -40,7 +40,7 @@ AS
 $body$
   SELECT encode(digest(array_to_json(ARRAY_AGG(row_to_json(t)))::text, 'md5'), 'hex')
   FROM (
-    SELECT id, updated_at FROM techie_anonymous_export
+    SELECT id, updated_at FROM techie_anonymous_export()
   ) t
 $body$
 LANGUAGE SQL STABLE;
@@ -92,7 +92,7 @@ WITH semester_export_base AS (
 ), semester_digests AS (
 	SELECT name, type, techie_semester_activity_report_digest(b.type) AS digest FROM semester_export_base b
 ), semester_existing_digests AS (
-	SELECT name, type, digest FROM semester_digests WHERE digest IS NOT NULL
+	SELECT name, type::text, digest FROM semester_digests WHERE digest IS NOT NULL
 ) SELECT d.name, d.type, d.digest, 'now()'::timestamp AS exported_at FROM semester_existing_digests d LEFT JOIN exports e ON d.name = e.name AND d.type = e.type AND d.digest = e.digest WHERE e.digest IS NULL;
 $body$
 LANGUAGE SQL STABLE;

@@ -1,0 +1,15 @@
+query($semesterID: uuid!) {
+  techie_semester_activity_reports(args: {semester_id: $semesterID}) {
+    techie_id
+    type
+    week
+    value
+    year
+    techie {
+      first_name
+      email
+      last_name
+      techie_key
+    }
+  }
+}

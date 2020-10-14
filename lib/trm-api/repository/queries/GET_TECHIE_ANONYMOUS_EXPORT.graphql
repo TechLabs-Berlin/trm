@@ -1,0 +1,12 @@
+query {
+  techie_anonymous_export {
+    age
+    application_track_choice
+    gender
+    state
+    track
+    techie_key
+    updated_at
+    created_at
+  }
+}

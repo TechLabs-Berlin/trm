@@ -1,0 +1,7 @@
+{
+  techie_semester_activity_pending_exports {
+    name
+    type
+    digest
+  }
+}

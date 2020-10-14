@@ -1,0 +1,7 @@
+query {
+  techie_pending_exports {
+    name
+    type
+    digest
+  }
+}
