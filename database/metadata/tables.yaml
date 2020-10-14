@@ -1,5 +1,8 @@
 - table:
     schema: public
+    name: exports
+- table:
+    schema: public
     name: form_responses
   object_relationships:
   - name: form
