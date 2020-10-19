@@ -98,11 +98,6 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
           } catch(err) {
             log.error(`Error parsing activity 'Days active' as integer: ${err}`, { activity })
           }
-          if(value > 10) {
-            value = 1
-          } else {
-            value = 0
-          }
 
           await trmAPI.updateTechieActivity({
             techieID: techie.id,
@@ -120,11 +115,6 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
             value = parseInt(activity['Messages posted'])
           } catch(err) {
             log.error(`Error parsing activity 'Messages posted' as integer: ${err}`, { activity })
-          }
-          if(value > 10) {
-            value = 1
-          } else {
-            value = 0
           }
 
           await trmAPI.updateTechieActivity({
