@@ -32,7 +32,7 @@ resource "google_cloud_run_service" "hasura" {
   template {
     spec {
       containers {
-        image = "europe-west3-docker.pkg.dev/techlabs-trm-test/trm/hasura:${terraform.workspace}"
+        image = "europe-west3-docker.pkg.dev/techlabs-trm/trm/hasura:${terraform.workspace}"
         env {
           name  = "HASURA_GRAPHQL_DATABASE_URL"
           value = "postgres://trm-${terraform.workspace}:${var.database_passwords[terraform.workspace]}@/trm-${terraform.workspace}?host=/cloudsql/${local.cloudsql_instance_name}&sslmode=require"

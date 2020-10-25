@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "techlabs-trm-test-state"
+    bucket = "techlabs-trm-state"
     prefix = "common"
   }
 }
@@ -15,18 +15,19 @@ resource "google_dns_managed_zone" "main" {
   provider = google-beta
 
   name     = "trm"
-  dns_name = "${var.domain}."
+  dns_name = "techlabs.org."
 }
 
-resource "google_dns_record_set" "google_site_verification" {
-  provider = google-beta
+# TODO fix DNS name 'trm.techlabs.org.' may have either one CNAME resource record set or resource record sets of other types, but not both., cnameResourceRecordSetConflict
+# resource "google_dns_record_set" "google_site_verification" {
+#   provider = google-beta
 
-  name         = google_dns_managed_zone.main.dns_name
-  managed_zone = google_dns_managed_zone.main.name
-  type         = "TXT"
-  ttl          = 86400
-  rrdatas      = [var.google_site_verification_key]
-}
+#   name         = "trm.${google_dns_managed_zone.main.dns_name}"
+#   managed_zone = google_dns_managed_zone.main.name
+#   type         = "TXT"
+#   ttl          = 86400
+#   rrdatas      = [var.google_site_verification_key]
+# }
 
 resource "google_sql_database_instance" "main" {
   provider = google-beta

@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "techlabs-trm-test-state"
+    bucket = "techlabs-trm-state"
     prefix = "app"
   }
 }
@@ -23,7 +23,7 @@ data "terraform_remote_state" "common" {
   backend   = "gcs"
   workspace = "default"
   config = {
-    bucket = "techlabs-trm-test-state"
+    bucket = "techlabs-trm-state"
     prefix = "common"
   }
 }
@@ -39,7 +39,7 @@ module "database" {
   source = "./modules/database"
 
   # if "1", hasura will not apply migrations - set to "0" when deploying migrations
-  skip_migrations = "0"
+  skip_migrations = "1"
 
   fn_url_typeform      = "https://${var.region}-${var.project}.cloudfunctions.net/typeform-${terraform.workspace}?op=all"
   fn_url_form_response = "https://${var.region}-${var.project}.cloudfunctions.net/form-response-${terraform.workspace}"
@@ -187,15 +187,9 @@ resource "google_dns_record_set" "frontend" {
 
   name         = "${var.frontend_dns_name_prefixes[terraform.workspace]}${local.google_dns_name}"
   managed_zone = local.google_dns_managed_zone
-  type         = "A"
+  type         = "CNAME"
   ttl          = 86400
-  rrdatas = [
-    # see https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153",
-  ]
+  rrdatas      = ["techlabs-berlin.github.io."]
 }
 
 resource "local_file" "frontend_config" {

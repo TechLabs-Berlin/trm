@@ -7,7 +7,7 @@ output "artifact_registry_repository_prefix" {
 }
 
 output "storage_bucket_name" {
-  value = "techlabs-trm-test-state"
+  value = "techlabs-trm-state"
 }
 
 output "google_dns_name_servers" {
@@ -15,7 +15,7 @@ output "google_dns_name_servers" {
 }
 
 output "google_dns_name" {
-  value = google_dns_managed_zone.main.dns_name
+  value = "trm.${google_dns_managed_zone.main.dns_name}"
 }
 
 output "google_dns_managed_zone" {

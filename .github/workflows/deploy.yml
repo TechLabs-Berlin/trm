@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      TF_VAR_project: techlabs-trm-test
+      TF_VAR_project: techlabs-trm
       TF_VAR_region: europe-west3
       TF_VAR_domain: trm.techlabs.org
     outputs:
@@ -27,7 +27,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.12.29
+        terraform_version: 0.13.4
         terraform_wrapper: false
 
     - name: terraform init
@@ -92,7 +92,7 @@ jobs:
       TF_VAR_edyoucated_aws_region: ${{ secrets.TF_VAR_EDYOUCATED_AWS_REGION }}
       TF_VAR_edyoucated_api_url: ${{ secrets.TF_VAR_EDYOUCATED_API_URL }}
       TF_VAR_trm_data_folder_id: ${{ secrets.TF_VAR_TRM_DATA_FOLDER_ID }}
-      TF_VAR_project: techlabs-trm-test
+      TF_VAR_project: techlabs-trm
       TF_VAR_region: europe-west3
       TF_VAR_domain: trm.techlabs.org
       TF_VAR_gsuite_domain: techlabs.org
@@ -124,7 +124,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.12.29
+        terraform_version: 0.13.4
         terraform_wrapper: false
 
     - name: terraform init
