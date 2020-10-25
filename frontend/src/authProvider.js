@@ -26,7 +26,15 @@ const authProvider = {
     return localStorage.getItem('token') ? Promise.resolve() : Promise.reject()
   },
   checkError: (err) => {
-    console.log(`checkError: ${err}`)
+    if('graphQLErrors' in err) {
+      for(const gqlerr of err.graphQLErrors) {
+        if('code' in gqlerr.extensions) {
+          if(gqlerr.extensions.code === 'invalid-jwt') {
+            return Promise.reject('Please log in again')
+          }
+        }
+      }
+    }
     return Promise.resolve()
   },
   getPermissions: () => {
