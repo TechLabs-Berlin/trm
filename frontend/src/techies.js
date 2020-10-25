@@ -114,6 +114,11 @@ export const TechieEdit = props => {
               ]} />
               <NumberInput source="age" />
               <TextInput source="email" />
+              <TrackSelectField source="application_track_choice" />
+              <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
+                  <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
+              </ReferenceInput>
+              <TextInput multiline source="notes" />
               <TextInput source="google_account" />
               <TextInput source="github_handle" />
               <TextInput source="edyoucated_handle" />
@@ -128,11 +133,6 @@ export const TechieEdit = props => {
               <TimestampField source="updated_at" relative />
             </FormTab>
             <FormTab label="Application">
-              <TrackSelectField source="application_track_choice" />
-              <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
-                  <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
-              </ReferenceInput>
-              <TextInput multiline source="notes" />
               <FormResponseAnswersField record={applicationForm} label="Application Form" />
             </FormTab>
             <FormTab label="Academy">
