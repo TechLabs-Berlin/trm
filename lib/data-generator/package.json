@@ -1,0 +1,20 @@
+{
+  "name": "data-generator",
+  "version": "1.0.0",
+  "description": "Fake Data Generator the TRM",
+  "main": "index.js",
+  "scripts": {
+    "generator": "node index.js"
+  },
+  "author": "TechLabs Berlin e.V.",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "commander": "^6.2.0",
+    "faker": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "node-fetch": "^2.6.1",
+    "trm-api": "file:../trm-api"
+  }
+}
