@@ -32,7 +32,10 @@ import { TechieField } from '../../fields/techie'
 
 const GET_ACTIVITY = gql`
   query($startDate: String!, $endDate: String!) {
-    techie_activity_reports(args: {startdate: $startDate, enddate: $endDate}) {
+    techie_activity_reports(
+      args: {startdate: $startDate, enddate: $endDate}
+      where: {techie: {state: {_eq: LEARNER}}}
+    ) {
       type
       value
       week
@@ -42,6 +45,7 @@ const GET_ACTIVITY = gql`
         last_name
         email
         track
+        state
       }
     }
   }
@@ -182,8 +186,8 @@ export const TechieActivityPage = () => {
                       selectedIds: []
                     }}>
                         <Datagrid>
-                          <TechieField sortable={false} />
-                          {weeks.map(week => <ActivityField key={week} source={week} sortable={false}/>)}
+                          <TechieField sortable={true} />
+                          {weeks.map(week => <ActivityField key={week} source={week} sortable={true}/>)}
                         </Datagrid>
                     </ListContextProvider >
                   </TabPanel>
