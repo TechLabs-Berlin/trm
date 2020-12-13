@@ -5,6 +5,7 @@ const func = require('./index')
 
 app.use(express.json())
 app.use(morgan('dev'));
+app.options('/auth', func.handler)
 app.post('/auth', func.handler)
 
 module.exports = app
