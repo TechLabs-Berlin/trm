@@ -1,0 +1,15 @@
+{
+  "name": "trm-database",
+  "version": "1.0.0",
+  "description": "TRM database migrations, metadata & seeds",
+  "scripts": {
+    "console": "docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser",
+    "schema-download": "gq http://localhost:8080/v1/graphql -H \"X-Hasura-Admin-Secret: myadminsecretkey\" --introspect > schema.graphql"
+  },
+  "author": "TechLabs Berlin e.V.",
+  "license": "MIT",
+  "dependencies": {
+    "graphql": "^15.3.0",
+    "graphqurl": "^0.3.3"
+  }
+}

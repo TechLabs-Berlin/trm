@@ -1,0 +1,6621 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+enum CacheControlScope {
+  PRIVATE
+  PUBLIC
+}
+
+type EdyoucatedActivity {
+  id: String
+  value: Int
+}
+
+type EdyoucatedUser {
+  avatar_url: String
+  id: String
+  username: String
+}
+
+# columns and relationships of "exports"
+type exports {
+  digest: String!
+  exported_at: timestamp!
+  name: String!
+  type: String!
+}
+
+# aggregated selection of "exports"
+type exports_aggregate {
+  aggregate: exports_aggregate_fields
+  nodes: [exports!]!
+}
+
+# aggregate fields of "exports"
+type exports_aggregate_fields {
+  count(columns: [exports_select_column!], distinct: Boolean): Int
+  max: exports_max_fields
+  min: exports_min_fields
+}
+
+# order by aggregate values of table "exports"
+input exports_aggregate_order_by {
+  count: order_by
+  max: exports_max_order_by
+  min: exports_min_order_by
+}
+
+# input type for inserting array relation for remote table "exports"
+input exports_arr_rel_insert_input {
+  data: [exports_insert_input!]!
+  on_conflict: exports_on_conflict
+}
+
+# Boolean expression to filter rows from the table "exports". All fields are combined with a logical 'AND'.
+input exports_bool_exp {
+  _and: [exports_bool_exp]
+  _not: exports_bool_exp
+  _or: [exports_bool_exp]
+  digest: String_comparison_exp
+  exported_at: timestamp_comparison_exp
+  name: String_comparison_exp
+  type: String_comparison_exp
+}
+
+# unique or primary key constraints on table "exports"
+enum exports_constraint {
+  # unique or primary key constraint
+  name_type_unique
+}
+
+# input type for inserting data into table "exports"
+input exports_insert_input {
+  digest: String
+  exported_at: timestamp
+  name: String
+  type: String
+}
+
+# aggregate max on columns
+type exports_max_fields {
+  digest: String
+  exported_at: timestamp
+  name: String
+  type: String
+}
+
+# order by max() on columns of table "exports"
+input exports_max_order_by {
+  digest: order_by
+  exported_at: order_by
+  name: order_by
+  type: order_by
+}
+
+# aggregate min on columns
+type exports_min_fields {
+  digest: String
+  exported_at: timestamp
+  name: String
+  type: String
+}
+
+# order by min() on columns of table "exports"
+input exports_min_order_by {
+  digest: order_by
+  exported_at: order_by
+  name: order_by
+  type: order_by
+}
+
+# response of any mutation on the table "exports"
+type exports_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [exports!]!
+}
+
+# input type for inserting object relation for remote table "exports"
+input exports_obj_rel_insert_input {
+  data: exports_insert_input!
+  on_conflict: exports_on_conflict
+}
+
+# on conflict condition type for table "exports"
+input exports_on_conflict {
+  constraint: exports_constraint!
+  update_columns: [exports_update_column!]!
+  where: exports_bool_exp
+}
+
+# ordering options when selecting data from "exports"
+input exports_order_by {
+  digest: order_by
+  exported_at: order_by
+  name: order_by
+  type: order_by
+}
+
+# select columns of table "exports"
+enum exports_select_column {
+  # column name
+  digest
+
+  # column name
+  exported_at
+
+  # column name
+  name
+
+  # column name
+  type
+}
+
+# input type for updating data in table "exports"
+input exports_set_input {
+  digest: String
+  exported_at: timestamp
+  name: String
+  type: String
+}
+
+# update columns of table "exports"
+enum exports_update_column {
+  # column name
+  digest
+
+  # column name
+  exported_at
+
+  # column name
+  name
+
+  # column name
+  type
+}
+
+# columns and relationships of "form_responses"
+type form_responses {
+  answers(
+    # JSON select path
+    path: String
+  ): jsonb!
+  created_at: timestamp!
+
+  # An object relationship
+  form: forms!
+  form_id: uuid!
+  id: uuid!
+
+  # An object relationship
+  techie: techies
+  techie_id: uuid
+  typeform_event(
+    # JSON select path
+    path: String
+  ): jsonb!
+  typeform_response_token: String!
+  updated_at: timestamp!
+}
+
+# aggregated selection of "form_responses"
+type form_responses_aggregate {
+  aggregate: form_responses_aggregate_fields
+  nodes: [form_responses!]!
+}
+
+# aggregate fields of "form_responses"
+type form_responses_aggregate_fields {
+  count(columns: [form_responses_select_column!], distinct: Boolean): Int
+  max: form_responses_max_fields
+  min: form_responses_min_fields
+}
+
+# order by aggregate values of table "form_responses"
+input form_responses_aggregate_order_by {
+  count: order_by
+  max: form_responses_max_order_by
+  min: form_responses_min_order_by
+}
+
+# append existing jsonb value of filtered columns with new jsonb value
+input form_responses_append_input {
+  answers: jsonb
+  typeform_event: jsonb
+}
+
+# input type for inserting array relation for remote table "form_responses"
+input form_responses_arr_rel_insert_input {
+  data: [form_responses_insert_input!]!
+  on_conflict: form_responses_on_conflict
+}
+
+# Boolean expression to filter rows from the table "form_responses". All fields are combined with a logical 'AND'.
+input form_responses_bool_exp {
+  _and: [form_responses_bool_exp]
+  _not: form_responses_bool_exp
+  _or: [form_responses_bool_exp]
+  answers: jsonb_comparison_exp
+  created_at: timestamp_comparison_exp
+  form: forms_bool_exp
+  form_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  techie: techies_bool_exp
+  techie_id: uuid_comparison_exp
+  typeform_event: jsonb_comparison_exp
+  typeform_response_token: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "form_responses"
+enum form_responses_constraint {
+  # unique or primary key constraint
+  form_responses_id
+
+  # unique or primary key constraint
+  form_responses_pkey
+}
+
+# delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+input form_responses_delete_at_path_input {
+  answers: [String]
+  typeform_event: [String]
+}
+
+# delete the array element with specified index (negative integers count from the
+# end). throws an error if top level container is not an array
+input form_responses_delete_elem_input {
+  answers: Int
+  typeform_event: Int
+}
+
+# delete key/value pair or string element. key/value pairs are matched based on their key value
+input form_responses_delete_key_input {
+  answers: String
+  typeform_event: String
+}
+
+# input type for inserting data into table "form_responses"
+input form_responses_insert_input {
+  answers: jsonb
+  created_at: timestamp
+  form: forms_obj_rel_insert_input
+  form_id: uuid
+  id: uuid
+  techie: techies_obj_rel_insert_input
+  techie_id: uuid
+  typeform_event: jsonb
+  typeform_response_token: String
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type form_responses_max_fields {
+  created_at: timestamp
+  form_id: uuid
+  id: uuid
+  techie_id: uuid
+  typeform_response_token: String
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "form_responses"
+input form_responses_max_order_by {
+  created_at: order_by
+  form_id: order_by
+  id: order_by
+  techie_id: order_by
+  typeform_response_token: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type form_responses_min_fields {
+  created_at: timestamp
+  form_id: uuid
+  id: uuid
+  techie_id: uuid
+  typeform_response_token: String
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "form_responses"
+input form_responses_min_order_by {
+  created_at: order_by
+  form_id: order_by
+  id: order_by
+  techie_id: order_by
+  typeform_response_token: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "form_responses"
+type form_responses_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [form_responses!]!
+}
+
+# input type for inserting object relation for remote table "form_responses"
+input form_responses_obj_rel_insert_input {
+  data: form_responses_insert_input!
+  on_conflict: form_responses_on_conflict
+}
+
+# on conflict condition type for table "form_responses"
+input form_responses_on_conflict {
+  constraint: form_responses_constraint!
+  update_columns: [form_responses_update_column!]!
+  where: form_responses_bool_exp
+}
+
+# ordering options when selecting data from "form_responses"
+input form_responses_order_by {
+  answers: order_by
+  created_at: order_by
+  form: forms_order_by
+  form_id: order_by
+  id: order_by
+  techie: techies_order_by
+  techie_id: order_by
+  typeform_event: order_by
+  typeform_response_token: order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "form_responses"
+input form_responses_pk_columns_input {
+  id: uuid!
+}
+
+# prepend existing jsonb value of filtered columns with new jsonb value
+input form_responses_prepend_input {
+  answers: jsonb
+  typeform_event: jsonb
+}
+
+# select columns of table "form_responses"
+enum form_responses_select_column {
+  # column name
+  answers
+
+  # column name
+  created_at
+
+  # column name
+  form_id
+
+  # column name
+  id
+
+  # column name
+  techie_id
+
+  # column name
+  typeform_event
+
+  # column name
+  typeform_response_token
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "form_responses"
+input form_responses_set_input {
+  answers: jsonb
+  created_at: timestamp
+  form_id: uuid
+  id: uuid
+  techie_id: uuid
+  typeform_event: jsonb
+  typeform_response_token: String
+  updated_at: timestamp
+}
+
+# update columns of table "form_responses"
+enum form_responses_update_column {
+  # column name
+  answers
+
+  # column name
+  created_at
+
+  # column name
+  form_id
+
+  # column name
+  id
+
+  # column name
+  techie_id
+
+  # column name
+  typeform_event
+
+  # column name
+  typeform_response_token
+
+  # column name
+  updated_at
+}
+
+# columns and relationships of "form_types"
+type form_types {
+  # An array relationship
+  forms(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): [forms!]!
+
+  # An aggregated array relationship
+  forms_aggregate(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): forms_aggregate!
+  value: String!
+}
+
+# aggregated selection of "form_types"
+type form_types_aggregate {
+  aggregate: form_types_aggregate_fields
+  nodes: [form_types!]!
+}
+
+# aggregate fields of "form_types"
+type form_types_aggregate_fields {
+  count(columns: [form_types_select_column!], distinct: Boolean): Int
+  max: form_types_max_fields
+  min: form_types_min_fields
+}
+
+# order by aggregate values of table "form_types"
+input form_types_aggregate_order_by {
+  count: order_by
+  max: form_types_max_order_by
+  min: form_types_min_order_by
+}
+
+# input type for inserting array relation for remote table "form_types"
+input form_types_arr_rel_insert_input {
+  data: [form_types_insert_input!]!
+  on_conflict: form_types_on_conflict
+}
+
+# Boolean expression to filter rows from the table "form_types". All fields are combined with a logical 'AND'.
+input form_types_bool_exp {
+  _and: [form_types_bool_exp]
+  _not: form_types_bool_exp
+  _or: [form_types_bool_exp]
+  forms: forms_bool_exp
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "form_types"
+enum form_types_constraint {
+  # unique or primary key constraint
+  form_types_pkey
+}
+
+enum form_types_enum {
+  ANONYMOUS
+  APPLICATION
+  PERSONALIZED
+}
+
+# expression to compare columns of type form_types_enum. All fields are combined with logical 'AND'.
+input form_types_enum_comparison_exp {
+  _eq: form_types_enum
+  _in: [form_types_enum!]
+  _is_null: Boolean
+  _neq: form_types_enum
+  _nin: [form_types_enum!]
+}
+
+# input type for inserting data into table "form_types"
+input form_types_insert_input {
+  forms: forms_arr_rel_insert_input
+  value: String
+}
+
+# aggregate max on columns
+type form_types_max_fields {
+  value: String
+}
+
+# order by max() on columns of table "form_types"
+input form_types_max_order_by {
+  value: order_by
+}
+
+# aggregate min on columns
+type form_types_min_fields {
+  value: String
+}
+
+# order by min() on columns of table "form_types"
+input form_types_min_order_by {
+  value: order_by
+}
+
+# response of any mutation on the table "form_types"
+type form_types_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [form_types!]!
+}
+
+# input type for inserting object relation for remote table "form_types"
+input form_types_obj_rel_insert_input {
+  data: form_types_insert_input!
+  on_conflict: form_types_on_conflict
+}
+
+# on conflict condition type for table "form_types"
+input form_types_on_conflict {
+  constraint: form_types_constraint!
+  update_columns: [form_types_update_column!]!
+  where: form_types_bool_exp
+}
+
+# ordering options when selecting data from "form_types"
+input form_types_order_by {
+  forms_aggregate: forms_aggregate_order_by
+  value: order_by
+}
+
+# primary key columns input for table: "form_types"
+input form_types_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "form_types"
+enum form_types_select_column {
+  # column name
+  value
+}
+
+# input type for updating data in table "form_types"
+input form_types_set_input {
+  value: String
+}
+
+# update columns of table "form_types"
+enum form_types_update_column {
+  # column name
+  value
+}
+
+# columns and relationships of "forms"
+type forms {
+  created_at: timestamp!
+  description: String
+
+  # An object relationship
+  formTypeByFormType: form_types!
+
+  # An array relationship
+  form_responses(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): [form_responses!]!
+
+  # An aggregated array relationship
+  form_responses_aggregate(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): form_responses_aggregate!
+  form_type: form_types_enum!
+  id: uuid!
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+
+  # An object relationship
+  semester: semesters!
+  semester_id: uuid!
+  typeform_id: String!
+  typeform_secret: uuid!
+  updated_at: timestamp!
+  webhook_installed_at: timestamp
+}
+
+# aggregated selection of "forms"
+type forms_aggregate {
+  aggregate: forms_aggregate_fields
+  nodes: [forms!]!
+}
+
+# aggregate fields of "forms"
+type forms_aggregate_fields {
+  count(columns: [forms_select_column!], distinct: Boolean): Int
+  max: forms_max_fields
+  min: forms_min_fields
+}
+
+# order by aggregate values of table "forms"
+input forms_aggregate_order_by {
+  count: order_by
+  max: forms_max_order_by
+  min: forms_min_order_by
+}
+
+# input type for inserting array relation for remote table "forms"
+input forms_arr_rel_insert_input {
+  data: [forms_insert_input!]!
+  on_conflict: forms_on_conflict
+}
+
+# Boolean expression to filter rows from the table "forms". All fields are combined with a logical 'AND'.
+input forms_bool_exp {
+  _and: [forms_bool_exp]
+  _not: forms_bool_exp
+  _or: [forms_bool_exp]
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  formTypeByFormType: form_types_bool_exp
+  form_responses: form_responses_bool_exp
+  form_type: form_types_enum_comparison_exp
+  id: uuid_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  semester: semesters_bool_exp
+  semester_id: uuid_comparison_exp
+  typeform_id: String_comparison_exp
+  typeform_secret: uuid_comparison_exp
+  updated_at: timestamp_comparison_exp
+  webhook_installed_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "forms"
+enum forms_constraint {
+  # unique or primary key constraint
+  forms_id
+
+  # unique or primary key constraint
+  forms_pkey
+
+  # unique or primary key constraint
+  forms_typeform_id
+}
+
+# input type for inserting data into table "forms"
+input forms_insert_input {
+  created_at: timestamp
+  description: String
+  formTypeByFormType: form_types_obj_rel_insert_input
+  form_responses: form_responses_arr_rel_insert_input
+  form_type: form_types_enum
+  id: uuid
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  semester: semesters_obj_rel_insert_input
+  semester_id: uuid
+  typeform_id: String
+  typeform_secret: uuid
+  updated_at: timestamp
+  webhook_installed_at: timestamp
+}
+
+# aggregate max on columns
+type forms_max_fields {
+  created_at: timestamp
+  description: String
+  id: uuid
+  semester_id: uuid
+  typeform_id: String
+  typeform_secret: uuid
+  updated_at: timestamp
+  webhook_installed_at: timestamp
+}
+
+# order by max() on columns of table "forms"
+input forms_max_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  semester_id: order_by
+  typeform_id: order_by
+  typeform_secret: order_by
+  updated_at: order_by
+  webhook_installed_at: order_by
+}
+
+# aggregate min on columns
+type forms_min_fields {
+  created_at: timestamp
+  description: String
+  id: uuid
+  semester_id: uuid
+  typeform_id: String
+  typeform_secret: uuid
+  updated_at: timestamp
+  webhook_installed_at: timestamp
+}
+
+# order by min() on columns of table "forms"
+input forms_min_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  semester_id: order_by
+  typeform_id: order_by
+  typeform_secret: order_by
+  updated_at: order_by
+  webhook_installed_at: order_by
+}
+
+# response of any mutation on the table "forms"
+type forms_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [forms!]!
+}
+
+# input type for inserting object relation for remote table "forms"
+input forms_obj_rel_insert_input {
+  data: forms_insert_input!
+  on_conflict: forms_on_conflict
+}
+
+# on conflict condition type for table "forms"
+input forms_on_conflict {
+  constraint: forms_constraint!
+  update_columns: [forms_update_column!]!
+  where: forms_bool_exp
+}
+
+# ordering options when selecting data from "forms"
+input forms_order_by {
+  created_at: order_by
+  description: order_by
+  formTypeByFormType: form_types_order_by
+  form_responses_aggregate: form_responses_aggregate_order_by
+  form_type: order_by
+  id: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  semester: semesters_order_by
+  semester_id: order_by
+  typeform_id: order_by
+  typeform_secret: order_by
+  updated_at: order_by
+  webhook_installed_at: order_by
+}
+
+# primary key columns input for table: "forms"
+input forms_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "forms"
+enum forms_select_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  form_type
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  semester_id
+
+  # column name
+  typeform_id
+
+  # column name
+  typeform_secret
+
+  # column name
+  updated_at
+
+  # column name
+  webhook_installed_at
+}
+
+# input type for updating data in table "forms"
+input forms_set_input {
+  created_at: timestamp
+  description: String
+  form_type: form_types_enum
+  id: uuid
+  location: locations_enum
+  semester_id: uuid
+  typeform_id: String
+  typeform_secret: uuid
+  updated_at: timestamp
+  webhook_installed_at: timestamp
+}
+
+# update columns of table "forms"
+enum forms_update_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  form_type
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  semester_id
+
+  # column name
+  typeform_id
+
+  # column name
+  typeform_secret
+
+  # column name
+  updated_at
+
+  # column name
+  webhook_installed_at
+}
+
+# expression to compare columns of type Int. All fields are combined with logical 'AND'.
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+scalar jsonb
+
+# expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
+input jsonb_comparison_exp {
+  # is the column contained in the given json value
+  _contained_in: jsonb
+
+  # does the column contain the given json value at the top level
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  # does the string exist as a top-level key in the column
+  _has_key: String
+
+  # do all of these strings exist as top-level keys in the column
+  _has_keys_all: [String!]
+
+  # do any of these strings exist as top-level keys in the column
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+# columns and relationships of "locations"
+type locations {
+  export_folder_id: String
+
+  # An array relationship
+  forms(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): [forms!]!
+
+  # An aggregated array relationship
+  forms_aggregate(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): forms_aggregate!
+
+  # An array relationship
+  projects(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): [projects!]!
+
+  # An aggregated array relationship
+  projects_aggregate(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): projects_aggregate!
+
+  # An array relationship
+  semesters(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): [semesters!]!
+
+  # An aggregated array relationship
+  semesters_aggregate(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): semesters_aggregate!
+
+  # An array relationship
+  team_members(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): [team_members!]!
+
+  # An aggregated array relationship
+  team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): team_members_aggregate!
+
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # An array relationship
+  typeform_users(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): [typeform_users!]!
+
+  # An aggregated array relationship
+  typeform_users_aggregate(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): typeform_users_aggregate!
+  value: String!
+}
+
+# aggregated selection of "locations"
+type locations_aggregate {
+  aggregate: locations_aggregate_fields
+  nodes: [locations!]!
+}
+
+# aggregate fields of "locations"
+type locations_aggregate_fields {
+  count(columns: [locations_select_column!], distinct: Boolean): Int
+  max: locations_max_fields
+  min: locations_min_fields
+}
+
+# order by aggregate values of table "locations"
+input locations_aggregate_order_by {
+  count: order_by
+  max: locations_max_order_by
+  min: locations_min_order_by
+}
+
+# input type for inserting array relation for remote table "locations"
+input locations_arr_rel_insert_input {
+  data: [locations_insert_input!]!
+  on_conflict: locations_on_conflict
+}
+
+# Boolean expression to filter rows from the table "locations". All fields are combined with a logical 'AND'.
+input locations_bool_exp {
+  _and: [locations_bool_exp]
+  _not: locations_bool_exp
+  _or: [locations_bool_exp]
+  export_folder_id: String_comparison_exp
+  forms: forms_bool_exp
+  projects: projects_bool_exp
+  semesters: semesters_bool_exp
+  team_members: team_members_bool_exp
+  techies: techies_bool_exp
+  typeform_users: typeform_users_bool_exp
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "locations"
+enum locations_constraint {
+  # unique or primary key constraint
+  locations_pkey
+}
+
+enum locations_enum {
+  AACHEN
+  BARCELONA
+  BERLIN
+  COPENHAGEN
+  CURITIBA
+  DORTMUND
+  DUESSELDORF
+  MEDELLIN
+  MUENSTER
+  MUNICH
+}
+
+# expression to compare columns of type locations_enum. All fields are combined with logical 'AND'.
+input locations_enum_comparison_exp {
+  _eq: locations_enum
+  _in: [locations_enum!]
+  _is_null: Boolean
+  _neq: locations_enum
+  _nin: [locations_enum!]
+}
+
+# input type for inserting data into table "locations"
+input locations_insert_input {
+  export_folder_id: String
+  forms: forms_arr_rel_insert_input
+  projects: projects_arr_rel_insert_input
+  semesters: semesters_arr_rel_insert_input
+  team_members: team_members_arr_rel_insert_input
+  techies: techies_arr_rel_insert_input
+  typeform_users: typeform_users_arr_rel_insert_input
+  value: String
+}
+
+# aggregate max on columns
+type locations_max_fields {
+  export_folder_id: String
+  value: String
+}
+
+# order by max() on columns of table "locations"
+input locations_max_order_by {
+  export_folder_id: order_by
+  value: order_by
+}
+
+# aggregate min on columns
+type locations_min_fields {
+  export_folder_id: String
+  value: String
+}
+
+# order by min() on columns of table "locations"
+input locations_min_order_by {
+  export_folder_id: order_by
+  value: order_by
+}
+
+# response of any mutation on the table "locations"
+type locations_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [locations!]!
+}
+
+# input type for inserting object relation for remote table "locations"
+input locations_obj_rel_insert_input {
+  data: locations_insert_input!
+  on_conflict: locations_on_conflict
+}
+
+# on conflict condition type for table "locations"
+input locations_on_conflict {
+  constraint: locations_constraint!
+  update_columns: [locations_update_column!]!
+  where: locations_bool_exp
+}
+
+# ordering options when selecting data from "locations"
+input locations_order_by {
+  export_folder_id: order_by
+  forms_aggregate: forms_aggregate_order_by
+  projects_aggregate: projects_aggregate_order_by
+  semesters_aggregate: semesters_aggregate_order_by
+  team_members_aggregate: team_members_aggregate_order_by
+  techies_aggregate: techies_aggregate_order_by
+  typeform_users_aggregate: typeform_users_aggregate_order_by
+  value: order_by
+}
+
+# primary key columns input for table: "locations"
+input locations_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "locations"
+enum locations_select_column {
+  # column name
+  export_folder_id
+
+  # column name
+  value
+}
+
+# input type for updating data in table "locations"
+input locations_set_input {
+  export_folder_id: String
+  value: String
+}
+
+# update columns of table "locations"
+enum locations_update_column {
+  # column name
+  export_folder_id
+
+  # column name
+  value
+}
+
+type Mutation {
+  update_gsheet_content(contentJSON: String, folderID: String, name: String, sheetName: String): Boolean
+}
+
+# mutation root
+type mutation_root {
+  # delete data from the table: "exports"
+  delete_exports(
+    # filter the rows which have to be deleted
+    where: exports_bool_exp!
+  ): exports_mutation_response
+
+  # delete data from the table: "form_responses"
+  delete_form_responses(
+    # filter the rows which have to be deleted
+    where: form_responses_bool_exp!
+  ): form_responses_mutation_response
+
+  # delete single row from the table: "form_responses"
+  delete_form_responses_by_pk(id: uuid!): form_responses
+
+  # delete data from the table: "form_types"
+  delete_form_types(
+    # filter the rows which have to be deleted
+    where: form_types_bool_exp!
+  ): form_types_mutation_response
+
+  # delete single row from the table: "form_types"
+  delete_form_types_by_pk(value: String!): form_types
+
+  # delete data from the table: "forms"
+  delete_forms(
+    # filter the rows which have to be deleted
+    where: forms_bool_exp!
+  ): forms_mutation_response
+
+  # delete single row from the table: "forms"
+  delete_forms_by_pk(id: uuid!): forms
+
+  # delete data from the table: "locations"
+  delete_locations(
+    # filter the rows which have to be deleted
+    where: locations_bool_exp!
+  ): locations_mutation_response
+
+  # delete single row from the table: "locations"
+  delete_locations_by_pk(value: String!): locations
+
+  # delete data from the table: "project_team_members"
+  delete_project_team_members(
+    # filter the rows which have to be deleted
+    where: project_team_members_bool_exp!
+  ): project_team_members_mutation_response
+
+  # delete data from the table: "projects"
+  delete_projects(
+    # filter the rows which have to be deleted
+    where: projects_bool_exp!
+  ): projects_mutation_response
+
+  # delete single row from the table: "projects"
+  delete_projects_by_pk(id: uuid!): projects
+
+  # delete data from the table: "semesters"
+  delete_semesters(
+    # filter the rows which have to be deleted
+    where: semesters_bool_exp!
+  ): semesters_mutation_response
+
+  # delete single row from the table: "semesters"
+  delete_semesters_by_pk(id: uuid!): semesters
+
+  # delete data from the table: "team_members"
+  delete_team_members(
+    # filter the rows which have to be deleted
+    where: team_members_bool_exp!
+  ): team_members_mutation_response
+
+  # delete single row from the table: "team_members"
+  delete_team_members_by_pk(id: uuid!): team_members
+
+  # delete data from the table: "techie_activity"
+  delete_techie_activity(
+    # filter the rows which have to be deleted
+    where: techie_activity_bool_exp!
+  ): techie_activity_mutation_response
+
+  # delete data from the table: "techie_lifecycle_states"
+  delete_techie_lifecycle_states(
+    # filter the rows which have to be deleted
+    where: techie_lifecycle_states_bool_exp!
+  ): techie_lifecycle_states_mutation_response
+
+  # delete single row from the table: "techie_lifecycle_states"
+  delete_techie_lifecycle_states_by_pk(value: String!): techie_lifecycle_states
+
+  # delete data from the table: "techies"
+  delete_techies(
+    # filter the rows which have to be deleted
+    where: techies_bool_exp!
+  ): techies_mutation_response
+
+  # delete single row from the table: "techies"
+  delete_techies_by_pk(id: uuid!): techies
+
+  # delete data from the table: "terms"
+  delete_terms(
+    # filter the rows which have to be deleted
+    where: terms_bool_exp!
+  ): terms_mutation_response
+
+  # delete single row from the table: "terms"
+  delete_terms_by_pk(value: String!): terms
+
+  # delete data from the table: "tracks"
+  delete_tracks(
+    # filter the rows which have to be deleted
+    where: tracks_bool_exp!
+  ): tracks_mutation_response
+
+  # delete single row from the table: "tracks"
+  delete_tracks_by_pk(value: String!): tracks
+
+  # delete data from the table: "typeform_users"
+  delete_typeform_users(
+    # filter the rows which have to be deleted
+    where: typeform_users_bool_exp!
+  ): typeform_users_mutation_response
+
+  # delete single row from the table: "typeform_users"
+  delete_typeform_users_by_pk(id: uuid!): typeform_users
+
+  # insert data into the table: "exports"
+  insert_exports(
+    # the rows to be inserted
+    objects: [exports_insert_input!]!
+
+    # on conflict condition
+    on_conflict: exports_on_conflict
+  ): exports_mutation_response
+
+  # insert a single row into the table: "exports"
+  insert_exports_one(
+    # the row to be inserted
+    object: exports_insert_input!
+
+    # on conflict condition
+    on_conflict: exports_on_conflict
+  ): exports
+
+  # insert data into the table: "form_responses"
+  insert_form_responses(
+    # the rows to be inserted
+    objects: [form_responses_insert_input!]!
+
+    # on conflict condition
+    on_conflict: form_responses_on_conflict
+  ): form_responses_mutation_response
+
+  # insert a single row into the table: "form_responses"
+  insert_form_responses_one(
+    # the row to be inserted
+    object: form_responses_insert_input!
+
+    # on conflict condition
+    on_conflict: form_responses_on_conflict
+  ): form_responses
+
+  # insert data into the table: "form_types"
+  insert_form_types(
+    # the rows to be inserted
+    objects: [form_types_insert_input!]!
+
+    # on conflict condition
+    on_conflict: form_types_on_conflict
+  ): form_types_mutation_response
+
+  # insert a single row into the table: "form_types"
+  insert_form_types_one(
+    # the row to be inserted
+    object: form_types_insert_input!
+
+    # on conflict condition
+    on_conflict: form_types_on_conflict
+  ): form_types
+
+  # insert data into the table: "forms"
+  insert_forms(
+    # the rows to be inserted
+    objects: [forms_insert_input!]!
+
+    # on conflict condition
+    on_conflict: forms_on_conflict
+  ): forms_mutation_response
+
+  # insert a single row into the table: "forms"
+  insert_forms_one(
+    # the row to be inserted
+    object: forms_insert_input!
+
+    # on conflict condition
+    on_conflict: forms_on_conflict
+  ): forms
+
+  # insert data into the table: "locations"
+  insert_locations(
+    # the rows to be inserted
+    objects: [locations_insert_input!]!
+
+    # on conflict condition
+    on_conflict: locations_on_conflict
+  ): locations_mutation_response
+
+  # insert a single row into the table: "locations"
+  insert_locations_one(
+    # the row to be inserted
+    object: locations_insert_input!
+
+    # on conflict condition
+    on_conflict: locations_on_conflict
+  ): locations
+
+  # insert data into the table: "project_team_members"
+  insert_project_team_members(
+    # the rows to be inserted
+    objects: [project_team_members_insert_input!]!
+  ): project_team_members_mutation_response
+
+  # insert a single row into the table: "project_team_members"
+  insert_project_team_members_one(
+    # the row to be inserted
+    object: project_team_members_insert_input!
+  ): project_team_members
+
+  # insert data into the table: "projects"
+  insert_projects(
+    # the rows to be inserted
+    objects: [projects_insert_input!]!
+
+    # on conflict condition
+    on_conflict: projects_on_conflict
+  ): projects_mutation_response
+
+  # insert a single row into the table: "projects"
+  insert_projects_one(
+    # the row to be inserted
+    object: projects_insert_input!
+
+    # on conflict condition
+    on_conflict: projects_on_conflict
+  ): projects
+
+  # insert data into the table: "semesters"
+  insert_semesters(
+    # the rows to be inserted
+    objects: [semesters_insert_input!]!
+
+    # on conflict condition
+    on_conflict: semesters_on_conflict
+  ): semesters_mutation_response
+
+  # insert a single row into the table: "semesters"
+  insert_semesters_one(
+    # the row to be inserted
+    object: semesters_insert_input!
+
+    # on conflict condition
+    on_conflict: semesters_on_conflict
+  ): semesters
+
+  # insert data into the table: "team_members"
+  insert_team_members(
+    # the rows to be inserted
+    objects: [team_members_insert_input!]!
+
+    # on conflict condition
+    on_conflict: team_members_on_conflict
+  ): team_members_mutation_response
+
+  # insert a single row into the table: "team_members"
+  insert_team_members_one(
+    # the row to be inserted
+    object: team_members_insert_input!
+
+    # on conflict condition
+    on_conflict: team_members_on_conflict
+  ): team_members
+
+  # insert data into the table: "techie_activity"
+  insert_techie_activity(
+    # the rows to be inserted
+    objects: [techie_activity_insert_input!]!
+
+    # on conflict condition
+    on_conflict: techie_activity_on_conflict
+  ): techie_activity_mutation_response
+
+  # insert a single row into the table: "techie_activity"
+  insert_techie_activity_one(
+    # the row to be inserted
+    object: techie_activity_insert_input!
+
+    # on conflict condition
+    on_conflict: techie_activity_on_conflict
+  ): techie_activity
+
+  # insert data into the table: "techie_lifecycle_states"
+  insert_techie_lifecycle_states(
+    # the rows to be inserted
+    objects: [techie_lifecycle_states_insert_input!]!
+
+    # on conflict condition
+    on_conflict: techie_lifecycle_states_on_conflict
+  ): techie_lifecycle_states_mutation_response
+
+  # insert a single row into the table: "techie_lifecycle_states"
+  insert_techie_lifecycle_states_one(
+    # the row to be inserted
+    object: techie_lifecycle_states_insert_input!
+
+    # on conflict condition
+    on_conflict: techie_lifecycle_states_on_conflict
+  ): techie_lifecycle_states
+
+  # insert data into the table: "techies"
+  insert_techies(
+    # the rows to be inserted
+    objects: [techies_insert_input!]!
+
+    # on conflict condition
+    on_conflict: techies_on_conflict
+  ): techies_mutation_response
+
+  # insert a single row into the table: "techies"
+  insert_techies_one(
+    # the row to be inserted
+    object: techies_insert_input!
+
+    # on conflict condition
+    on_conflict: techies_on_conflict
+  ): techies
+
+  # insert data into the table: "terms"
+  insert_terms(
+    # the rows to be inserted
+    objects: [terms_insert_input!]!
+
+    # on conflict condition
+    on_conflict: terms_on_conflict
+  ): terms_mutation_response
+
+  # insert a single row into the table: "terms"
+  insert_terms_one(
+    # the row to be inserted
+    object: terms_insert_input!
+
+    # on conflict condition
+    on_conflict: terms_on_conflict
+  ): terms
+
+  # insert data into the table: "tracks"
+  insert_tracks(
+    # the rows to be inserted
+    objects: [tracks_insert_input!]!
+
+    # on conflict condition
+    on_conflict: tracks_on_conflict
+  ): tracks_mutation_response
+
+  # insert a single row into the table: "tracks"
+  insert_tracks_one(
+    # the row to be inserted
+    object: tracks_insert_input!
+
+    # on conflict condition
+    on_conflict: tracks_on_conflict
+  ): tracks
+
+  # insert data into the table: "typeform_users"
+  insert_typeform_users(
+    # the rows to be inserted
+    objects: [typeform_users_insert_input!]!
+
+    # on conflict condition
+    on_conflict: typeform_users_on_conflict
+  ): typeform_users_mutation_response
+
+  # insert a single row into the table: "typeform_users"
+  insert_typeform_users_one(
+    # the row to be inserted
+    object: typeform_users_insert_input!
+
+    # on conflict condition
+    on_conflict: typeform_users_on_conflict
+  ): typeform_users
+
+  # update data of the table: "exports"
+  update_exports(
+    # sets the columns of the filtered rows to the given values
+    _set: exports_set_input
+
+    # filter the rows which have to be updated
+    where: exports_bool_exp!
+  ): exports_mutation_response
+
+  # update data of the table: "form_responses"
+  update_form_responses(
+    # append existing jsonb value of filtered columns with new jsonb value
+    _append: form_responses_append_input
+
+    # delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    _delete_at_path: form_responses_delete_at_path_input
+
+    # delete the array element with specified index (negative integers count from
+    # the end). throws an error if top level container is not an array
+    _delete_elem: form_responses_delete_elem_input
+
+    # delete key/value pair or string element. key/value pairs are matched based on their key value
+    _delete_key: form_responses_delete_key_input
+
+    # prepend existing jsonb value of filtered columns with new jsonb value
+    _prepend: form_responses_prepend_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: form_responses_set_input
+
+    # filter the rows which have to be updated
+    where: form_responses_bool_exp!
+  ): form_responses_mutation_response
+
+  # update single row of the table: "form_responses"
+  update_form_responses_by_pk(
+    # append existing jsonb value of filtered columns with new jsonb value
+    _append: form_responses_append_input
+
+    # delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    _delete_at_path: form_responses_delete_at_path_input
+
+    # delete the array element with specified index (negative integers count from
+    # the end). throws an error if top level container is not an array
+    _delete_elem: form_responses_delete_elem_input
+
+    # delete key/value pair or string element. key/value pairs are matched based on their key value
+    _delete_key: form_responses_delete_key_input
+
+    # prepend existing jsonb value of filtered columns with new jsonb value
+    _prepend: form_responses_prepend_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: form_responses_set_input
+    pk_columns: form_responses_pk_columns_input!
+  ): form_responses
+
+  # update data of the table: "form_types"
+  update_form_types(
+    # sets the columns of the filtered rows to the given values
+    _set: form_types_set_input
+
+    # filter the rows which have to be updated
+    where: form_types_bool_exp!
+  ): form_types_mutation_response
+
+  # update single row of the table: "form_types"
+  update_form_types_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: form_types_set_input
+    pk_columns: form_types_pk_columns_input!
+  ): form_types
+
+  # update data of the table: "forms"
+  update_forms(
+    # sets the columns of the filtered rows to the given values
+    _set: forms_set_input
+
+    # filter the rows which have to be updated
+    where: forms_bool_exp!
+  ): forms_mutation_response
+
+  # update single row of the table: "forms"
+  update_forms_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: forms_set_input
+    pk_columns: forms_pk_columns_input!
+  ): forms
+  update_gsheet_content(contentJSON: String, folderID: String, name: String, sheetName: String): Boolean
+
+  # update data of the table: "locations"
+  update_locations(
+    # sets the columns of the filtered rows to the given values
+    _set: locations_set_input
+
+    # filter the rows which have to be updated
+    where: locations_bool_exp!
+  ): locations_mutation_response
+
+  # update single row of the table: "locations"
+  update_locations_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: locations_set_input
+    pk_columns: locations_pk_columns_input!
+  ): locations
+
+  # update data of the table: "project_team_members"
+  update_project_team_members(
+    # sets the columns of the filtered rows to the given values
+    _set: project_team_members_set_input
+
+    # filter the rows which have to be updated
+    where: project_team_members_bool_exp!
+  ): project_team_members_mutation_response
+
+  # update data of the table: "projects"
+  update_projects(
+    # sets the columns of the filtered rows to the given values
+    _set: projects_set_input
+
+    # filter the rows which have to be updated
+    where: projects_bool_exp!
+  ): projects_mutation_response
+
+  # update single row of the table: "projects"
+  update_projects_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: projects_set_input
+    pk_columns: projects_pk_columns_input!
+  ): projects
+
+  # update data of the table: "semesters"
+  update_semesters(
+    # sets the columns of the filtered rows to the given values
+    _set: semesters_set_input
+
+    # filter the rows which have to be updated
+    where: semesters_bool_exp!
+  ): semesters_mutation_response
+
+  # update single row of the table: "semesters"
+  update_semesters_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: semesters_set_input
+    pk_columns: semesters_pk_columns_input!
+  ): semesters
+
+  # update data of the table: "team_members"
+  update_team_members(
+    # sets the columns of the filtered rows to the given values
+    _set: team_members_set_input
+
+    # filter the rows which have to be updated
+    where: team_members_bool_exp!
+  ): team_members_mutation_response
+
+  # update single row of the table: "team_members"
+  update_team_members_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: team_members_set_input
+    pk_columns: team_members_pk_columns_input!
+  ): team_members
+
+  # update data of the table: "techie_activity"
+  update_techie_activity(
+    # increments the integer columns with given value of the filtered values
+    _inc: techie_activity_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: techie_activity_set_input
+
+    # filter the rows which have to be updated
+    where: techie_activity_bool_exp!
+  ): techie_activity_mutation_response
+
+  # update data of the table: "techie_lifecycle_states"
+  update_techie_lifecycle_states(
+    # sets the columns of the filtered rows to the given values
+    _set: techie_lifecycle_states_set_input
+
+    # filter the rows which have to be updated
+    where: techie_lifecycle_states_bool_exp!
+  ): techie_lifecycle_states_mutation_response
+
+  # update single row of the table: "techie_lifecycle_states"
+  update_techie_lifecycle_states_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: techie_lifecycle_states_set_input
+    pk_columns: techie_lifecycle_states_pk_columns_input!
+  ): techie_lifecycle_states
+
+  # update data of the table: "techies"
+  update_techies(
+    # increments the integer columns with given value of the filtered values
+    _inc: techies_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: techies_set_input
+
+    # filter the rows which have to be updated
+    where: techies_bool_exp!
+  ): techies_mutation_response
+
+  # update single row of the table: "techies"
+  update_techies_by_pk(
+    # increments the integer columns with given value of the filtered values
+    _inc: techies_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: techies_set_input
+    pk_columns: techies_pk_columns_input!
+  ): techies
+
+  # update data of the table: "terms"
+  update_terms(
+    # sets the columns of the filtered rows to the given values
+    _set: terms_set_input
+
+    # filter the rows which have to be updated
+    where: terms_bool_exp!
+  ): terms_mutation_response
+
+  # update single row of the table: "terms"
+  update_terms_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: terms_set_input
+    pk_columns: terms_pk_columns_input!
+  ): terms
+
+  # update data of the table: "tracks"
+  update_tracks(
+    # sets the columns of the filtered rows to the given values
+    _set: tracks_set_input
+
+    # filter the rows which have to be updated
+    where: tracks_bool_exp!
+  ): tracks_mutation_response
+
+  # update single row of the table: "tracks"
+  update_tracks_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: tracks_set_input
+    pk_columns: tracks_pk_columns_input!
+  ): tracks
+
+  # update data of the table: "typeform_users"
+  update_typeform_users(
+    # sets the columns of the filtered rows to the given values
+    _set: typeform_users_set_input
+
+    # filter the rows which have to be updated
+    where: typeform_users_bool_exp!
+  ): typeform_users_mutation_response
+
+  # update single row of the table: "typeform_users"
+  update_typeform_users_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: typeform_users_set_input
+    pk_columns: typeform_users_pk_columns_input!
+  ): typeform_users
+}
+
+# column ordering options
+enum order_by {
+  # in the ascending order, nulls last
+  asc
+
+  # in the ascending order, nulls first
+  asc_nulls_first
+
+  # in the ascending order, nulls last
+  asc_nulls_last
+
+  # in the descending order, nulls first
+  desc
+
+  # in the descending order, nulls first
+  desc_nulls_first
+
+  # in the descending order, nulls last
+  desc_nulls_last
+}
+
+# columns and relationships of "project_team_members"
+type project_team_members {
+  # An object relationship
+  project: projects!
+  project_id: uuid!
+
+  # An object relationship
+  team_member: team_members!
+  team_member_id: uuid!
+}
+
+# aggregated selection of "project_team_members"
+type project_team_members_aggregate {
+  aggregate: project_team_members_aggregate_fields
+  nodes: [project_team_members!]!
+}
+
+# aggregate fields of "project_team_members"
+type project_team_members_aggregate_fields {
+  count(columns: [project_team_members_select_column!], distinct: Boolean): Int
+  max: project_team_members_max_fields
+  min: project_team_members_min_fields
+}
+
+# order by aggregate values of table "project_team_members"
+input project_team_members_aggregate_order_by {
+  count: order_by
+  max: project_team_members_max_order_by
+  min: project_team_members_min_order_by
+}
+
+# input type for inserting array relation for remote table "project_team_members"
+input project_team_members_arr_rel_insert_input {
+  data: [project_team_members_insert_input!]!
+}
+
+# Boolean expression to filter rows from the table "project_team_members". All fields are combined with a logical 'AND'.
+input project_team_members_bool_exp {
+  _and: [project_team_members_bool_exp]
+  _not: project_team_members_bool_exp
+  _or: [project_team_members_bool_exp]
+  project: projects_bool_exp
+  project_id: uuid_comparison_exp
+  team_member: team_members_bool_exp
+  team_member_id: uuid_comparison_exp
+}
+
+# input type for inserting data into table "project_team_members"
+input project_team_members_insert_input {
+  project: projects_obj_rel_insert_input
+  project_id: uuid
+  team_member: team_members_obj_rel_insert_input
+  team_member_id: uuid
+}
+
+# aggregate max on columns
+type project_team_members_max_fields {
+  project_id: uuid
+  team_member_id: uuid
+}
+
+# order by max() on columns of table "project_team_members"
+input project_team_members_max_order_by {
+  project_id: order_by
+  team_member_id: order_by
+}
+
+# aggregate min on columns
+type project_team_members_min_fields {
+  project_id: uuid
+  team_member_id: uuid
+}
+
+# order by min() on columns of table "project_team_members"
+input project_team_members_min_order_by {
+  project_id: order_by
+  team_member_id: order_by
+}
+
+# response of any mutation on the table "project_team_members"
+type project_team_members_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [project_team_members!]!
+}
+
+# input type for inserting object relation for remote table "project_team_members"
+input project_team_members_obj_rel_insert_input {
+  data: project_team_members_insert_input!
+}
+
+# ordering options when selecting data from "project_team_members"
+input project_team_members_order_by {
+  project: projects_order_by
+  project_id: order_by
+  team_member: team_members_order_by
+  team_member_id: order_by
+}
+
+# select columns of table "project_team_members"
+enum project_team_members_select_column {
+  # column name
+  project_id
+
+  # column name
+  team_member_id
+}
+
+# input type for updating data in table "project_team_members"
+input project_team_members_set_input {
+  project_id: uuid
+  team_member_id: uuid
+}
+
+# columns and relationships of "projects"
+type projects {
+  created_at: timestamp!
+  description: String
+  id: uuid!
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+  name: String!
+
+  # An array relationship
+  project_team_members(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): [project_team_members!]!
+
+  # An aggregated array relationship
+  project_team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): project_team_members_aggregate!
+
+  # An object relationship
+  semester: semesters!
+  semester_id: uuid!
+
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+  updated_at: timestamp!
+}
+
+# aggregated selection of "projects"
+type projects_aggregate {
+  aggregate: projects_aggregate_fields
+  nodes: [projects!]!
+}
+
+# aggregate fields of "projects"
+type projects_aggregate_fields {
+  count(columns: [projects_select_column!], distinct: Boolean): Int
+  max: projects_max_fields
+  min: projects_min_fields
+}
+
+# order by aggregate values of table "projects"
+input projects_aggregate_order_by {
+  count: order_by
+  max: projects_max_order_by
+  min: projects_min_order_by
+}
+
+# input type for inserting array relation for remote table "projects"
+input projects_arr_rel_insert_input {
+  data: [projects_insert_input!]!
+  on_conflict: projects_on_conflict
+}
+
+# Boolean expression to filter rows from the table "projects". All fields are combined with a logical 'AND'.
+input projects_bool_exp {
+  _and: [projects_bool_exp]
+  _not: projects_bool_exp
+  _or: [projects_bool_exp]
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  id: uuid_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  name: String_comparison_exp
+  project_team_members: project_team_members_bool_exp
+  semester: semesters_bool_exp
+  semester_id: uuid_comparison_exp
+  techies: techies_bool_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "projects"
+enum projects_constraint {
+  # unique or primary key constraint
+  projects_id
+
+  # unique or primary key constraint
+  projects_pkey
+}
+
+# input type for inserting data into table "projects"
+input projects_insert_input {
+  created_at: timestamp
+  description: String
+  id: uuid
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  name: String
+  project_team_members: project_team_members_arr_rel_insert_input
+  semester: semesters_obj_rel_insert_input
+  semester_id: uuid
+  techies: techies_arr_rel_insert_input
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type projects_max_fields {
+  created_at: timestamp
+  description: String
+  id: uuid
+  name: String
+  semester_id: uuid
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "projects"
+input projects_max_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+  semester_id: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type projects_min_fields {
+  created_at: timestamp
+  description: String
+  id: uuid
+  name: String
+  semester_id: uuid
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "projects"
+input projects_min_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+  semester_id: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "projects"
+type projects_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [projects!]!
+}
+
+# input type for inserting object relation for remote table "projects"
+input projects_obj_rel_insert_input {
+  data: projects_insert_input!
+  on_conflict: projects_on_conflict
+}
+
+# on conflict condition type for table "projects"
+input projects_on_conflict {
+  constraint: projects_constraint!
+  update_columns: [projects_update_column!]!
+  where: projects_bool_exp
+}
+
+# ordering options when selecting data from "projects"
+input projects_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  name: order_by
+  project_team_members_aggregate: project_team_members_aggregate_order_by
+  semester: semesters_order_by
+  semester_id: order_by
+  techies_aggregate: techies_aggregate_order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "projects"
+input projects_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "projects"
+enum projects_select_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  name
+
+  # column name
+  semester_id
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "projects"
+input projects_set_input {
+  created_at: timestamp
+  description: String
+  id: uuid
+  location: locations_enum
+  name: String
+  semester_id: uuid
+  updated_at: timestamp
+}
+
+# update columns of table "projects"
+enum projects_update_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  name
+
+  # column name
+  semester_id
+
+  # column name
+  updated_at
+}
+
+type Query {
+  edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
+  edyoucated_users(usernames: [String]): [EdyoucatedUser]
+}
+
+# query root
+type query_root {
+  edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
+  edyoucated_users(usernames: [String]): [EdyoucatedUser]
+
+  # fetch data from the table: "exports"
+  exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # fetch aggregated fields from the table: "exports"
+  exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # fetch data from the table: "form_responses"
+  form_responses(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): [form_responses!]!
+
+  # fetch aggregated fields from the table: "form_responses"
+  form_responses_aggregate(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): form_responses_aggregate!
+
+  # fetch data from the table: "form_responses" using primary key columns
+  form_responses_by_pk(id: uuid!): form_responses
+
+  # fetch data from the table: "form_types"
+  form_types(
+    # distinct select on columns
+    distinct_on: [form_types_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_types_order_by!]
+
+    # filter the rows returned
+    where: form_types_bool_exp
+  ): [form_types!]!
+
+  # fetch aggregated fields from the table: "form_types"
+  form_types_aggregate(
+    # distinct select on columns
+    distinct_on: [form_types_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_types_order_by!]
+
+    # filter the rows returned
+    where: form_types_bool_exp
+  ): form_types_aggregate!
+
+  # fetch data from the table: "form_types" using primary key columns
+  form_types_by_pk(value: String!): form_types
+
+  # fetch data from the table: "forms"
+  forms(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): [forms!]!
+
+  # fetch aggregated fields from the table: "forms"
+  forms_aggregate(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): forms_aggregate!
+
+  # fetch data from the table: "forms" using primary key columns
+  forms_by_pk(id: uuid!): forms
+  gsheet_content(folderID: String, name: String, sheetName: String): String
+
+  # fetch data from the table: "locations"
+  locations(
+    # distinct select on columns
+    distinct_on: [locations_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [locations_order_by!]
+
+    # filter the rows returned
+    where: locations_bool_exp
+  ): [locations!]!
+
+  # fetch aggregated fields from the table: "locations"
+  locations_aggregate(
+    # distinct select on columns
+    distinct_on: [locations_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [locations_order_by!]
+
+    # filter the rows returned
+    where: locations_bool_exp
+  ): locations_aggregate!
+
+  # fetch data from the table: "locations" using primary key columns
+  locations_by_pk(value: String!): locations
+
+  # fetch data from the table: "project_team_members"
+  project_team_members(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): [project_team_members!]!
+
+  # fetch aggregated fields from the table: "project_team_members"
+  project_team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): project_team_members_aggregate!
+
+  # fetch data from the table: "projects"
+  projects(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): [projects!]!
+
+  # fetch aggregated fields from the table: "projects"
+  projects_aggregate(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): projects_aggregate!
+
+  # fetch data from the table: "projects" using primary key columns
+  projects_by_pk(id: uuid!): projects
+
+  # fetch data from the table: "semesters"
+  semesters(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): [semesters!]!
+
+  # fetch aggregated fields from the table: "semesters"
+  semesters_aggregate(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): semesters_aggregate!
+
+  # fetch data from the table: "semesters" using primary key columns
+  semesters_by_pk(id: uuid!): semesters
+
+  # fetch data from the table: "team_members"
+  team_members(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): [team_members!]!
+
+  # fetch aggregated fields from the table: "team_members"
+  team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): team_members_aggregate!
+
+  # fetch data from the table: "team_members" using primary key columns
+  team_members_by_pk(id: uuid!): team_members
+
+  # fetch data from the table: "techie_activity"
+  techie_activity(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # fetch aggregated fields from the table: "techie_activity"
+  techie_activity_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # execute function "techie_activity_reports" which returns "techie_activity"
+  techie_activity_reports(
+    # input parameters for function "techie_activity_reports"
+    args: techie_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # execute function "techie_activity_reports" and query aggregates on result of table type "techie_activity"
+  techie_activity_reports_aggregate(
+    # input parameters for function "techie_activity_reports"
+    args: techie_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # execute function "techie_anonymous_export" which returns "techies"
+  techie_anonymous_export(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # execute function "techie_anonymous_export" and query aggregates on result of table type "techies"
+  techie_anonymous_export_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # execute function "techie_export" which returns "techies"
+  techie_export(
+    # input parameters for function "techie_export"
+    args: techie_export_args!
+
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # execute function "techie_export" and query aggregates on result of table type "techies"
+  techie_export_aggregate(
+    # input parameters for function "techie_export"
+    args: techie_export_args!
+
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # fetch data from the table: "techie_lifecycle_states"
+  techie_lifecycle_states(
+    # distinct select on columns
+    distinct_on: [techie_lifecycle_states_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_lifecycle_states_order_by!]
+
+    # filter the rows returned
+    where: techie_lifecycle_states_bool_exp
+  ): [techie_lifecycle_states!]!
+
+  # fetch aggregated fields from the table: "techie_lifecycle_states"
+  techie_lifecycle_states_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_lifecycle_states_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_lifecycle_states_order_by!]
+
+    # filter the rows returned
+    where: techie_lifecycle_states_bool_exp
+  ): techie_lifecycle_states_aggregate!
+
+  # fetch data from the table: "techie_lifecycle_states" using primary key columns
+  techie_lifecycle_states_by_pk(value: String!): techie_lifecycle_states
+
+  # execute function "techie_pending_exports" which returns "exports"
+  techie_pending_exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # execute function "techie_pending_exports" and query aggregates on result of table type "exports"
+  techie_pending_exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # execute function "techie_semester_activity_pending_exports" which returns "exports"
+  techie_semester_activity_pending_exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # execute function "techie_semester_activity_pending_exports" and query aggregates on result of table type "exports"
+  techie_semester_activity_pending_exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # execute function "techie_semester_activity_reports" which returns "techie_activity"
+  techie_semester_activity_reports(
+    # input parameters for function "techie_semester_activity_reports"
+    args: techie_semester_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # execute function "techie_semester_activity_reports" and query aggregates on result of table type "techie_activity"
+  techie_semester_activity_reports_aggregate(
+    # input parameters for function "techie_semester_activity_reports"
+    args: techie_semester_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # fetch data from the table: "techies"
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # fetch aggregated fields from the table: "techies"
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # fetch data from the table: "techies" using primary key columns
+  techies_by_pk(id: uuid!): techies
+
+  # fetch data from the table: "terms"
+  terms(
+    # distinct select on columns
+    distinct_on: [terms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [terms_order_by!]
+
+    # filter the rows returned
+    where: terms_bool_exp
+  ): [terms!]!
+
+  # fetch aggregated fields from the table: "terms"
+  terms_aggregate(
+    # distinct select on columns
+    distinct_on: [terms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [terms_order_by!]
+
+    # filter the rows returned
+    where: terms_bool_exp
+  ): terms_aggregate!
+
+  # fetch data from the table: "terms" using primary key columns
+  terms_by_pk(value: String!): terms
+
+  # fetch data from the table: "tracks"
+  tracks(
+    # distinct select on columns
+    distinct_on: [tracks_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [tracks_order_by!]
+
+    # filter the rows returned
+    where: tracks_bool_exp
+  ): [tracks!]!
+
+  # fetch aggregated fields from the table: "tracks"
+  tracks_aggregate(
+    # distinct select on columns
+    distinct_on: [tracks_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [tracks_order_by!]
+
+    # filter the rows returned
+    where: tracks_bool_exp
+  ): tracks_aggregate!
+
+  # fetch data from the table: "tracks" using primary key columns
+  tracks_by_pk(value: String!): tracks
+
+  # fetch data from the table: "typeform_users"
+  typeform_users(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): [typeform_users!]!
+
+  # fetch aggregated fields from the table: "typeform_users"
+  typeform_users_aggregate(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): typeform_users_aggregate!
+
+  # fetch data from the table: "typeform_users" using primary key columns
+  typeform_users_by_pk(id: uuid!): typeform_users
+}
+
+# columns and relationships of "semesters"
+type semesters {
+  academy_phase_ends_at: timestamp
+  application_period_ends_at: timestamp
+  created_at: timestamp!
+  description: String!
+  ends_at: timestamp
+
+  # An array relationship
+  forms(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): [forms!]!
+
+  # An aggregated array relationship
+  forms_aggregate(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): forms_aggregate!
+  id: uuid!
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+
+  # An array relationship
+  projects(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): [projects!]!
+
+  # An aggregated array relationship
+  projects_aggregate(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): projects_aggregate!
+  starts_at: timestamp
+
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+  term: String!
+
+  # An object relationship
+  termByTerm: terms!
+  updated_at: timestamp!
+}
+
+# aggregated selection of "semesters"
+type semesters_aggregate {
+  aggregate: semesters_aggregate_fields
+  nodes: [semesters!]!
+}
+
+# aggregate fields of "semesters"
+type semesters_aggregate_fields {
+  count(columns: [semesters_select_column!], distinct: Boolean): Int
+  max: semesters_max_fields
+  min: semesters_min_fields
+}
+
+# order by aggregate values of table "semesters"
+input semesters_aggregate_order_by {
+  count: order_by
+  max: semesters_max_order_by
+  min: semesters_min_order_by
+}
+
+# input type for inserting array relation for remote table "semesters"
+input semesters_arr_rel_insert_input {
+  data: [semesters_insert_input!]!
+  on_conflict: semesters_on_conflict
+}
+
+# Boolean expression to filter rows from the table "semesters". All fields are combined with a logical 'AND'.
+input semesters_bool_exp {
+  _and: [semesters_bool_exp]
+  _not: semesters_bool_exp
+  _or: [semesters_bool_exp]
+  academy_phase_ends_at: timestamp_comparison_exp
+  application_period_ends_at: timestamp_comparison_exp
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  ends_at: timestamp_comparison_exp
+  forms: forms_bool_exp
+  id: uuid_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  projects: projects_bool_exp
+  starts_at: timestamp_comparison_exp
+  techies: techies_bool_exp
+  term: String_comparison_exp
+  termByTerm: terms_bool_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "semesters"
+enum semesters_constraint {
+  # unique or primary key constraint
+  semesters_id
+
+  # unique or primary key constraint
+  semesters_pkey
+}
+
+# input type for inserting data into table "semesters"
+input semesters_insert_input {
+  academy_phase_ends_at: timestamp
+  application_period_ends_at: timestamp
+  created_at: timestamp
+  description: String
+  ends_at: timestamp
+  forms: forms_arr_rel_insert_input
+  id: uuid
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  projects: projects_arr_rel_insert_input
+  starts_at: timestamp
+  techies: techies_arr_rel_insert_input
+  term: String
+  termByTerm: terms_obj_rel_insert_input
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type semesters_max_fields {
+  academy_phase_ends_at: timestamp
+  application_period_ends_at: timestamp
+  created_at: timestamp
+  description: String
+  ends_at: timestamp
+  id: uuid
+  starts_at: timestamp
+  term: String
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "semesters"
+input semesters_max_order_by {
+  academy_phase_ends_at: order_by
+  application_period_ends_at: order_by
+  created_at: order_by
+  description: order_by
+  ends_at: order_by
+  id: order_by
+  starts_at: order_by
+  term: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type semesters_min_fields {
+  academy_phase_ends_at: timestamp
+  application_period_ends_at: timestamp
+  created_at: timestamp
+  description: String
+  ends_at: timestamp
+  id: uuid
+  starts_at: timestamp
+  term: String
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "semesters"
+input semesters_min_order_by {
+  academy_phase_ends_at: order_by
+  application_period_ends_at: order_by
+  created_at: order_by
+  description: order_by
+  ends_at: order_by
+  id: order_by
+  starts_at: order_by
+  term: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "semesters"
+type semesters_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [semesters!]!
+}
+
+# input type for inserting object relation for remote table "semesters"
+input semesters_obj_rel_insert_input {
+  data: semesters_insert_input!
+  on_conflict: semesters_on_conflict
+}
+
+# on conflict condition type for table "semesters"
+input semesters_on_conflict {
+  constraint: semesters_constraint!
+  update_columns: [semesters_update_column!]!
+  where: semesters_bool_exp
+}
+
+# ordering options when selecting data from "semesters"
+input semesters_order_by {
+  academy_phase_ends_at: order_by
+  application_period_ends_at: order_by
+  created_at: order_by
+  description: order_by
+  ends_at: order_by
+  forms_aggregate: forms_aggregate_order_by
+  id: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  projects_aggregate: projects_aggregate_order_by
+  starts_at: order_by
+  techies_aggregate: techies_aggregate_order_by
+  term: order_by
+  termByTerm: terms_order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "semesters"
+input semesters_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "semesters"
+enum semesters_select_column {
+  # column name
+  academy_phase_ends_at
+
+  # column name
+  application_period_ends_at
+
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  ends_at
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  starts_at
+
+  # column name
+  term
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "semesters"
+input semesters_set_input {
+  academy_phase_ends_at: timestamp
+  application_period_ends_at: timestamp
+  created_at: timestamp
+  description: String
+  ends_at: timestamp
+  id: uuid
+  location: locations_enum
+  starts_at: timestamp
+  term: String
+  updated_at: timestamp
+}
+
+# update columns of table "semesters"
+enum semesters_update_column {
+  # column name
+  academy_phase_ends_at
+
+  # column name
+  application_period_ends_at
+
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  ends_at
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  starts_at
+
+  # column name
+  term
+
+  # column name
+  updated_at
+}
+
+scalar smallint
+
+# expression to compare columns of type smallint. All fields are combined with logical 'AND'.
+input smallint_comparison_exp {
+  _eq: smallint
+  _gt: smallint
+  _gte: smallint
+  _in: [smallint!]
+  _is_null: Boolean
+  _lt: smallint
+  _lte: smallint
+  _neq: smallint
+  _nin: [smallint!]
+}
+
+# expression to compare columns of type String. All fields are combined with logical 'AND'.
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+# subscription root
+type subscription_root {
+  # fetch data from the table: "exports"
+  exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # fetch aggregated fields from the table: "exports"
+  exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # fetch data from the table: "form_responses"
+  form_responses(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): [form_responses!]!
+
+  # fetch aggregated fields from the table: "form_responses"
+  form_responses_aggregate(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): form_responses_aggregate!
+
+  # fetch data from the table: "form_responses" using primary key columns
+  form_responses_by_pk(id: uuid!): form_responses
+
+  # fetch data from the table: "form_types"
+  form_types(
+    # distinct select on columns
+    distinct_on: [form_types_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_types_order_by!]
+
+    # filter the rows returned
+    where: form_types_bool_exp
+  ): [form_types!]!
+
+  # fetch aggregated fields from the table: "form_types"
+  form_types_aggregate(
+    # distinct select on columns
+    distinct_on: [form_types_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_types_order_by!]
+
+    # filter the rows returned
+    where: form_types_bool_exp
+  ): form_types_aggregate!
+
+  # fetch data from the table: "form_types" using primary key columns
+  form_types_by_pk(value: String!): form_types
+
+  # fetch data from the table: "forms"
+  forms(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): [forms!]!
+
+  # fetch aggregated fields from the table: "forms"
+  forms_aggregate(
+    # distinct select on columns
+    distinct_on: [forms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [forms_order_by!]
+
+    # filter the rows returned
+    where: forms_bool_exp
+  ): forms_aggregate!
+
+  # fetch data from the table: "forms" using primary key columns
+  forms_by_pk(id: uuid!): forms
+
+  # fetch data from the table: "locations"
+  locations(
+    # distinct select on columns
+    distinct_on: [locations_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [locations_order_by!]
+
+    # filter the rows returned
+    where: locations_bool_exp
+  ): [locations!]!
+
+  # fetch aggregated fields from the table: "locations"
+  locations_aggregate(
+    # distinct select on columns
+    distinct_on: [locations_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [locations_order_by!]
+
+    # filter the rows returned
+    where: locations_bool_exp
+  ): locations_aggregate!
+
+  # fetch data from the table: "locations" using primary key columns
+  locations_by_pk(value: String!): locations
+
+  # fetch data from the table: "project_team_members"
+  project_team_members(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): [project_team_members!]!
+
+  # fetch aggregated fields from the table: "project_team_members"
+  project_team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): project_team_members_aggregate!
+
+  # fetch data from the table: "projects"
+  projects(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): [projects!]!
+
+  # fetch aggregated fields from the table: "projects"
+  projects_aggregate(
+    # distinct select on columns
+    distinct_on: [projects_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [projects_order_by!]
+
+    # filter the rows returned
+    where: projects_bool_exp
+  ): projects_aggregate!
+
+  # fetch data from the table: "projects" using primary key columns
+  projects_by_pk(id: uuid!): projects
+
+  # fetch data from the table: "semesters"
+  semesters(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): [semesters!]!
+
+  # fetch aggregated fields from the table: "semesters"
+  semesters_aggregate(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): semesters_aggregate!
+
+  # fetch data from the table: "semesters" using primary key columns
+  semesters_by_pk(id: uuid!): semesters
+
+  # fetch data from the table: "team_members"
+  team_members(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): [team_members!]!
+
+  # fetch aggregated fields from the table: "team_members"
+  team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_members_order_by!]
+
+    # filter the rows returned
+    where: team_members_bool_exp
+  ): team_members_aggregate!
+
+  # fetch data from the table: "team_members" using primary key columns
+  team_members_by_pk(id: uuid!): team_members
+
+  # fetch data from the table: "techie_activity"
+  techie_activity(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # fetch aggregated fields from the table: "techie_activity"
+  techie_activity_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # execute function "techie_activity_reports" which returns "techie_activity"
+  techie_activity_reports(
+    # input parameters for function "techie_activity_reports"
+    args: techie_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # execute function "techie_activity_reports" and query aggregates on result of table type "techie_activity"
+  techie_activity_reports_aggregate(
+    # input parameters for function "techie_activity_reports"
+    args: techie_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # execute function "techie_anonymous_export" which returns "techies"
+  techie_anonymous_export(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # execute function "techie_anonymous_export" and query aggregates on result of table type "techies"
+  techie_anonymous_export_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # execute function "techie_export" which returns "techies"
+  techie_export(
+    # input parameters for function "techie_export"
+    args: techie_export_args!
+
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # execute function "techie_export" and query aggregates on result of table type "techies"
+  techie_export_aggregate(
+    # input parameters for function "techie_export"
+    args: techie_export_args!
+
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # fetch data from the table: "techie_lifecycle_states"
+  techie_lifecycle_states(
+    # distinct select on columns
+    distinct_on: [techie_lifecycle_states_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_lifecycle_states_order_by!]
+
+    # filter the rows returned
+    where: techie_lifecycle_states_bool_exp
+  ): [techie_lifecycle_states!]!
+
+  # fetch aggregated fields from the table: "techie_lifecycle_states"
+  techie_lifecycle_states_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_lifecycle_states_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_lifecycle_states_order_by!]
+
+    # filter the rows returned
+    where: techie_lifecycle_states_bool_exp
+  ): techie_lifecycle_states_aggregate!
+
+  # fetch data from the table: "techie_lifecycle_states" using primary key columns
+  techie_lifecycle_states_by_pk(value: String!): techie_lifecycle_states
+
+  # execute function "techie_pending_exports" which returns "exports"
+  techie_pending_exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # execute function "techie_pending_exports" and query aggregates on result of table type "exports"
+  techie_pending_exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # execute function "techie_semester_activity_pending_exports" which returns "exports"
+  techie_semester_activity_pending_exports(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): [exports!]!
+
+  # execute function "techie_semester_activity_pending_exports" and query aggregates on result of table type "exports"
+  techie_semester_activity_pending_exports_aggregate(
+    # distinct select on columns
+    distinct_on: [exports_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [exports_order_by!]
+
+    # filter the rows returned
+    where: exports_bool_exp
+  ): exports_aggregate!
+
+  # execute function "techie_semester_activity_reports" which returns "techie_activity"
+  techie_semester_activity_reports(
+    # input parameters for function "techie_semester_activity_reports"
+    args: techie_semester_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # execute function "techie_semester_activity_reports" and query aggregates on result of table type "techie_activity"
+  techie_semester_activity_reports_aggregate(
+    # input parameters for function "techie_semester_activity_reports"
+    args: techie_semester_activity_reports_args!
+
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # fetch data from the table: "techies"
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # fetch aggregated fields from the table: "techies"
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # fetch data from the table: "techies" using primary key columns
+  techies_by_pk(id: uuid!): techies
+
+  # fetch data from the table: "terms"
+  terms(
+    # distinct select on columns
+    distinct_on: [terms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [terms_order_by!]
+
+    # filter the rows returned
+    where: terms_bool_exp
+  ): [terms!]!
+
+  # fetch aggregated fields from the table: "terms"
+  terms_aggregate(
+    # distinct select on columns
+    distinct_on: [terms_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [terms_order_by!]
+
+    # filter the rows returned
+    where: terms_bool_exp
+  ): terms_aggregate!
+
+  # fetch data from the table: "terms" using primary key columns
+  terms_by_pk(value: String!): terms
+
+  # fetch data from the table: "tracks"
+  tracks(
+    # distinct select on columns
+    distinct_on: [tracks_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [tracks_order_by!]
+
+    # filter the rows returned
+    where: tracks_bool_exp
+  ): [tracks!]!
+
+  # fetch aggregated fields from the table: "tracks"
+  tracks_aggregate(
+    # distinct select on columns
+    distinct_on: [tracks_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [tracks_order_by!]
+
+    # filter the rows returned
+    where: tracks_bool_exp
+  ): tracks_aggregate!
+
+  # fetch data from the table: "tracks" using primary key columns
+  tracks_by_pk(value: String!): tracks
+
+  # fetch data from the table: "typeform_users"
+  typeform_users(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): [typeform_users!]!
+
+  # fetch aggregated fields from the table: "typeform_users"
+  typeform_users_aggregate(
+    # distinct select on columns
+    distinct_on: [typeform_users_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [typeform_users_order_by!]
+
+    # filter the rows returned
+    where: typeform_users_bool_exp
+  ): typeform_users_aggregate!
+
+  # fetch data from the table: "typeform_users" using primary key columns
+  typeform_users_by_pk(id: uuid!): typeform_users
+}
+
+# columns and relationships of "team_members"
+type team_members {
+  created_at: timestamp!
+  description: String!
+  email: String!
+  first_name: String!
+  id: uuid!
+  last_name: String!
+  last_seen_at: timestamp
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+
+  # An array relationship
+  project_team_members(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): [project_team_members!]!
+
+  # An aggregated array relationship
+  project_team_members_aggregate(
+    # distinct select on columns
+    distinct_on: [project_team_members_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [project_team_members_order_by!]
+
+    # filter the rows returned
+    where: project_team_members_bool_exp
+  ): project_team_members_aggregate!
+
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+  updated_at: timestamp!
+}
+
+# aggregated selection of "team_members"
+type team_members_aggregate {
+  aggregate: team_members_aggregate_fields
+  nodes: [team_members!]!
+}
+
+# aggregate fields of "team_members"
+type team_members_aggregate_fields {
+  count(columns: [team_members_select_column!], distinct: Boolean): Int
+  max: team_members_max_fields
+  min: team_members_min_fields
+}
+
+# order by aggregate values of table "team_members"
+input team_members_aggregate_order_by {
+  count: order_by
+  max: team_members_max_order_by
+  min: team_members_min_order_by
+}
+
+# input type for inserting array relation for remote table "team_members"
+input team_members_arr_rel_insert_input {
+  data: [team_members_insert_input!]!
+  on_conflict: team_members_on_conflict
+}
+
+# Boolean expression to filter rows from the table "team_members". All fields are combined with a logical 'AND'.
+input team_members_bool_exp {
+  _and: [team_members_bool_exp]
+  _not: team_members_bool_exp
+  _or: [team_members_bool_exp]
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  email: String_comparison_exp
+  first_name: String_comparison_exp
+  id: uuid_comparison_exp
+  last_name: String_comparison_exp
+  last_seen_at: timestamp_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  project_team_members: project_team_members_bool_exp
+  techies: techies_bool_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "team_members"
+enum team_members_constraint {
+  # unique or primary key constraint
+  team_members_id
+
+  # unique or primary key constraint
+  team_members_pkey
+}
+
+# input type for inserting data into table "team_members"
+input team_members_insert_input {
+  created_at: timestamp
+  description: String
+  email: String
+  first_name: String
+  id: uuid
+  last_name: String
+  last_seen_at: timestamp
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  project_team_members: project_team_members_arr_rel_insert_input
+  techies: techies_arr_rel_insert_input
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type team_members_max_fields {
+  created_at: timestamp
+  description: String
+  email: String
+  first_name: String
+  id: uuid
+  last_name: String
+  last_seen_at: timestamp
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "team_members"
+input team_members_max_order_by {
+  created_at: order_by
+  description: order_by
+  email: order_by
+  first_name: order_by
+  id: order_by
+  last_name: order_by
+  last_seen_at: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type team_members_min_fields {
+  created_at: timestamp
+  description: String
+  email: String
+  first_name: String
+  id: uuid
+  last_name: String
+  last_seen_at: timestamp
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "team_members"
+input team_members_min_order_by {
+  created_at: order_by
+  description: order_by
+  email: order_by
+  first_name: order_by
+  id: order_by
+  last_name: order_by
+  last_seen_at: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "team_members"
+type team_members_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [team_members!]!
+}
+
+# input type for inserting object relation for remote table "team_members"
+input team_members_obj_rel_insert_input {
+  data: team_members_insert_input!
+  on_conflict: team_members_on_conflict
+}
+
+# on conflict condition type for table "team_members"
+input team_members_on_conflict {
+  constraint: team_members_constraint!
+  update_columns: [team_members_update_column!]!
+  where: team_members_bool_exp
+}
+
+# ordering options when selecting data from "team_members"
+input team_members_order_by {
+  created_at: order_by
+  description: order_by
+  email: order_by
+  first_name: order_by
+  id: order_by
+  last_name: order_by
+  last_seen_at: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  project_team_members_aggregate: project_team_members_aggregate_order_by
+  techies_aggregate: techies_aggregate_order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "team_members"
+input team_members_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "team_members"
+enum team_members_select_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  email
+
+  # column name
+  first_name
+
+  # column name
+  id
+
+  # column name
+  last_name
+
+  # column name
+  last_seen_at
+
+  # column name
+  location
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "team_members"
+input team_members_set_input {
+  created_at: timestamp
+  description: String
+  email: String
+  first_name: String
+  id: uuid
+  last_name: String
+  last_seen_at: timestamp
+  location: locations_enum
+  updated_at: timestamp
+}
+
+# update columns of table "team_members"
+enum team_members_update_column {
+  # column name
+  created_at
+
+  # column name
+  description
+
+  # column name
+  email
+
+  # column name
+  first_name
+
+  # column name
+  id
+
+  # column name
+  last_name
+
+  # column name
+  last_seen_at
+
+  # column name
+  location
+
+  # column name
+  updated_at
+}
+
+# columns and relationships of "techie_activity"
+type techie_activity {
+  # An object relationship
+  techie: techies!
+  techie_id: uuid!
+  type: String!
+  value: Int!
+  week: smallint!
+  year: smallint!
+}
+
+# aggregated selection of "techie_activity"
+type techie_activity_aggregate {
+  aggregate: techie_activity_aggregate_fields
+  nodes: [techie_activity!]!
+}
+
+# aggregate fields of "techie_activity"
+type techie_activity_aggregate_fields {
+  avg: techie_activity_avg_fields
+  count(columns: [techie_activity_select_column!], distinct: Boolean): Int
+  max: techie_activity_max_fields
+  min: techie_activity_min_fields
+  stddev: techie_activity_stddev_fields
+  stddev_pop: techie_activity_stddev_pop_fields
+  stddev_samp: techie_activity_stddev_samp_fields
+  sum: techie_activity_sum_fields
+  var_pop: techie_activity_var_pop_fields
+  var_samp: techie_activity_var_samp_fields
+  variance: techie_activity_variance_fields
+}
+
+# order by aggregate values of table "techie_activity"
+input techie_activity_aggregate_order_by {
+  avg: techie_activity_avg_order_by
+  count: order_by
+  max: techie_activity_max_order_by
+  min: techie_activity_min_order_by
+  stddev: techie_activity_stddev_order_by
+  stddev_pop: techie_activity_stddev_pop_order_by
+  stddev_samp: techie_activity_stddev_samp_order_by
+  sum: techie_activity_sum_order_by
+  var_pop: techie_activity_var_pop_order_by
+  var_samp: techie_activity_var_samp_order_by
+  variance: techie_activity_variance_order_by
+}
+
+# input type for inserting array relation for remote table "techie_activity"
+input techie_activity_arr_rel_insert_input {
+  data: [techie_activity_insert_input!]!
+  on_conflict: techie_activity_on_conflict
+}
+
+# aggregate avg on columns
+type techie_activity_avg_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by avg() on columns of table "techie_activity"
+input techie_activity_avg_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# Boolean expression to filter rows from the table "techie_activity". All fields are combined with a logical 'AND'.
+input techie_activity_bool_exp {
+  _and: [techie_activity_bool_exp]
+  _not: techie_activity_bool_exp
+  _or: [techie_activity_bool_exp]
+  techie: techies_bool_exp
+  techie_id: uuid_comparison_exp
+  type: String_comparison_exp
+  value: Int_comparison_exp
+  week: smallint_comparison_exp
+  year: smallint_comparison_exp
+}
+
+# unique or primary key constraints on table "techie_activity"
+enum techie_activity_constraint {
+  # unique or primary key constraint
+  techie_year_week_type_unique
+}
+
+# input type for incrementing integer column in table "techie_activity"
+input techie_activity_inc_input {
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# input type for inserting data into table "techie_activity"
+input techie_activity_insert_input {
+  techie: techies_obj_rel_insert_input
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# aggregate max on columns
+type techie_activity_max_fields {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by max() on columns of table "techie_activity"
+input techie_activity_max_order_by {
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate min on columns
+type techie_activity_min_fields {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by min() on columns of table "techie_activity"
+input techie_activity_min_order_by {
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# response of any mutation on the table "techie_activity"
+type techie_activity_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [techie_activity!]!
+}
+
+# input type for inserting object relation for remote table "techie_activity"
+input techie_activity_obj_rel_insert_input {
+  data: techie_activity_insert_input!
+  on_conflict: techie_activity_on_conflict
+}
+
+# on conflict condition type for table "techie_activity"
+input techie_activity_on_conflict {
+  constraint: techie_activity_constraint!
+  update_columns: [techie_activity_update_column!]!
+  where: techie_activity_bool_exp
+}
+
+# ordering options when selecting data from "techie_activity"
+input techie_activity_order_by {
+  techie: techies_order_by
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+input techie_activity_reports_args {
+  enddate: String
+  startdate: String
+}
+
+# select columns of table "techie_activity"
+enum techie_activity_select_column {
+  # column name
+  techie_id
+
+  # column name
+  type
+
+  # column name
+  value
+
+  # column name
+  week
+
+  # column name
+  year
+}
+
+# input type for updating data in table "techie_activity"
+input techie_activity_set_input {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# aggregate stddev on columns
+type techie_activity_stddev_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev() on columns of table "techie_activity"
+input techie_activity_stddev_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate stddev_pop on columns
+type techie_activity_stddev_pop_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev_pop() on columns of table "techie_activity"
+input techie_activity_stddev_pop_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate stddev_samp on columns
+type techie_activity_stddev_samp_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev_samp() on columns of table "techie_activity"
+input techie_activity_stddev_samp_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate sum on columns
+type techie_activity_sum_fields {
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by sum() on columns of table "techie_activity"
+input techie_activity_sum_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# update columns of table "techie_activity"
+enum techie_activity_update_column {
+  # column name
+  techie_id
+
+  # column name
+  type
+
+  # column name
+  value
+
+  # column name
+  week
+
+  # column name
+  year
+}
+
+# aggregate var_pop on columns
+type techie_activity_var_pop_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by var_pop() on columns of table "techie_activity"
+input techie_activity_var_pop_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate var_samp on columns
+type techie_activity_var_samp_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by var_samp() on columns of table "techie_activity"
+input techie_activity_var_samp_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate variance on columns
+type techie_activity_variance_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by variance() on columns of table "techie_activity"
+input techie_activity_variance_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+input techie_export_args {
+  location: String
+}
+
+# columns and relationships of "techie_lifecycle_states"
+type techie_lifecycle_states {
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+  value: String!
+}
+
+# aggregated selection of "techie_lifecycle_states"
+type techie_lifecycle_states_aggregate {
+  aggregate: techie_lifecycle_states_aggregate_fields
+  nodes: [techie_lifecycle_states!]!
+}
+
+# aggregate fields of "techie_lifecycle_states"
+type techie_lifecycle_states_aggregate_fields {
+  count(columns: [techie_lifecycle_states_select_column!], distinct: Boolean): Int
+  max: techie_lifecycle_states_max_fields
+  min: techie_lifecycle_states_min_fields
+}
+
+# order by aggregate values of table "techie_lifecycle_states"
+input techie_lifecycle_states_aggregate_order_by {
+  count: order_by
+  max: techie_lifecycle_states_max_order_by
+  min: techie_lifecycle_states_min_order_by
+}
+
+# input type for inserting array relation for remote table "techie_lifecycle_states"
+input techie_lifecycle_states_arr_rel_insert_input {
+  data: [techie_lifecycle_states_insert_input!]!
+  on_conflict: techie_lifecycle_states_on_conflict
+}
+
+# Boolean expression to filter rows from the table "techie_lifecycle_states". All fields are combined with a logical 'AND'.
+input techie_lifecycle_states_bool_exp {
+  _and: [techie_lifecycle_states_bool_exp]
+  _not: techie_lifecycle_states_bool_exp
+  _or: [techie_lifecycle_states_bool_exp]
+  techies: techies_bool_exp
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "techie_lifecycle_states"
+enum techie_lifecycle_states_constraint {
+  # unique or primary key constraint
+  techie_lifecycle_states_pkey
+}
+
+enum techie_lifecycle_states_enum {
+  ALUMNI
+  APPLICANT
+  DROPPED
+  LEARNER
+  PROSPECT
+  REJECTED
+}
+
+# expression to compare columns of type techie_lifecycle_states_enum. All fields are combined with logical 'AND'.
+input techie_lifecycle_states_enum_comparison_exp {
+  _eq: techie_lifecycle_states_enum
+  _in: [techie_lifecycle_states_enum!]
+  _is_null: Boolean
+  _neq: techie_lifecycle_states_enum
+  _nin: [techie_lifecycle_states_enum!]
+}
+
+# input type for inserting data into table "techie_lifecycle_states"
+input techie_lifecycle_states_insert_input {
+  techies: techies_arr_rel_insert_input
+  value: String
+}
+
+# aggregate max on columns
+type techie_lifecycle_states_max_fields {
+  value: String
+}
+
+# order by max() on columns of table "techie_lifecycle_states"
+input techie_lifecycle_states_max_order_by {
+  value: order_by
+}
+
+# aggregate min on columns
+type techie_lifecycle_states_min_fields {
+  value: String
+}
+
+# order by min() on columns of table "techie_lifecycle_states"
+input techie_lifecycle_states_min_order_by {
+  value: order_by
+}
+
+# response of any mutation on the table "techie_lifecycle_states"
+type techie_lifecycle_states_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [techie_lifecycle_states!]!
+}
+
+# input type for inserting object relation for remote table "techie_lifecycle_states"
+input techie_lifecycle_states_obj_rel_insert_input {
+  data: techie_lifecycle_states_insert_input!
+  on_conflict: techie_lifecycle_states_on_conflict
+}
+
+# on conflict condition type for table "techie_lifecycle_states"
+input techie_lifecycle_states_on_conflict {
+  constraint: techie_lifecycle_states_constraint!
+  update_columns: [techie_lifecycle_states_update_column!]!
+  where: techie_lifecycle_states_bool_exp
+}
+
+# ordering options when selecting data from "techie_lifecycle_states"
+input techie_lifecycle_states_order_by {
+  techies_aggregate: techies_aggregate_order_by
+  value: order_by
+}
+
+# primary key columns input for table: "techie_lifecycle_states"
+input techie_lifecycle_states_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "techie_lifecycle_states"
+enum techie_lifecycle_states_select_column {
+  # column name
+  value
+}
+
+# input type for updating data in table "techie_lifecycle_states"
+input techie_lifecycle_states_set_input {
+  value: String
+}
+
+# update columns of table "techie_lifecycle_states"
+enum techie_lifecycle_states_update_column {
+  # column name
+  value
+}
+
+input techie_semester_activity_reports_args {
+  semester_id: uuid
+}
+
+# columns and relationships of "techies"
+type techies {
+  age: smallint
+  application_track_choice: tracks_enum
+  assigned_team_member_id: uuid
+  created_at: timestamp!
+  edyoucated_handle: String
+  edyoucated_imported_at: timestamp
+  edyoucated_next_import_after: timestamp
+  edyoucated_user_id: String
+  email: String
+  first_name: String
+
+  # An array relationship
+  form_responses(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): [form_responses!]!
+
+  # An aggregated array relationship
+  form_responses_aggregate(
+    # distinct select on columns
+    distinct_on: [form_responses_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [form_responses_order_by!]
+
+    # filter the rows returned
+    where: form_responses_bool_exp
+  ): form_responses_aggregate!
+  gender: String
+  github_handle: String
+  google_account: String
+  id: uuid!
+  last_name: String
+  linkedin_profile_url: String
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+  notes: String
+
+  # An object relationship
+  project: projects
+  project_id: uuid
+
+  # An object relationship
+  semester: semesters!
+  semester_id: uuid!
+  slack_member_id: String
+  state: techie_lifecycle_states_enum!
+
+  # An object relationship
+  team_member: team_members
+
+  # An array relationship
+  techie_activities(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # An aggregated array relationship
+  techie_activities_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+  techie_key: String!
+
+  # An object relationship
+  techie_lifecycle_state: techie_lifecycle_states!
+  track: tracks_enum
+
+  # An object relationship
+  trackByApplicationTrackChoice: tracks
+
+  # An object relationship
+  trackByTrack: tracks
+  updated_at: timestamp!
+}
+
+# aggregated selection of "techies"
+type techies_aggregate {
+  aggregate: techies_aggregate_fields
+  nodes: [techies!]!
+}
+
+# aggregate fields of "techies"
+type techies_aggregate_fields {
+  avg: techies_avg_fields
+  count(columns: [techies_select_column!], distinct: Boolean): Int
+  max: techies_max_fields
+  min: techies_min_fields
+  stddev: techies_stddev_fields
+  stddev_pop: techies_stddev_pop_fields
+  stddev_samp: techies_stddev_samp_fields
+  sum: techies_sum_fields
+  var_pop: techies_var_pop_fields
+  var_samp: techies_var_samp_fields
+  variance: techies_variance_fields
+}
+
+# order by aggregate values of table "techies"
+input techies_aggregate_order_by {
+  avg: techies_avg_order_by
+  count: order_by
+  max: techies_max_order_by
+  min: techies_min_order_by
+  stddev: techies_stddev_order_by
+  stddev_pop: techies_stddev_pop_order_by
+  stddev_samp: techies_stddev_samp_order_by
+  sum: techies_sum_order_by
+  var_pop: techies_var_pop_order_by
+  var_samp: techies_var_samp_order_by
+  variance: techies_variance_order_by
+}
+
+# input type for inserting array relation for remote table "techies"
+input techies_arr_rel_insert_input {
+  data: [techies_insert_input!]!
+  on_conflict: techies_on_conflict
+}
+
+# aggregate avg on columns
+type techies_avg_fields {
+  age: Float
+}
+
+# order by avg() on columns of table "techies"
+input techies_avg_order_by {
+  age: order_by
+}
+
+# Boolean expression to filter rows from the table "techies". All fields are combined with a logical 'AND'.
+input techies_bool_exp {
+  _and: [techies_bool_exp]
+  _not: techies_bool_exp
+  _or: [techies_bool_exp]
+  age: smallint_comparison_exp
+  application_track_choice: tracks_enum_comparison_exp
+  assigned_team_member_id: uuid_comparison_exp
+  created_at: timestamp_comparison_exp
+  edyoucated_handle: String_comparison_exp
+  edyoucated_imported_at: timestamp_comparison_exp
+  edyoucated_next_import_after: timestamp_comparison_exp
+  edyoucated_user_id: String_comparison_exp
+  email: String_comparison_exp
+  first_name: String_comparison_exp
+  form_responses: form_responses_bool_exp
+  gender: String_comparison_exp
+  github_handle: String_comparison_exp
+  google_account: String_comparison_exp
+  id: uuid_comparison_exp
+  last_name: String_comparison_exp
+  linkedin_profile_url: String_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  notes: String_comparison_exp
+  project: projects_bool_exp
+  project_id: uuid_comparison_exp
+  semester: semesters_bool_exp
+  semester_id: uuid_comparison_exp
+  slack_member_id: String_comparison_exp
+  state: techie_lifecycle_states_enum_comparison_exp
+  team_member: team_members_bool_exp
+  techie_activities: techie_activity_bool_exp
+  techie_key: String_comparison_exp
+  techie_lifecycle_state: techie_lifecycle_states_bool_exp
+  track: tracks_enum_comparison_exp
+  trackByApplicationTrackChoice: tracks_bool_exp
+  trackByTrack: tracks_bool_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "techies"
+enum techies_constraint {
+  # unique or primary key constraint
+  techies_id
+
+  # unique or primary key constraint
+  techies_pkey
+
+  # unique or primary key constraint
+  techies_techie_key
+}
+
+# input type for incrementing integer column in table "techies"
+input techies_inc_input {
+  age: smallint
+}
+
+# input type for inserting data into table "techies"
+input techies_insert_input {
+  age: smallint
+  application_track_choice: tracks_enum
+  assigned_team_member_id: uuid
+  created_at: timestamp
+  edyoucated_handle: String
+  edyoucated_imported_at: timestamp
+  edyoucated_next_import_after: timestamp
+  edyoucated_user_id: String
+  email: String
+  first_name: String
+  form_responses: form_responses_arr_rel_insert_input
+  gender: String
+  github_handle: String
+  google_account: String
+  id: uuid
+  last_name: String
+  linkedin_profile_url: String
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  notes: String
+  project: projects_obj_rel_insert_input
+  project_id: uuid
+  semester: semesters_obj_rel_insert_input
+  semester_id: uuid
+  slack_member_id: String
+  state: techie_lifecycle_states_enum
+  team_member: team_members_obj_rel_insert_input
+  techie_activities: techie_activity_arr_rel_insert_input
+  techie_key: String
+  techie_lifecycle_state: techie_lifecycle_states_obj_rel_insert_input
+  track: tracks_enum
+  trackByApplicationTrackChoice: tracks_obj_rel_insert_input
+  trackByTrack: tracks_obj_rel_insert_input
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type techies_max_fields {
+  age: smallint
+  assigned_team_member_id: uuid
+  created_at: timestamp
+  edyoucated_handle: String
+  edyoucated_imported_at: timestamp
+  edyoucated_next_import_after: timestamp
+  edyoucated_user_id: String
+  email: String
+  first_name: String
+  gender: String
+  github_handle: String
+  google_account: String
+  id: uuid
+  last_name: String
+  linkedin_profile_url: String
+  notes: String
+  project_id: uuid
+  semester_id: uuid
+  slack_member_id: String
+  techie_key: String
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "techies"
+input techies_max_order_by {
+  age: order_by
+  assigned_team_member_id: order_by
+  created_at: order_by
+  edyoucated_handle: order_by
+  edyoucated_imported_at: order_by
+  edyoucated_next_import_after: order_by
+  edyoucated_user_id: order_by
+  email: order_by
+  first_name: order_by
+  gender: order_by
+  github_handle: order_by
+  google_account: order_by
+  id: order_by
+  last_name: order_by
+  linkedin_profile_url: order_by
+  notes: order_by
+  project_id: order_by
+  semester_id: order_by
+  slack_member_id: order_by
+  techie_key: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type techies_min_fields {
+  age: smallint
+  assigned_team_member_id: uuid
+  created_at: timestamp
+  edyoucated_handle: String
+  edyoucated_imported_at: timestamp
+  edyoucated_next_import_after: timestamp
+  edyoucated_user_id: String
+  email: String
+  first_name: String
+  gender: String
+  github_handle: String
+  google_account: String
+  id: uuid
+  last_name: String
+  linkedin_profile_url: String
+  notes: String
+  project_id: uuid
+  semester_id: uuid
+  slack_member_id: String
+  techie_key: String
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "techies"
+input techies_min_order_by {
+  age: order_by
+  assigned_team_member_id: order_by
+  created_at: order_by
+  edyoucated_handle: order_by
+  edyoucated_imported_at: order_by
+  edyoucated_next_import_after: order_by
+  edyoucated_user_id: order_by
+  email: order_by
+  first_name: order_by
+  gender: order_by
+  github_handle: order_by
+  google_account: order_by
+  id: order_by
+  last_name: order_by
+  linkedin_profile_url: order_by
+  notes: order_by
+  project_id: order_by
+  semester_id: order_by
+  slack_member_id: order_by
+  techie_key: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "techies"
+type techies_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [techies!]!
+}
+
+# input type for inserting object relation for remote table "techies"
+input techies_obj_rel_insert_input {
+  data: techies_insert_input!
+  on_conflict: techies_on_conflict
+}
+
+# on conflict condition type for table "techies"
+input techies_on_conflict {
+  constraint: techies_constraint!
+  update_columns: [techies_update_column!]!
+  where: techies_bool_exp
+}
+
+# ordering options when selecting data from "techies"
+input techies_order_by {
+  age: order_by
+  application_track_choice: order_by
+  assigned_team_member_id: order_by
+  created_at: order_by
+  edyoucated_handle: order_by
+  edyoucated_imported_at: order_by
+  edyoucated_next_import_after: order_by
+  edyoucated_user_id: order_by
+  email: order_by
+  first_name: order_by
+  form_responses_aggregate: form_responses_aggregate_order_by
+  gender: order_by
+  github_handle: order_by
+  google_account: order_by
+  id: order_by
+  last_name: order_by
+  linkedin_profile_url: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  notes: order_by
+  project: projects_order_by
+  project_id: order_by
+  semester: semesters_order_by
+  semester_id: order_by
+  slack_member_id: order_by
+  state: order_by
+  team_member: team_members_order_by
+  techie_activities_aggregate: techie_activity_aggregate_order_by
+  techie_key: order_by
+  techie_lifecycle_state: techie_lifecycle_states_order_by
+  track: order_by
+  trackByApplicationTrackChoice: tracks_order_by
+  trackByTrack: tracks_order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "techies"
+input techies_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "techies"
+enum techies_select_column {
+  # column name
+  age
+
+  # column name
+  application_track_choice
+
+  # column name
+  assigned_team_member_id
+
+  # column name
+  created_at
+
+  # column name
+  edyoucated_handle
+
+  # column name
+  edyoucated_imported_at
+
+  # column name
+  edyoucated_next_import_after
+
+  # column name
+  edyoucated_user_id
+
+  # column name
+  email
+
+  # column name
+  first_name
+
+  # column name
+  gender
+
+  # column name
+  github_handle
+
+  # column name
+  google_account
+
+  # column name
+  id
+
+  # column name
+  last_name
+
+  # column name
+  linkedin_profile_url
+
+  # column name
+  location
+
+  # column name
+  notes
+
+  # column name
+  project_id
+
+  # column name
+  semester_id
+
+  # column name
+  slack_member_id
+
+  # column name
+  state
+
+  # column name
+  techie_key
+
+  # column name
+  track
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "techies"
+input techies_set_input {
+  age: smallint
+  application_track_choice: tracks_enum
+  assigned_team_member_id: uuid
+  created_at: timestamp
+  edyoucated_handle: String
+  edyoucated_imported_at: timestamp
+  edyoucated_next_import_after: timestamp
+  edyoucated_user_id: String
+  email: String
+  first_name: String
+  gender: String
+  github_handle: String
+  google_account: String
+  id: uuid
+  last_name: String
+  linkedin_profile_url: String
+  location: locations_enum
+  notes: String
+  project_id: uuid
+  semester_id: uuid
+  slack_member_id: String
+  state: techie_lifecycle_states_enum
+  techie_key: String
+  track: tracks_enum
+  updated_at: timestamp
+}
+
+# aggregate stddev on columns
+type techies_stddev_fields {
+  age: Float
+}
+
+# order by stddev() on columns of table "techies"
+input techies_stddev_order_by {
+  age: order_by
+}
+
+# aggregate stddev_pop on columns
+type techies_stddev_pop_fields {
+  age: Float
+}
+
+# order by stddev_pop() on columns of table "techies"
+input techies_stddev_pop_order_by {
+  age: order_by
+}
+
+# aggregate stddev_samp on columns
+type techies_stddev_samp_fields {
+  age: Float
+}
+
+# order by stddev_samp() on columns of table "techies"
+input techies_stddev_samp_order_by {
+  age: order_by
+}
+
+# aggregate sum on columns
+type techies_sum_fields {
+  age: smallint
+}
+
+# order by sum() on columns of table "techies"
+input techies_sum_order_by {
+  age: order_by
+}
+
+# update columns of table "techies"
+enum techies_update_column {
+  # column name
+  age
+
+  # column name
+  application_track_choice
+
+  # column name
+  assigned_team_member_id
+
+  # column name
+  created_at
+
+  # column name
+  edyoucated_handle
+
+  # column name
+  edyoucated_imported_at
+
+  # column name
+  edyoucated_next_import_after
+
+  # column name
+  edyoucated_user_id
+
+  # column name
+  email
+
+  # column name
+  first_name
+
+  # column name
+  gender
+
+  # column name
+  github_handle
+
+  # column name
+  google_account
+
+  # column name
+  id
+
+  # column name
+  last_name
+
+  # column name
+  linkedin_profile_url
+
+  # column name
+  location
+
+  # column name
+  notes
+
+  # column name
+  project_id
+
+  # column name
+  semester_id
+
+  # column name
+  slack_member_id
+
+  # column name
+  state
+
+  # column name
+  techie_key
+
+  # column name
+  track
+
+  # column name
+  updated_at
+}
+
+# aggregate var_pop on columns
+type techies_var_pop_fields {
+  age: Float
+}
+
+# order by var_pop() on columns of table "techies"
+input techies_var_pop_order_by {
+  age: order_by
+}
+
+# aggregate var_samp on columns
+type techies_var_samp_fields {
+  age: Float
+}
+
+# order by var_samp() on columns of table "techies"
+input techies_var_samp_order_by {
+  age: order_by
+}
+
+# aggregate variance on columns
+type techies_variance_fields {
+  age: Float
+}
+
+# order by variance() on columns of table "techies"
+input techies_variance_order_by {
+  age: order_by
+}
+
+# columns and relationships of "terms"
+type terms {
+  # An array relationship
+  semesters(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): [semesters!]!
+
+  # An aggregated array relationship
+  semesters_aggregate(
+    # distinct select on columns
+    distinct_on: [semesters_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [semesters_order_by!]
+
+    # filter the rows returned
+    where: semesters_bool_exp
+  ): semesters_aggregate!
+  value: String!
+}
+
+# aggregated selection of "terms"
+type terms_aggregate {
+  aggregate: terms_aggregate_fields
+  nodes: [terms!]!
+}
+
+# aggregate fields of "terms"
+type terms_aggregate_fields {
+  count(columns: [terms_select_column!], distinct: Boolean): Int
+  max: terms_max_fields
+  min: terms_min_fields
+}
+
+# order by aggregate values of table "terms"
+input terms_aggregate_order_by {
+  count: order_by
+  max: terms_max_order_by
+  min: terms_min_order_by
+}
+
+# input type for inserting array relation for remote table "terms"
+input terms_arr_rel_insert_input {
+  data: [terms_insert_input!]!
+  on_conflict: terms_on_conflict
+}
+
+# Boolean expression to filter rows from the table "terms". All fields are combined with a logical 'AND'.
+input terms_bool_exp {
+  _and: [terms_bool_exp]
+  _not: terms_bool_exp
+  _or: [terms_bool_exp]
+  semesters: semesters_bool_exp
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "terms"
+enum terms_constraint {
+  # unique or primary key constraint
+  terms_pkey
+}
+
+# input type for inserting data into table "terms"
+input terms_insert_input {
+  semesters: semesters_arr_rel_insert_input
+  value: String
+}
+
+# aggregate max on columns
+type terms_max_fields {
+  value: String
+}
+
+# order by max() on columns of table "terms"
+input terms_max_order_by {
+  value: order_by
+}
+
+# aggregate min on columns
+type terms_min_fields {
+  value: String
+}
+
+# order by min() on columns of table "terms"
+input terms_min_order_by {
+  value: order_by
+}
+
+# response of any mutation on the table "terms"
+type terms_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [terms!]!
+}
+
+# input type for inserting object relation for remote table "terms"
+input terms_obj_rel_insert_input {
+  data: terms_insert_input!
+  on_conflict: terms_on_conflict
+}
+
+# on conflict condition type for table "terms"
+input terms_on_conflict {
+  constraint: terms_constraint!
+  update_columns: [terms_update_column!]!
+  where: terms_bool_exp
+}
+
+# ordering options when selecting data from "terms"
+input terms_order_by {
+  semesters_aggregate: semesters_aggregate_order_by
+  value: order_by
+}
+
+# primary key columns input for table: "terms"
+input terms_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "terms"
+enum terms_select_column {
+  # column name
+  value
+}
+
+# input type for updating data in table "terms"
+input terms_set_input {
+  value: String
+}
+
+# update columns of table "terms"
+enum terms_update_column {
+  # column name
+  value
+}
+
+scalar timestamp
+
+# expression to compare columns of type timestamp. All fields are combined with logical 'AND'.
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
+
+# columns and relationships of "tracks"
+type tracks {
+  # An array relationship
+  techies(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An array relationship
+  techiesByApplicationTrackChoice(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): [techies!]!
+
+  # An aggregated array relationship
+  techiesByApplicationTrackChoice_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+
+  # An aggregated array relationship
+  techies_aggregate(
+    # distinct select on columns
+    distinct_on: [techies_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techies_order_by!]
+
+    # filter the rows returned
+    where: techies_bool_exp
+  ): techies_aggregate!
+  value: String!
+}
+
+# aggregated selection of "tracks"
+type tracks_aggregate {
+  aggregate: tracks_aggregate_fields
+  nodes: [tracks!]!
+}
+
+# aggregate fields of "tracks"
+type tracks_aggregate_fields {
+  count(columns: [tracks_select_column!], distinct: Boolean): Int
+  max: tracks_max_fields
+  min: tracks_min_fields
+}
+
+# order by aggregate values of table "tracks"
+input tracks_aggregate_order_by {
+  count: order_by
+  max: tracks_max_order_by
+  min: tracks_min_order_by
+}
+
+# input type for inserting array relation for remote table "tracks"
+input tracks_arr_rel_insert_input {
+  data: [tracks_insert_input!]!
+  on_conflict: tracks_on_conflict
+}
+
+# Boolean expression to filter rows from the table "tracks". All fields are combined with a logical 'AND'.
+input tracks_bool_exp {
+  _and: [tracks_bool_exp]
+  _not: tracks_bool_exp
+  _or: [tracks_bool_exp]
+  techies: techies_bool_exp
+  techiesByApplicationTrackChoice: techies_bool_exp
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "tracks"
+enum tracks_constraint {
+  # unique or primary key constraint
+  tracks_pkey
+}
+
+enum tracks_enum {
+  AI
+  DS
+  UX
+  WEBDEV
+}
+
+# expression to compare columns of type tracks_enum. All fields are combined with logical 'AND'.
+input tracks_enum_comparison_exp {
+  _eq: tracks_enum
+  _in: [tracks_enum!]
+  _is_null: Boolean
+  _neq: tracks_enum
+  _nin: [tracks_enum!]
+}
+
+# input type for inserting data into table "tracks"
+input tracks_insert_input {
+  techies: techies_arr_rel_insert_input
+  techiesByApplicationTrackChoice: techies_arr_rel_insert_input
+  value: String
+}
+
+# aggregate max on columns
+type tracks_max_fields {
+  value: String
+}
+
+# order by max() on columns of table "tracks"
+input tracks_max_order_by {
+  value: order_by
+}
+
+# aggregate min on columns
+type tracks_min_fields {
+  value: String
+}
+
+# order by min() on columns of table "tracks"
+input tracks_min_order_by {
+  value: order_by
+}
+
+# response of any mutation on the table "tracks"
+type tracks_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [tracks!]!
+}
+
+# input type for inserting object relation for remote table "tracks"
+input tracks_obj_rel_insert_input {
+  data: tracks_insert_input!
+  on_conflict: tracks_on_conflict
+}
+
+# on conflict condition type for table "tracks"
+input tracks_on_conflict {
+  constraint: tracks_constraint!
+  update_columns: [tracks_update_column!]!
+  where: tracks_bool_exp
+}
+
+# ordering options when selecting data from "tracks"
+input tracks_order_by {
+  techiesByApplicationTrackChoice_aggregate: techies_aggregate_order_by
+  techies_aggregate: techies_aggregate_order_by
+  value: order_by
+}
+
+# primary key columns input for table: "tracks"
+input tracks_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "tracks"
+enum tracks_select_column {
+  # column name
+  value
+}
+
+# input type for updating data in table "tracks"
+input tracks_set_input {
+  value: String
+}
+
+# update columns of table "tracks"
+enum tracks_update_column {
+  # column name
+  value
+}
+
+# columns and relationships of "typeform_users"
+type typeform_users {
+  created_at: timestamp!
+  email: String!
+  id: uuid!
+  location: locations_enum!
+
+  # An object relationship
+  locationByLocation: locations!
+  token: String!
+  updated_at: timestamp!
+}
+
+# aggregated selection of "typeform_users"
+type typeform_users_aggregate {
+  aggregate: typeform_users_aggregate_fields
+  nodes: [typeform_users!]!
+}
+
+# aggregate fields of "typeform_users"
+type typeform_users_aggregate_fields {
+  count(columns: [typeform_users_select_column!], distinct: Boolean): Int
+  max: typeform_users_max_fields
+  min: typeform_users_min_fields
+}
+
+# order by aggregate values of table "typeform_users"
+input typeform_users_aggregate_order_by {
+  count: order_by
+  max: typeform_users_max_order_by
+  min: typeform_users_min_order_by
+}
+
+# input type for inserting array relation for remote table "typeform_users"
+input typeform_users_arr_rel_insert_input {
+  data: [typeform_users_insert_input!]!
+  on_conflict: typeform_users_on_conflict
+}
+
+# Boolean expression to filter rows from the table "typeform_users". All fields are combined with a logical 'AND'.
+input typeform_users_bool_exp {
+  _and: [typeform_users_bool_exp]
+  _not: typeform_users_bool_exp
+  _or: [typeform_users_bool_exp]
+  created_at: timestamp_comparison_exp
+  email: String_comparison_exp
+  id: uuid_comparison_exp
+  location: locations_enum_comparison_exp
+  locationByLocation: locations_bool_exp
+  token: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+# unique or primary key constraints on table "typeform_users"
+enum typeform_users_constraint {
+  # unique or primary key constraint
+  typeform_users_id
+
+  # unique or primary key constraint
+  typeform_users_location_unique
+
+  # unique or primary key constraint
+  typeform_users_pkey
+}
+
+# input type for inserting data into table "typeform_users"
+input typeform_users_insert_input {
+  created_at: timestamp
+  email: String
+  id: uuid
+  location: locations_enum
+  locationByLocation: locations_obj_rel_insert_input
+  token: String
+  updated_at: timestamp
+}
+
+# aggregate max on columns
+type typeform_users_max_fields {
+  created_at: timestamp
+  email: String
+  id: uuid
+  token: String
+  updated_at: timestamp
+}
+
+# order by max() on columns of table "typeform_users"
+input typeform_users_max_order_by {
+  created_at: order_by
+  email: order_by
+  id: order_by
+  token: order_by
+  updated_at: order_by
+}
+
+# aggregate min on columns
+type typeform_users_min_fields {
+  created_at: timestamp
+  email: String
+  id: uuid
+  token: String
+  updated_at: timestamp
+}
+
+# order by min() on columns of table "typeform_users"
+input typeform_users_min_order_by {
+  created_at: order_by
+  email: order_by
+  id: order_by
+  token: order_by
+  updated_at: order_by
+}
+
+# response of any mutation on the table "typeform_users"
+type typeform_users_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [typeform_users!]!
+}
+
+# input type for inserting object relation for remote table "typeform_users"
+input typeform_users_obj_rel_insert_input {
+  data: typeform_users_insert_input!
+  on_conflict: typeform_users_on_conflict
+}
+
+# on conflict condition type for table "typeform_users"
+input typeform_users_on_conflict {
+  constraint: typeform_users_constraint!
+  update_columns: [typeform_users_update_column!]!
+  where: typeform_users_bool_exp
+}
+
+# ordering options when selecting data from "typeform_users"
+input typeform_users_order_by {
+  created_at: order_by
+  email: order_by
+  id: order_by
+  location: order_by
+  locationByLocation: locations_order_by
+  token: order_by
+  updated_at: order_by
+}
+
+# primary key columns input for table: "typeform_users"
+input typeform_users_pk_columns_input {
+  id: uuid!
+}
+
+# select columns of table "typeform_users"
+enum typeform_users_select_column {
+  # column name
+  created_at
+
+  # column name
+  email
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  token
+
+  # column name
+  updated_at
+}
+
+# input type for updating data in table "typeform_users"
+input typeform_users_set_input {
+  created_at: timestamp
+  email: String
+  id: uuid
+  location: locations_enum
+  token: String
+  updated_at: timestamp
+}
+
+# update columns of table "typeform_users"
+enum typeform_users_update_column {
+  # column name
+  created_at
+
+  # column name
+  email
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  token
+
+  # column name
+  updated_at
+}
+
+scalar uuid
+
+# expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
