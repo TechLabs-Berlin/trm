@@ -1,27 +1,23 @@
 const querystring = require('querystring')
-const { GoogleAuth } = require('google-auth-library')
+const { auth } = require('google-auth-library')
 
 module.exports = ({fetch, log, config}) => {
   return {
     // returns the email addresses of the Google Groups the user is a member of
     // e.g. ['team_berlin@techlabs.org']
     getGroupMemberships: async ({userKey}) => {
-      const client = new GoogleAuth({
-        scopes: ['https://www.googleapis.com/auth/admin.directory.group.readonly'],
-        clientOptions: {
-          subject: config.googleImpersonateSubject,
-        },
-      })
-      const query = querystring.stringify({ userKey })
-      const url = `https://www.googleapis.com/admin/directory/v1/groups?${query}`
-      const headers = await client.getRequestHeaders(url)
+      const client = auth.fromJSON(config.googleServiceAccountJSON)
+      client.scopes = ['https://www.googleapis.com/auth/admin.directory.group.readonly']
+      client.subject = config.googleImpersonateSubject
+      const tokens = await client.authorize()
 
+      const query = querystring.stringify({ userKey })
       const resp = await fetch(
         `https://www.googleapis.com/admin/directory/v1/groups?${query}`,
         {
           headers: {
             'Accept': 'application/json',
-            ...headers,
+            'Authorization': `Bearer ${tokens.access_token}`
           }
         }
       )

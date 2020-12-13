@@ -19,6 +19,11 @@ module.exports = () => {
   }
   const jwtKey = process.env.JWT_KEY
 
+  if(!('GOOGLE_SERVICE_ACCOUNT_JSON' in process.env)) {
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is unset')
+  }
+  const googleServiceAccountJSON = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON)
+
   if(!('GOOGLE_IMPERSONATE_SUBJECT' in process.env)) {
     throw new Error('GOOGLE_IMPERSONATE_SUBJECT is unset')
   }
@@ -35,6 +40,7 @@ module.exports = () => {
     gSuiteDomain,
     jwtKey,
     googleImpersonateSubject,
+    googleServiceAccountJSON,
     debug
   }
 }

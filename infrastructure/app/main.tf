@@ -58,6 +58,15 @@ module "database" {
   google_dns_managed_zone = local.google_dns_managed_zone
 }
 
+data "google_service_account" "auth" {
+  account_id = "trm-auth"
+  project    = var.project
+}
+
+resource "google_service_account_key" "functions_auth" {
+  service_account_id = data.google_service_account.auth.name
+}
+
 module "functions_auth" {
   source = "./modules/function"
 
@@ -66,12 +75,13 @@ module "functions_auth" {
   name                = "trm-auth-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    OAUTH_CLIENT_ID            = var.oauth_credentials[terraform.workspace].client_id,
-    OAUTH_CLIENT_SECRET        = var.oauth_credentials[terraform.workspace].client_secret,
-    GSUITE_DOMAIN              = var.gsuite_domain,
-    GOOGLE_IMPERSONATE_SUBJECT = var.google_impersonate_subject,
-    JWT_KEY                    = var.hasura_jwt_keys[terraform.workspace]
-    DEBUG                      = "1" // TODO add config variable
+    OAUTH_CLIENT_ID             = var.oauth_credentials[terraform.workspace].client_id,
+    OAUTH_CLIENT_SECRET         = var.oauth_credentials[terraform.workspace].client_secret,
+    GSUITE_DOMAIN               = var.gsuite_domain,
+    GOOGLE_SERVICE_ACCOUNT_JSON = base64decode(google_service_account_key.functions_auth.private_key),
+    GOOGLE_IMPERSONATE_SUBJECT  = var.google_impersonate_subject,
+    JWT_KEY                     = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG                       = "1" // TODO add config variable
   }
 }
 
