@@ -8,10 +8,17 @@
 ## Enable APIs
 
 - [Admin SDK](https://console.cloud.google.com/apis/library/admin.googleapis.com) – for Google Auth
+- Enable Cloud DNS API
 - Enable Cloud Scheduler API, go to Cloud Scheduler in Console and create a Job to create an App Engine application
 - Enable Google Drive API
 - Enable Google Sheets API
 - Enable IAM
+- Enable Cloud SQL Admin
+- Enable Compute Engine API
+- Enable Cloud Functions API
+- Enable Cloud Run API
+- Enable Artifact Registry API
+- Enable Cloud Build
 
 ## Setup OAuth
 
@@ -117,3 +124,16 @@ Validating the domain is required to be able to use [custom domain names with Cl
    ```
 
    (TXT record for `techlabs.org` with given value and TTL 86400s [1 day])
+
+# Deploy the TRM resources to Google Cloud
+
+1. Create a service account _terraform_
+   * Role _Owner_
+
+2. Create & download a new key for the service account _terraform_
+
+2. Create a storage bucket _techlabs-trm-state_
+   * Region _europe-west3_
+   * Storage Class _Standard_
+   * Access control _Fine-grained_
+   * No advanced settings
