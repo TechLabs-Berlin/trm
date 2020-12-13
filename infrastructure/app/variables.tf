@@ -36,3 +36,4 @@ variable "edyoucated_api_url" {}
 variable "trm_data_folder_id" {
   type = map
 }
+variable "google_impersonate_subject" {}

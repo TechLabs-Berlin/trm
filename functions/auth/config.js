@@ -19,6 +19,11 @@ module.exports = () => {
   }
   const jwtKey = process.env.JWT_KEY
 
+  if(!('GOOGLE_IMPERSONATE_SUBJECT' in process.env)) {
+    throw new Error('GOOGLE_IMPERSONATE_SUBJECT is unset')
+  }
+  const googleImpersonateSubject = process.env.GOOGLE_IMPERSONATE_SUBJECT
+
   let debug = false
   if('DEBUG' in process.env) {
     debug = true
@@ -29,6 +34,7 @@ module.exports = () => {
     oAuthClientSecret,
     gSuiteDomain,
     jwtKey,
+    googleImpersonateSubject,
     debug
   }
 }

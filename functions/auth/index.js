@@ -2,7 +2,6 @@ const GoogleAuth = require('google-auth-library')
 const jwt = require('jsonwebtoken')
 
 const newGoogleStore = require('./store/google')
-const authorization = require('./store/authorization')
 const config = require('./config')()
 const log = require('./util/logger')({
   debugLoggingEnabled: config.debug
@@ -12,8 +11,10 @@ const fetch = require('./util/fetch')({
 })
 const google = newGoogleStore({
   fetch,
-  log
+  log,
+  config,
 })
+const authorization = require('./store/authorization')({ log })
 
 exports.handler = async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
@@ -60,15 +61,15 @@ exports.handler = async (req, res) => {
     res.status(400).send('invalid gsuite domain')
     return
   }
-  // TODO enable when Groups API can be accessed through service account with domain-wide delegation
-  // const groups = await google.getGroups({ userKey, accessToken })
 
+  const groupEmails = await google.getGroupMemberships({ userKey })
   const token = jwt.sign(
     authorization.getPayload({
       email,
       firstName,
       lastName,
-      avatar
+      avatar,
+      groupEmails,
     }),
     config.jwtKey,
     {

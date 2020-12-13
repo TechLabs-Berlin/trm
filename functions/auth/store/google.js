@@ -1,15 +1,27 @@
 const querystring = require('querystring')
+const { GoogleAuth } = require('google-auth-library')
 
-module.exports = ({fetch, log}) => {
+module.exports = ({fetch, log, config}) => {
   return {
-    getGroups: async ({userKey, accessToken}) => {
-      const query = querystring.stringify( { userKey })
+    // returns the email addresses of the Google Groups the user is a member of
+    // e.g. ['team_berlin@techlabs.org']
+    getGroupMemberships: async ({userKey}) => {
+      const client = new GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/admin.directory.group.readonly'],
+        clientOptions: {
+          subject: config.googleImpersonateSubject,
+        },
+      })
+      const query = querystring.stringify({ userKey })
+      const url = `https://www.googleapis.com/admin/directory/v1/groups?${query}`
+      const headers = await client.getRequestHeaders(url)
+
       const resp = await fetch(
         `https://www.googleapis.com/admin/directory/v1/groups?${query}`,
         {
           headers: {
             'Accept': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+            ...headers,
           }
         }
       )
@@ -31,51 +43,20 @@ module.exports = ({fetch, log}) => {
         })
       }
 
-      return result.groups.reduce((groups, group) => {
-        if(!('email' in group)) {
-          return groups
-        }
-
-        groups.push(group.email)
-        return groups
-      }, [])
-    },
-    getGroupMembers: async ({group, accessToken}) => {
-      const resp = await fetch(
-        `https://www.googleapis.com/admin/directory/v1/groups/${encodeURIComponent(group)}/members`,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          }
-        }
-      )
-
-      const result = await resp.json()
-
-      if(!resp.ok) {
-        log.debug(`Google API returned an error`, { error: result })
-        return Promise.reject({
-          reason: `Google API responded with ${resp.status}`,
-          error: result
-        })
-      }
-
-      if(!('members' in result)) {
-        return Promise.reject({
-          reason: `Google API returned invalid response, expected to find members`,
-          error: result
-        })
-      }
-
-      return result.members.reduce((members, member) => {
-        if(!('email' in member)) {
-          return members
-        }
-
-        members.push(member.email)
-        return members
-      }, [])
+      // groups is
+      // [
+      //   {
+      //     kind: 'admin#directory#group',
+      //     id: 'abc',
+      //     etag: 'def',
+      //     email: 'team_berlin@techlabs.org',
+      //     name: 'mgmt_team_berlin',
+      //     directMembersCount: '20',
+      //     description: '',
+      //     adminCreated: true
+      //   }
+      // ]
+      return result.groups.map(group => group.email)
     }
   }
 }

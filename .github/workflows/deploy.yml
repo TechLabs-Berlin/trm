@@ -53,7 +53,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup gcloud
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@master
       with:
         version: '308.0.0'
         service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -92,6 +92,7 @@ jobs:
       TF_VAR_edyoucated_aws_region: ${{ secrets.TF_VAR_EDYOUCATED_AWS_REGION }}
       TF_VAR_edyoucated_api_url: ${{ secrets.TF_VAR_EDYOUCATED_API_URL }}
       TF_VAR_trm_data_folder_id: ${{ secrets.TF_VAR_TRM_DATA_FOLDER_ID }}
+      TF_VAR_google_impersonate_subject: ${{ secrets.TF_VAR_GOOGLE_IMPERSONATE_SUBJECT }}
       TF_VAR_project: techlabs-trm
       TF_VAR_region: europe-west3
       TF_VAR_domain: trm.techlabs.org

@@ -66,11 +66,12 @@ module "functions_auth" {
   name                = "trm-auth-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    OAUTH_CLIENT_ID     = var.oauth_credentials[terraform.workspace].client_id,
-    OAUTH_CLIENT_SECRET = var.oauth_credentials[terraform.workspace].client_secret,
-    GSUITE_DOMAIN       = var.gsuite_domain,
-    JWT_KEY             = var.hasura_jwt_keys[terraform.workspace]
-    DEBUG               = "1" // TODO add config variable
+    OAUTH_CLIENT_ID            = var.oauth_credentials[terraform.workspace].client_id,
+    OAUTH_CLIENT_SECRET        = var.oauth_credentials[terraform.workspace].client_secret,
+    GSUITE_DOMAIN              = var.gsuite_domain,
+    GOOGLE_IMPERSONATE_SUBJECT = var.google_impersonate_subject,
+    JWT_KEY                    = var.hasura_jwt_keys[terraform.workspace]
+    DEBUG                      = "1" // TODO add config variable
   }
 }
 
