@@ -1,4 +1,6 @@
 module.exports = () => {
+  const env = process.env.NODE_ENV || 'production'
+
   if(!('JWT_KEY' in process.env)) {
     throw new Error('JWT_KEY is unset')
   }
@@ -45,6 +47,7 @@ module.exports = () => {
   }
 
   return {
+    env,
     jwtKey,
     edyoucatedUsername,
     edyoucatedPassword,

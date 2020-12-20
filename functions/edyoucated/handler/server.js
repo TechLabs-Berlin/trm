@@ -9,7 +9,14 @@ const jwt = require('../util/jwt')({
 })
 const newEdyoucatedStore = require('../store/edyoucated')
 const { typeDefs } = require('./typeDefs')
-const { resolvers } = require('./resolvers')
+
+let resolvers
+if(config.env === 'production') {
+  resolvers = require('./resolvers').resolvers
+} else {
+  log.warning('Loading stub resolvers')
+  resolvers = require('./stubResolvers').resolvers
+}
 
 const edyoucated = newEdyoucatedStore({
   username: config.edyoucatedUsername,
