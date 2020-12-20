@@ -11,7 +11,7 @@ const newEdyoucatedStore = require('../store/edyoucated')
 const { typeDefs } = require('./typeDefs')
 
 let resolvers
-if(config.env === 'production') {
+if(['staging', 'production'].includes(config.env)) {
   resolvers = require('./resolvers').resolvers
 } else {
   log.warning('Loading stub resolvers')

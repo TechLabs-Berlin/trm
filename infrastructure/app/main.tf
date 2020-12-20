@@ -75,6 +75,7 @@ module "functions_auth" {
   name                = "trm-auth-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
+    NODE_ENV                    = terraform.workspace,
     OAUTH_CLIENT_ID             = var.oauth_credentials[terraform.workspace].client_id,
     OAUTH_CLIENT_SECRET         = var.oauth_credentials[terraform.workspace].client_secret,
     GSUITE_DOMAIN               = var.gsuite_domain,
