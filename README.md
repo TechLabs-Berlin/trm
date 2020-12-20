@@ -45,11 +45,13 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
    docker-compose up -d hasura
    ```
 
-1. Verify everything is running (e.g. not restarting):
+1. Verify everything is running and healthy:
 
    ```
    docker-compose ps
    ```
+
+   It should say `Up (healthy)` for every service.
 
 1. Setup frontend for development:
 
@@ -115,8 +117,8 @@ The deployment process runs the [GitHub Actions](https://github.com/features/act
 
 The TRM Dashbaord is deployed on [GitHub pages](https://pages.github.com/). GitHub Actions builds the frontend and commits the build in the following repositories:
 
-- [`TechLabs-Berlin/trm-frontend-staging`](github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
-- [`TechLabs-Berlin/trm-frontend-production`](github.com/TechLabs-Berlin/trm-frontend-production) – for the _production_ environment
+- [`TechLabs-Berlin/trm-frontend-staging`](https://github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
+- [`TechLabs-Berlin/trm-frontend-production`](https://github.com/TechLabs-Berlin/trm-frontend-production) – for the _production_ environment
 
 ## Contributing
 

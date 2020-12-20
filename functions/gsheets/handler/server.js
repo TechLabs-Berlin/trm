@@ -27,6 +27,7 @@ exports.buildServer = ({ ApolloServer }) => {
     typeDefs,
     resolvers,
     introspection: true,
+    stopOnTerminationSignals: true,
     extensions: [
       () => {
         if(!config.debug) {
