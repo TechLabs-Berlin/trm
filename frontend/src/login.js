@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme } from '@material-ui/core/styles';
 import GREY from '@material-ui/core/colors/grey';
+import Button from '@material-ui/core/Button';
 import { GoogleLogin } from 'react-google-login';
 
 import config from './config'
@@ -48,7 +49,7 @@ const LoginPage = (props) => {
     const notify = useNotify();
     const login = useLogin();
     const classes = useStyles(props);
-    const responseGoogle = (response) => {
+    const onProviderResponse = (response) => {
         if('code' in response) {
             login({ code: response.code })
             return
@@ -65,15 +66,25 @@ const LoginPage = (props) => {
                 <LoginPaper elevation={3} className={classes.centeredText}>
                     <TechLabsLogo className={classes.centeredBlock} alt="TechLabs Logo" />
                     <h1 className={classes.centeredText}>Techie Relationship Management</h1>
-                    <GoogleLogin
-                        clientId={config.oAuth.clientId}
-                        hostedDomain={config.oAuth.hostedDomain}
-                        scope="profile email openid"
-                        responseType="code"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy={'single_host_origin'}
-                    />
+                    {config.auth === 'oauth' && (
+                        <GoogleLogin
+                            clientId={config.oauth.clientId}
+                            hostedDomain={config.oauth.hostedDomain}
+                            scope="profile email openid"
+                            responseType="code"
+                            onSuccess={onProviderResponse}
+                            onFailure={onProviderResponse}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                    )}
+                    {config.auth === 'stub' && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => onProviderResponse({code: 'stub'})}>
+                            Log In
+                        </Button>
+                    )}
                 </LoginPaper>
             </div>
         </ThemeProvider>

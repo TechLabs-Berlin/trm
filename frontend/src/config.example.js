@@ -1,8 +1,6 @@
 export default {
-  graphqlApiURL: 'https://example.invalid/v1/graphql',
-  authFnURL: 'https://example.invalid/trm-auth',
-  oAuth: {
-    clientId: 'CODE-INVALID.apps.googleusercontent.com',
-    hostedDomain: 'example.invalid'
-  }
+  graphqlApiURL: 'http://localhost:8080/v1/graphql',
+  authFnURL: 'http://localhost:8000/auth',
+  environment: 'development',
+  auth: 'stub'
 }

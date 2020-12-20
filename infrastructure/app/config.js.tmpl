@@ -2,7 +2,8 @@ export default {
   environment: '${environment}',
   graphqlApiURL: '${hasura_url}',
   authFnURL: '${functions_auth_url}',
-  oAuth: {
+  auth: 'oauth',
+  oauth: {
     clientId: '${oauth_client_id}',
     hostedDomain: '${gsuite_domain}'
   }
