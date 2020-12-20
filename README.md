@@ -20,28 +20,11 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 - The serverless functions in [`/functions/`](/functions/) integrate the TRM project with external providers, such as for authentification with Google, retrieving form responses from TypeForm, and fetching activity data from edyoucated & Slack.
 - PostgreSQL is used for data storage & retrieval
 
-## Deployment
-
-The project is deployed on [Google Cloud Platform (GCP)](https://cloud.google.com/). Follow the [guide for setting up GCP](/docs/google-cloud-setup.md).
-
-The infrastructure (see [`/infrastructure/`](/infrastructure/)) is managed with [Terraform](https://www.terraform.io/) in two projects:
-
-- [`/infrastructure/common`](/infrastructure/common) for all shared resources between environments: the Cloud SQL PostgreSQL database and a Google Artifact Registry Repository
-- [`/infrastructure/app`](/infrastructure/app) provides resources for a specific environment: the Hasura instance as a [Cloud Run](https://cloud.google.com/run) service, and the serverless functions in [Cloud Functions](https://cloud.google.com/functions)
-
-The TRM Dashbaord is deployed on [GitHub pages](https://pages.github.com/):
-
-- [`TechLabs-Berlin/trm-frontend-staging`](github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
-
-The deployment process runs the [GitHub Actions](https://github.com/features/actions) [`deploy` workflow](/.github/workflows/deploy.yml)  for every push to the deployment branches:
-
-- `staging` branch for the _staging_ environment
-
-## Setup & Development Use
+## Development
 
 ### Requirements
 
-- [Docker Engine](https://docs.docker.com/engine/)
+- Docker (Desktop) – [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) / [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
 - [NodeJS](https://nodejs.org/en/) v13.9.0 or higher
 - [Yarn](https://yarnpkg.com/) v1.22.4 or higher
 
@@ -55,7 +38,7 @@ The deployment process runs the [GitHub Actions](https://github.com/features/act
 
 ### Usage
 
-- Open [http://localhost:9695](http://localhost:9695) for the Hasura console.
+- Run `docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser` and open [http://localhost:9695](http://localhost:9695) for the Hasura console.
 
 - Run the Dashboard development server:
 
@@ -70,6 +53,25 @@ The deployment process runs the [GitHub Actions](https://github.com/features/act
     ```
 
   - Run `yarn start`
+
+## Deployment
+
+The project is deployed on [Google Cloud Platform (GCP)](https://cloud.google.com/). Follow the [guide for setting up GCP](/docs/google-cloud-setup.md).
+
+The infrastructure (see [`/infrastructure/`](/infrastructure/)) is managed with [Terraform](https://www.terraform.io/) in two projects:
+
+- [`/infrastructure/common`](/infrastructure/common) for all shared resources between environments: the Cloud SQL PostgreSQL database and a Google Artifact Registry Repository
+- [`/infrastructure/app`](/infrastructure/app) provides resources for a specific environment: the Hasura instance as a [Cloud Run](https://cloud.google.com/run) service, and the serverless functions in [Cloud Functions](https://cloud.google.com/functions)
+
+The deployment process runs the [GitHub Actions](https://github.com/features/actions) [`deploy` workflow](/.github/workflows/deploy.yml)  for every push to the deployment branches:
+
+- `staging` branch for the _staging_ environment
+- `production` branch for the _production_ environment
+
+The TRM Dashbaord is deployed on [GitHub pages](https://pages.github.com/). GitHub Actions builds the frontend and commits the build in the following repositories:
+
+- [`TechLabs-Berlin/trm-frontend-staging`](github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
+- [`TechLabs-Berlin/trm-frontend-production`](github.com/TechLabs-Berlin/trm-frontend-production) – for the _production_ environment
 
 ## Contributing
 
