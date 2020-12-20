@@ -10,43 +10,74 @@ services:
     environment:
       POSTGRES_PASSWORD: postgrespassword
   hasura:
-    # to get a dev console:
-    #   $ docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser
-    #   open http://localhost:9695
     build:
       context: database
     ports:
     - "8080:8080" # API
     - "9693:9693" # Migrations API
     - "9695:9695" # Migrations Console
-    depends_on:
-    - postgres
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
-      ## enable the console served by server
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false" # set to "false" to disable console
-      ## enable debugging mode. It is recommended to disable this in production
-      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "false"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      ## uncomment next line to set an admin secret
-      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-      FN_URL_TYPEFORM_WEBHOOK: http://node:8000/typeform-webhook
+
+      # Set SKIP_MIGRATIONS to 1 if there are errors applying migrations & you want to debug
+      SKIP_MIGRATIONS: '0'
+
+      # HASURA_GRAPHQL_ADMIN_SECRET is a stub for development & test, it is not valid for any deployed environment
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+
+      # HASURA_GRAPHQL_JWT_SECRET is a stub for development & test, it is not valid for any deployed environment
+      # Regenerate with: node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA=="}'
+
+      # These functions are stubbed for development & test
+      FN_URL_EDYOUCATED: http://fn-edyoucated:4000
+      FN_URL_GSHEETS: http://fn-gsheets:4000
+
+      # These functions are not required for development & test
+      FN_URL_TYPEFORM: http://typeform.fn.invalid
+      FN_URL_FORM_RESPONSE: http://form-response.fn.invalid
     volumes:
       - ./database/migrations:/migrations
       - ./database/metadata:/metadata
-  # node:
-  #   image: node:12-alpine
-  #   entrypoint: /bin/sh
-  #   volumes:
-  #     - .:/app
-  #   working_dir: /app
-  #   ports:
-  #     - 8000:8000
-  #   environment:
-  #     # random JWT key
-  #     JWT_KEY: OuioICBdLTcxtIJRJojP2EtmmoUraDO3xkSDRciNO2E72ikef/5QkmHGhgVL17XnelyPIJbhwaWYaS023oXVYs4vyPsbDov0en20o9UGfqB96P6+6UxW9yPCVcUdpl
-  #     GRAPHQL_URL: http://hasura:8080/v1/graphql
-  #     TYPEFORM_CALLBACK_URL: https://example.invalid
+    depends_on:
+      - postgres
+      - fn-edyoucated
+      - fn-gsheets
+  fn-edyoucated:
+    build:
+      context: functions/edyoucated
+    environment:
+      # When NODE_ENV != production, function returns stubbed values
+      NODE_ENV: test
+
+      # Uncomment DEBUG to enable debug logging
+      # DEBUG: '1'
+
+      # JWT_KEY is a stub for development & test, it is not valid for any deployed environment
+      JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
+
+      # EDYOUCATED_* variables are stubbed for development & test
+      EDYOUCATED_USERNAME: some@user.invalid
+      EDYOUCATED_PASSWORD: test123
+      EDYOUCATED_USER_POOL_ID: not-needed
+      EDYOUCATED_IDENTITY_POOL_ID: also-not-needed
+      EDYOUCATED_CLIENT_ID: no-client
+      EDYOUCATED_AWS_REGION: no-region
+      EDYOUCATED_API_URL: https://no-edyoucated.invalid
+  fn-gsheets:
+    build:
+      context: functions/gsheets
+    environment:
+      # When NODE_ENV != production, function returns stubbed values
+      NODE_ENV: test
+
+      # Uncomment DEBUG to enable debug logging
+      # DEBUG: '1'
+
+      # JWT_KEY is a stub for development & test, it is not valid for any deployed environment
+      JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
 volumes:
   db_data:
