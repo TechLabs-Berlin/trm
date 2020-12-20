@@ -19,6 +19,7 @@ import {
   useDataProvider,
   NumberInput,
   required,
+  Pagination,
 } from 'react-admin';
 import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
@@ -27,6 +28,7 @@ import { TrackSelectInput } from './inputs/trackSelect'
 import TimestampField from './fields/timestamp'
 import BulkUpdateTechieStateButton from "./components/buttons/bulkUpdateTechieState";
 import BulkUpdateAssignedTeamMemberButton from "./components/buttons/bulkUpdateAssignedTeamMember";
+import BulkUpdateProjectButton from "./components/buttons/bulkUpdateProject";
 import { FormResponseAnswersField } from './fields/formResponseAnswers';
 
 const TechieFilter = (props) => (
@@ -41,6 +43,9 @@ const TechieFilter = (props) => (
       <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
         <SelectInput optionText="first_name" />
       </ReferenceInput>
+      <ReferenceInput label="Project" source="project_id" reference="projects">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
       <StateSelectInput source="state" />
       <TrackSelectInput source="track" />
       <TrackSelectInput source="application_track_choice" />
@@ -51,11 +56,14 @@ const TechieBulkActionButtons = props => (
   <Fragment>
     <BulkUpdateTechieStateButton {...props} />
     <BulkUpdateAssignedTeamMemberButton {...props} />
+    <BulkUpdateProjectButton {...props} />
   </Fragment>
 )
 
+const TechiePagination = props => <Pagination rowsPerPageOptions={[25, 50, 100, 250, 500]} {...props} />;
+
 export const TechieList = props => (
-  <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} perPage={25}>
+  <List {...props} bulkActionButtons={<TechieBulkActionButtons />} filters={<TechieFilter />} pagination={<TechiePagination />}>
     <Datagrid rowClick="edit">
         <StateSelectField source="state" />
         <TextField source="first_name" />
@@ -119,6 +127,9 @@ export const TechieEdit = props => {
               <TrackSelectField source="application_track_choice" />
               <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
                   <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
+              </ReferenceInput>
+              <ReferenceInput label="Project" source="project_id" reference="projects" allowEmpty={true}>
+                  <SelectInput optionText="name" />
               </ReferenceInput>
               <TextInput multiline source="notes" />
               <TextInput source="google_account" />

@@ -62,14 +62,15 @@ const runChunkedPromise = async (xs, f, n=Infinity) => {
 };
 
 const csvSchema = {
-  email: () => {return []},
-  first_name: () => {return []},
-  last_name: () => {return []},
-  notes: () => {return []},
-  google_account: () => {return []},
-  github_handle: () => {return []},
-  linkedin_profile_url: () => {return []},
-  age: () => {return []},
+  email: () => [],
+  first_name: () => [],
+  last_name: () => [],
+  notes: () => [],
+  google_account: () => [],
+  github_handle: () => [],
+  linkedin_profile_url: () => [],
+  age: () => [],
+  project_name: () => [],
   state: (value) => {
     const validValues = ['PROSPECT', 'APPLICANT', 'REJECTED', 'LEARNER', 'DROPPED', 'ALUMNI']
     if(!validValues.includes(value)) {
@@ -160,6 +161,26 @@ const validate = (csv) => {
   return result
 }
 
+const resolvers = ({dataProvider}) => ({
+  project_name: async ({value, techie}) => {
+    if(!value || (typeof value !== 'string') || value.length === 0) {
+      return { project_id: null }
+    }
+    const { data: projects } = await dataProvider.getList('projects', {
+      filter: { name: value, semester_id: techie.semester_id }
+    })
+    if(projects.length === 0) {
+      return Promise.reject(`Project ${value} not found`)
+    }
+    if(projects.length > 1) {
+      return Promise.reject(`Project name ${value} is not unique`)
+    }
+    return {
+      project_id: projects[0].id
+    }
+  }
+})
+
 const CSVImportPage = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -197,12 +218,26 @@ const CSVImportPage = () => {
     const fetchTechies = async () => {
       const emails = Object.keys(newRecords)
       const response = await dataProvider.getList('techies', { filter: { email: emails } })
-      for(const techie of response.data) {
+      for(let techie of response.data) {
         if(!(techie.email in newRecords)) {
           continue
         }
-        newRecords[techie.email].state = 'FOUND'
-        newRecords[techie.email].attributes = techie
+        const record = newRecords[techie.email]
+        record.state = 'FOUND'
+        record.attributes = techie
+        // Run resolvers
+        for(const [attr, resolve] of Object.entries(resolvers({dataProvider}))) {
+          if(!(attr in record.changes)) {
+            continue
+          }
+          try {
+            const result = await resolve({value: record.changes[attr], techie})
+            record.changes = Object.assign(record.changes, result)
+            delete record.changes[attr]
+          } catch(e) {
+            record.state = 'INVALID'
+          }
+        }
       }
       setRecords(newRecords)
       setReady(true)

@@ -15,6 +15,7 @@ let messages = {
       ux: 'UX Design',
       dropped: 'Dropped',
       alumni: 'Alumni',
+      projects: 'Projects',
       reports: 'Reports',
       techieActivity: 'Techie Activity',
       csvImport: 'CSV Import',

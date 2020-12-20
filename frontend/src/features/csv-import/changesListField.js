@@ -10,6 +10,9 @@ export const ChangesListField = ({ record = {}}) => {
     if(record.attributes && (attribute in record.attributes)) {
       oldValue = <React.Fragment>{record.attributes[attribute]}</React.Fragment>
     }
+    if(newValue === null) {
+      newValue = <i>None</i>
+    }
     acc.push(<li key={attribute}>{attribute}: {oldValue} → {newValue}</li>)
     return acc
   }, [])

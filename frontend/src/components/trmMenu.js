@@ -24,6 +24,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
+import FlareIcon from '@material-ui/icons/Flare';
 import orange from '@material-ui/core/colors/orange';
 import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
 import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
@@ -124,7 +125,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                     page: 1,
-                    perPage: 25,
+                    perPage: 50,
                     sort: 'id',
                     order: 'DESC',
                     filter: {},
@@ -141,7 +142,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                     page: 1,
-                    perPage: 25,
+                    perPage: 50,
                     sort: 'id',
                     order: 'DESC',
                     filter: JSON.stringify({ state: 'APPLICANT' }),
@@ -156,7 +157,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'LEARNER' }),
@@ -171,7 +172,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'LEARNER', track: 'DS' }),
@@ -186,7 +187,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'LEARNER', track: 'AI' }),
@@ -201,7 +202,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'LEARNER', track: 'WEBDEV' }),
@@ -216,7 +217,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'LEARNER', track: 'UX' }),
@@ -231,7 +232,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'DROPPED' }),
@@ -246,7 +247,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             <MenuItemLink
                 to={{pathname: `/techies`, search: stringify({
                   page: 1,
-                  perPage: 25,
+                  perPage: 50,
                   sort: 'id',
                   order: 'DESC',
                   filter: JSON.stringify({ state: 'ALUMNI' }),
@@ -259,6 +260,15 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
         </SubMenu>
+        {permissions.includes('journey') && <MenuItemLink
+            to={`/projects`}
+            primaryText={translate('trm.menu.projects')}
+            leftIcon={<FlareIcon />}
+            onClick={onMenuClick}
+            sidebarIsOpen={open}
+            dense={dense}
+            exact
+        />}
         <SubMenu
             handleToggle={() => handleToggle('menuReports')}
             isOpen={state.menuReports}
