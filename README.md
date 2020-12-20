@@ -27,32 +27,77 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 - Docker (Desktop) – [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) / [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
 - [NodeJS](https://nodejs.org/en/) v13.9.0 or higher
 - [Yarn](https://yarnpkg.com/) v1.22.4 or higher
+- [NPM](https://npmjs.com/) v6.13.7 or higher
 
 ### Setup
 
-1. Check out repository
-2. (Dashboard only) Install npm packages:
-   1. `cd frontend`
-   2. `yarn install`
-3. Run `docker-compose up`
+1. Clone repository
+
+1. Build images for Hasura & functions
+
+   ```
+   docker-compose build
+   ```
+
+1. Start Postgres, Hasura & functions:
+
+   ```
+   docker-compose up -d hasura
+   ```
+
+1. Verify everything is running (e.g. not restarting):
+
+   ```
+   docker-compose ps
+   ```
+
+1. Setup frontend for development:
+
+   * The following commands are assumed to be run in the `/frontend` directory (`cd frontend`)
+
+   * `yarn install` downloads the dependencies
+
+   * Run `cp config.example.js config.js` for an example config which is set up to work with the local database &
+     Hasura instance you brought up with `docker-compose`.
 
 ### Usage
 
-- Run `docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser` and open [http://localhost:9695](http://localhost:9695) for the Hasura console.
+* Generate Sample Data
 
-- Run the Dashboard development server:
+   * It is not much fun to work with an empty database. This is why there is an included data generator which you can
+     use to populate the database with some near-realistic data. This generator is also used on the staging environment.
 
-  - Copy `src/config.example.js` to `src/config.js`
+   * Generate some techies:
 
-  - For local development, set these values:
+     1. Create a Semester in the frontend and copy its UUID (shown in the location bar like `http://localhost:3000/#/semesters/UUID`)
 
-    ```
-    export default {
-      graphqlApiURL: 'http://localhost:8080/v1/graphql'
-    }
-    ```
+     1. Run the techie generator:
 
-  - Run `yarn start`
+        ```
+        docker-compose run --rm data-generator -- generate techies 100 --semester UUID --location LOCATION
+        ```
+
+        (location is `BERLIN`, for example)
+
+* Frontend Development
+
+   * `yarn start` starts a development server on port 3000 with support for live code reloading.
+
+     Run this in the `/frontend` directory (`cd frontend`).
+
+     It should open the browser at [`http://localhost:3000`](http://localhost:3000) automatically.
+
+* Hasura Development
+
+  * Run `docker-compose exec hasura hasura-cli console --address 0.0.0.0 --no-browser` and open [http://localhost:9695](http://localhost:9695) for the Hasura console.
+
+  * You can find the Admin Secret in `docker-compose.yml` (`hasura` service, environment variables, `HASURA_GRAPHQL_ADMIN_SECRET`)
+
+  * Authorization works with the Admin Secret, but you may want to use token authorization (e.g. for testing roles & permissions).
+
+    Generate a token with `docker-compose run --rm data-generator generate token LOCATION` (location is `BERLIN`, for example).
+
+    Then add the `Authorization` header in the Hasura GraphQL Explorer with `Bearer TOKEN` as its value (replace `TOKEN` with the output of the `generate token` command).
 
 ## Deployment
 
