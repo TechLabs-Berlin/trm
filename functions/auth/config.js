@@ -1,4 +1,6 @@
 module.exports = () => {
+  const env = process.env.NODE_ENV || 'production'
+
   if(!('OAUTH_CLIENT_ID' in process.env)) {
     throw new Error('OAUTH_CLIENT_ID is unset')
   }
@@ -35,6 +37,7 @@ module.exports = () => {
   }
 
   return {
+    env,
     oAuthClientID,
     oAuthClientSecret,
     gSuiteDomain,
