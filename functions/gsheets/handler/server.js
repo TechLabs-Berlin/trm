@@ -9,7 +9,14 @@ const jwt = require('../util/jwt')({
 })
 const newGoogleStore = require('../store/google')
 const { typeDefs } = require('./typeDefs')
-const { resolvers } = require('./resolvers')
+
+let resolvers
+if(config.env === 'production') {
+  resolvers = require('./resolvers').resolvers
+} else {
+  log.warning('Loading stub resolvers')
+  resolvers = require('./stubResolvers').resolvers
+}
 
 const google = newGoogleStore({
   log
