@@ -24,10 +24,17 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 
 ### Requirements
 
+Must-Have:
+
 - Docker (Desktop) – [Docker for Mac](https://docs.docker.com/docker-for-mac/install/) / [Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
+
+May-Have:
+
 - [NodeJS](https://nodejs.org/en/) v13.9.0 or higher
 - [Yarn](https://yarnpkg.com/) v1.22.4 or higher
 - [NPM](https://npmjs.com/) v6.13.7 or higher
+
+_Local NodeJS, Yarn and NPM installations are required in case you want to develop on your local machine instead of in a container._
 
 ### Setup
 
@@ -36,7 +43,7 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 1. Build images for Hasura & functions
 
    ```
-   docker-compose build
+   docker-compose build --parallel
    ```
 
 1. Start Postgres, Hasura & functions:
@@ -44,6 +51,14 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
    ```
    docker-compose up -d hasura
    ```
+
+1. Start the frontend development server:
+
+   ```
+   docker-compose up frontend
+   ```
+
+   After 30s or so it should say `You can now view trm-frontend in the browser.`.
 
 1. Verify everything is running and healthy:
 
@@ -53,7 +68,7 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 
    It should say `Up (healthy)` for every service.
 
-1. Setup frontend for development:
+1. (Only required if developing locally) Setup frontend for development:
 
    * The following commands are assumed to be run in the `/frontend` directory (`cd frontend`)
 
@@ -115,7 +130,7 @@ The deployment process runs the [GitHub Actions](https://github.com/features/act
 - `staging` branch for the _staging_ environment
 - `production` branch for the _production_ environment
 
-The TRM Dashbaord is deployed on [GitHub pages](https://pages.github.com/). GitHub Actions builds the frontend and commits the build in the following repositories:
+The TRM Dashboard is deployed on [GitHub pages](https://pages.github.com/). GitHub Actions builds the frontend and commits the build in the following repositories:
 
 - [`TechLabs-Berlin/trm-frontend-staging`](https://github.com/TechLabs-Berlin/trm-frontend-staging) – for the _staging_ environment
 - [`TechLabs-Berlin/trm-frontend-production`](https://github.com/TechLabs-Berlin/trm-frontend-production) – for the _production_ environment

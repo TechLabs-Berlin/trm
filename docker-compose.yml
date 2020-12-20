@@ -55,11 +55,27 @@ services:
         condition: service_healthy
       fn-gsheets:
         condition: service_healthy
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      BROWSER: none # prevents "react-scripts start" from opening a browser which does not work inside the container
+    stdin_open: true # prevents "react-scripts start" from exiting
+    ports:
+      - "3000:3000"
+    volumes:
+      # Uncomment the next line if you want live code reloading
+      # - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      hasura:
+        condition: service_healthy
   fn-auth:
     build:
       context: functions/auth
     ports:
-      - 8000:8000
+      - "8000:8000"
     environment:
       # When NODE_ENV != production, function returns stubbed values
       NODE_ENV: test
