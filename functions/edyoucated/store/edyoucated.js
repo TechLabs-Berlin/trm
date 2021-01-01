@@ -47,22 +47,10 @@ const login = ({ username, password, userPoolID, identityPoolID, clientID, awsRe
       Pool: userPool,
     }
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+    cognitoUser.setAuthenticationFlowType('USER_PASSWORD_AUTH')
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: function(result) {
-        const logins = {}
-        logins[`cognito-idp.${awsRegion}.amazonaws.com/${userPoolID}`] = result.getIdToken().getJwtToken()
-        AWS.config.region = awsRegion
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: identityPoolID,
-            Logins: logins,
-        })
-        AWS.config.credentials.refresh(error => {
-            if (error) {
-                reject(err)
-            } else {
-                resolve(AWS.config.credentials)
-            }
-        });
+        resolve(result.getIdToken().getJwtToken())
       },
       onFailure: function(err) {
         reject(err)
@@ -71,13 +59,13 @@ const login = ({ username, password, userPoolID, identityPoolID, clientID, awsRe
   })
 }
 
-const buildClient = async ({ credentials, apiURL, awsRegion }) => {
+const buildClient = async ({ token, apiURL, awsRegion }) => {
   const client = new AWSAppSyncClient({
     url: apiURL,
     region: awsRegion,
     auth: {
-      type: AUTH_TYPE.AWS_IAM,
-      credentials: credentials,
+      type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
+      jwtToken: () => token,
     },
     disableOffline: true
   })
@@ -89,11 +77,11 @@ const MINUTE = 60
 module.exports = ({ username, password, userPoolID, identityPoolID, clientID, awsRegion, apiURL, log }) => {
   const cache = new NodeCache({ checkperiod: 0 })
 
-  const buildClientWithCachedCredentials = async () => {
-    let credentials = cache.get('credentials')
-    if(!credentials) {
-      log.info('Credentials not cached, logging in')
-      credentials = await login({
+  const buildClientWithCachedToken = async () => {
+    let token = cache.get('token')
+    if(!token) {
+      log.info('Token not cached, logging in')
+      token = await login({
         username,
         password,
         userPoolID,
@@ -101,12 +89,12 @@ module.exports = ({ username, password, userPoolID, identityPoolID, clientID, aw
         clientID,
         awsRegion
       })
-      cache.set('credentials', credentials, 60 * MINUTE)
+      cache.set('token', token, 60 * MINUTE)
     } else {
-      log.info('Using cached credentials')
+      log.info('Using cached token')
     }
     return buildClient({
-      credentials,
+      token,
       apiURL,
       awsRegion
     })
@@ -121,7 +109,7 @@ module.exports = ({ username, password, userPoolID, identityPoolID, clientID, aw
         return cachedUsers
       }
       log.debug('edyoucated API: getAllUsers fetches all users')
-      const client = await buildClientWithCachedCredentials()
+      const client = await buildClientWithCachedToken()
       let nextToken = null
       let allUsers = []
       do {
@@ -138,7 +126,7 @@ module.exports = ({ username, password, userPoolID, identityPoolID, clientID, aw
     },
     getTrackProgress: async({ userIDs }) => {
       log.info('edyoucated API: getTrackProgress', { userIDs })
-      const client = await buildClientWithCachedCredentials()
+      const client = await buildClientWithCachedToken()
       let nextToken = null
       let progress = []
       do {
