@@ -22,6 +22,45 @@ As for the main components, we have Hasura, the TRM Dashboard, and some [serverl
 
 ## Development
 
+We're happy that you want to work with us to make the TRM even more awesome! :tada:
+
+Try to work your way to the documentation & setup steps outlined below. If you have any questions or are stuck with the setup, do not hestitate to call for help on [Slack](https://techlabs-mgmt.slack.com/archives/C017RB4P0PL)! :relieved:
+### Technical Onboarding
+
+You should familiarize yourself with the architecture as described in the [Architecture section](#Architecture). In particular, have a look what [Hasura](https://hasura.io/) and [react-admin](https://marmelab.com/react-admin/) are, and how they integrate with the GraphQL API.
+
+This is a list of relevant resources like documentation, books, and conference talks:
+
+* [Introduction to Hasura with React & Apollo](https://hasura.io/learn/graphql/react/introduction/)
+
+  The TRM uses this exact stack in combination with [react-admin](https://marmelab.com/react-admin/) as a user interface & frontend data management framework.
+
+* [Introduction to GraphQL with Hasura](https://hasura.io/learn/graphql/hasura/introduction/)
+
+   This introduction to GraphQL and how to use it with Hasura will familiarize yourself with the way React & Hasura play together behind the scenes. You will create a basic todo app and see how Hasura works with foreign key relationships, authorization, authentication and custom business logic.
+
+   The TRM uses Google Auth (provided by the [`/functions/auth`](/functions/auth) serverless function) instead of Auth0, but the JSON Web Token (JWT) issuance & verification is the same.
+
+   We use remote schemas and event triggers to integrate with Google Sheets, Typeform, and edyoucated.
+
+* [React-Admin 30-minute tutorial](https://marmelab.com/react-admin/Tutorial.html)
+
+   Marmelab's 30-minute react-admin tutorial will show you how react-admin works in combination with a simple placeholder data source. You'll see how to map API resources to the frontend, and how to customize the frontend.
+
+   The TRM will use Apollo with the Hasura GraphQL API for data storage & retrieval, but working with a simple JSON API first may be an easier way with less moving parts to learn react-admin.
+
+* YouTube Guides
+
+   If you're more into watching intro videos, have a look at these tutorials on YouTube:
+
+   * [Scott Tries Hasura - A Realtime GraphQL API Builder](https://www.youtube.com/watch?v=LOWWtldWKYA)
+
+   * [React Admin Crash Course](https://www.youtube.com/watch?v=HRmdj-HpJyE)
+
+   * Hasura, GraphQL, React, Apollo – [Part 1](https://www.youtube.com/watch?v=M8KzVeRjpEI) and [Part 2](https://www.youtube.com/watch?v=YEfijJbblDQ)
+
+If you feel like you have a general understanding how it works together, proceed to setup the development environment on your local machine as explained below.
+
 ### Requirements
 
 Must-Have:
