@@ -107,15 +107,16 @@ export const FormEdit = props => {
       if(!props.id) {
         return
       }
-      const formResp = await dataProvider.getOne('forms', { id: props.id })
-      if(!formResp || !formResp.data || formResp.data.form_type !== 'PERSONALIZED') {
-        return
-      }
-      setPersonalized(true)
       const respondedTechiesResp = await dataProvider.getList('form_responses', {
         filter: { form_id: props.id }
       })
       const respondedTechies = respondedTechiesResp.data.filter(t => !!t.techie).map(t => t.techie.id)
+      const formResp = await dataProvider.getOne('forms', { id: props.id })
+      setRespondedTechies(respondedTechies.length)
+      if(!formResp || !formResp.data || formResp.data.form_type !== 'PERSONALIZED') {
+        return
+      }
+      setPersonalized(true)
       const techiesResp = await dataProvider.getList('techies', {
         filter: { semester_id: formResp.data.semester_id, state: 'LEARNER' }
       })
@@ -125,7 +126,6 @@ export const FormEdit = props => {
         return acc
       }, {})
       setMissingTechies(newMissingTechies)
-      setRespondedTechies(respondedTechies.length)
     }
     update()
   }, [props.id, dataProvider])
