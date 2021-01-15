@@ -18,6 +18,11 @@ if [ "$SKIP_MIGRATIONS" -eq 1 ]; then
     exec "$@"
 fi
 
+# install cli-ext plugin
+log "installing cli-ext plugin"
+hasura-cli plugins install cli-ext --manifest-file /opt/manifest.yaml
+cp -r /opt/hasura-home-directory/plugins/index ~/.hasura/plugins/index
+
 # configure the target database for migrations
 if [ ${HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR} ]; then
     log "migrations-startup" "database url for migrations is set by $HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR"

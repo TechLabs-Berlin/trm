@@ -4,6 +4,7 @@ RUN adduser -D hasura \
  && mkdir /seeds \
  && chown hasura:nogroup /seeds
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY --chown=hasura:nogroup metadata /metadata
 COPY --chown=hasura:nogroup migrations /migrations
 COPY config.yaml /
