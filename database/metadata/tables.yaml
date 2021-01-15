@@ -370,6 +370,16 @@
         table:
           schema: public
           name: techies
+  remote_relationships:
+  - definition:
+      remote_field:
+        edyoucated_teams_by_pk:
+          arguments:
+            id: $edyoucated_team_id
+      hasura_fields:
+      - edyoucated_team_id
+      remote_schema: edyoucated
+    name: edyoucated_team
   insert_permissions:
   - role: user
     permission:
@@ -382,6 +392,7 @@
       - academy_phase_ends_at
       - application_period_ends_at
       - description
+      - edyoucated_team_id
       - ends_at
       - starts_at
       - term
@@ -394,6 +405,7 @@
       - application_period_ends_at
       - created_at
       - description
+      - edyoucated_team_id
       - ends_at
       - id
       - starts_at
@@ -410,6 +422,7 @@
       - academy_phase_ends_at
       - application_period_ends_at
       - description
+      - edyoucated_team_id
       - ends_at
       - starts_at
       - term
@@ -631,7 +644,6 @@
       - application_track_choice
       - assigned_team_member_id
       - created_at
-      - edyoucated_handle
       - edyoucated_imported_at
       - edyoucated_next_import_after
       - edyoucated_user_id
@@ -662,7 +674,6 @@
       - age
       - application_track_choice
       - assigned_team_member_id
-      - edyoucated_handle
       - edyoucated_imported_at
       - edyoucated_next_import_after
       - email

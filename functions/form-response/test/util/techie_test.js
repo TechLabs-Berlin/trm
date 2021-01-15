@@ -208,19 +208,6 @@ describe('techie utils', () => {
         github_handle: 'Kathie23'
       })
     })
-    it('extracts edyoucated_handle', () => {
-      expect(techie.processTechieMasterData({
-        attributes: {},
-        formAnswers: {
-          edyoucated_handle: {
-            type: 'text',
-            value: 'XXKathie23'
-          }
-        }
-      })).to.deep.equal({
-        edyoucated_handle: 'XXKathie23'
-      })
-    })
     it('extracts linkedin_profile_url', () => {
       expect(techie.processTechieMasterData({
         attributes: {},

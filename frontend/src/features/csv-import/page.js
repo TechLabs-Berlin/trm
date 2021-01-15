@@ -68,7 +68,6 @@ const csvSchema = {
   notes: () => {return []},
   google_account: () => {return []},
   github_handle: () => {return []},
-  edyoucated_handle: () => {return []},
   linkedin_profile_url: () => {return []},
   age: () => {return []},
   state: (value) => {

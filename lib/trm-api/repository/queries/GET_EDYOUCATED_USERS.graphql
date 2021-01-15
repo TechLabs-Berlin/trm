@@ -1,7 +1,0 @@
-query($usernames: [String!]!) {
-  edyoucated_users(usernames: $usernames) {
-    username
-    id
-    avatar_url
-  }
-}

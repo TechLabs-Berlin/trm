@@ -14,7 +14,6 @@ mutation($location: locations_enum!, $semesterID: uuid!, $state: techie_lifecycl
     age
     google_account
     github_handle
-    edyoucated_handle
     linkedin_profile_url
     slack_member_id
     project_id

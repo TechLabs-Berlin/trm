@@ -75,12 +75,6 @@ const answerExtractors = {
     }
     return { github_handle: answer.value }
   },
-  edyoucated_handle(answer) {
-    if(answer.type !== 'text') {
-      return {}
-    }
-    return { edyoucated_handle: answer.value }
-  },
   linkedin_profile_url(answer) {
     if(answer.type !== 'url') {
       return {}
@@ -119,7 +113,6 @@ module.exports = {
       'age',
       'google_account',
       'github_handle',
-      'edyoucated_handle',
       'linkedin_profile_url',
       'slack_member_id',
       'project_id'

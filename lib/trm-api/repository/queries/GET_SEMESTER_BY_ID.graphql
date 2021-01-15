@@ -3,6 +3,9 @@ query($semesterID: uuid!) {
     locationByLocation {
       export_folder_id
     }
+    techies {
+      edyoucated_user_id
+    }
     location
     academy_phase_ends_at
     created_at

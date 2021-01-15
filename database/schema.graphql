@@ -14,10 +14,16 @@ type EdyoucatedActivity {
   value: Int
 }
 
+type EdyoucatedTeam {
+  id: String
+  members: [EdyoucatedUser]
+  name: String
+}
+
 type EdyoucatedUser {
   avatar_url: String
   id: String
-  username: String
+  name: String
 }
 
 # columns and relationships of "exports"
@@ -1247,6 +1253,7 @@ enum locations_enum {
   CURITIBA
   DORTMUND
   DUESSELDORF
+  HAMBURG
   MEDELLIN
   MUENSTER
   MUNICH
@@ -2455,13 +2462,15 @@ enum projects_update_column {
 
 type Query {
   edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
-  edyoucated_users(usernames: [String]): [EdyoucatedUser]
+  edyoucated_teams: [EdyoucatedTeam]
+  edyoucated_teams_by_pk(id: String!): EdyoucatedTeam
 }
 
 # query root
 type query_root {
   edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
-  edyoucated_users(usernames: [String]): [EdyoucatedUser]
+  edyoucated_teams: [EdyoucatedTeam]
+  edyoucated_teams_by_pk(id: String!): EdyoucatedTeam
 
   # fetch data from the table: "exports"
   exports(
@@ -3281,6 +3290,10 @@ type semesters {
   application_period_ends_at: timestamp
   created_at: timestamp!
   description: String!
+
+  # Remote relationship field
+  edyoucated_team: EdyoucatedTeam
+  edyoucated_team_id: String
   ends_at: timestamp
 
   # An array relationship
@@ -3438,6 +3451,7 @@ input semesters_bool_exp {
   application_period_ends_at: timestamp_comparison_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
+  edyoucated_team_id: String_comparison_exp
   ends_at: timestamp_comparison_exp
   forms: forms_bool_exp
   id: uuid_comparison_exp
@@ -3466,6 +3480,7 @@ input semesters_insert_input {
   application_period_ends_at: timestamp
   created_at: timestamp
   description: String
+  edyoucated_team_id: String
   ends_at: timestamp
   forms: forms_arr_rel_insert_input
   id: uuid
@@ -3485,6 +3500,7 @@ type semesters_max_fields {
   application_period_ends_at: timestamp
   created_at: timestamp
   description: String
+  edyoucated_team_id: String
   ends_at: timestamp
   id: uuid
   starts_at: timestamp
@@ -3498,6 +3514,7 @@ input semesters_max_order_by {
   application_period_ends_at: order_by
   created_at: order_by
   description: order_by
+  edyoucated_team_id: order_by
   ends_at: order_by
   id: order_by
   starts_at: order_by
@@ -3511,6 +3528,7 @@ type semesters_min_fields {
   application_period_ends_at: timestamp
   created_at: timestamp
   description: String
+  edyoucated_team_id: String
   ends_at: timestamp
   id: uuid
   starts_at: timestamp
@@ -3524,6 +3542,7 @@ input semesters_min_order_by {
   application_period_ends_at: order_by
   created_at: order_by
   description: order_by
+  edyoucated_team_id: order_by
   ends_at: order_by
   id: order_by
   starts_at: order_by
@@ -3559,6 +3578,7 @@ input semesters_order_by {
   application_period_ends_at: order_by
   created_at: order_by
   description: order_by
+  edyoucated_team_id: order_by
   ends_at: order_by
   forms_aggregate: forms_aggregate_order_by
   id: order_by
@@ -3592,6 +3612,9 @@ enum semesters_select_column {
   description
 
   # column name
+  edyoucated_team_id
+
+  # column name
   ends_at
 
   # column name
@@ -3616,6 +3639,7 @@ input semesters_set_input {
   application_period_ends_at: timestamp
   created_at: timestamp
   description: String
+  edyoucated_team_id: String
   ends_at: timestamp
   id: uuid
   location: locations_enum
@@ -3637,6 +3661,9 @@ enum semesters_update_column {
 
   # column name
   description
+
+  # column name
+  edyoucated_team_id
 
   # column name
   ends_at
@@ -5334,7 +5361,6 @@ type techies {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp!
-  edyoucated_handle: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -5511,7 +5537,6 @@ input techies_bool_exp {
   application_track_choice: tracks_enum_comparison_exp
   assigned_team_member_id: uuid_comparison_exp
   created_at: timestamp_comparison_exp
-  edyoucated_handle: String_comparison_exp
   edyoucated_imported_at: timestamp_comparison_exp
   edyoucated_next_import_after: timestamp_comparison_exp
   edyoucated_user_id: String_comparison_exp
@@ -5566,7 +5591,6 @@ input techies_insert_input {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp
-  edyoucated_handle: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -5603,7 +5627,6 @@ type techies_max_fields {
   age: smallint
   assigned_team_member_id: uuid
   created_at: timestamp
-  edyoucated_handle: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -5628,7 +5651,6 @@ input techies_max_order_by {
   age: order_by
   assigned_team_member_id: order_by
   created_at: order_by
-  edyoucated_handle: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -5653,7 +5675,6 @@ type techies_min_fields {
   age: smallint
   assigned_team_member_id: uuid
   created_at: timestamp
-  edyoucated_handle: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -5678,7 +5699,6 @@ input techies_min_order_by {
   age: order_by
   assigned_team_member_id: order_by
   created_at: order_by
-  edyoucated_handle: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -5726,7 +5746,6 @@ input techies_order_by {
   application_track_choice: order_by
   assigned_team_member_id: order_by
   created_at: order_by
-  edyoucated_handle: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -5776,9 +5795,6 @@ enum techies_select_column {
 
   # column name
   created_at
-
-  # column name
-  edyoucated_handle
 
   # column name
   edyoucated_imported_at
@@ -5847,7 +5863,6 @@ input techies_set_input {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp
-  edyoucated_handle: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -5923,9 +5938,6 @@ enum techies_update_column {
 
   # column name
   created_at
-
-  # column name
-  edyoucated_handle
 
   # column name
   edyoucated_imported_at
@@ -6405,7 +6417,6 @@ enum tracks_update_column {
 # columns and relationships of "typeform_users"
 type typeform_users {
   created_at: timestamp!
-  email: String!
   id: uuid!
   location: locations_enum!
 
@@ -6447,7 +6458,6 @@ input typeform_users_bool_exp {
   _not: typeform_users_bool_exp
   _or: [typeform_users_bool_exp]
   created_at: timestamp_comparison_exp
-  email: String_comparison_exp
   id: uuid_comparison_exp
   location: locations_enum_comparison_exp
   locationByLocation: locations_bool_exp
@@ -6470,7 +6480,6 @@ enum typeform_users_constraint {
 # input type for inserting data into table "typeform_users"
 input typeform_users_insert_input {
   created_at: timestamp
-  email: String
   id: uuid
   location: locations_enum
   locationByLocation: locations_obj_rel_insert_input
@@ -6481,7 +6490,6 @@ input typeform_users_insert_input {
 # aggregate max on columns
 type typeform_users_max_fields {
   created_at: timestamp
-  email: String
   id: uuid
   token: String
   updated_at: timestamp
@@ -6490,7 +6498,6 @@ type typeform_users_max_fields {
 # order by max() on columns of table "typeform_users"
 input typeform_users_max_order_by {
   created_at: order_by
-  email: order_by
   id: order_by
   token: order_by
   updated_at: order_by
@@ -6499,7 +6506,6 @@ input typeform_users_max_order_by {
 # aggregate min on columns
 type typeform_users_min_fields {
   created_at: timestamp
-  email: String
   id: uuid
   token: String
   updated_at: timestamp
@@ -6508,7 +6514,6 @@ type typeform_users_min_fields {
 # order by min() on columns of table "typeform_users"
 input typeform_users_min_order_by {
   created_at: order_by
-  email: order_by
   id: order_by
   token: order_by
   updated_at: order_by
@@ -6539,7 +6544,6 @@ input typeform_users_on_conflict {
 # ordering options when selecting data from "typeform_users"
 input typeform_users_order_by {
   created_at: order_by
-  email: order_by
   id: order_by
   location: order_by
   locationByLocation: locations_order_by
@@ -6558,9 +6562,6 @@ enum typeform_users_select_column {
   created_at
 
   # column name
-  email
-
-  # column name
   id
 
   # column name
@@ -6576,7 +6577,6 @@ enum typeform_users_select_column {
 # input type for updating data in table "typeform_users"
 input typeform_users_set_input {
   created_at: timestamp
-  email: String
   id: uuid
   location: locations_enum
   token: String
@@ -6587,9 +6587,6 @@ input typeform_users_set_input {
 enum typeform_users_update_column {
   # column name
   created_at
-
-  # column name
-  email
 
   # column name
   id
@@ -6603,6 +6600,9 @@ enum typeform_users_update_column {
   # column name
   updated_at
 }
+
+# The `Upload` scalar type represents a file upload.
+scalar Upload
 
 scalar uuid
 

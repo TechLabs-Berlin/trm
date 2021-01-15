@@ -14,7 +14,6 @@ query($location: locations_enum!, $semesterID: uuid!, $techieKey: String!) {
     age
     google_account
     github_handle
-    edyoucated_handle
     linkedin_profile_url
     slack_member_id
     project_id

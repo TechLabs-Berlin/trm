@@ -1,0 +1,8 @@
+query ($teamID: String!) {
+  edyoucated_teams_by_pk(id: $teamID) {
+    members {
+      id
+      name
+    }
+  }
+}

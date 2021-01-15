@@ -31,7 +31,6 @@ let messages = {
         application_track_choice: 'Application Track Choice',
         google_account: 'Google Account',
         github_handle: 'GitHub Handle',
-        edyoucated_handle: 'edyoucated Handle',
         linkedin_profile_url: 'LinkedIn Profile URL',
         slack_member_id: 'Slack Member ID',
         edyoucated_imported_at: 'Imported edyoucated activity at',

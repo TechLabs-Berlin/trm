@@ -15,7 +15,6 @@ query($id: uuid!) {
     age
     google_account
     github_handle
-    edyoucated_handle
     linkedin_profile_url
     slack_member_id
     project_id

@@ -1,5 +1,5 @@
 const log = require('../util/logger')({
-  debugLoggingEnabled: false
+  debugLoggingEnabled: true
 })
 const newEventHandler = require('../handler/event')
 
@@ -10,17 +10,32 @@ describe('event handler', () => {
           getTechiesWithoutEdyoucatedUserID: () => ([
             {
               id: 'TECHIE_ID',
-              edyoucated_handle: 'EDYOUCATED_HANDLE_THAT_EXISTS'
+              first_name: 'First',
+              last_name: 'Last',
+              semester: {
+                id: 'SEMESTER_ID',
+                edyoucated_team_id: 'EDYOUCATED_TEAM_ID'
+              }
             },
             {
               id: 'OTHER_TECHIE_ID',
-              edyoucated_handle: 'EDYOUCATED_HANDLE_THAT_IS_MISSING'
+              first_name: 'El Michaelang',
+              last_name: 'Ramazotti',
+              semester: {
+                id: 'SEMESTER_ID',
+                edyoucated_team_id: 'EDYOUCATED_TEAM_ID'
+              }
             }
           ]),
-          getEdyoucatedUsers: () => ([{
-            username: 'EDYOUCATED_HANDLE_THAT_EXISTS',
+          getEdyoucatedTeamMembers: () => ([{
+            name: 'Michelangelo Ramazotti',
             id: 'EDYOUCATED_ID'
           }]),
+          getSemesterByID: () => ({
+            techies: [{
+              edyoucated_user_id: 'OTHER_EDYOUCATED_USER_ID'
+            }]
+          }),
           updateTechieEdyoucatedUserID: () => {},
           getTechiesPendingEdyoucatedImport: () => ([{
             id: 'TECHIE_ID',

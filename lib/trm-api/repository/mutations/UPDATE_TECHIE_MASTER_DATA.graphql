@@ -10,7 +10,6 @@ mutation(
   $age: smallint,
   $google_account: String,
   $github_handle: String,
-  $edyoucated_handle: String,
   $linkedin_profile_url: String,
   $slack_member_id: String,
   $project_id: uuid
@@ -28,7 +27,6 @@ mutation(
       age: $age,
       google_account: $google_account,
       github_handle: $github_handle,
-      edyoucated_handle: $edyoucated_handle,
       linkedin_profile_url: $linkedin_profile_url,
       slack_member_id: $slack_member_id,
       project_id: $project_id,
