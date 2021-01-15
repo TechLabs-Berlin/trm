@@ -1,18 +1,5 @@
 import ApolloClient from 'apollo-boost'
-import buildHasuraProvider from 'ra-data-hasura-graphql/src'
-// import buildDataProvider from 'ra-data-hasura-graphql';
-import {
-  buildQueryFactory
-} from 'ra-data-hasura-graphql/src/buildQuery';
-import buildVariables from 'ra-data-hasura-graphql/src/buildVariables';
-import {
-  buildGqlQuery,
-  buildFields,
-  buildMetaArgs,
-  buildArgs,
-  buildApolloArgs,
-} from 'ra-data-hasura-graphql/src/buildGqlQuery';
-import getResponseParser from 'ra-data-hasura-graphql/src/getResponseParser';
+import buildDataProvider, { buildFields } from 'ra-data-hasura-graphql/src'
 import * as gqlTypes from 'graphql-ast-types-browser';
 
 import config from './config'
@@ -33,12 +20,13 @@ export const buildClient = () => {
 
 const buildProvider = () => {
   const client = buildClient()
-  const buildFieldsCustom = (type) => {
-    let res = buildFields(type);
+  const buildFieldsCustom = (type, _fetchType) => {
+    let fields = buildFields(type)
+    debugger
     if (type.name === 'form_responses') {
         // here we add additional fields we want to query for apps.
         // we are using the graphql-ast-types functions which is ast representation for graphql
-        res.push(
+        fields.push(
             gqlTypes.field(
                 gqlTypes.name('form'),
                 null,
@@ -49,8 +37,8 @@ const buildProvider = () => {
                     gqlTypes.field(gqlTypes.name('description')),
                 ])
             )
-        );
-        res.push(
+        )
+        fields.push(
           gqlTypes.field(
               gqlTypes.name('techie'),
               null,
@@ -62,26 +50,14 @@ const buildProvider = () => {
                   gqlTypes.field(gqlTypes.name('last_name')),
               ])
           )
-      );
+      )
     }
-    return res;
+    return fields
   };
-  const buildGqlQueryCustom = (iR) =>
-    buildGqlQuery(
-      iR,
-      buildFieldsCustom,
-      buildMetaArgs,
-      buildArgs,
-      buildApolloArgs
-    );
-  const buildQuery = buildQueryFactory(
-    buildVariables,
-    buildGqlQueryCustom,
-    getResponseParser
-  );
-  return buildHasuraProvider({
+  return buildDataProvider({
     client,
-    buildQuery
+  }, {
+    buildFields: buildFieldsCustom
   })
 }
 

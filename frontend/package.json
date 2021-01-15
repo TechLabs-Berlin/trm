@@ -13,7 +13,7 @@
     "graphql": "^15.3.0",
     "moment": "^2.28.0",
     "prop-types": "^15.7.2",
-    "ra-data-hasura-graphql": "Steams/ra-data-hasura-graphql#v0.1.12",
+    "ra-data-hasura-graphql": "Steams/ra-data-hasura-graphql#f2afa00a7ab338c4c538c5959864c674938f2191",
     "react": "^16.13.1",
     "react-admin": "^3.8.1",
     "react-dom": "^16.13.1",

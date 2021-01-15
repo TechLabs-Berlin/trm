@@ -9184,9 +9184,9 @@ ra-core@^3.8.0:
     reselect "~3.0.0"
 
 ra-data-graphql@^3.6.1:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/ra-data-graphql/-/ra-data-graphql-3.8.0.tgz#3c042eae6884d4c5f23a0e8697142a006c412b0e"
-  integrity sha512-hRfpB/BLOJtd3cB+fJcQt5T8lFU2U92hhmaXpRYXNH5Wdqcm5yepLdNXbW+frTHkh8PYdy5os71chN0BskBTyw==
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/ra-data-graphql/-/ra-data-graphql-3.10.1.tgz#1f872f69a3f036be58dc2feba8df52ae5f74ff29"
+  integrity sha512-uWXL5AUnEXsdF2AH+LWdLHTtJxd/DPvEAYySSP9m/PUSr9dquuoLQ/3A4PzXRRqhGGjWiDuwefOW1j7X2o9CdQ==
   dependencies:
     apollo-client "^2.6.3"
     apollo-client-preset "^1.0.8"
@@ -9194,9 +9194,9 @@ ra-data-graphql@^3.6.1:
     lodash "~4.17.5"
     pluralize "~7.0.0"
 
-ra-data-hasura-graphql@Steams/ra-data-hasura-graphql#v0.1.12:
+ra-data-hasura-graphql@Steams/ra-data-hasura-graphql#f2afa00a7ab338c4c538c5959864c674938f2191:
   version "0.1.12"
-  resolved "https://codeload.github.com/Steams/ra-data-hasura-graphql/tar.gz/07b63a7a1828a882a26441fc4d33ee058e6c7d43"
+  resolved "https://codeload.github.com/Steams/ra-data-hasura-graphql/tar.gz/f2afa00a7ab338c4c538c5959864c674938f2191"
   dependencies:
     graphql-ast-types-browser "~1.0.2"
     kind-of ">=6.0.3"
