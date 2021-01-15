@@ -3,13 +3,29 @@ const { mustBeAuthorized } = require('./auth')
 
 exports.resolvers = {
   Query: {
-    edyoucated_users: async (_, { usernames }, { req, jwt }) => {
+    edyoucated_teams: async (_, _2, { req, jwt }) => {
       mustBeAuthorized({ jwt, req })
-      return usernames.map(username => ({
+      return [{
         id: faker.random.uuid(),
-        avatar_url: faker.image.avatar(),
-        username,
-      }))
+        name: `TechLabs ${faker.address.city()}`,
+        members: [{
+          id: faker.random.uuid(),
+          avatar_url: faker.image.avatar(),
+          name: `${faker.name.firstName()} ${faker.name.lastName()}`
+        }]
+      }]
+    },
+    edyoucated_teams_by_pk: async (_, { id }, { req, jwt }) => {
+      mustBeAuthorized({ jwt, req })
+      return {
+        id,
+        name: `TechLabs ${faker.address.city()}`,
+        members: [{
+          id: faker.random.uuid(),
+          avatar_url: faker.image.avatar(),
+          name: `${faker.name.firstName()} ${faker.name.lastName()}`
+        }]
+      }
     },
     edyoucated_activity: async (_, { userIDs }, { req, jwt }) => {
       mustBeAuthorized({ jwt, req })

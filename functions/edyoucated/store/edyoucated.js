@@ -1,21 +1,30 @@
 require('cross-fetch/polyfill')
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js')
-const AWS = require('aws-sdk')
 const { AUTH_TYPE } = require('aws-appsync/lib/client')
 const AWSAppSyncClient = require('aws-appsync').default
 const gql = require('graphql-tag')
 var groupBy = require('lodash/groupBy')
 const NodeCache = require('node-cache')
 
-const LIST_USERS = gql`
-  query($nextToken: String) {
-    listUsers(limit: 1000, nextToken: $nextToken) {
-      items {
-        id
-        username
-        picture
+const GET_ORGANIZATION = gql`
+  query GetOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      teams {
+        items {
+          id
+          name
+          members {
+            items {
+              id
+              user {
+                id
+                name
+                picture
+              }
+            }
+          }
+        }
       }
-      nextToken
     }
   }
 `
@@ -32,7 +41,7 @@ const LIST_TRACK_PROGRESS = gql`
   }
 `
 
-const login = ({ username, password, userPoolID, identityPoolID, clientID, awsRegion }) => {
+const login = ({ username, password, userPoolID, clientID }) => {
   return new Promise((resolve, reject) => {
     const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({
       Username: username,
@@ -74,7 +83,7 @@ const buildClient = async ({ token, apiURL, awsRegion }) => {
 
 const MINUTE = 60
 
-module.exports = ({ username, password, userPoolID, identityPoolID, clientID, awsRegion, apiURL, log }) => {
+module.exports = ({ username, password, userPoolID, clientID, awsRegion, apiURL, organizationID, log }) => {
   const cache = new NodeCache({ checkperiod: 0 })
 
   const buildClientWithCachedToken = async () => {
@@ -85,9 +94,7 @@ module.exports = ({ username, password, userPoolID, identityPoolID, clientID, aw
         username,
         password,
         userPoolID,
-        identityPoolID,
         clientID,
-        awsRegion
       })
       cache.set('token', token, 60 * MINUTE)
     } else {
@@ -101,28 +108,23 @@ module.exports = ({ username, password, userPoolID, identityPoolID, clientID, aw
   }
 
   return {
-    getAllUsers: async () => {
-      log.info('edyoucated API: getAllUsers')
-      const cachedUsers = cache.get('allUsers')
-      if(cachedUsers) {
-        log.info('edyoucated API: getAllUsers returns cached users')
-        return cachedUsers
+    getTeams: async () => {
+      log.info('edyoucated API: getTeams')
+      const cachedTeams = cache.get('teams')
+      if(cachedTeams) {
+        log.info('edyoucated API: getTeams returns cached teams')
+        return cachedTeams
       }
-      log.debug('edyoucated API: getAllUsers fetches all users')
+      log.debug('edyoucated API: getTeams fetches organization')
       const client = await buildClientWithCachedToken()
-      let nextToken = null
-      let allUsers = []
-      do {
-        const resp = await client.query({
-          query: LIST_USERS,
-          variables: { nextToken }
-        })
-        log.debug(`edyoucated API: LIST_USERS request returned ${resp.data.listUsers.items.length} users`)
-        nextToken = resp.data.listUsers.nextToken
-        allUsers = allUsers.concat(resp.data.listUsers.items)
-      } while(nextToken !== null)
-      cache.set('allUsers', allUsers, 10 * MINUTE)
-      return allUsers
+      const resp = await client.query({
+        query: GET_ORGANIZATION,
+        variables: { id: organizationID }
+      })
+      log.debug(`edyoucated API: GET_ORGANIZATION succeeded`)
+      const teams = resp.data.getOrganization.teams.items
+      cache.set('teams', teams, 10 * MINUTE)
+      return teams
     },
     getTrackProgress: async({ userIDs }) => {
       log.info('edyoucated API: getTrackProgress', { userIDs })

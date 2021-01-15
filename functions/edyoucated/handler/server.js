@@ -22,10 +22,10 @@ const edyoucated = newEdyoucatedStore({
   username: config.edyoucatedUsername,
   password: config.edyoucatedPassword,
   userPoolID: config.edyoucatedUserPoolID,
-  identityPoolID: config.edyoucatedIdentityPoolID,
   clientID: config.edyoucatedClientID,
   awsRegion: config.edyoucatedAWSRegion,
   apiURL: config.edyoucatedAPIURL,
+  organizationID: config.edyoucatedOrganizationID,
   log
 })
 

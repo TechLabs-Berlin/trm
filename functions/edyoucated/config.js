@@ -21,11 +21,6 @@ module.exports = () => {
   }
   const edyoucatedUserPoolID = process.env.EDYOUCATED_USER_POOL_ID
 
-  if(!('EDYOUCATED_IDENTITY_POOL_ID' in process.env)) {
-    throw new Error('EDYOUCATED_IDENTITY_POOL_ID is unset')
-  }
-  const edyoucatedIdentityPoolID = process.env.EDYOUCATED_IDENTITY_POOL_ID
-
   if(!('EDYOUCATED_CLIENT_ID' in process.env)) {
     throw new Error('EDYOUCATED_CLIENT_ID is unset')
   }
@@ -41,6 +36,11 @@ module.exports = () => {
   }
   const edyoucatedAPIURL = process.env.EDYOUCATED_API_URL
 
+  if(!('EDYOUCATED_ORGANIZATION_ID' in process.env)) {
+    throw new Error('EDYOUCATED_ORGANIZATION_ID is unset')
+  }
+  const edyoucatedOrganizationID = process.env.EDYOUCATED_ORGANIZATION_ID
+
   let debug = false
   if('DEBUG' in process.env) {
     debug = true
@@ -52,10 +52,10 @@ module.exports = () => {
     edyoucatedUsername,
     edyoucatedPassword,
     edyoucatedUserPoolID,
-    edyoucatedIdentityPoolID,
     edyoucatedClientID,
     edyoucatedAWSRegion,
     edyoucatedAPIURL,
+    edyoucatedOrganizationID,
     debug
   }
 }

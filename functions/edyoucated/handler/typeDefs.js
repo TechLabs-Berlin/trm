@@ -1,9 +1,14 @@
 const gql = require('graphql-tag')
 
 exports.typeDefs = gql`
+  type EdyoucatedTeam {
+    id: String
+    name: String
+    members: [EdyoucatedUser]
+  }
   type EdyoucatedUser {
     id: String
-    username: String
+    name: String
     avatar_url: String
   }
   type EdyoucatedActivity {
@@ -11,7 +16,8 @@ exports.typeDefs = gql`
     value: Int
   }
   type Query {
-    edyoucated_users(usernames: [String]): [EdyoucatedUser]
+    edyoucated_teams: [EdyoucatedTeam]
+    edyoucated_teams_by_pk(id: String): EdyoucatedTeam
     edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
   }
 `

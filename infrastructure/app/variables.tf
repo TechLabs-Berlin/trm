@@ -29,10 +29,10 @@ variable "frontend_dns_name_prefixes" {
 variable "edyoucated_username" {}
 variable "edyoucated_password" {}
 variable "edyoucated_user_pool_id" {}
-variable "edyoucated_identity_pool_id" {}
 variable "edyoucated_client_id" {}
 variable "edyoucated_aws_region" {}
 variable "edyoucated_api_url" {}
+variable "edyoucated_organization_id" {}
 variable "trm_data_folder_id" {
   type = map
 }

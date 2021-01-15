@@ -126,16 +126,16 @@ module "functions_edyoucated" {
   name                = "edyoucated-${terraform.workspace}"
   storage_bucket_name = local.storage_bucket_name
   environment_variables = {
-    NODE_ENV                    = terraform.workspace
-    JWT_KEY                     = var.hasura_jwt_keys[terraform.workspace]
-    EDYOUCATED_USERNAME         = var.edyoucated_username
-    EDYOUCATED_PASSWORD         = var.edyoucated_password
-    EDYOUCATED_USER_POOL_ID     = var.edyoucated_user_pool_id
-    EDYOUCATED_IDENTITY_POOL_ID = var.edyoucated_identity_pool_id
-    EDYOUCATED_CLIENT_ID        = var.edyoucated_client_id
-    EDYOUCATED_AWS_REGION       = var.edyoucated_aws_region
-    EDYOUCATED_API_URL          = var.edyoucated_api_url
-    DEBUG                       = "1" // TODO add config variable
+    NODE_ENV                   = terraform.workspace
+    JWT_KEY                    = var.hasura_jwt_keys[terraform.workspace]
+    EDYOUCATED_USERNAME        = var.edyoucated_username
+    EDYOUCATED_PASSWORD        = var.edyoucated_password
+    EDYOUCATED_USER_POOL_ID    = var.edyoucated_user_pool_id
+    EDYOUCATED_CLIENT_ID       = var.edyoucated_client_id
+    EDYOUCATED_AWS_REGION      = var.edyoucated_aws_region
+    EDYOUCATED_API_URL         = var.edyoucated_api_url
+    EDYOUCATED_ORGANIZATION_ID = var.edyoucated_organization_id
+    DEBUG                      = "1" // TODO add config variable
   }
 }
 

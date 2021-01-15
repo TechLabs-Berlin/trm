@@ -91,6 +91,7 @@ jobs:
       TF_VAR_edyoucated_client_id: ${{ secrets.TF_VAR_EDYOUCATED_CLIENT_ID }}
       TF_VAR_edyoucated_aws_region: ${{ secrets.TF_VAR_EDYOUCATED_AWS_REGION }}
       TF_VAR_edyoucated_api_url: ${{ secrets.TF_VAR_EDYOUCATED_API_URL }}
+      TF_VAR_edyoucated_organization_id: ${{ secrets.TF_VAR_EDYOUCATED_ORGANIZATION_ID }}
       TF_VAR_trm_data_folder_id: ${{ secrets.TF_VAR_TRM_DATA_FOLDER_ID }}
       TF_VAR_google_impersonate_subject: ${{ secrets.TF_VAR_GOOGLE_IMPERSONATE_SUBJECT }}
       TF_VAR_project: techlabs-trm

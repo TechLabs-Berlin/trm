@@ -109,10 +109,10 @@ services:
       EDYOUCATED_USERNAME: some@user.invalid
       EDYOUCATED_PASSWORD: test123
       EDYOUCATED_USER_POOL_ID: not-needed
-      EDYOUCATED_IDENTITY_POOL_ID: also-not-needed
       EDYOUCATED_CLIENT_ID: no-client
       EDYOUCATED_AWS_REGION: no-region
       EDYOUCATED_API_URL: https://no-edyoucated.invalid
+      EDYOUCATED_ORGANIZATION_ID: an-id
   fn-gsheets:
     build:
       context: functions/gsheets
