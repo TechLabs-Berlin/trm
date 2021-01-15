@@ -155,6 +155,8 @@ _Local NodeJS, Yarn and NPM installations are required in case you want to devel
 
     Then add the `Authorization` header in the Hasura GraphQL Explorer with `Bearer TOKEN` as its value (replace `TOKEN` with the output of the `generate token` command).
 
+  * (Optional, for setup) Generate new JWT Secret Key: `openssl rand 256 | base64`
+
 ## Deployment
 
 The project is deployed on [Google Cloud Platform (GCP)](https://cloud.google.com/). Follow the [guide for setting up GCP](/docs/google-cloud-setup.md).
