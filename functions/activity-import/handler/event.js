@@ -93,26 +93,25 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
       const techiesPendingEdyoucatedImport = await trmAPI.getTechiesPendingEdyoucatedImport()
       log.info(`Found ${techiesPendingEdyoucatedImport.length} techies`)
       log.debug('Found techies pending import', { techiesPendingEdyoucatedImport })
-      if(techiesPendingEdyoucatedImport.length === 0) {
-        return
-      }
-      const edyoucatedUserIDs = techiesPendingEdyoucatedImport.map(t => t.edyoucated_user_id)
-      const edyoucatedActivity = await trmAPI.getEdyoucatedActivity({ userIDs: edyoucatedUserIDs })
-      for(const activity of edyoucatedActivity) {
-        const techie = techiesPendingEdyoucatedImport.find(t => t.edyoucated_user_id === activity.id)
-        if(!techie) {
-          log.warning(`Expected to find user ${activity.id} in techies but didn't, ignoring`, { activity })
-          continue
+      if(techiesPendingEdyoucatedImport.length > 0) {
+        const edyoucatedUserIDs = techiesPendingEdyoucatedImport.map(t => t.edyoucated_user_id)
+        const edyoucatedActivity = await trmAPI.getEdyoucatedActivity({ userIDs: edyoucatedUserIDs })
+        for(const activity of edyoucatedActivity) {
+          const techie = techiesPendingEdyoucatedImport.find(t => t.edyoucated_user_id === activity.id)
+          if(!techie) {
+            log.warning(`Expected to find user ${activity.id} in techies but didn't, ignoring`, { activity })
+            continue
+          }
+          await trmAPI.updateTechieActivity({
+            techieID: techie.id,
+            year: now.toObject().years,
+            week: now.week(),
+            type: 'edyoucated',
+            value: activity.value,
+            edyoucatedImportedAt: now.toISOString(),
+            edyoucatedNextImportAfter: in8Hours.toISOString()
+          })
         }
-        await trmAPI.updateTechieActivity({
-          techieID: techie.id,
-          year: now.toObject().years,
-          week: now.week(),
-          type: 'edyoucated',
-          value: activity.value,
-          edyoucatedImportedAt: now.toISOString(),
-          edyoucatedNextImportAfter: in8Hours.toISOString()
-        })
       }
 
 
