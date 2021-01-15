@@ -22,7 +22,6 @@ const buildProvider = () => {
   const client = buildClient()
   const buildFieldsCustom = (type, _fetchType) => {
     let fields = buildFields(type)
-    debugger
     if (type.name === 'form_responses') {
         // here we add additional fields we want to query for apps.
         // we are using the graphql-ast-types functions which is ast representation for graphql
@@ -61,7 +60,7 @@ const buildProvider = () => {
   })
 }
 
-export default async (...args) => {
+const factory = async (...args) => {
   if (hasuraProvider === null && hasToken()) {
     hasuraProvider = await buildProvider()
   }
@@ -70,3 +69,5 @@ export default async (...args) => {
   }
   return Promise.reject('not logged in')
 }
+
+export default factory

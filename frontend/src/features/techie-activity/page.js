@@ -20,11 +20,9 @@ import {
   Tabs,
   Tab,
   Box,
-  Typography
+  Typography,
+  TextField,
 } from '@material-ui/core'
-
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 
 import { buildClient } from '../../dataProvider'
 import { ActivityField } from './activityField'
@@ -136,66 +134,86 @@ export const TechieActivityPage = () => {
   const handleTabChange = (_, currentTab) => setCurrentTab(currentTab)
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <Card>
-          <Title title="Techie Activity" />
-          <CardContent>
-            { loading ? (
-              <Loading/>
-            ) : (
-              <div>
-                <Paper square elevation={0} className={classes.filter}>
-                  <DatePicker label="Start Date" value={startDate} onChange={setStartDate} disableFuture={true} views={["year", "month"]} variant="inline" />
-                  <DatePicker label="End Date" value={endDate} onChange={setEndDate} views={["year", "month"]} variant="inline" />
-                </Paper>
-                <Tabs value={currentTab} onChange={handleTabChange}>
-                  {types.map(t => (
-                    <Tab key={t} label={translate(`resources.techie_activity.fields.type_values.${t}`)} />
-                  ))}
-                </Tabs>
-                {types.map((t, i) => (
-                  <TabPanel key={t} value={currentTab} index={i}>
-                    <ListContextProvider value={{
-                      data: Object.entries(records).reduce((acc, [email, record]) => {
-                        acc[email] = {
-                          id: record.id,
-                          ...record.techie
-                        }
-                        if(t === 'all') {
-                          acc[email] = {
-                            ...acc[email],
-                            ...record.weeks,
-                          }
-                        } else {
-                          const weeksFiltered = Object.entries(record.weeks).reduce((acc, [week, activities]) => {
-                            acc[week] = activities.filter(a => a.type === t)
-                            return acc
-                          }, {})
-                          acc[email] = {
-                            ...acc[email],
-                            ...weeksFiltered
-                          }
-                        }
-                        return acc
-                      }, {}),
-                      ids: Object.keys(records),
-                      total: Object.keys(records).length,
-                      currentSort: { field: 'id', order: 'ASC' },
-                      basePath: "/posts", // TODO remove, but throws an error
-                      resource: 'posts', // TODO remove, but throws an error
-                      selectedIds: []
-                    }}>
-                        <Datagrid>
-                          <TechieField sortable={true} />
-                          {weeks.map(week => <ActivityField key={week} source={week} sortable={true}/>)}
-                        </Datagrid>
-                    </ListContextProvider >
-                  </TabPanel>
+    <Card>
+        <Title title="Techie Activity" />
+        <CardContent>
+          { loading ? (
+            <Loading/>
+          ) : (
+            <div>
+              <Paper square elevation={0} className={classes.filter}>
+                {/* <DatePicker label="Start Date" value={startDate} onChange={setStartDate} disableFuture={true} views={["year", "month"]} variant="inline" />
+                <DatePicker label="End Date" value={endDate} onChange={setEndDate} views={["year", "month"]} variant="inline" /> */}
+                <TextField
+                  label="Start Date"
+                  type="date"
+                  // defaultValue="2017-05-24"
+                  value={startDate}
+                  onChange={e => setStartDate(e.target.value)}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <TextField
+                  label="End Date"
+                  type="date"
+                  // defaultValue="2017-05-24"
+                  value={endDate}
+                  onChange={e => setEndDate(e.target.value)}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Paper>
+              <Tabs value={currentTab} onChange={handleTabChange}>
+                {types.map(t => (
+                  <Tab key={t} label={translate(`resources.techie_activity.fields.type_values.${t}`)} />
                 ))}
-              </div>
-            )}
-          </CardContent>
-      </Card>
-    </MuiPickersUtilsProvider>
+              </Tabs>
+              {types.map((t, i) => (
+                <TabPanel key={t} value={currentTab} index={i}>
+                  <ListContextProvider value={{
+                    data: Object.entries(records).reduce((acc, [email, record]) => {
+                      acc[email] = {
+                        id: record.id,
+                        ...record.techie
+                      }
+                      if(t === 'all') {
+                        acc[email] = {
+                          ...acc[email],
+                          ...record.weeks,
+                        }
+                      } else {
+                        const weeksFiltered = Object.entries(record.weeks).reduce((acc, [week, activities]) => {
+                          acc[week] = activities.filter(a => a.type === t)
+                          return acc
+                        }, {})
+                        acc[email] = {
+                          ...acc[email],
+                          ...weeksFiltered
+                        }
+                      }
+                      return acc
+                    }, {}),
+                    ids: Object.keys(records),
+                    total: Object.keys(records).length,
+                    currentSort: { field: 'id', order: 'ASC' },
+                    basePath: "/posts", // TODO remove, but throws an error
+                    resource: 'posts', // TODO remove, but throws an error
+                    selectedIds: []
+                  }}>
+                      <Datagrid>
+                        <TechieField sortable={true} />
+                        {weeks.map(week => <ActivityField key={week} source={week} sortable={true}/>)}
+                      </Datagrid>
+                  </ListContextProvider >
+                </TabPanel>
+              ))}
+            </div>
+          )}
+        </CardContent>
+    </Card>
   )
 }

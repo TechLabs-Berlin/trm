@@ -1,4 +1,4 @@
-export default {
+const config = {
   environment: '${environment}',
   graphqlApiURL: '${hasura_url}',
   authFnURL: '${functions_auth_url}',
@@ -8,3 +8,5 @@ export default {
     hostedDomain: '${gsuite_domain}'
   }
 }
+
+export default config
