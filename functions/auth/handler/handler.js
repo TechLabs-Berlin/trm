@@ -49,6 +49,7 @@ exports.buildHandler = ({ config, fetch, log }) => {
     const firstName = ticket.payload.given_name
     const lastName = ticket.payload.family_name
     const email = ticket.payload.email
+    log.info(`User with email ${email} wants to log in`)
     const avatar = ticket.payload.picture
     const userKey = ticket.payload.sub
     if(hd !== config.gSuiteDomain) {

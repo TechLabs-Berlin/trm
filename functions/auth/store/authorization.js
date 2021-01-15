@@ -1,5 +1,5 @@
 module.exports = ({ log }) => {
-  const resolveLocation = ({ groupEmails }) => {
+  const resolveLocation = ({ email, groupEmails }) => {
     const locations = groupEmails.reduce((acc, group) => {
       const location = mgmtTeamGroupsToLocation[group]
       if(location) {
@@ -11,7 +11,7 @@ module.exports = ({ log }) => {
     if(locations.length === 0) {
       return undefined
     } else if(locations.length > 1) {
-      log.warning(`User ${userKey} is assigned to more than one location (${JSON.stringify(locations)}), choosing the first one`)
+      log.warning(`User ${email} is assigned to more than one location (${JSON.stringify(locations)}), choosing the first one`)
       return locations.sort()[0]
     } else {
       return locations[0]
@@ -29,7 +29,7 @@ module.exports = ({ log }) => {
       let roles = ['user']
       let defaultRole = 'user'
 
-      let location = resolveLocation({ groupEmails })
+      let location = resolveLocation({ email, groupEmails })
       if (!location) {
         location = 'PLAYGROUND'
       }
