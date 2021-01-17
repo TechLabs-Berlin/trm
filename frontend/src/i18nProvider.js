@@ -5,6 +5,7 @@ let messages = {
   trm: {
     menu: {
       dashboard: 'Dashboard',
+      profile: 'My Profile',
       techies: 'Techies',
       applications: 'Applications',
       academy: 'Academy',
@@ -18,6 +19,7 @@ let messages = {
       techieActivity: 'Techie Activity',
       csvImport: 'CSV Import',
       settings: 'Settings',
+      team: 'My Team',
       userHandbook: 'User Handbook'
     }
   },
@@ -84,6 +86,7 @@ let messages = {
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
+        functional_team: 'Function Team',
       }
     },
     semesters: {

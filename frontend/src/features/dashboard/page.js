@@ -4,6 +4,7 @@ import { sample } from 'lodash'
 import {
   Title,
   useGetList,
+  useGetOne,
   useGetIdentity,
   useTranslate,
 } from 'react-admin';
@@ -57,7 +58,7 @@ const AcademyCard = () => {
           Techies
         </Typography>
         <Typography color="textSecondary">
-          currently learning
+          Currently Learning
         </Typography>
       </CardContent>
     </Card>
@@ -83,7 +84,7 @@ const AlumniCard = () => {
           Alumni
         </Typography>
         <Typography color="textSecondary">
-          have finished
+          Have Finished
         </Typography>
       </CardContent>
     </Card>
@@ -110,7 +111,7 @@ const ActiveUserCard = () => {
           Active Local Users
         </Typography>
         <Typography color="textSecondary">
-          in the TRM
+          In The TRM
         </Typography>
       </CardContent>
     </Card>
@@ -135,7 +136,7 @@ const TRMLocationsCard = () => {
           Locations
         </Typography>
         <Typography color="textSecondary">
-          actively use the TRM
+          Actively Use The TRM
         </Typography>
       </CardContent>
     </Card>
@@ -145,6 +146,13 @@ const TRMLocationsCard = () => {
 const GreetingCard = () => {
   const classes = useStyles()
   const { identity, loading } = useGetIdentity()
+
+  const Username = ({ teamMemberID }) => {
+    const { data: user, loading, error } = useGetOne('team_members', teamMemberID);
+    if(loading) return <CircularProgress />
+    if(error) return null
+    return user ? user.first_name : null
+  }
 
   const greetings = [
     'Bonjour',
@@ -166,13 +174,13 @@ const GreetingCard = () => {
     <Card>
       <CardContent>
         <Typography variant="h2" component="h2">
-          { loading ? <CircularProgress /> : identity.firstName }
+          { loading ? <CircularProgress /> : <Username teamMemberID={identity.teamMemberID} /> }
         </Typography>
         <Typography className={classes.type} color="textSecondary">
           {`${sample(greetings)}!`}
         </Typography>
         <Typography color="textSecondary">
-          Thanks for visiting.
+          Thanks for Visiting.
         </Typography>
       </CardContent>
     </Card>
@@ -191,7 +199,7 @@ const LocationCard = () => {
           { loading ? <CircularProgress /> : <FavoriteBorderIcon className={classes.largeIcon} />}
         </Typography>
         <Typography className={classes.type} color="textSecondary">
-          { !loading && 'much love to' }
+          { !loading && 'Much Love to' }
         </Typography>
         <Typography color="textSecondary">
           { !loading && `TechLabs ${translate('techlabs.locations.'+identity.location)}` }
@@ -203,6 +211,9 @@ const LocationCard = () => {
 
 const DashboardPage = () => {
   const classes = useStyles()
+  const translate = useTranslate()
+  const { identity, loading } = useGetIdentity()
+
   return (
     <div className={classes.container}>
       <Title title="Dashboard" />
@@ -215,7 +226,7 @@ const DashboardPage = () => {
         </Grid>
       </Grid>
 
-      <h2 className={classes.heading}>TechLabs Berlin</h2>
+      <h2 className={classes.heading}>{loading ? 'Your Local TechLabs Organization' : `TechLabs ${translate('techlabs.locations.'+identity.location)}`}</h2>
       <Grid container spacing={4}>
         <Grid item>
           <AcademyCard />

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { usePermissions } from 'react-admin'
+import { usePermissions, useGetIdentity } from 'react-admin'
 import {
     useMediaQuery,
     Paper,
@@ -23,6 +23,7 @@ import StarsIcon from '@material-ui/icons/Stars';
 import WarningIcon from '@material-ui/icons/Warning';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import PersonIcon from '@material-ui/icons/Person';
 import orange from '@material-ui/core/colors/orange';
 import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
 import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
@@ -60,6 +61,7 @@ const openUserGuide = () => {
 
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
   let { permissions, loaded } = usePermissions()
+  let { identity, loaded: identityLoaded} = useGetIdentity()
   const classes = useStyles()
   const [state, setState] = useState({
       menuTechies: true,
@@ -94,6 +96,14 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 sidebarIsOpen={open}
                 dense={dense}
             />
+        {identityLoaded && <MenuItemLink
+                to={`/team_members/${identity.teamMemberID}`}
+                primaryText={translate(`trm.menu.profile`)}
+                leftIcon={<PersonIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+            />}
         {permissions.includes('journey') ? (<React.Fragment>
         <SubMenu
             handleToggle={() => handleToggle('menuTechies')}
@@ -308,16 +318,14 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             />
         </SubMenu>
         </React.Fragment>) : null }
-        {permissions.includes('hr') ? (<MenuItemLink
+        <MenuItemLink
             to={`/team_members`}
-            primaryText={translate(`resources.team_members.name`, {
-                smart_count: 2,
-            })}
+            primaryText={translate('trm.menu.team')}
             leftIcon={<PeopleOutlineIcon />}
             onClick={onMenuClick}
             sidebarIsOpen={open}
             dense={dense}
-        />) : null }
+        />
         <MenuItemLink
                 to={`/user-handbook`}
                 primaryText={translate('trm.menu.userHandbook')}
