@@ -92,14 +92,10 @@ let messages = {
     semesters: {
       name: 'Semester |||| Semesters'
     },
-    techie_activity: {
+    techie_activity_report: {
+      name: 'Techie Activity Report',
       fields: {
-        type_values: {
-          all: 'all activities',
-          edyoucated: 'hours learned',
-          slack_activity: 'read Slack',
-          slack_participation: 'been active on Slack'
-        }
+        id: 'Name'
       }
     }
   },

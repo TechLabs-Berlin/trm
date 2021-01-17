@@ -104,6 +104,14 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 sidebarIsOpen={open}
                 dense={dense}
             />}
+        <MenuItemLink
+            to={`/team_members`}
+            primaryText={translate('trm.menu.team')}
+            leftIcon={<PeopleOutlineIcon />}
+            onClick={onMenuClick}
+            sidebarIsOpen={open}
+            dense={dense}
+        />
         {permissions.includes('journey') ? (<React.Fragment>
         <SubMenu
             handleToggle={() => handleToggle('menuTechies')}
@@ -318,14 +326,6 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             />
         </SubMenu>
         </React.Fragment>) : null }
-        <MenuItemLink
-            to={`/team_members`}
-            primaryText={translate('trm.menu.team')}
-            leftIcon={<PeopleOutlineIcon />}
-            onClick={onMenuClick}
-            sidebarIsOpen={open}
-            dense={dense}
-        />
         <MenuItemLink
                 to={`/user-handbook`}
                 primaryText={translate('trm.menu.userHandbook')}

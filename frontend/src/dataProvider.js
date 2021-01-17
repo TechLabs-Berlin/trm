@@ -1,6 +1,7 @@
 import ApolloClient from 'apollo-boost'
 import buildDataProvider, { buildFields } from 'ra-data-hasura-graphql/src'
 import * as gqlTypes from 'graphql-ast-types-browser'
+import gql from 'graphql-tag'
 import {
   min,
   max,
@@ -82,7 +83,22 @@ const buildProvider = ({ role }) => {
   })
 }
 
-const techieActivityReportProvider = async (hasuraProvider, action, resource, params) => {
+const GET_LIST_TECHIE_ACTIVITY = gql`
+  query($semester_id: uuid!) {
+    techie_activity(where: {techie: {state: {_eq: LEARNER}}, semester_id: {_eq: $semester_id}}) {
+      semester_id
+      semester_week
+      techie_id
+      type
+      value
+      techie {
+        last_name
+      }
+    }
+  }
+`
+
+const techieActivityReportProvider = async (action, resource, params) => {
   // const { page, perPage } = params.pagination
   const { field, order } = params.sort
   const { semester_id, primary_type } = params.filter
@@ -93,23 +109,48 @@ const techieActivityReportProvider = async (hasuraProvider, action, resource, pa
     }
   }
 
-  const activity = await hasuraProvider('GET_LIST', 'techie_activity', { filter: { semester_id } })
-  const semesterWeekMin = min(activity.data.map(a => a.semester_week))
-  const semesterWeekMax = max(activity.data.map(a => a.semester_week))
+  const client = await buildClient({role: 'journey'})
+  const resp = await client.query({
+    query: GET_LIST_TECHIE_ACTIVITY,
+    variables: { semester_id }
+  })
+  const activity = resp.data.techie_activity
+  const semesterWeekMin = min(activity.map(a => a.semester_week))
+  const semesterWeekMax = max(activity.map(a => a.semester_week))
   const weeks = range(semesterWeekMin, semesterWeekMax + 1, 1).map(w => ({n: w, label: `W${w+1}`}))
-  const types = uniq(activity.data.map(a => a.type))
-  const activityPerTechie = groupBy(activity.data, a => a.techie_id)
+  const types = uniq(activity.map(a => a.type))
+  const activityPerTechie = groupBy(activity, a => a.techie_id)
   const formattedActivity = Object.entries(activityPerTechie).reduce((acc, [techieID, activity]) => {
     const activityBase = {
       id: techieID,
       last_name: activity[0].techie.last_name,
       weeks: weeks.map(w => w.label),
     }
+    const memo = {}
     for(const { n, label } of weeks) {
       const weekBase = {}
       for(const type of types) {
-        const thisActivity = activity.find(a => a.semester_week === n && a.type === type)
-        weekBase[type] = thisActivity ? thisActivity.value : null
+        const { value } = activity.find(a => a.semester_week === n && a.type === type)
+        if(!value) {
+          weekBase[type] = null
+          continue
+        }
+        if(type !== 'edyoucated') {
+          weekBase[type] = value
+          continue
+        }
+        if(!memo.edyoucated) {
+          // well...
+          // https://stackoverflow.com/a/12830454
+          const hourValue = +((value / 60).toFixed(2))
+          weekBase[type] = `${hourValue}h`
+          memo.edyoucated = value
+          continue
+        }
+        const doneMinutes = (value - memo.edyoucated)
+        const hourValue = +((doneMinutes / 60).toFixed(2))
+        weekBase[type] = `+${hourValue}h`
+        memo.edyoucated = value
       }
       activityBase[label] = weekBase
     }
@@ -161,7 +202,7 @@ const factory = async (action, resource, params) => {
   let hasuraProvider = await multiRoleProvider({ roles })
   let dataProvider = hasuraProvider
   if(resource === 'techie_activity_report') {
-    dataProvider = (action, resource, params) => techieActivityReportProvider(hasuraProvider, action, resource, params)
+    dataProvider = (action, resource, params) => techieActivityReportProvider(action, resource, params)
   }
   const response = await dataProvider(action, resource, params)
   if(['GET_ONE', 'GET_MANY', 'GET_LIST'].includes(action)) {
