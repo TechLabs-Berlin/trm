@@ -213,65 +213,6 @@
       allow_aggregations: true
 - table:
     schema: public
-    name: old_techie_activity
-  object_relationships:
-  - name: techie
-    using:
-      foreign_key_constraint_on: techie_id
-  insert_permissions:
-  - role: user
-    permission:
-      check:
-        techie:
-          location:
-            _eq: x-hasura-location
-      columns:
-      - techie_id
-      - type
-      - value
-      - week
-      - year
-      backend_only: false
-  select_permissions:
-  - role: user
-    permission:
-      columns:
-      - techie_id
-      - type
-      - value
-      - week
-      - year
-      filter:
-        techie:
-          location:
-            _eq: x-hasura-location
-      allow_aggregations: true
-  update_permissions:
-  - role: user
-    permission:
-      columns:
-      - techie_id
-      - type
-      - value
-      - week
-      - year
-      filter:
-        techie:
-          location:
-            _eq: x-hasura-location
-      check:
-        techie:
-          location:
-            _eq: x-hasura-location
-  delete_permissions:
-  - role: user
-    permission:
-      filter:
-        techie:
-          location:
-            _eq: x-hasura-location
-- table:
-    schema: public
     name: project_team_members
   object_relationships:
   - name: project
@@ -660,14 +601,7 @@
         table:
           schema: public
           name: form_responses
-  - name: techie_activities
-    using:
-      foreign_key_constraint_on:
-        column: techie_id
-        table:
-          schema: public
-          name: old_techie_activity
-  - name: techieActivitiesByTechieId
+  - name: techie_activity
     using:
       foreign_key_constraint_on:
         column: techie_id
