@@ -496,6 +496,31 @@
           _eq: x-hasura-location
 - table:
     schema: public
+    name: team_member_stats
+  select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - count
+      - id
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - count
+      - id
+      filter: {}
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - count
+      - id
+      filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
     name: team_members
   object_relationships:
   - name: locationByLocation
@@ -660,6 +685,43 @@
       columns:
       - value
       filter: {}
+      allow_aggregations: true
+- table:
+    schema: public
+    name: techie_stats
+  select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - count
+      - location
+      - id
+      - state
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - count
+      - location
+      - id
+      - state
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
+  - role: user
+    permission:
+      columns:
+      - count
+      - location
+      - id
+      - state
+      filter:
+        location:
+          _eq: x-hasura-location
       allow_aggregations: true
 - table:
     schema: public

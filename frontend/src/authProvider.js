@@ -1,4 +1,5 @@
 import { decode } from 'jsonwebtoken'
+import { pick } from 'lodash'
 
 import config from './config'
 
@@ -45,6 +46,22 @@ const authProvider = {
       return Promise.reject()
     }
     return Promise.resolve(getRoles())
+  },
+  getIdentity: () => {
+    const token = localStorage.getItem('token')
+    if(!token) {
+      return Promise.reject()
+    }
+    return pick(decode(token), [
+      'location',
+      'teamMemberID',
+      'functionalTeam',
+      'roles',
+      'email',
+      'firstName',
+      'lastName',
+      'avatar'
+    ])
   }
 }
 

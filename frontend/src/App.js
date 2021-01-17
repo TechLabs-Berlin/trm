@@ -34,6 +34,8 @@ class App extends Component {
             <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} />
             <Resource name="team_members" list={TeamMemberList} show={TeamMemberShow} edit={TeamMemberEdit} create={TeamMemberCreate} />
             <Resource name="techie_activity_report" list={TechieActivityReportList} />
+            <Resource name="techie_stats" />
+            <Resource name="team_member_stats" />
           </Admin>
       );
   }

@@ -21,6 +21,27 @@ let messages = {
       userHandbook: 'User Handbook'
     }
   },
+  techlabs: {
+    locations: {
+      BARCELONA: 'Barcelona',
+      DUESSELDORF: 'Düsseldorf',
+      BERLIN: 'Berlin',
+      DORTMUND: 'Dortmund',
+      COPENHAGEN: 'Copenhagen',
+      MUNICH: 'Munich',
+      MUENSTER: 'Münster',
+      CURITIBA: 'Curitiba',
+      AACHEN: 'Aachen',
+      MEDELLIN: 'Medellin',
+      HAMBURG: 'Hamburg',
+      PLAYGROUND: 'Playground',
+      GLOBAL: 'Global',
+      CODEATHOME: 'Code at Home',
+      MANNHEIM: 'Mannheim',
+      STOCKHOLM: 'Stockholm',
+      LONDON: 'London',
+    },
+  },
   resources: {
     techies: {
       name: 'Techie |||| Techies',
