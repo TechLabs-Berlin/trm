@@ -1,3 +1,7 @@
+const sinon = require('sinon')
+const expect = require('chai').expect
+const moment = require('moment')
+
 const log = require('../util/logger')({
   debugLoggingEnabled: true
 })
@@ -5,8 +9,8 @@ const newEventHandler = require('../handler/event')
 
 describe('event handler', () => {
   describe('handle', () => {
-    it('handles events', () => {
-        const trmAPI = {
+    it('handles events', async () => {
+        const trmAPI = sinon.spy({
           getTechiesWithoutEdyoucatedUserID: () => ([
             {
               id: 'TECHIE_ID',
@@ -32,6 +36,9 @@ describe('event handler', () => {
             id: 'EDYOUCATED_ID'
           }]),
           getSemesterByID: () => ({
+            id: 'SEMESTER_ID',
+            starts_at: '2021-02-01T00:00:00',
+            ends_at: '2021-03-01T00:00:00',
             techies: [{
               edyoucated_user_id: 'OTHER_EDYOUCATED_USER_ID'
             }]
@@ -39,7 +46,8 @@ describe('event handler', () => {
           updateTechieEdyoucatedUserID: () => {},
           getTechiesPendingEdyoucatedImport: () => ([{
             id: 'TECHIE_ID',
-            edyoucated_user_id: 'EDYOUCATED_ID'
+            edyoucated_user_id: 'EDYOUCATED_ID',
+            semester_id: 'SEMESTER_ID'
           }]),
           getEdyoucatedActivity: () => ([{
             id: 'EDYOUCATED_ID',
@@ -51,15 +59,44 @@ describe('event handler', () => {
             { 'User ID': 'SLACK_USER_B', 'Days active': '2', 'Messages posted': '0' },
           ]),
           getTechiesWithSlackMemberIDs: () => ([
-            { id: 'TECHIE_A', slack_member_id: 'SLACK_USER_A' },
+            { id: 'TECHIE_A', slack_member_id: 'SLACK_USER_A', semester_id: 'SEMESTER_ID' },
           ]),
           updateGSheetContent: () => {}
-        }
+        })
         const handler = newEventHandler({
             buildTRMAPI: Promise.resolve(trmAPI),
             log
         })
-        return handler.handle()
+        const now = moment.utc('2021-02-08T12:45:56+01:00')
+        await handler.handle({ now })
+        expect(trmAPI.updateTechieActivity.callCount).to.be.equal(3)
+        expect(trmAPI.updateTechieActivity.getCall(0).args).to.eql([{
+          techieID: 'TECHIE_ID',
+          semesterID: 'SEMESTER_ID',
+          semesterWeek: 1,
+          type: 'edyoucated',
+          edyoucatedImportedAt: '2021-02-08T11:45:56.000Z',
+          edyoucatedNextImportAfter: '2021-02-08T19:45:56.000Z',
+          value: 10
+        }])
+        expect(trmAPI.updateTechieActivity.getCall(1).args).to.eql([{
+          techieID: 'TECHIE_A',
+          semesterID: 'SEMESTER_ID',
+          semesterWeek: 1,
+          type: 'slack_activity',
+          edyoucatedImportedAt: '2021-02-08T11:45:56.000Z',
+          edyoucatedNextImportAfter: '2021-02-08T19:45:56.000Z',
+          value: 11
+        }])
+        expect(trmAPI.updateTechieActivity.getCall(2).args).to.eql([{
+          techieID: 'TECHIE_A',
+          semesterID: 'SEMESTER_ID',
+          semesterWeek: 1,
+          type: 'slack_participation',
+          edyoucatedImportedAt: '2021-02-08T11:45:56.000Z',
+          edyoucatedNextImportAfter: '2021-02-08T19:45:56.000Z',
+          value: 2
+        }])
     })
   })
 })

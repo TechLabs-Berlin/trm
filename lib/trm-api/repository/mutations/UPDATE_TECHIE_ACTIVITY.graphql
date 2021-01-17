@@ -1,14 +1,14 @@
-mutation($techieID: uuid!, $year: smallint!, $week: smallint!, $type: String!, $value: Int!, $edyoucatedImportedAt: timestamp!, $edyoucatedNextImportAfter: timestamp! ) {
+mutation($techieID: uuid!, $semesterID: uuid!, $semesterWeek: smallint!, $type: String!, $value: Int!, $edyoucatedImportedAt: timestamp!, $edyoucatedNextImportAfter: timestamp! ) {
   insert_techie_activity(
     objects: {
       techie_id: $techieID,
+      semester_id: $semesterID,
+      semester_week: $semesterWeek,
       type: $type,
       value: $value,
-      week: $week,
-      year: $year
     },
     on_conflict: {
-      constraint: techie_year_week_type_unique,
+      constraint: techie_semester_week_type_unique,
       update_columns: value
     }) {
     affected_rows

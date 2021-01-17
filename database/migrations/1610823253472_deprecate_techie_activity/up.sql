@@ -1,0 +1,6 @@
+ALTER TABLE techie_activity RENAME TO old_techie_activity;
+ALTER TABLE old_techie_activity RENAME CONSTRAINT techie_year_week_type_unique TO old_techie_year_week_type_unique;
+ALTER TABLE old_techie_activity RENAME CONSTRAINT techie_activity_techie_id_fkey TO old_techie_activity_techie_id_fkey;
+ALTER INDEX techie_activity_techie RENAME TO old_techie_activity_techie;
+ALTER INDEX techie_activity_type RENAME TO old_techie_activity_type;
+ALTER INDEX techie_activity_year RENAME TO old_techie_activity_year;

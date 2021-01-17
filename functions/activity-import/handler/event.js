@@ -2,13 +2,14 @@ const _ = require('lodash')
 const moment = require('moment')
 const strconv = require('../util/strconv')
 
+const semesterDateCalc = require('../util/semester_date_calc')
+
 module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
   return {
-    handle: async () => {
+    handle: async ({ now }) => {
       const trmAPI = await buildTRMAPI
-      const now = moment()
-      const in8Hours = moment().add(8, 'hours')
-      const in16Hours = moment().add(16, 'hours')
+      const in8Hours = moment(now).add(8, 'hours')
+      const in16Hours = moment(now).add(16, 'hours')
 
       log.info('Getting techies without edyoucated user ID')
 
@@ -91,6 +92,11 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
 
       log.info('Getting techies pending edyoucated import')
       const techiesPendingEdyoucatedImport = await trmAPI.getTechiesPendingEdyoucatedImport()
+      let semesterIDs = _.uniq(techiesPendingEdyoucatedImport.map(t => t.semester_id))
+      let semesters = {}
+      for(const semesterID of semesterIDs) {
+        semesters[semesterID] = await trmAPI.getSemesterByID({ semesterID })
+      }
       log.info(`Found ${techiesPendingEdyoucatedImport.length} techies`)
       log.debug('Found techies pending import', { techiesPendingEdyoucatedImport })
       if(techiesPendingEdyoucatedImport.length > 0) {
@@ -102,10 +108,36 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
             log.warning(`Expected to find user ${activity.id} in techies but didn't, ignoring`, { activity })
             continue
           }
+          const semester = semesters[techie.semester_id]
+          if(!semester) {
+            log.warning(`Expected to find semester ${techie.semester_id} in semesters but didn't, ignoring`)
+            continue
+          }
+          const semesterStartsAt = moment.utc(semester.starts_at, 'YYYY-MM-DD')
+          const semesterEndsAt = moment.utc(semester.ends_at, 'YYYY-MM-DD')
+          if(!semester.starts_at || !semester.ends_at || !semesterStartsAt.isValid() || !semesterEndsAt.isValid() || !semesterEndsAt.isAfter(semesterStartsAt)) {
+            log.warning(`Semester ${semester.id} does not have or has invalid starts_at or ends_at, ignoring techie`)
+            await trmAPI.updateTechieEdyoucatedUserID({
+              id: techie.id,
+              edyoucatedUserID: techie.edyoucated_user_id,
+              edyoucatedNextImportAfter: in16Hours.toISOString()
+            })
+            continue
+          }
+
+          // calculate semester week
+          const weeks = semesterDateCalc.calculateSemesterWeeks({ semesterStartsAt, semesterEndsAt })
+          const week = semesterDateCalc.calculateSemesterWeekForMoment({ target: now, weeks })
+          if(week < 0) {
+            log.warning(`Got invalid semester week for semester ${semester.id}, ignoring techie`)
+            continue
+          }
+
+          console.log('updated edyoucated')
           await trmAPI.updateTechieActivity({
             techieID: techie.id,
-            year: now.toObject().years,
-            week: now.week(),
+            semesterID: techie.semester_id,
+            semesterWeek: week,
             type: 'edyoucated',
             value: activity.value,
             edyoucatedImportedAt: now.toISOString(),
@@ -131,12 +163,37 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
       if(missingSlackMemberIDs.length > 0) {
         log.info(`Found ${missingSlackMemberIDs.length} missing/wrong Slack Member IDs`, { missingSlackMemberIDs })
       }
+      semesterIDs = _.uniq(techiesWithSlackMemberID.map(t => t.semester_id))
+      semesters = {}
+      for(const semesterID of semesterIDs) {
+        semesters[semesterID] = await trmAPI.getSemesterByID({ semesterID })
+      }
       for(const techie of techiesWithSlackMemberID) {
         const activity = slackActivity.find(s => s['User ID'] === techie.slack_member_id)
         if(!activity) {
           log.warning(`Expected to find activity for techie ${techie.id} with slack_member_id ${techie.slack_member_id} but didn't, ignoring`)
           continue
         }
+        const semester = semesters[techie.semester_id]
+        if(!semester) {
+          log.warning(`Expected to find semester ${techie.semester_id} in semesters but didn't, ignoring`)
+          continue
+        }
+        const semesterStartsAt = moment.utc(semester.starts_at, 'YYYY-MM-DD')
+        const semesterEndsAt = moment.utc(semester.ends_at, 'YYYY-MM-DD')
+        if(!semester.starts_at || !semester.ends_at || !semesterStartsAt.isValid() || !semesterEndsAt.isValid() || !semesterEndsAt.isAfter(semesterStartsAt)) {
+          log.warning(`Semester ${semester.id} does not have or has invalid starts_at or ends_at, ignoring techie`)
+          continue
+        }
+
+        // calculate semester week
+        const weeks = semesterDateCalc.calculateSemesterWeeks({ semesterStartsAt, semesterEndsAt })
+        const week = semesterDateCalc.calculateSemesterWeekForMoment({ target: now, weeks })
+        if(week < 0) {
+          log.warning(`Got invalid semester week for semester ${semester.id}, ignoring techie`)
+          continue
+        }
+
         if('Days active' in activity) {
           let value = 0
           try {
@@ -147,8 +204,8 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
 
           await trmAPI.updateTechieActivity({
             techieID: techie.id,
-            year: now.toObject().years,
-            week: now.week(),
+            semesterID: techie.semester_id,
+            semesterWeek: week,
             type: 'slack_activity',
             edyoucatedImportedAt: now.toISOString(),
             edyoucatedNextImportAfter: in8Hours.toISOString(),
@@ -165,8 +222,8 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
 
           await trmAPI.updateTechieActivity({
             techieID: techie.id,
-            year: now.toObject().years,
-            week: now.week(),
+            semesterID: techie.semester_id,
+            semesterWeek: week,
             type: 'slack_participation',
             edyoucatedImportedAt: now.toISOString(),
             edyoucatedNextImportAfter: in8Hours.toISOString(),

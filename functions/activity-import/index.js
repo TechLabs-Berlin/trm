@@ -1,3 +1,4 @@
+const moment = require('moment')
 const newEventHandler = require('./handler/event')
 const config = require('./config')()
 const log = require('./util/logger')({
@@ -29,7 +30,7 @@ exports.handler = async (req, res) => {
 
   try {
     await eventHandler.handle({
-      payload: req.body
+      now: moment(),
     })
     res.status(204).send()
   } catch(error) {

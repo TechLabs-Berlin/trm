@@ -1415,6 +1415,12 @@ type mutation_root {
   # delete single row from the table: "locations"
   delete_locations_by_pk(value: String!): locations
 
+  # delete data from the table: "old_techie_activity"
+  delete_old_techie_activity(
+    # filter the rows which have to be deleted
+    where: old_techie_activity_bool_exp!
+  ): old_techie_activity_mutation_response
+
   # delete data from the table: "project_team_members"
   delete_project_team_members(
     # filter the rows which have to be deleted
@@ -1588,6 +1594,24 @@ type mutation_root {
     # on conflict condition
     on_conflict: locations_on_conflict
   ): locations
+
+  # insert data into the table: "old_techie_activity"
+  insert_old_techie_activity(
+    # the rows to be inserted
+    objects: [old_techie_activity_insert_input!]!
+
+    # on conflict condition
+    on_conflict: old_techie_activity_on_conflict
+  ): old_techie_activity_mutation_response
+
+  # insert a single row into the table: "old_techie_activity"
+  insert_old_techie_activity_one(
+    # the row to be inserted
+    object: old_techie_activity_insert_input!
+
+    # on conflict condition
+    on_conflict: old_techie_activity_on_conflict
+  ): old_techie_activity
 
   # insert data into the table: "project_team_members"
   insert_project_team_members(
@@ -1869,6 +1893,18 @@ type mutation_root {
     pk_columns: locations_pk_columns_input!
   ): locations
 
+  # update data of the table: "old_techie_activity"
+  update_old_techie_activity(
+    # increments the integer columns with given value of the filtered values
+    _inc: old_techie_activity_inc_input
+
+    # sets the columns of the filtered rows to the given values
+    _set: old_techie_activity_set_input
+
+    # filter the rows which have to be updated
+    where: old_techie_activity_bool_exp!
+  ): old_techie_activity_mutation_response
+
   # update data of the table: "project_team_members"
   update_project_team_members(
     # sets the columns of the filtered rows to the given values
@@ -2023,6 +2059,320 @@ type mutation_root {
     _set: typeform_users_set_input
     pk_columns: typeform_users_pk_columns_input!
   ): typeform_users
+}
+
+# columns and relationships of "old_techie_activity"
+type old_techie_activity {
+  # An object relationship
+  techie: techies!
+  techie_id: uuid!
+  type: String!
+  value: Int!
+  week: smallint!
+  year: smallint!
+}
+
+# aggregated selection of "old_techie_activity"
+type old_techie_activity_aggregate {
+  aggregate: old_techie_activity_aggregate_fields
+  nodes: [old_techie_activity!]!
+}
+
+# aggregate fields of "old_techie_activity"
+type old_techie_activity_aggregate_fields {
+  avg: old_techie_activity_avg_fields
+  count(columns: [old_techie_activity_select_column!], distinct: Boolean): Int
+  max: old_techie_activity_max_fields
+  min: old_techie_activity_min_fields
+  stddev: old_techie_activity_stddev_fields
+  stddev_pop: old_techie_activity_stddev_pop_fields
+  stddev_samp: old_techie_activity_stddev_samp_fields
+  sum: old_techie_activity_sum_fields
+  var_pop: old_techie_activity_var_pop_fields
+  var_samp: old_techie_activity_var_samp_fields
+  variance: old_techie_activity_variance_fields
+}
+
+# order by aggregate values of table "old_techie_activity"
+input old_techie_activity_aggregate_order_by {
+  avg: old_techie_activity_avg_order_by
+  count: order_by
+  max: old_techie_activity_max_order_by
+  min: old_techie_activity_min_order_by
+  stddev: old_techie_activity_stddev_order_by
+  stddev_pop: old_techie_activity_stddev_pop_order_by
+  stddev_samp: old_techie_activity_stddev_samp_order_by
+  sum: old_techie_activity_sum_order_by
+  var_pop: old_techie_activity_var_pop_order_by
+  var_samp: old_techie_activity_var_samp_order_by
+  variance: old_techie_activity_variance_order_by
+}
+
+# input type for inserting array relation for remote table "old_techie_activity"
+input old_techie_activity_arr_rel_insert_input {
+  data: [old_techie_activity_insert_input!]!
+  on_conflict: old_techie_activity_on_conflict
+}
+
+# aggregate avg on columns
+type old_techie_activity_avg_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by avg() on columns of table "old_techie_activity"
+input old_techie_activity_avg_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# Boolean expression to filter rows from the table "old_techie_activity". All fields are combined with a logical 'AND'.
+input old_techie_activity_bool_exp {
+  _and: [old_techie_activity_bool_exp]
+  _not: old_techie_activity_bool_exp
+  _or: [old_techie_activity_bool_exp]
+  techie: techies_bool_exp
+  techie_id: uuid_comparison_exp
+  type: String_comparison_exp
+  value: Int_comparison_exp
+  week: smallint_comparison_exp
+  year: smallint_comparison_exp
+}
+
+# unique or primary key constraints on table "old_techie_activity"
+enum old_techie_activity_constraint {
+  # unique or primary key constraint
+  old_techie_year_week_type_unique
+}
+
+# input type for incrementing integer column in table "old_techie_activity"
+input old_techie_activity_inc_input {
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# input type for inserting data into table "old_techie_activity"
+input old_techie_activity_insert_input {
+  techie: techies_obj_rel_insert_input
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# aggregate max on columns
+type old_techie_activity_max_fields {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by max() on columns of table "old_techie_activity"
+input old_techie_activity_max_order_by {
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate min on columns
+type old_techie_activity_min_fields {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by min() on columns of table "old_techie_activity"
+input old_techie_activity_min_order_by {
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# response of any mutation on the table "old_techie_activity"
+type old_techie_activity_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [old_techie_activity!]!
+}
+
+# input type for inserting object relation for remote table "old_techie_activity"
+input old_techie_activity_obj_rel_insert_input {
+  data: old_techie_activity_insert_input!
+  on_conflict: old_techie_activity_on_conflict
+}
+
+# on conflict condition type for table "old_techie_activity"
+input old_techie_activity_on_conflict {
+  constraint: old_techie_activity_constraint!
+  update_columns: [old_techie_activity_update_column!]!
+  where: old_techie_activity_bool_exp
+}
+
+# ordering options when selecting data from "old_techie_activity"
+input old_techie_activity_order_by {
+  techie: techies_order_by
+  techie_id: order_by
+  type: order_by
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# select columns of table "old_techie_activity"
+enum old_techie_activity_select_column {
+  # column name
+  techie_id
+
+  # column name
+  type
+
+  # column name
+  value
+
+  # column name
+  week
+
+  # column name
+  year
+}
+
+# input type for updating data in table "old_techie_activity"
+input old_techie_activity_set_input {
+  techie_id: uuid
+  type: String
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# aggregate stddev on columns
+type old_techie_activity_stddev_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev() on columns of table "old_techie_activity"
+input old_techie_activity_stddev_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate stddev_pop on columns
+type old_techie_activity_stddev_pop_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev_pop() on columns of table "old_techie_activity"
+input old_techie_activity_stddev_pop_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate stddev_samp on columns
+type old_techie_activity_stddev_samp_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by stddev_samp() on columns of table "old_techie_activity"
+input old_techie_activity_stddev_samp_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate sum on columns
+type old_techie_activity_sum_fields {
+  value: Int
+  week: smallint
+  year: smallint
+}
+
+# order by sum() on columns of table "old_techie_activity"
+input old_techie_activity_sum_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# update columns of table "old_techie_activity"
+enum old_techie_activity_update_column {
+  # column name
+  techie_id
+
+  # column name
+  type
+
+  # column name
+  value
+
+  # column name
+  week
+
+  # column name
+  year
+}
+
+# aggregate var_pop on columns
+type old_techie_activity_var_pop_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by var_pop() on columns of table "old_techie_activity"
+input old_techie_activity_var_pop_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate var_samp on columns
+type old_techie_activity_var_samp_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by var_samp() on columns of table "old_techie_activity"
+input old_techie_activity_var_samp_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
+}
+
+# aggregate variance on columns
+type old_techie_activity_variance_fields {
+  value: Float
+  week: Float
+  year: Float
+}
+
+# order by variance() on columns of table "old_techie_activity"
+input old_techie_activity_variance_order_by {
+  value: order_by
+  week: order_by
+  year: order_by
 }
 
 # column ordering options
@@ -2665,6 +3015,42 @@ type query_root {
   # fetch data from the table: "locations" using primary key columns
   locations_by_pk(value: String!): locations
 
+  # fetch data from the table: "old_techie_activity"
+  old_techie_activity(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): [old_techie_activity!]!
+
+  # fetch aggregated fields from the table: "old_techie_activity"
+  old_techie_activity_aggregate(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): old_techie_activity_aggregate!
+
   # fetch data from the table: "project_team_members"
   project_team_members(
     # distinct select on columns
@@ -2838,48 +3224,6 @@ type query_root {
 
   # fetch aggregated fields from the table: "techie_activity"
   techie_activity_aggregate(
-    # distinct select on columns
-    distinct_on: [techie_activity_select_column!]
-
-    # limit the number of rows returned
-    limit: Int
-
-    # skip the first n rows. Use only with order_by
-    offset: Int
-
-    # sort the rows by one or more columns
-    order_by: [techie_activity_order_by!]
-
-    # filter the rows returned
-    where: techie_activity_bool_exp
-  ): techie_activity_aggregate!
-
-  # execute function "techie_activity_reports" which returns "techie_activity"
-  techie_activity_reports(
-    # input parameters for function "techie_activity_reports"
-    args: techie_activity_reports_args!
-
-    # distinct select on columns
-    distinct_on: [techie_activity_select_column!]
-
-    # limit the number of rows returned
-    limit: Int
-
-    # skip the first n rows. Use only with order_by
-    offset: Int
-
-    # sort the rows by one or more columns
-    order_by: [techie_activity_order_by!]
-
-    # filter the rows returned
-    where: techie_activity_bool_exp
-  ): [techie_activity!]!
-
-  # execute function "techie_activity_reports" and query aggregates on result of table type "techie_activity"
-  techie_activity_reports_aggregate(
-    # input parameters for function "techie_activity_reports"
-    args: techie_activity_reports_args!
-
     # distinct select on columns
     distinct_on: [techie_activity_select_column!]
 
@@ -3375,6 +3719,42 @@ type semesters {
   starts_at: timestamp
 
   # An array relationship
+  techie_activities(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): [techie_activity!]!
+
+  # An aggregated array relationship
+  techie_activities_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_activity_order_by!]
+
+    # filter the rows returned
+    where: techie_activity_bool_exp
+  ): techie_activity_aggregate!
+
+  # An array relationship
   techies(
     # distinct select on columns
     distinct_on: [techies_select_column!]
@@ -3459,6 +3839,7 @@ input semesters_bool_exp {
   locationByLocation: locations_bool_exp
   projects: projects_bool_exp
   starts_at: timestamp_comparison_exp
+  techie_activities: techie_activity_bool_exp
   techies: techies_bool_exp
   term: String_comparison_exp
   termByTerm: terms_bool_exp
@@ -3488,6 +3869,7 @@ input semesters_insert_input {
   locationByLocation: locations_obj_rel_insert_input
   projects: projects_arr_rel_insert_input
   starts_at: timestamp
+  techie_activities: techie_activity_arr_rel_insert_input
   techies: techies_arr_rel_insert_input
   term: String
   termByTerm: terms_obj_rel_insert_input
@@ -3586,6 +3968,7 @@ input semesters_order_by {
   locationByLocation: locations_order_by
   projects_aggregate: projects_aggregate_order_by
   starts_at: order_by
+  techie_activities_aggregate: techie_activity_aggregate_order_by
   techies_aggregate: techies_aggregate_order_by
   term: order_by
   termByTerm: terms_order_by
@@ -3912,6 +4295,42 @@ type subscription_root {
   # fetch data from the table: "locations" using primary key columns
   locations_by_pk(value: String!): locations
 
+  # fetch data from the table: "old_techie_activity"
+  old_techie_activity(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): [old_techie_activity!]!
+
+  # fetch aggregated fields from the table: "old_techie_activity"
+  old_techie_activity_aggregate(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): old_techie_activity_aggregate!
+
   # fetch data from the table: "project_team_members"
   project_team_members(
     # distinct select on columns
@@ -4085,48 +4504,6 @@ type subscription_root {
 
   # fetch aggregated fields from the table: "techie_activity"
   techie_activity_aggregate(
-    # distinct select on columns
-    distinct_on: [techie_activity_select_column!]
-
-    # limit the number of rows returned
-    limit: Int
-
-    # skip the first n rows. Use only with order_by
-    offset: Int
-
-    # sort the rows by one or more columns
-    order_by: [techie_activity_order_by!]
-
-    # filter the rows returned
-    where: techie_activity_bool_exp
-  ): techie_activity_aggregate!
-
-  # execute function "techie_activity_reports" which returns "techie_activity"
-  techie_activity_reports(
-    # input parameters for function "techie_activity_reports"
-    args: techie_activity_reports_args!
-
-    # distinct select on columns
-    distinct_on: [techie_activity_select_column!]
-
-    # limit the number of rows returned
-    limit: Int
-
-    # skip the first n rows. Use only with order_by
-    offset: Int
-
-    # sort the rows by one or more columns
-    order_by: [techie_activity_order_by!]
-
-    # filter the rows returned
-    where: techie_activity_bool_exp
-  ): [techie_activity!]!
-
-  # execute function "techie_activity_reports" and query aggregates on result of table type "techie_activity"
-  techie_activity_reports_aggregate(
-    # input parameters for function "techie_activity_reports"
-    args: techie_activity_reports_args!
-
     # distinct select on columns
     distinct_on: [techie_activity_select_column!]
 
@@ -4856,12 +5233,15 @@ enum team_members_update_column {
 # columns and relationships of "techie_activity"
 type techie_activity {
   # An object relationship
+  semester: semesters!
+  semester_id: uuid!
+  semester_week: smallint!
+
+  # An object relationship
   techie: techies!
   techie_id: uuid!
   type: String!
   value: Int!
-  week: smallint!
-  year: smallint!
 }
 
 # aggregated selection of "techie_activity"
@@ -4908,16 +5288,14 @@ input techie_activity_arr_rel_insert_input {
 
 # aggregate avg on columns
 type techie_activity_avg_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by avg() on columns of table "techie_activity"
 input techie_activity_avg_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # Boolean expression to filter rows from the table "techie_activity". All fields are combined with a logical 'AND'.
@@ -4925,71 +5303,72 @@ input techie_activity_bool_exp {
   _and: [techie_activity_bool_exp]
   _not: techie_activity_bool_exp
   _or: [techie_activity_bool_exp]
+  semester: semesters_bool_exp
+  semester_id: uuid_comparison_exp
+  semester_week: smallint_comparison_exp
   techie: techies_bool_exp
   techie_id: uuid_comparison_exp
   type: String_comparison_exp
   value: Int_comparison_exp
-  week: smallint_comparison_exp
-  year: smallint_comparison_exp
 }
 
 # unique or primary key constraints on table "techie_activity"
 enum techie_activity_constraint {
   # unique or primary key constraint
-  techie_year_week_type_unique
+  techie_semester_week_type_unique
 }
 
 # input type for incrementing integer column in table "techie_activity"
 input techie_activity_inc_input {
+  semester_week: smallint
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # input type for inserting data into table "techie_activity"
 input techie_activity_insert_input {
+  semester: semesters_obj_rel_insert_input
+  semester_id: uuid
+  semester_week: smallint
   techie: techies_obj_rel_insert_input
   techie_id: uuid
   type: String
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # aggregate max on columns
 type techie_activity_max_fields {
+  semester_id: uuid
+  semester_week: smallint
   techie_id: uuid
   type: String
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # order by max() on columns of table "techie_activity"
 input techie_activity_max_order_by {
+  semester_id: order_by
+  semester_week: order_by
   techie_id: order_by
   type: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate min on columns
 type techie_activity_min_fields {
+  semester_id: uuid
+  semester_week: smallint
   techie_id: uuid
   type: String
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # order by min() on columns of table "techie_activity"
 input techie_activity_min_order_by {
+  semester_id: order_by
+  semester_week: order_by
   techie_id: order_by
   type: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # response of any mutation on the table "techie_activity"
@@ -5016,22 +5395,24 @@ input techie_activity_on_conflict {
 
 # ordering options when selecting data from "techie_activity"
 input techie_activity_order_by {
+  semester: semesters_order_by
+  semester_id: order_by
+  semester_week: order_by
   techie: techies_order_by
   techie_id: order_by
   type: order_by
   value: order_by
-  week: order_by
-  year: order_by
-}
-
-input techie_activity_reports_args {
-  enddate: String
-  startdate: String
 }
 
 # select columns of table "techie_activity"
 enum techie_activity_select_column {
   # column name
+  semester_id
+
+  # column name
+  semester_week
+
+  # column name
   techie_id
 
   # column name
@@ -5039,82 +5420,74 @@ enum techie_activity_select_column {
 
   # column name
   value
-
-  # column name
-  week
-
-  # column name
-  year
 }
 
 # input type for updating data in table "techie_activity"
 input techie_activity_set_input {
+  semester_id: uuid
+  semester_week: smallint
   techie_id: uuid
   type: String
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # aggregate stddev on columns
 type techie_activity_stddev_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by stddev() on columns of table "techie_activity"
 input techie_activity_stddev_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate stddev_pop on columns
 type techie_activity_stddev_pop_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by stddev_pop() on columns of table "techie_activity"
 input techie_activity_stddev_pop_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate stddev_samp on columns
 type techie_activity_stddev_samp_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by stddev_samp() on columns of table "techie_activity"
 input techie_activity_stddev_samp_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate sum on columns
 type techie_activity_sum_fields {
+  semester_week: smallint
   value: Int
-  week: smallint
-  year: smallint
 }
 
 # order by sum() on columns of table "techie_activity"
 input techie_activity_sum_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # update columns of table "techie_activity"
 enum techie_activity_update_column {
   # column name
+  semester_id
+
+  # column name
+  semester_week
+
+  # column name
   techie_id
 
   # column name
@@ -5122,54 +5495,42 @@ enum techie_activity_update_column {
 
   # column name
   value
-
-  # column name
-  week
-
-  # column name
-  year
 }
 
 # aggregate var_pop on columns
 type techie_activity_var_pop_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by var_pop() on columns of table "techie_activity"
 input techie_activity_var_pop_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate var_samp on columns
 type techie_activity_var_samp_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by var_samp() on columns of table "techie_activity"
 input techie_activity_var_samp_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 # aggregate variance on columns
 type techie_activity_variance_fields {
+  semester_week: Float
   value: Float
-  week: Float
-  year: Float
 }
 
 # order by variance() on columns of table "techie_activity"
 input techie_activity_variance_order_by {
+  semester_week: order_by
   value: order_by
-  week: order_by
-  year: order_by
 }
 
 input techie_export_args {
@@ -5428,7 +5789,7 @@ type techies {
   team_member: team_members
 
   # An array relationship
-  techie_activities(
+  techieActivitiesByTechieId(
     # distinct select on columns
     distinct_on: [techie_activity_select_column!]
 
@@ -5446,7 +5807,7 @@ type techies {
   ): [techie_activity!]!
 
   # An aggregated array relationship
-  techie_activities_aggregate(
+  techieActivitiesByTechieId_aggregate(
     # distinct select on columns
     distinct_on: [techie_activity_select_column!]
 
@@ -5462,6 +5823,42 @@ type techies {
     # filter the rows returned
     where: techie_activity_bool_exp
   ): techie_activity_aggregate!
+
+  # An array relationship
+  techie_activities(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): [old_techie_activity!]!
+
+  # An aggregated array relationship
+  techie_activities_aggregate(
+    # distinct select on columns
+    distinct_on: [old_techie_activity_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [old_techie_activity_order_by!]
+
+    # filter the rows returned
+    where: old_techie_activity_bool_exp
+  ): old_techie_activity_aggregate!
   techie_key: String!
 
   # An object relationship
@@ -5559,7 +5956,8 @@ input techies_bool_exp {
   slack_member_id: String_comparison_exp
   state: techie_lifecycle_states_enum_comparison_exp
   team_member: team_members_bool_exp
-  techie_activities: techie_activity_bool_exp
+  techieActivitiesByTechieId: techie_activity_bool_exp
+  techie_activities: old_techie_activity_bool_exp
   techie_key: String_comparison_exp
   techie_lifecycle_state: techie_lifecycle_states_bool_exp
   track: tracks_enum_comparison_exp
@@ -5613,7 +6011,8 @@ input techies_insert_input {
   slack_member_id: String
   state: techie_lifecycle_states_enum
   team_member: team_members_obj_rel_insert_input
-  techie_activities: techie_activity_arr_rel_insert_input
+  techieActivitiesByTechieId: techie_activity_arr_rel_insert_input
+  techie_activities: old_techie_activity_arr_rel_insert_input
   techie_key: String
   techie_lifecycle_state: techie_lifecycle_states_obj_rel_insert_input
   track: tracks_enum
@@ -5768,7 +6167,8 @@ input techies_order_by {
   slack_member_id: order_by
   state: order_by
   team_member: team_members_order_by
-  techie_activities_aggregate: techie_activity_aggregate_order_by
+  techieActivitiesByTechieId_aggregate: techie_activity_aggregate_order_by
+  techie_activities_aggregate: old_techie_activity_aggregate_order_by
   techie_key: order_by
   techie_lifecycle_state: techie_lifecycle_states_order_by
   track: order_by

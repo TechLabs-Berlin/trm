@@ -1,8 +1,5 @@
 - function:
     schema: public
-    name: techie_activity_reports
-- function:
-    schema: public
     name: techie_anonymous_export
 - function:
     schema: public

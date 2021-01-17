@@ -1,10 +1,9 @@
 query($semesterID: uuid!) {
   techie_semester_activity_reports(args: {semester_id: $semesterID}) {
     techie_id
+    semester_week
     type
-    week
     value
-    year
     techie {
       first_name
       email
