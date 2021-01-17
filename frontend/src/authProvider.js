@@ -1,3 +1,5 @@
+import { decode } from 'jsonwebtoken'
+
 import config from './config'
 
 const authProvider = {
@@ -38,9 +40,18 @@ const authProvider = {
     return Promise.resolve()
   },
   getPermissions: () => {
-    const role = localStorage.getItem('permissions');
-    return role ? Promise.resolve(role) : Promise.reject();
+    const token = localStorage.getItem('token')
+    if(!token) {
+      return Promise.reject()
+    }
+    return Promise.resolve(getRoles())
   }
-};
+}
+
+export const getRoles = () => {
+  const token = localStorage.getItem('token')
+  const { roles } = decode(token)
+  return roles
+}
 
 export default authProvider;

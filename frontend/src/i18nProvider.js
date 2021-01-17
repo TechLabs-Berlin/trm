@@ -4,6 +4,7 @@ import polyglotI18nProvider from 'ra-i18n-polyglot';
 let messages = {
   trm: {
     menu: {
+      dashboard: 'Dashboard',
       techies: 'Techies',
       applications: 'Applications',
       academy: 'Academy',

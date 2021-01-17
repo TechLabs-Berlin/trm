@@ -7,7 +7,10 @@ import {
   SimpleForm,
   TextInput,
   Create,
-  required
+  required,
+  Show,
+  SimpleShowLayout,
+  ShowActions
 } from 'react-admin'
 
 import { FunctionalTeamSelectField } from './fields/functionalTeamSelect'
@@ -32,6 +35,18 @@ const TeamMemberTitle = ({ record }) => {
   }
   return <span>Team Member</span>;
 };
+
+export const TeamMemberShow = ({ permissions, ...props }) => (
+  <Show title={<TeamMemberTitle />} actions={permissions.includes('hr') ? <ShowActions /> : null} permissions={permissions} {...props}>
+      <SimpleShowLayout>
+          <TextField source="first_name" validate={required()} />
+          <TextField source="last_name" validate={required()} />
+          <TextField source="email" validate={required()} />
+          <FunctionalTeamSelectField source="functional_team" />
+          <TextField source="description" />
+      </SimpleShowLayout>
+  </Show>
+);
 
 export const TeamMemberEdit = props => (
   <Edit title={<TeamMemberTitle />} {...props}>

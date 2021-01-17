@@ -13,23 +13,23 @@ import {
 } from 'lodash'
 
 import config from './config'
-
-let hasuraProvider = null
+import { getRoles } from './authProvider'
 
 const hasToken = () => localStorage.getItem('token') !== null
 
-export const buildClient = () => {
+export const buildClient = ({ role }) => {
   const token = localStorage.getItem('token')
   return new ApolloClient({
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'X-Hasura-Role': role,
     },
     uri: config.graphqlApiURL,
   })
 }
 
-const buildProvider = () => {
-  const client = buildClient()
+const buildProvider = ({ role }) => {
+  const client = buildClient({ role })
   const buildFieldsCustom = (type, _fetchType) => {
     let fields = buildFields(type)
     if(type.name === 'form_responses') {
@@ -134,13 +134,31 @@ const techieActivityReportProvider = async (hasuraProvider, action, resource, pa
   }
 }
 
-const factory = async (action, resource, params) => {
-  if (hasuraProvider === null && hasToken()) {
-    hasuraProvider = await buildProvider()
+const multiRoleProvider = async ({ roles }) => {
+  const providers = {}
+  for(const role of roles) {
+    providers[role] = await buildProvider({ role })
   }
-  if(!hasuraProvider) {
+  return (action, resource, params) => {
+    if(['techies', 'forms', 'form_responses', 'semesters', 'techie_activity', 'projects', 'project_team_members'].includes(resource)) {
+      if('journey' in providers) {
+        return providers.journey(action, resource, params)
+      }
+    } else if(['team_members'].includes(resource)) {
+      if('hr' in providers) {
+        return providers.hr(action, resource, params)
+      }
+    }
+    return providers.user(action, resource, params)
+  }
+}
+
+const factory = async (action, resource, params) => {
+  if (!hasToken()) {
     return Promise.reject('not logged in')
   }
+  const roles = getRoles()
+  let hasuraProvider = await multiRoleProvider({ roles })
   let dataProvider = hasuraProvider
   if(resource === 'techie_activity_report') {
     dataProvider = (action, resource, params) => techieActivityReportProvider(hasuraProvider, action, resource, params)

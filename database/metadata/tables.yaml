@@ -536,12 +536,15 @@
   - role: hr
     permission:
       columns:
+      - created_at
       - description
       - email
       - first_name
       - functional_team
+      - id
       - last_name
       - last_seen_at
+      - updated_at
       filter:
         location:
           _eq: x-hasura-location
@@ -571,6 +574,7 @@
       - functional_team
       - last_name
       - last_seen_at
+      - updated_at
       filter:
         location:
           _eq: x-hasura-location

@@ -60,7 +60,7 @@ export const TechieList = props => (
         <TextField source="first_name" />
         <TextField source="last_name" />
         <TrackSelectField source="track" />
-        <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+        <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" link="show">
           <TextField source="first_name" />
         </ReferenceField>
     </Datagrid>

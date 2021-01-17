@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import * as React from 'react'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { usePermissions } from 'react-admin'
 import {
     useMediaQuery,
     Paper,
@@ -21,6 +22,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import StarsIcon from '@material-ui/icons/Stars';
 import WarningIcon from '@material-ui/icons/Warning';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import orange from '@material-ui/core/colors/orange';
 import { ReactComponent as DSTrackLogo } from '../static/track-ds-grey.svg';
 import { ReactComponent as AITrackLogo } from '../static/track-ai-grey.svg';
@@ -57,6 +59,7 @@ const openUserGuide = () => {
 }
 
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
+  const { permissions, loaded } = usePermissions()
   const classes = useStyles()
   const [state, setState] = useState({
       menuTechies: true,
@@ -69,12 +72,25 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
   );
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
     useSelector((state) => state.theme); // force rerender on theme change
+  if(!loaded) {
+    return null
+  }
   const handleToggle = (menu) => {
       setState(state => ({ ...state, [menu]: !state[menu] }));
-  };
+  }
+
   return (
     <React.Fragment>
         {' '}
+        <MenuItemLink
+                to={`/dashboard`}
+                primaryText={translate(`trm.menu.dashboard`)}
+                leftIcon={<DashboardIcon />}
+                onClick={onMenuClick}
+                sidebarIsOpen={open}
+                dense={dense}
+            />
+        {permissions.includes('journey') ? (<React.Fragment>
         <SubMenu
             handleToggle={() => handleToggle('menuTechies')}
             isOpen={state.menuTechies}
@@ -278,16 +294,6 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 dense={dense}
             />
             <MenuItemLink
-                to={`/team_members`}
-                primaryText={translate(`resources.team_members.name`, {
-                    smart_count: 2,
-                })}
-                leftIcon={<PeopleOutlineIcon />}
-                onClick={onMenuClick}
-                sidebarIsOpen={open}
-                dense={dense}
-            />
-            <MenuItemLink
                 to={`/csv-import`}
                 primaryText={translate('trm.menu.csvImport')}
                 leftIcon={<SubjectIcon />}
@@ -297,6 +303,17 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
                 exact
             />
         </SubMenu>
+        </React.Fragment>) : null }
+        {permissions.includes('hr') ? (<MenuItemLink
+            to={`/team_members`}
+            primaryText={translate(`resources.team_members.name`, {
+                smart_count: 2,
+            })}
+            leftIcon={<PeopleOutlineIcon />}
+            onClick={onMenuClick}
+            sidebarIsOpen={open}
+            dense={dense}
+        />) : null }
         <MenuItemLink
                 to={`/user-handbook`}
                 primaryText={translate('trm.menu.userHandbook')}

@@ -65,6 +65,7 @@ module.exports = ({ log }) => {
         location,
         teamMemberID,
         functionalTeam,
+        roles,
         email,
         firstName,
         lastName,

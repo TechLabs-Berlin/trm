@@ -12,8 +12,9 @@ import { TechieList, TechieEdit } from './techies';
 import { FormList, FormEdit, FormCreate } from './forms';
 import { SemesterList, SemesterEdit, SemesterCreate } from './semesters';
 import { FormResponseList, FormResponseEdit } from './form_responses';
-import { TeamMemberList, TeamMemberEdit, TeamMemberCreate } from './team_members';
+import { TeamMemberList, TeamMemberEdit, TeamMemberCreate, TeamMemberShow } from './team_members';
 import { TechieActivityReportList } from './features/techie-activity/page'
+import DashboardPage from './features/dashboard/page'
 class App extends Component {
   render() {
       return (
@@ -25,12 +26,13 @@ class App extends Component {
             loginPage={LoginPage}
             theme={theme}
             layout={Layout}
+            dashboard={DashboardPage}
           >
             <Resource name="techies" list={TechieList} edit={TechieEdit} />
             <Resource name="forms" list={FormList} edit={FormEdit} create={FormCreate} />
             <Resource name="form_responses" list={FormResponseList} edit={FormResponseEdit} />
             <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} />
-            <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} />
+            <Resource name="team_members" list={TeamMemberList} show={TeamMemberShow} edit={TeamMemberEdit} create={TeamMemberCreate} />
             <Resource name="techie_activity_report" list={TechieActivityReportList} />
           </Admin>
       );
