@@ -8,10 +8,10 @@ import {
   SelectInput,
   useListContext,
   ReferenceField,
-  TextField,
 } from 'react-admin'
 
 import { TechieField } from '../../fields/techie'
+import { ActivityField } from './activityField'
 
 const ReportFilter = props => (
   <Filter {...props}>
@@ -52,7 +52,7 @@ export const ReportDynamicDatagrid = props => {
       <TechieField />
     </ReferenceField>,
     ...data[ids[0]].weeks.map(week => (
-      <TextField source={`${week}.${primary_type}`} label={week} />
+      <ActivityField source={`${week}.${primary_type}`} label={week} />
     ))
   ]
 

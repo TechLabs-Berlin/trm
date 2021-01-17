@@ -1,66 +1,42 @@
 import * as React from "react";
 import PropTypes from 'prop-types';
+import { property } from 'lodash'
 
 import {
-  useTranslate
-} from 'react-admin'
-
-import {
-  Chip,
-  Avatar,
   makeStyles,
 } from '@material-ui/core'
 
-import {
-  deepPurple,
-  grey
-} from '@material-ui/core/colors'
-
 const useStyles = makeStyles(theme => ({
-  orange: {
-    color: 'white !important',
-    backgroundColor: deepPurple[500],
-  },
-  grey: {
-    backgroundColor: grey[200]
-  },
-  chip: {
-    margin: theme.spacing(0.5),
-    borderColor: grey[300]
-  },
-  chipActive: {
-    borderColor: deepPurple[500]
+  large: {
+    fontSize: '14pt',
+    fontWeight: 'bold',
   }
 }))
 
-const byType = (a, b) => ('' + a.type).localeCompare(b.type)
-const transformActivity = ({ type, value }) => {
-  if(type !== 'edyoucated') return { type, value }
-  return {
-    value: (value / 60).toFixed(1),
-    type,
-  }
+const DefaultField = ({data}) => {
+  return <span>{data.value}</span>
+}
+
+const EdyoucatedField = ({data}) => {
+  // well...
+  // https://stackoverflow.com/a/12830454
+  const classes = useStyles()
+  const hours = +(data.value / 60).toFixed(1)
+  const parts = hours.toString().split('.')
+  return <React.Fragment>
+    {!data.absolute && <span className={classes.large}>+</span>}<span className={classes.large}>{parts[0]}</span>{parts[1] && `.${parts[1]}`}h
+  </React.Fragment>
 }
 
 export const ActivityField = ({ source, record = {}}) => {
-  const classes = useStyles()
-  const translate = useTranslate()
-  if(!(source in record)) {
+  const data = property(source)(record)
+  if(!data) {
     return <React.Fragment />
   }
-  return (
-    <div>
-      {record[source].sort(byType).map(transformActivity).map(activity => (
-        <Chip
-          key={activity.type}
-          className={classes.chip + ' ' + (activity.value > 0 && classes.chipActive)}
-          avatar={<Avatar className={activity.value > 0 ? classes.orange : classes.grey}>{activity.value}</Avatar>}
-          label={translate(`resources.techie_activity.fields.type_values.${activity.type}`)}
-          variant="outlined"
-        />
-      ))}
-    </div>
-  )
+  if(data.type !== 'edyoucated') {
+    return <DefaultField data={data} />
+  }
+  return <EdyoucatedField data={data} />
 }
 
 ActivityField.propTypes = {

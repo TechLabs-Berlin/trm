@@ -130,26 +130,33 @@ const techieActivityReportProvider = async (action, resource, params) => {
     for(const { n, label } of weeks) {
       const weekBase = {}
       for(const type of types) {
-        const { value } = activity.find(a => a.semester_week === n && a.type === type)
-        if(!value) {
+        const dp = activity.find(a => a.semester_week === n && a.type === type)
+        if(!dp) {
           weekBase[type] = null
           continue
         }
+        const { value } = dp
         if(type !== 'edyoucated') {
-          weekBase[type] = value
+          weekBase[type] = {
+            type,
+            value,
+          }
           continue
         }
         if(!memo.edyoucated) {
-          // well...
-          // https://stackoverflow.com/a/12830454
-          const hourValue = +((value / 60).toFixed(2))
-          weekBase[type] = `${hourValue}h`
+          weekBase[type] = {
+            absolute: true,
+            type,
+            value,
+          }
           memo.edyoucated = value
           continue
         }
-        const doneMinutes = (value - memo.edyoucated)
-        const hourValue = +((doneMinutes / 60).toFixed(2))
-        weekBase[type] = `+${hourValue}h`
+        weekBase[type] = {
+          absolute: false,
+          type,
+          value,
+        }
         memo.edyoucated = value
       }
       activityBase[label] = weekBase
@@ -163,7 +170,11 @@ const techieActivityReportProvider = async (action, resource, params) => {
   if(field === 'id') {
     data = sortBy(data, techie => techie.last_name)
   } else {
-    data = sortBy(data, techie => property(field)(techie))
+    data = sortBy(data, techie => {
+      const dp = property(field)(techie)
+      if(!dp) return 0
+      return dp.value
+    })
   }
   if(order === 'DESC') {
     data = reverse(data)
