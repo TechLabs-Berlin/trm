@@ -21,6 +21,11 @@ module.exports = () => {
   }
   const jwtKey = process.env.JWT_KEY
 
+  if(!('GRAPHQL_URL' in process.env)) {
+    throw new Error('GRAPHQL_URL is unset')
+  }
+  const graphqlURL = process.env.GRAPHQL_URL
+
   if(!('GOOGLE_SERVICE_ACCOUNT_JSON' in process.env)) {
     throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is unset')
   }
@@ -42,6 +47,7 @@ module.exports = () => {
     oAuthClientSecret,
     gSuiteDomain,
     jwtKey,
+    graphqlURL,
     googleImpersonateSubject,
     googleServiceAccountJSON,
     debug

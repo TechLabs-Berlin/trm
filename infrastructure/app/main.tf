@@ -82,6 +82,7 @@ module "functions_auth" {
     GOOGLE_SERVICE_ACCOUNT_JSON = base64decode(google_service_account_key.functions_auth.private_key),
     GOOGLE_IMPERSONATE_SUBJECT  = var.google_impersonate_subject,
     JWT_KEY                     = var.hasura_jwt_keys[terraform.workspace]
+    GRAPHQL_URL                 = module.database.hasura_url
     DEBUG                       = "1" // TODO add config variable
   }
 }

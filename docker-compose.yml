@@ -73,7 +73,8 @@ services:
         condition: service_healthy
   fn-auth:
     build:
-      context: functions/auth
+      context: .
+      dockerfile: functions/auth/Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -85,6 +86,9 @@ services:
 
       # JWT_KEY is a stub for development & test, it is not valid for any deployed environment
       JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
+
+      # Points to the hasura service
+      GRAPHQL_URL: http://hasura:8080/v1/graphql
 
       # Following variables are stubbed for development & test
       OAUTH_CLIENT_ID: some-client@provider.com

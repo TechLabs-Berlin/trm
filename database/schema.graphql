@@ -934,6 +934,125 @@ enum forms_update_column {
   webhook_installed_at
 }
 
+# columns and relationships of "functional_teams"
+type functional_teams {
+  value: String!
+}
+
+# aggregated selection of "functional_teams"
+type functional_teams_aggregate {
+  aggregate: functional_teams_aggregate_fields
+  nodes: [functional_teams!]!
+}
+
+# aggregate fields of "functional_teams"
+type functional_teams_aggregate_fields {
+  count(columns: [functional_teams_select_column!], distinct: Boolean): Int
+  max: functional_teams_max_fields
+  min: functional_teams_min_fields
+}
+
+# order by aggregate values of table "functional_teams"
+input functional_teams_aggregate_order_by {
+  count: order_by
+  max: functional_teams_max_order_by
+  min: functional_teams_min_order_by
+}
+
+# input type for inserting array relation for remote table "functional_teams"
+input functional_teams_arr_rel_insert_input {
+  data: [functional_teams_insert_input!]!
+  on_conflict: functional_teams_on_conflict
+}
+
+# Boolean expression to filter rows from the table "functional_teams". All fields are combined with a logical 'AND'.
+input functional_teams_bool_exp {
+  _and: [functional_teams_bool_exp]
+  _not: functional_teams_bool_exp
+  _or: [functional_teams_bool_exp]
+  value: String_comparison_exp
+}
+
+# unique or primary key constraints on table "functional_teams"
+enum functional_teams_constraint {
+  # unique or primary key constraint
+  functional_teams_pkey
+}
+
+# input type for inserting data into table "functional_teams"
+input functional_teams_insert_input {
+  value: String
+}
+
+# aggregate max on columns
+type functional_teams_max_fields {
+  value: String
+}
+
+# order by max() on columns of table "functional_teams"
+input functional_teams_max_order_by {
+  value: order_by
+}
+
+# aggregate min on columns
+type functional_teams_min_fields {
+  value: String
+}
+
+# order by min() on columns of table "functional_teams"
+input functional_teams_min_order_by {
+  value: order_by
+}
+
+# response of any mutation on the table "functional_teams"
+type functional_teams_mutation_response {
+  # number of affected rows by the mutation
+  affected_rows: Int!
+
+  # data of the affected rows by the mutation
+  returning: [functional_teams!]!
+}
+
+# input type for inserting object relation for remote table "functional_teams"
+input functional_teams_obj_rel_insert_input {
+  data: functional_teams_insert_input!
+  on_conflict: functional_teams_on_conflict
+}
+
+# on conflict condition type for table "functional_teams"
+input functional_teams_on_conflict {
+  constraint: functional_teams_constraint!
+  update_columns: [functional_teams_update_column!]!
+  where: functional_teams_bool_exp
+}
+
+# ordering options when selecting data from "functional_teams"
+input functional_teams_order_by {
+  value: order_by
+}
+
+# primary key columns input for table: "functional_teams"
+input functional_teams_pk_columns_input {
+  value: String!
+}
+
+# select columns of table "functional_teams"
+enum functional_teams_select_column {
+  # column name
+  value
+}
+
+# input type for updating data in table "functional_teams"
+input functional_teams_set_input {
+  value: String
+}
+
+# update columns of table "functional_teams"
+enum functional_teams_update_column {
+  # column name
+  value
+}
+
 # expression to compare columns of type Int. All fields are combined with logical 'AND'.
 input Int_comparison_exp {
   _eq: Int
@@ -1406,6 +1525,15 @@ type mutation_root {
   # delete single row from the table: "forms"
   delete_forms_by_pk(id: uuid!): forms
 
+  # delete data from the table: "functional_teams"
+  delete_functional_teams(
+    # filter the rows which have to be deleted
+    where: functional_teams_bool_exp!
+  ): functional_teams_mutation_response
+
+  # delete single row from the table: "functional_teams"
+  delete_functional_teams_by_pk(value: String!): functional_teams
+
   # delete data from the table: "locations"
   delete_locations(
     # filter the rows which have to be deleted
@@ -1570,6 +1698,24 @@ type mutation_root {
     # on conflict condition
     on_conflict: forms_on_conflict
   ): forms
+
+  # insert data into the table: "functional_teams"
+  insert_functional_teams(
+    # the rows to be inserted
+    objects: [functional_teams_insert_input!]!
+
+    # on conflict condition
+    on_conflict: functional_teams_on_conflict
+  ): functional_teams_mutation_response
+
+  # insert a single row into the table: "functional_teams"
+  insert_functional_teams_one(
+    # the row to be inserted
+    object: functional_teams_insert_input!
+
+    # on conflict condition
+    on_conflict: functional_teams_on_conflict
+  ): functional_teams
 
   # insert data into the table: "locations"
   insert_locations(
@@ -1851,6 +1997,22 @@ type mutation_root {
     _set: forms_set_input
     pk_columns: forms_pk_columns_input!
   ): forms
+
+  # update data of the table: "functional_teams"
+  update_functional_teams(
+    # sets the columns of the filtered rows to the given values
+    _set: functional_teams_set_input
+
+    # filter the rows which have to be updated
+    where: functional_teams_bool_exp!
+  ): functional_teams_mutation_response
+
+  # update single row of the table: "functional_teams"
+  update_functional_teams_by_pk(
+    # sets the columns of the filtered rows to the given values
+    _set: functional_teams_set_input
+    pk_columns: functional_teams_pk_columns_input!
+  ): functional_teams
   update_gsheet_content(contentJSON: String, folderID: String, name: String, sheetName: String): Boolean
 
   # update data of the table: "locations"
@@ -2624,6 +2786,45 @@ type query_root {
 
   # fetch data from the table: "forms" using primary key columns
   forms_by_pk(id: uuid!): forms
+
+  # fetch data from the table: "functional_teams"
+  functional_teams(
+    # distinct select on columns
+    distinct_on: [functional_teams_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [functional_teams_order_by!]
+
+    # filter the rows returned
+    where: functional_teams_bool_exp
+  ): [functional_teams!]!
+
+  # fetch aggregated fields from the table: "functional_teams"
+  functional_teams_aggregate(
+    # distinct select on columns
+    distinct_on: [functional_teams_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [functional_teams_order_by!]
+
+    # filter the rows returned
+    where: functional_teams_bool_exp
+  ): functional_teams_aggregate!
+
+  # fetch data from the table: "functional_teams" using primary key columns
+  functional_teams_by_pk(value: String!): functional_teams
   gsheet_content(folderID: String, name: String, sheetName: String): String
 
   # fetch data from the table: "locations"
@@ -3870,6 +4071,45 @@ type subscription_root {
   # fetch data from the table: "forms" using primary key columns
   forms_by_pk(id: uuid!): forms
 
+  # fetch data from the table: "functional_teams"
+  functional_teams(
+    # distinct select on columns
+    distinct_on: [functional_teams_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [functional_teams_order_by!]
+
+    # filter the rows returned
+    where: functional_teams_bool_exp
+  ): [functional_teams!]!
+
+  # fetch aggregated fields from the table: "functional_teams"
+  functional_teams_aggregate(
+    # distinct select on columns
+    distinct_on: [functional_teams_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [functional_teams_order_by!]
+
+    # filter the rows returned
+    where: functional_teams_bool_exp
+  ): functional_teams_aggregate!
+
+  # fetch data from the table: "functional_teams" using primary key columns
+  functional_teams_by_pk(value: String!): functional_teams
+
   # fetch data from the table: "locations"
   locations(
     # distinct select on columns
@@ -4489,9 +4729,10 @@ type subscription_root {
 # columns and relationships of "team_members"
 type team_members {
   created_at: timestamp!
-  description: String!
+  description: String
   email: String!
   first_name: String!
+  functional_team: String
   id: uuid!
   last_name: String!
   last_seen_at: timestamp
@@ -4609,6 +4850,7 @@ input team_members_bool_exp {
   description: String_comparison_exp
   email: String_comparison_exp
   first_name: String_comparison_exp
+  functional_team: String_comparison_exp
   id: uuid_comparison_exp
   last_name: String_comparison_exp
   last_seen_at: timestamp_comparison_exp
@@ -4622,6 +4864,9 @@ input team_members_bool_exp {
 # unique or primary key constraints on table "team_members"
 enum team_members_constraint {
   # unique or primary key constraint
+  team_members_email
+
+  # unique or primary key constraint
   team_members_id
 
   # unique or primary key constraint
@@ -4634,6 +4879,7 @@ input team_members_insert_input {
   description: String
   email: String
   first_name: String
+  functional_team: String
   id: uuid
   last_name: String
   last_seen_at: timestamp
@@ -4650,6 +4896,7 @@ type team_members_max_fields {
   description: String
   email: String
   first_name: String
+  functional_team: String
   id: uuid
   last_name: String
   last_seen_at: timestamp
@@ -4662,6 +4909,7 @@ input team_members_max_order_by {
   description: order_by
   email: order_by
   first_name: order_by
+  functional_team: order_by
   id: order_by
   last_name: order_by
   last_seen_at: order_by
@@ -4674,6 +4922,7 @@ type team_members_min_fields {
   description: String
   email: String
   first_name: String
+  functional_team: String
   id: uuid
   last_name: String
   last_seen_at: timestamp
@@ -4686,6 +4935,7 @@ input team_members_min_order_by {
   description: order_by
   email: order_by
   first_name: order_by
+  functional_team: order_by
   id: order_by
   last_name: order_by
   last_seen_at: order_by
@@ -4720,6 +4970,7 @@ input team_members_order_by {
   description: order_by
   email: order_by
   first_name: order_by
+  functional_team: order_by
   id: order_by
   last_name: order_by
   last_seen_at: order_by
@@ -4750,6 +5001,9 @@ enum team_members_select_column {
   first_name
 
   # column name
+  functional_team
+
+  # column name
   id
 
   # column name
@@ -4771,6 +5025,7 @@ input team_members_set_input {
   description: String
   email: String
   first_name: String
+  functional_team: String
   id: uuid
   last_name: String
   last_seen_at: timestamp
@@ -4791,6 +5046,9 @@ enum team_members_update_column {
 
   # column name
   first_name
+
+  # column name
+  functional_team
 
   # column name
   id

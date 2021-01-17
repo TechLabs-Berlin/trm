@@ -121,6 +121,9 @@ jobs:
 
         rm functions/export/pkg/trm-api
         cp -rp lib/trm-api functions/export/pkg
+
+        rm functions/auth/pkg/trm-api
+        cp -rp lib/trm-api functions/auth/pkg
       working-directory: .
 
     - name: Setup Terraform

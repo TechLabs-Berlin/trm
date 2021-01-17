@@ -159,6 +159,15 @@
     webhook_from_env: FN_URL_TYPEFORM
 - table:
     schema: public
+    name: functional_teams
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - value
+      filter: {}
+- table:
+    schema: public
     name: locations
   is_enum: true
   array_relationships:
@@ -482,6 +491,7 @@
       - description
       - email
       - first_name
+      - functional_team
       - last_name
       - last_seen_at
       backend_only: false
@@ -493,6 +503,7 @@
       - description
       - email
       - first_name
+      - functional_team
       - id
       - last_name
       - last_seen_at
@@ -508,6 +519,7 @@
       - description
       - email
       - first_name
+      - functional_team
       - last_name
       - last_seen_at
       - updated_at

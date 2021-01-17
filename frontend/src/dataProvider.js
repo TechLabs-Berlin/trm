@@ -150,7 +150,6 @@ const factory = async (action, resource, params) => {
     const validUntil = new Date()
     validUntil.setTime(validUntil.getTime() + 5 * 60 * 1000) // cache 5 minutes
     response.validUntil = validUntil
-    console.log('setCache')
   }
   return response
 }

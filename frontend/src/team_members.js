@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 import {
   List,
   Datagrid,
@@ -8,11 +8,15 @@ import {
   TextInput,
   Create,
   required
-} from 'react-admin';
+} from 'react-admin'
+
+import { FunctionalTeamSelectField } from './fields/functionalTeamSelect'
+import { FunctionalTeamSelectInput } from './inputs/functionalTeamSelect'
 
 export const TeamMemberList = props => (
     <List {...props} perPage={25}>
         <Datagrid rowClick="edit">
+            <FunctionalTeamSelectField source="functional_team" />
             <TextField source="first_name" />
             <TextField source="last_name" />
             <TextField source="description" />
@@ -35,7 +39,8 @@ export const TeamMemberEdit = props => (
           <TextInput source="first_name" validate={required()} />
           <TextInput source="last_name" validate={required()} />
           <TextInput source="email" validate={required()} />
-          <TextInput source="description" validate={required()} />
+          <FunctionalTeamSelectInput source="functional_team" />
+          <TextInput source="description" />
       </SimpleForm>
   </Edit>
 );
@@ -46,6 +51,7 @@ export const TeamMemberCreate = props => (
           <TextInput source="first_name" validate={required()} />
           <TextInput source="last_name" validate={required()} />
           <TextInput source="email" validate={required()} />
+          <FunctionalTeamSelectInput source="functional_team" />
           <TextInput source="description" validate={required()} />
       </SimpleForm>
   </Create>

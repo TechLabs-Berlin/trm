@@ -1,0 +1,16 @@
+mutation($location: locations_enum!, $email: String!, $firstName: String!, $lastName: String!) {
+  insert_team_members_one(
+    object: {
+      email: $email,
+      location: $location,
+      first_name: $firstName,
+      last_name: $lastName,
+      last_seen_at: "now()"
+    }, on_conflict: {
+      constraint: team_members_email,
+      update_columns: [last_seen_at, location]
+    }) {
+    id
+    functional_team
+  }
+}

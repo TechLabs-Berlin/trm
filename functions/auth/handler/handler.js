@@ -9,6 +9,15 @@ exports.buildHandler = ({ config, fetch, log }) => {
     config,
   })
   const authorization = require('../store/authorization')({ log })
+  const jwtUtil = require('../util/jwt')({
+    jwtKey: config.jwtKey
+  })
+  const buildTRMAPI = require('trm-api')({
+    graphqlURL: config.graphqlURL,
+    token: jwtUtil.generate(),
+    fetch,
+    log
+  })
 
   return async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
@@ -58,8 +67,25 @@ exports.buildHandler = ({ config, fetch, log }) => {
     }
 
     const groupEmails = await google.getGroupMemberships({ userKey })
+    const location = authorization.resolveLocation({ email, groupEmails })
+
+    if(!location) {
+      res.status(401).send(JSON.stringify({error: 'Your account is not associated to a TechLabs location'}))
+      return
+    }
+
+    const trmAPI = await buildTRMAPI
+    const teamMember = await trmAPI.createTeamMember({
+      email,
+      firstName,
+      lastName,
+      location,
+    })
+
     const token = jwt.sign(
       authorization.getPayload({
+        teamMemberID: teamMember.id,
+        functionalTeam: teamMember.functional_team,
         email,
         firstName,
         lastName,
