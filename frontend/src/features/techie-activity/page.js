@@ -1,219 +1,68 @@
 import * as React from "react"
-import PropTypes from 'prop-types'
-
-import { gql } from 'apollo-boost'
-import { groupBy } from 'lodash'
 
 import {
-  ListContextProvider,
   Datagrid,
-  Title,
-  Loading,
-  useTranslate,
-} from 'react-admin';
-
-import {
-  Card,
-  CardContent,
-  makeStyles,
-  Paper,
-  Tabs,
-  Tab,
-  Box,
-  Typography,
+  Filter,
+  List,
+  ReferenceInput,
+  SelectInput,
+  useListContext,
+  ReferenceField,
   TextField,
-} from '@material-ui/core'
+} from 'react-admin'
 
-import { buildClient } from '../../dataProvider'
-import { ActivityField } from './activityField'
 import { TechieField } from '../../fields/techie'
 
-const GET_ACTIVITY = gql`
-  query($startDate: String!, $endDate: String!) {
-    techie_activity_reports(
-      args: {startdate: $startDate, enddate: $endDate}
-      where: {techie: {state: {_eq: LEARNER}}}
-    ) {
-      type
-      value
-      week
-      year
-      techie {
-        first_name
-        last_name
-        email
-        track
-        state
-      }
-    }
-  }
-`
+const ReportFilter = props => (
+  <Filter {...props}>
+    <ReferenceInput label="Semester" source="semester_id" reference="semesters" alwaysOn>
+      <SelectInput optionText="description" />
+    </ReferenceInput>
+    <SelectInput source="primary_type" choices={[
+      { id: 'edyoucated', name: 'Learned Hours on edyoucated' },
+      { id: 'slack_activity', name: 'Read Slack?' },
+      { id: 'slack_participation', name: 'Participated on Slack?' },
+    ]} allowEmpty={false} alwaysOn />
+  </Filter>
+)
 
-const useStyles = makeStyles(theme => ({
-  filter: {
-    marginBottom: theme.spacing(2)
-  }
-}))
+export const ReportDynamicDatagrid = props => {
+  const {
+      data,
+      ids,
+      loaded,
+      total,
+      filterValues
+  } = useListContext(props)
 
-const TabPanel = props => {
-  const { children, value, index, ...other } = props
+  const {
+    primary_type
+  } = filterValues
+
+  if(!loaded) {
+    return <React.Fragment>Loading...</React.Fragment>
+  }
+
+  if(total <= 0 || data[ids[0]].weeks.length <= 0) {
+    return null
+  }
+
+  const fields = [
+    <ReferenceField source="id" reference="techies">
+      <TechieField />
+    </ReferenceField>,
+    ...data[ids[0]].weeks.map(week => (
+      <TextField source={`${week}.${primary_type}`} label={week} />
+    ))
+  ]
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-export const TechieActivityPage = () => {
-  const [loading, setLoading] = React.useState(true)
-  const [records, setRecords] = React.useState({})
-  const [weeks, setWeeks] = React.useState([])
-  const [types, setTypes] = React.useState([])
-  const [startDate, setStartDate] = React.useState('2020-10-01')
-  const [endDate, setEndDate] = React.useState('2020-12-01')
-  const [currentTab, setCurrentTab] = React.useState(0)
-  const classes = useStyles()
-  const translate = useTranslate()
-
-  React.useEffect(() => {
-    const update = async () => {
-      const client = buildClient()
-      const resp = await client.query({
-        query: GET_ACTIVITY,
-        variables: {
-          startDate,
-          endDate
-        }
-      })
-      const activityByTechie = groupBy(resp.data.techie_activity_reports, report => report.techie.email)
-      const newActivity = {}
-      let newWeeks = []
-      let types = []
-      for(const [email, records] of Object.entries(activityByTechie)) {
-        let techieProps = {}
-        if(records.length > 0) {
-          techieProps = {
-            first_name: records[0].techie.first_name,
-            last_name: records[0].techie.last_name,
-            track: records[0].techie.track
-          }
-        }
-        types = Array.from(new Set(records.map(r => r.type)))
-        types.unshift('all')
-        const byWeek = groupBy(records, report => `${report.year}-${report.week}`)
-        newActivity[email] = {
-          id: email,
-          techie: techieProps,
-          weeks: byWeek,
-        }
-        newWeeks = Object.keys(byWeek)
-      }
-      setRecords(newActivity)
-      setTypes(types)
-      setWeeks(newWeeks)
-      setLoading(false)
-    }
-    update()
-  }, [startDate, endDate])
-
-  const handleTabChange = (_, currentTab) => setCurrentTab(currentTab)
-
-  return (
-    <Card>
-        <Title title="Techie Activity" />
-        <CardContent>
-          { loading ? (
-            <Loading/>
-          ) : (
-            <div>
-              <Paper square elevation={0} className={classes.filter}>
-                {/* <DatePicker label="Start Date" value={startDate} onChange={setStartDate} disableFuture={true} views={["year", "month"]} variant="inline" />
-                <DatePicker label="End Date" value={endDate} onChange={setEndDate} views={["year", "month"]} variant="inline" /> */}
-                <TextField
-                  label="Start Date"
-                  type="date"
-                  // defaultValue="2017-05-24"
-                  value={startDate}
-                  onChange={e => setStartDate(e.target.value)}
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  label="End Date"
-                  type="date"
-                  // defaultValue="2017-05-24"
-                  value={endDate}
-                  onChange={e => setEndDate(e.target.value)}
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Paper>
-              <Tabs value={currentTab} onChange={handleTabChange}>
-                {types.map(t => (
-                  <Tab key={t} label={translate(`resources.techie_activity.fields.type_values.${t}`)} />
-                ))}
-              </Tabs>
-              {types.map((t, i) => (
-                <TabPanel key={t} value={currentTab} index={i}>
-                  <ListContextProvider value={{
-                    data: Object.entries(records).reduce((acc, [email, record]) => {
-                      acc[email] = {
-                        id: record.id,
-                        ...record.techie
-                      }
-                      if(t === 'all') {
-                        acc[email] = {
-                          ...acc[email],
-                          ...record.weeks,
-                        }
-                      } else {
-                        const weeksFiltered = Object.entries(record.weeks).reduce((acc, [week, activities]) => {
-                          acc[week] = activities.filter(a => a.type === t)
-                          return acc
-                        }, {})
-                        acc[email] = {
-                          ...acc[email],
-                          ...weeksFiltered
-                        }
-                      }
-                      return acc
-                    }, {}),
-                    ids: Object.keys(records),
-                    total: Object.keys(records).length,
-                    currentSort: { field: 'id', order: 'ASC' },
-                    basePath: "/posts", // TODO remove, but throws an error
-                    resource: 'posts', // TODO remove, but throws an error
-                    selectedIds: []
-                  }}>
-                      <Datagrid>
-                        <TechieField sortable={true} />
-                        {weeks.map(week => <ActivityField key={week} source={week} sortable={true}/>)}
-                      </Datagrid>
-                  </ListContextProvider >
-                </TabPanel>
-              ))}
-            </div>
-          )}
-        </CardContent>
-    </Card>
+    <Datagrid children={fields} />
   )
 }
+
+export const TechieActivityReportList = props => (
+  <List {...props} empty={false} filters={<ReportFilter />} filterDefaultValues={{primary_type: 'edyoucated'}} pagination={null}>
+    <ReportDynamicDatagrid />
+  </List>
+)

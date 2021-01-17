@@ -36,6 +36,7 @@ export const SemesterEdit = props => (
       <SimpleForm redirect="edit">
           <TermSelectInput source="term" validate={required()} />
           <TextInput source="description" validate={required()} />
+          <TextInput source="edyoucated_team_id" />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />

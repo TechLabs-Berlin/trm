@@ -230,7 +230,7 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
             dense={dense}
         >
             <MenuItemLink
-                to={`/techie-activity`}
+                to={`/techie_activity_report`}
                 primaryText={translate('trm.menu.techieActivity')}
                 leftIcon={<ExploreIcon />}
                 onClick={onMenuClick}

@@ -13,7 +13,7 @@ import { FormList, FormEdit, FormCreate } from './forms';
 import { SemesterList, SemesterEdit, SemesterCreate } from './semesters';
 import { FormResponseList, FormResponseEdit } from './form_responses';
 import { TeamMemberList, TeamMemberEdit, TeamMemberCreate } from './team_members';
-
+import { TechieActivityReportList } from './features/techie-activity/page'
 class App extends Component {
   render() {
       return (
@@ -31,6 +31,7 @@ class App extends Component {
             <Resource name="form_responses" list={FormResponseList} edit={FormResponseEdit} />
             <Resource name="semesters" list={SemesterList} edit={SemesterEdit} create={SemesterCreate} />
             <Resource name="team_members" list={TeamMemberList} edit={TeamMemberEdit} create={TeamMemberCreate} />
+            <Resource name="techie_activity_report" list={TechieActivityReportList} />
           </Admin>
       );
   }
