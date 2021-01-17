@@ -52,7 +52,7 @@ export const TeamMemberCreate = props => (
           <TextInput source="last_name" validate={required()} />
           <TextInput source="email" validate={required()} />
           <FunctionalTeamSelectInput source="functional_team" />
-          <TextInput source="description" validate={required()} />
+          <TextInput source="description" />
       </SimpleForm>
   </Create>
 );

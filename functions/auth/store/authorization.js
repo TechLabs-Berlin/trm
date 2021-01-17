@@ -72,7 +72,8 @@ module.exports = ({ log }) => {
         'https://hasura.io/jwt/claims': {
           'x-hasura-allowed-roles': roles,
           'x-hasura-default-role': DEFAULT_ROLE,
-          'x-hasura-location': location
+          'x-hasura-location': location,
+          'x-hasura-team-member-id': teamMemberID,
         }
       }
     }

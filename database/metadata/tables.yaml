@@ -12,16 +12,16 @@
     using:
       foreign_key_constraint_on: techie_id
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
-      - answers
-      - created_at
-      - form_id
       - id
+      - form_id
       - techie_id
-      - typeform_event
       - typeform_response_token
+      - answers
+      - typeform_event
+      - created_at
       - updated_at
       filter:
         form:
@@ -29,7 +29,7 @@
             _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - techie_id
@@ -66,6 +66,18 @@
           schema: public
           name: forms
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -94,7 +106,7 @@
           schema: public
           name: form_responses
   insert_permissions:
-  - role: user
+  - role: journey
     permission:
       check:
         location:
@@ -108,7 +120,7 @@
       - typeform_id
       backend_only: false
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - created_at
@@ -124,7 +136,7 @@
           _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - description
@@ -141,7 +153,7 @@
       set:
         location: x-hasura-Location
   delete_permissions:
-  - role: user
+  - role: journey
     permission:
       filter:
         location:
@@ -161,11 +173,24 @@
     schema: public
     name: functional_teams
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
       - value
       filter: {}
+      allow_aggregations: true
 - table:
     schema: public
     name: locations
@@ -214,6 +239,18 @@
           schema: public
           name: typeform_users
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -231,7 +268,7 @@
     using:
       foreign_key_constraint_on: team_member_id
   insert_permissions:
-  - role: user
+  - role: journey
     permission:
       check:
         project:
@@ -242,7 +279,7 @@
       - team_member_id
       backend_only: false
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - project_id
@@ -253,7 +290,7 @@
             _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - project_id
@@ -267,7 +304,7 @@
           location:
             _eq: x-hasura-location
   delete_permissions:
-  - role: user
+  - role: journey
     permission:
       filter:
         project:
@@ -299,7 +336,7 @@
           schema: public
           name: techies
   insert_permissions:
-  - role: user
+  - role: journey
     permission:
       check:
         location:
@@ -312,7 +349,7 @@
       - semester_id
       backend_only: false
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - created_at
@@ -326,7 +363,7 @@
           _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - description
@@ -342,7 +379,7 @@
       set:
         location: x-hasura-Location
   delete_permissions:
-  - role: user
+  - role: journey
     permission:
       filter:
         location:
@@ -397,7 +434,7 @@
       remote_schema: edyoucated
     name: edyoucated_team
   insert_permissions:
-  - role: user
+  - role: journey
     permission:
       check:
         location:
@@ -414,7 +451,7 @@
       - term
       backend_only: false
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - academy_phase_ends_at
@@ -432,7 +469,7 @@
           _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - academy_phase_ends_at
@@ -452,7 +489,7 @@
       set:
         location: x-hasura-Location
   delete_permissions:
-  - role: user
+  - role: journey
     permission:
       filter:
         location:
@@ -480,7 +517,7 @@
           schema: public
           name: techies
   insert_permissions:
-  - role: user
+  - role: hr
     permission:
       check:
         location:
@@ -496,6 +533,19 @@
       - last_seen_at
       backend_only: false
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - description
+      - email
+      - first_name
+      - functional_team
+      - last_name
+      - last_seen_at
+      filter:
+        location:
+          _eq: x-hasura-location
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -506,14 +556,13 @@
       - functional_team
       - id
       - last_name
-      - last_seen_at
       - updated_at
       filter:
         location:
           _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: hr
     permission:
       columns:
       - description
@@ -522,7 +571,6 @@
       - functional_team
       - last_name
       - last_seen_at
-      - updated_at
       filter:
         location:
           _eq: x-hasura-location
@@ -531,8 +579,25 @@
           _eq: x-hasura-location
       set:
         location: x-hasura-location
-  delete_permissions:
   - role: user
+    permission:
+      columns:
+      - description
+      - email
+      - first_name
+      - functional_team
+      - last_name
+      - updated_at
+      filter:
+        id:
+          _eq: x-hasura-team-member-id
+      check:
+        id:
+          _eq: x-hasura-team-member-id
+      set:
+        location: x-hasura-location
+  delete_permissions:
+  - role: hr
     permission:
       filter:
         location:
@@ -548,7 +613,7 @@
     using:
       foreign_key_constraint_on: techie_id
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - semester_id
@@ -574,6 +639,18 @@
           schema: public
           name: techies
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -621,7 +698,7 @@
           schema: public
           name: techie_activity
   select_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - age
@@ -652,19 +729,22 @@
           _eq: x-hasura-location
       allow_aggregations: true
   update_permissions:
-  - role: user
+  - role: journey
     permission:
       columns:
       - age
       - application_track_choice
       - assigned_team_member_id
+      - created_at
       - edyoucated_imported_at
       - edyoucated_next_import_after
+      - edyoucated_user_id
       - email
       - first_name
       - gender
       - github_handle
       - google_account
+      - id
       - last_name
       - linkedin_profile_url
       - notes
@@ -672,16 +752,13 @@
       - semester_id
       - slack_member_id
       - state
+      - techie_key
       - track
       - updated_at
       filter:
         location:
           _eq: x-hasura-location
-      check:
-        location:
-          _eq: x-hasura-location
-      set:
-        location: x-hasura-Location
+      check: null
 - table:
     schema: public
     name: terms
@@ -694,6 +771,18 @@
           schema: public
           name: semesters
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -720,6 +809,18 @@
           schema: public
           name: techies
   select_permissions:
+  - role: hr
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
+  - role: journey
+    permission:
+      columns:
+      - value
+      filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
