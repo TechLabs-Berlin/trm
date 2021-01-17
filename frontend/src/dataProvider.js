@@ -154,8 +154,8 @@ const techieActivityReportProvider = async (action, resource, params) => {
         }
         weekBase[type] = {
           absolute: false,
+          value: value - memo.edyoucated,
           type,
-          value,
         }
         memo.edyoucated = value
       }
