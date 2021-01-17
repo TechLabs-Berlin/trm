@@ -59,7 +59,7 @@ const openUserGuide = () => {
 }
 
 const TRMMenu = ({ onMenuClick, dense, logout }) => {
-  const { permissions, loaded } = usePermissions()
+  let { permissions, loaded } = usePermissions()
   const classes = useStyles()
   const [state, setState] = useState({
       menuTechies: true,
@@ -74,6 +74,10 @@ const TRMMenu = ({ onMenuClick, dense, logout }) => {
     useSelector((state) => state.theme); // force rerender on theme change
   if(!loaded) {
     return null
+  }
+  // prevents weird bug where permissions is undefined leading to an endless spin loop...
+  if(!permissions) {
+      permissions = []
   }
   const handleToggle = (menu) => {
       setState(state => ({ ...state, [menu]: !state[menu] }));
