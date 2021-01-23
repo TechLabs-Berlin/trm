@@ -19,9 +19,10 @@ const ReportFilter = props => (
       <SelectInput optionText="description" />
     </ReferenceInput>
     <SelectInput source="primary_type" choices={[
-      { id: 'edyoucated', name: 'Learned Hours on edyoucated' },
-      { id: 'slack_activity', name: 'Read Slack?' },
-      { id: 'slack_participation', name: 'Participated on Slack?' },
+      { id: 'edyoucated.value.relative', name: 'Learned Hours on edyoucated (week over week)' },
+      { id: 'edyoucated.value.absolute', name: 'Learned Hours on edyoucated (absolute hours)' },
+      { id: 'slack_activity.value', name: 'Read Slack?' },
+      { id: 'slack_participation.value', name: 'Participated on Slack?' },
     ]} allowEmpty={false} alwaysOn />
   </Filter>
 )
@@ -62,7 +63,7 @@ export const ReportDynamicDatagrid = props => {
 }
 
 export const TechieActivityReportList = props => (
-  <List {...props} empty={false} filters={<ReportFilter />} filterDefaultValues={{primary_type: 'edyoucated'}} pagination={null}>
+  <List {...props} empty={false} filters={<ReportFilter />} filterDefaultValues={{primary_type: 'edyoucated.value.relative'}} pagination={null}>
     <ReportDynamicDatagrid />
   </List>
 )
