@@ -1,0 +1,5 @@
+query ($techieKeys: [String!]!) {
+  techies(where: {techie_key: {_in: $techieKeys}}) {
+    techie_key
+  }
+}

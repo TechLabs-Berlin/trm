@@ -31,7 +31,8 @@ import { FormResponseAnswersField } from './fields/formResponseAnswers';
 
 const TechieFilter = (props) => (
   <Filter {...props}>
-      <TextInput label="Search by last name" source="last_name" alwaysOn />
+      <TextInput label="Search by Last Name" source="last_name" alwaysOn />
+      <TextInput label="Search by Techie Key" source="techie_key" alwaysOn />
       <TextInput source="email" />
       <TextInput source="first_name" />
       <ReferenceInput label="Semester" source="semester_id" reference="semesters">
@@ -59,6 +60,7 @@ export const TechieList = props => (
         <StateSelectField source="state" />
         <TextField source="first_name" />
         <TextField source="last_name" />
+        <TextField source="techie_key" />
         <TrackSelectField source="track" />
         <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" link="show">
           <TextField source="first_name" />

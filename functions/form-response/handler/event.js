@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const generator = require('../util/generator')
 const techieutil = require('../util/techie')
 
@@ -54,11 +56,18 @@ module.exports = ({buildTRMAPI, log}) => {
       }
       if(!techie && form.form_type === 'APPLICATION') {
         log.info('Creating techie', { id })
+        const candidateKeys = _.times(10, () => generator.generateTechieKey({ location: form.location }))
+        const usedKeys = await trmAPI.getUsedTechieKeys({ techieKeys: candidateKeys })
+        const unusedKeys = _.difference(candidateKeys, usedKeys)
+        if(unusedKeys.length === 0) {
+          log.error('Error generating an unused Techie Key, all 10 keys are in-use', { candidateKeys, usedKeys })
+          return
+        }
         techie = await trmAPI.createTechie({
           location: form.location,
           semesterID: form.semester_id,
           state: 'APPLICANT',
-          techieKey: generator.generateTechieKey()
+          techieKey: unusedKeys[0],
         })
       }
 
