@@ -22,6 +22,8 @@ import {
   BulkDeleteButton,
 } from 'react-admin'
 
+import Alert from '@material-ui/lab/Alert'
+
 import { FunctionalTeamSelectField } from './fields/functionalTeamSelect'
 import { FunctionalTeamSelectInput } from './inputs/functionalTeamSelect'
 
@@ -115,14 +117,23 @@ export const TeamMemberShow = ({ permissions, ...props }) => (
   </Show>
 );
 
-export const TeamMemberEdit = props => (
-  <Edit title={<TeamMemberTitle />} {...props}>
+export const TeamMemberEdit = ({ permissions, ...props }) => (
+  <Edit title={<TeamMemberTitle />} permissions={permissions} {...props}>
       <SimpleForm toolbar={<TeamMemberEditToolbar />}>
           <TextInput source="first_name" validate={required()} />
           <TextInput source="last_name" validate={required()} />
-          <TextInput source="email" validate={required()} />
-          <FunctionalTeamSelectInput source="functional_team" />
           <TextInput source="description" />
+          {permissions.includes('hr') ?
+            <TextInput source="email" validate={required()} /> :
+            <TextField source="email" />
+          }
+          {permissions.includes('hr') ?
+            <FunctionalTeamSelectInput source="functional_team" /> :
+            <FunctionalTeamSelectField source="functional_team" />
+          }
+          {!permissions.includes('hr') && <Alert variant="outlined" severity="info">
+            Your Functional Team determines your privileges in this tool. Reach out to the local board or HR to change this setting.
+          </Alert>}
       </SimpleForm>
   </Edit>
 );
@@ -132,9 +143,9 @@ export const TeamMemberCreate = props => (
     <SimpleForm>
           <TextInput source="first_name" validate={required()} />
           <TextInput source="last_name" validate={required()} />
+          <TextInput source="description" />
           <TextInput source="email" validate={required()} />
           <FunctionalTeamSelectInput source="functional_team" />
-          <TextInput source="description" />
       </SimpleForm>
   </Create>
 );

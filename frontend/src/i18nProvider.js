@@ -86,7 +86,7 @@ let messages = {
       fields: {
         first_name: 'First Name',
         last_name: 'Last Name',
-        functional_team: 'Function Team',
+        functional_team: 'Functional Team',
       }
     },
     semesters: {

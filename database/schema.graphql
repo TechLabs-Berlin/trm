@@ -4,6 +4,21 @@ schema {
   subscription: subscription_root
 }
 
+scalar bigint
+
+# expression to compare columns of type bigint. All fields are combined with logical 'AND'.
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
 enum CacheControlScope {
   PRIVATE
   PUBLIC
@@ -1368,14 +1383,20 @@ enum locations_enum {
   AACHEN
   BARCELONA
   BERLIN
+  CODEATHOME
   COPENHAGEN
   CURITIBA
   DORTMUND
   DUESSELDORF
+  GLOBAL
   HAMBURG
+  LONDON
+  MANNHEIM
   MEDELLIN
   MUENSTER
   MUNICH
+  PLAYGROUND
+  STOCKHOLM
 }
 
 # expression to compare columns of type locations_enum. All fields are combined with logical 'AND'.
@@ -2625,14 +2646,14 @@ enum projects_update_column {
 type Query {
   edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
   edyoucated_teams: [EdyoucatedTeam]
-  edyoucated_teams_by_pk(id: String!): EdyoucatedTeam
+  edyoucated_teams_by_pk(id: String): EdyoucatedTeam
 }
 
 # query root
 type query_root {
   edyoucated_activity(userIDs: [String]): [EdyoucatedActivity]
   edyoucated_teams: [EdyoucatedTeam]
-  edyoucated_teams_by_pk(id: String!): EdyoucatedTeam
+  edyoucated_teams_by_pk(id: String): EdyoucatedTeam
 
   # fetch data from the table: "exports"
   exports(
@@ -2980,6 +3001,42 @@ type query_root {
   # fetch data from the table: "semesters" using primary key columns
   semesters_by_pk(id: uuid!): semesters
 
+  # fetch data from the table: "team_member_stats"
+  team_member_stats(
+    # distinct select on columns
+    distinct_on: [team_member_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_member_stats_order_by!]
+
+    # filter the rows returned
+    where: team_member_stats_bool_exp
+  ): [team_member_stats!]!
+
+  # fetch aggregated fields from the table: "team_member_stats"
+  team_member_stats_aggregate(
+    # distinct select on columns
+    distinct_on: [team_member_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_member_stats_order_by!]
+
+    # filter the rows returned
+    where: team_member_stats_bool_exp
+  ): team_member_stats_aggregate!
+
   # fetch data from the table: "team_members"
   team_members(
     # distinct select on columns
@@ -3285,6 +3342,42 @@ type query_root {
     # filter the rows returned
     where: techie_activity_bool_exp
   ): techie_activity_aggregate!
+
+  # fetch data from the table: "techie_stats"
+  techie_stats(
+    # distinct select on columns
+    distinct_on: [techie_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_stats_order_by!]
+
+    # filter the rows returned
+    where: techie_stats_bool_exp
+  ): [techie_stats!]!
+
+  # fetch aggregated fields from the table: "techie_stats"
+  techie_stats_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_stats_order_by!]
+
+    # filter the rows returned
+    where: techie_stats_bool_exp
+  ): techie_stats_aggregate!
 
   # fetch data from the table: "techies"
   techies(
@@ -4263,6 +4356,42 @@ type subscription_root {
   # fetch data from the table: "semesters" using primary key columns
   semesters_by_pk(id: uuid!): semesters
 
+  # fetch data from the table: "team_member_stats"
+  team_member_stats(
+    # distinct select on columns
+    distinct_on: [team_member_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_member_stats_order_by!]
+
+    # filter the rows returned
+    where: team_member_stats_bool_exp
+  ): [team_member_stats!]!
+
+  # fetch aggregated fields from the table: "team_member_stats"
+  team_member_stats_aggregate(
+    # distinct select on columns
+    distinct_on: [team_member_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [team_member_stats_order_by!]
+
+    # filter the rows returned
+    where: team_member_stats_bool_exp
+  ): team_member_stats_aggregate!
+
   # fetch data from the table: "team_members"
   team_members(
     # distinct select on columns
@@ -4569,6 +4698,42 @@ type subscription_root {
     where: techie_activity_bool_exp
   ): techie_activity_aggregate!
 
+  # fetch data from the table: "techie_stats"
+  techie_stats(
+    # distinct select on columns
+    distinct_on: [techie_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_stats_order_by!]
+
+    # filter the rows returned
+    where: techie_stats_bool_exp
+  ): [techie_stats!]!
+
+  # fetch aggregated fields from the table: "techie_stats"
+  techie_stats_aggregate(
+    # distinct select on columns
+    distinct_on: [techie_stats_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [techie_stats_order_by!]
+
+    # filter the rows returned
+    where: techie_stats_bool_exp
+  ): techie_stats_aggregate!
+
   # fetch data from the table: "techies"
   techies(
     # distinct select on columns
@@ -4724,6 +4889,176 @@ type subscription_root {
 
   # fetch data from the table: "typeform_users" using primary key columns
   typeform_users_by_pk(id: uuid!): typeform_users
+}
+
+# columns and relationships of "team_member_stats"
+type team_member_stats {
+  count: bigint
+  id: String
+}
+
+# aggregated selection of "team_member_stats"
+type team_member_stats_aggregate {
+  aggregate: team_member_stats_aggregate_fields
+  nodes: [team_member_stats!]!
+}
+
+# aggregate fields of "team_member_stats"
+type team_member_stats_aggregate_fields {
+  avg: team_member_stats_avg_fields
+  count(columns: [team_member_stats_select_column!], distinct: Boolean): Int
+  max: team_member_stats_max_fields
+  min: team_member_stats_min_fields
+  stddev: team_member_stats_stddev_fields
+  stddev_pop: team_member_stats_stddev_pop_fields
+  stddev_samp: team_member_stats_stddev_samp_fields
+  sum: team_member_stats_sum_fields
+  var_pop: team_member_stats_var_pop_fields
+  var_samp: team_member_stats_var_samp_fields
+  variance: team_member_stats_variance_fields
+}
+
+# order by aggregate values of table "team_member_stats"
+input team_member_stats_aggregate_order_by {
+  avg: team_member_stats_avg_order_by
+  count: order_by
+  max: team_member_stats_max_order_by
+  min: team_member_stats_min_order_by
+  stddev: team_member_stats_stddev_order_by
+  stddev_pop: team_member_stats_stddev_pop_order_by
+  stddev_samp: team_member_stats_stddev_samp_order_by
+  sum: team_member_stats_sum_order_by
+  var_pop: team_member_stats_var_pop_order_by
+  var_samp: team_member_stats_var_samp_order_by
+  variance: team_member_stats_variance_order_by
+}
+
+# aggregate avg on columns
+type team_member_stats_avg_fields {
+  count: Float
+}
+
+# order by avg() on columns of table "team_member_stats"
+input team_member_stats_avg_order_by {
+  count: order_by
+}
+
+# Boolean expression to filter rows from the table "team_member_stats". All fields are combined with a logical 'AND'.
+input team_member_stats_bool_exp {
+  _and: [team_member_stats_bool_exp]
+  _not: team_member_stats_bool_exp
+  _or: [team_member_stats_bool_exp]
+  count: bigint_comparison_exp
+  id: String_comparison_exp
+}
+
+# aggregate max on columns
+type team_member_stats_max_fields {
+  count: bigint
+  id: String
+}
+
+# order by max() on columns of table "team_member_stats"
+input team_member_stats_max_order_by {
+  count: order_by
+  id: order_by
+}
+
+# aggregate min on columns
+type team_member_stats_min_fields {
+  count: bigint
+  id: String
+}
+
+# order by min() on columns of table "team_member_stats"
+input team_member_stats_min_order_by {
+  count: order_by
+  id: order_by
+}
+
+# ordering options when selecting data from "team_member_stats"
+input team_member_stats_order_by {
+  count: order_by
+  id: order_by
+}
+
+# select columns of table "team_member_stats"
+enum team_member_stats_select_column {
+  # column name
+  count
+
+  # column name
+  id
+}
+
+# aggregate stddev on columns
+type team_member_stats_stddev_fields {
+  count: Float
+}
+
+# order by stddev() on columns of table "team_member_stats"
+input team_member_stats_stddev_order_by {
+  count: order_by
+}
+
+# aggregate stddev_pop on columns
+type team_member_stats_stddev_pop_fields {
+  count: Float
+}
+
+# order by stddev_pop() on columns of table "team_member_stats"
+input team_member_stats_stddev_pop_order_by {
+  count: order_by
+}
+
+# aggregate stddev_samp on columns
+type team_member_stats_stddev_samp_fields {
+  count: Float
+}
+
+# order by stddev_samp() on columns of table "team_member_stats"
+input team_member_stats_stddev_samp_order_by {
+  count: order_by
+}
+
+# aggregate sum on columns
+type team_member_stats_sum_fields {
+  count: bigint
+}
+
+# order by sum() on columns of table "team_member_stats"
+input team_member_stats_sum_order_by {
+  count: order_by
+}
+
+# aggregate var_pop on columns
+type team_member_stats_var_pop_fields {
+  count: Float
+}
+
+# order by var_pop() on columns of table "team_member_stats"
+input team_member_stats_var_pop_order_by {
+  count: order_by
+}
+
+# aggregate var_samp on columns
+type team_member_stats_var_samp_fields {
+  count: Float
+}
+
+# order by var_samp() on columns of table "team_member_stats"
+input team_member_stats_var_samp_order_by {
+  count: order_by
+}
+
+# aggregate variance on columns
+type team_member_stats_variance_fields {
+  count: Float
+}
+
+# order by variance() on columns of table "team_member_stats"
+input team_member_stats_variance_order_by {
+  count: order_by
 }
 
 # columns and relationships of "team_members"
@@ -5550,6 +5885,196 @@ enum techie_lifecycle_states_update_column {
 
 input techie_semester_activity_reports_args {
   semester_id: uuid
+}
+
+# columns and relationships of "techie_stats"
+type techie_stats {
+  count: bigint
+  id: String
+  location: String
+  state: String
+}
+
+# aggregated selection of "techie_stats"
+type techie_stats_aggregate {
+  aggregate: techie_stats_aggregate_fields
+  nodes: [techie_stats!]!
+}
+
+# aggregate fields of "techie_stats"
+type techie_stats_aggregate_fields {
+  avg: techie_stats_avg_fields
+  count(columns: [techie_stats_select_column!], distinct: Boolean): Int
+  max: techie_stats_max_fields
+  min: techie_stats_min_fields
+  stddev: techie_stats_stddev_fields
+  stddev_pop: techie_stats_stddev_pop_fields
+  stddev_samp: techie_stats_stddev_samp_fields
+  sum: techie_stats_sum_fields
+  var_pop: techie_stats_var_pop_fields
+  var_samp: techie_stats_var_samp_fields
+  variance: techie_stats_variance_fields
+}
+
+# order by aggregate values of table "techie_stats"
+input techie_stats_aggregate_order_by {
+  avg: techie_stats_avg_order_by
+  count: order_by
+  max: techie_stats_max_order_by
+  min: techie_stats_min_order_by
+  stddev: techie_stats_stddev_order_by
+  stddev_pop: techie_stats_stddev_pop_order_by
+  stddev_samp: techie_stats_stddev_samp_order_by
+  sum: techie_stats_sum_order_by
+  var_pop: techie_stats_var_pop_order_by
+  var_samp: techie_stats_var_samp_order_by
+  variance: techie_stats_variance_order_by
+}
+
+# aggregate avg on columns
+type techie_stats_avg_fields {
+  count: Float
+}
+
+# order by avg() on columns of table "techie_stats"
+input techie_stats_avg_order_by {
+  count: order_by
+}
+
+# Boolean expression to filter rows from the table "techie_stats". All fields are combined with a logical 'AND'.
+input techie_stats_bool_exp {
+  _and: [techie_stats_bool_exp]
+  _not: techie_stats_bool_exp
+  _or: [techie_stats_bool_exp]
+  count: bigint_comparison_exp
+  id: String_comparison_exp
+  location: String_comparison_exp
+  state: String_comparison_exp
+}
+
+# aggregate max on columns
+type techie_stats_max_fields {
+  count: bigint
+  id: String
+  location: String
+  state: String
+}
+
+# order by max() on columns of table "techie_stats"
+input techie_stats_max_order_by {
+  count: order_by
+  id: order_by
+  location: order_by
+  state: order_by
+}
+
+# aggregate min on columns
+type techie_stats_min_fields {
+  count: bigint
+  id: String
+  location: String
+  state: String
+}
+
+# order by min() on columns of table "techie_stats"
+input techie_stats_min_order_by {
+  count: order_by
+  id: order_by
+  location: order_by
+  state: order_by
+}
+
+# ordering options when selecting data from "techie_stats"
+input techie_stats_order_by {
+  count: order_by
+  id: order_by
+  location: order_by
+  state: order_by
+}
+
+# select columns of table "techie_stats"
+enum techie_stats_select_column {
+  # column name
+  count
+
+  # column name
+  id
+
+  # column name
+  location
+
+  # column name
+  state
+}
+
+# aggregate stddev on columns
+type techie_stats_stddev_fields {
+  count: Float
+}
+
+# order by stddev() on columns of table "techie_stats"
+input techie_stats_stddev_order_by {
+  count: order_by
+}
+
+# aggregate stddev_pop on columns
+type techie_stats_stddev_pop_fields {
+  count: Float
+}
+
+# order by stddev_pop() on columns of table "techie_stats"
+input techie_stats_stddev_pop_order_by {
+  count: order_by
+}
+
+# aggregate stddev_samp on columns
+type techie_stats_stddev_samp_fields {
+  count: Float
+}
+
+# order by stddev_samp() on columns of table "techie_stats"
+input techie_stats_stddev_samp_order_by {
+  count: order_by
+}
+
+# aggregate sum on columns
+type techie_stats_sum_fields {
+  count: bigint
+}
+
+# order by sum() on columns of table "techie_stats"
+input techie_stats_sum_order_by {
+  count: order_by
+}
+
+# aggregate var_pop on columns
+type techie_stats_var_pop_fields {
+  count: Float
+}
+
+# order by var_pop() on columns of table "techie_stats"
+input techie_stats_var_pop_order_by {
+  count: order_by
+}
+
+# aggregate var_samp on columns
+type techie_stats_var_samp_fields {
+  count: Float
+}
+
+# order by var_samp() on columns of table "techie_stats"
+input techie_stats_var_samp_order_by {
+  count: order_by
+}
+
+# aggregate variance on columns
+type techie_stats_variance_fields {
+  count: Float
+}
+
+# order by variance() on columns of table "techie_stats"
+input techie_stats_variance_order_by {
+  count: order_by
 }
 
 # columns and relationships of "techies"

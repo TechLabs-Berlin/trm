@@ -612,9 +612,7 @@
     permission:
       columns:
       - description
-      - email
       - first_name
-      - functional_team
       - last_name
       - updated_at
       filter:
