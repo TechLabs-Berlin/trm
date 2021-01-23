@@ -151,7 +151,7 @@ _Local NodeJS, Yarn and NPM installations are required in case you want to devel
 
   * Authorization works with the Admin Secret, but you may want to use token authorization (e.g. for testing roles & permissions).
 
-    Generate a token with `docker-compose run --rm data-generator generate token LOCATION` (location is `BERLIN`, for example).
+    Generate a token with `docker-compose run --rm data-generator -- generate token --location BERLIN --team-member-id ID --functional-team JOURNEY --roles user,hr,journey`.
 
     Then add the `Authorization` header in the Hasura GraphQL Explorer with `Bearer TOKEN` as its value (replace `TOKEN` with the output of the `generate token` command).
 
