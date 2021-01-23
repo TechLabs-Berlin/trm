@@ -28,15 +28,34 @@ const answerExtractors = {
     if(answer.type !== 'choice') {
       return {}
     }
-    switch(answer.value) {
-      case 'Data Science':
+    switch(answer.value.toLowerCase()) {
+      case 'data science':
         return { application_track_choice: 'DS' }
-      case 'Artificial Intelligence':
+      case 'artificial intelligence':
         return { application_track_choice: 'AI' }
-      case 'Web Development':
+      case 'web development':
         return { application_track_choice: 'WEBDEV' }
-      case 'User Experience (UX) Design':
+      case 'user experience (ux) design':
+      case 'ux design':
         return { application_track_choice: 'UX' }
+      default:
+        return {}
+    }
+  },
+  track(answer) {
+    if(answer.type !== 'choice') {
+      return {}
+    }
+    switch(answer.value.toLowerCase()) {
+      case 'data science':
+        return { track: 'DS' }
+      case 'artificial intelligence':
+        return { track: 'AI' }
+      case 'web development':
+        return { track: 'WEBDEV' }
+      case 'user experience (ux) design':
+      case 'ux design':
+        return { track: 'UX' }
       default:
         return {}
     }
@@ -109,6 +128,7 @@ module.exports = {
       'state',
       'techie_key',
       'application_track_choice',
+      'track',
       'gender',
       'age',
       'google_account',
