@@ -44,6 +44,11 @@ resource "google_sql_database_instance" "main" {
     ip_configuration {
       ipv4_enabled = true
     }
+    backup_configuration {
+      enabled    = true
+      start_time = "01:00"
+      location   = "eu"
+    }
   }
 }
 
