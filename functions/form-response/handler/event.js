@@ -56,7 +56,8 @@ module.exports = ({buildTRMAPI, log}) => {
       }
       if(!techie && form.form_type === 'APPLICATION') {
         log.info('Creating techie', { id })
-        const candidateKeys = _.times(10, () => generator.generateTechieKey({ location: form.location }))
+        const semester = await trmAPI.getSemesterByID({ semesterID: form.semester_id })
+        const candidateKeys = _.times(10, () => generator.generateTechieKey({ location: form.location, prefix: semester.techie_key_prefix }))
         const usedKeys = await trmAPI.getUsedTechieKeys({ techieKeys: candidateKeys })
         const unusedKeys = _.difference(candidateKeys, usedKeys)
         if(unusedKeys.length === 0) {

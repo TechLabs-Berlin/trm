@@ -21,13 +21,24 @@ const locationSchemes = {
 }
 
 module.exports = {
-  generateTechieKey: ({ location }) => {
+  generateTechieKey: ({ location, prefix }) => {
     const scheme = locationSchemes[location]
     if(!scheme) {
       throw new Error(`Location ${location} does not have an assigned scheme`)
     }
-    const number = _.random(0, 16777215) // 0 to 0xFFFFFF
+    let keyConfig = {
+      length: 6,
+      max: 16777215, // 0 to 0xFFFFFF
+    }
+    if(prefix) {
+      keyConfig = {
+        length: 3,
+        max: 65535, // 0 to 0xFFFF
+      }
+    }
+    const number = _.random(0, keyConfig.max)
     const hexStr = number.toString(16).toUpperCase() // convert to hex without 0x
-    return `${scheme.toUpperCase()}://${hexStr}`
+    const hexStrPadded = hexStr.padStart(keyConfig.length, '0')
+    return `${scheme.toUpperCase()}://${prefix ? prefix + '/' : ''}${hexStr}`
   }
 }

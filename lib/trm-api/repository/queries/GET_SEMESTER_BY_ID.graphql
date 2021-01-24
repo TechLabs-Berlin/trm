@@ -16,5 +16,6 @@ query($semesterID: uuid!) {
     starts_at
     term
     updated_at
+    techie_key_prefix
   }
 }

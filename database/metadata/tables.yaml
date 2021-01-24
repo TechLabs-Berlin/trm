@@ -462,6 +462,7 @@
       - ends_at
       - id
       - starts_at
+      - techie_key_prefix
       - term
       - updated_at
       filter:
@@ -478,6 +479,7 @@
       - edyoucated_team_id
       - ends_at
       - starts_at
+      - techie_key_prefix
       - term
       - updated_at
       filter:

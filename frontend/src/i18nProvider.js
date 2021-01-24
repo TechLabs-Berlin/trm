@@ -90,7 +90,10 @@ let messages = {
       }
     },
     semesters: {
-      name: 'Semester |||| Semesters'
+      name: 'Semester |||| Semesters',
+      fields: {
+        techie_key_prefix: 'Techie Key Prefix'
+      }
     },
     techie_activity_report: {
       name: 'Techie Activity Report',

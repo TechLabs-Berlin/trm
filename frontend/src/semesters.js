@@ -10,6 +10,7 @@ import {
   Create,
   required
 } from 'react-admin';
+import Alert from '@material-ui/lab/Alert'
 import { TermSelectField } from "./fields/termSelect";
 import { TermSelectInput } from "./inputs/termSelect";
 
@@ -31,6 +32,14 @@ const SemesterTitle = ({ record }) => {
   return <span>Semester</span>;
 };
 
+const TechieKeyPrefixExplanation = () => (
+  <Alert variant="outlined" severity="info">
+    <p>The Techie Key Prefix is optional. If it is set, the prefix is added to the Techie Keys generated when Techies apply.</p>
+    <p><strong>Without prefix:</strong> LOC://ID</p>
+    <p><strong>With prefix:</strong> LOC://PREFIX/ID</p>
+  </Alert>
+)
+
 export const SemesterEdit = props => (
   <Edit undoable={false} title={<SemesterTitle />} {...props}>
       <SimpleForm redirect="edit">
@@ -41,6 +50,8 @@ export const SemesterEdit = props => (
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />
           <DateInput source="ends_at" />
+          <TextInput source="techie_key_prefix" />
+          <TechieKeyPrefixExplanation />
       </SimpleForm>
   </Edit>
 );
@@ -54,6 +65,8 @@ export const SemesterCreate = props => (
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />
           <DateInput source="ends_at" />
+          <TextInput source="techie_key_prefix" />
+          <TechieKeyPrefixExplanation />
       </SimpleForm>
   </Create>
 );

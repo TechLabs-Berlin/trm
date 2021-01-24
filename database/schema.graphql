@@ -3661,6 +3661,7 @@ type semesters {
     # filter the rows returned
     where: techie_activity_bool_exp
   ): techie_activity_aggregate!
+  techie_key_prefix: String
 
   # An array relationship
   techies(
@@ -3748,6 +3749,7 @@ input semesters_bool_exp {
   projects: projects_bool_exp
   starts_at: timestamp_comparison_exp
   techie_activities: techie_activity_bool_exp
+  techie_key_prefix: String_comparison_exp
   techies: techies_bool_exp
   term: String_comparison_exp
   termByTerm: terms_bool_exp
@@ -3778,6 +3780,7 @@ input semesters_insert_input {
   projects: projects_arr_rel_insert_input
   starts_at: timestamp
   techie_activities: techie_activity_arr_rel_insert_input
+  techie_key_prefix: String
   techies: techies_arr_rel_insert_input
   term: String
   termByTerm: terms_obj_rel_insert_input
@@ -3794,6 +3797,7 @@ type semesters_max_fields {
   ends_at: timestamp
   id: uuid
   starts_at: timestamp
+  techie_key_prefix: String
   term: String
   updated_at: timestamp
 }
@@ -3808,6 +3812,7 @@ input semesters_max_order_by {
   ends_at: order_by
   id: order_by
   starts_at: order_by
+  techie_key_prefix: order_by
   term: order_by
   updated_at: order_by
 }
@@ -3822,6 +3827,7 @@ type semesters_min_fields {
   ends_at: timestamp
   id: uuid
   starts_at: timestamp
+  techie_key_prefix: String
   term: String
   updated_at: timestamp
 }
@@ -3836,6 +3842,7 @@ input semesters_min_order_by {
   ends_at: order_by
   id: order_by
   starts_at: order_by
+  techie_key_prefix: order_by
   term: order_by
   updated_at: order_by
 }
@@ -3877,6 +3884,7 @@ input semesters_order_by {
   projects_aggregate: projects_aggregate_order_by
   starts_at: order_by
   techie_activities_aggregate: techie_activity_aggregate_order_by
+  techie_key_prefix: order_by
   techies_aggregate: techies_aggregate_order_by
   term: order_by
   termByTerm: terms_order_by
@@ -3918,6 +3926,9 @@ enum semesters_select_column {
   starts_at
 
   # column name
+  techie_key_prefix
+
+  # column name
   term
 
   # column name
@@ -3935,6 +3946,7 @@ input semesters_set_input {
   id: uuid
   location: locations_enum
   starts_at: timestamp
+  techie_key_prefix: String
   term: String
   updated_at: timestamp
 }
@@ -3967,6 +3979,9 @@ enum semesters_update_column {
 
   # column name
   starts_at
+
+  # column name
+  techie_key_prefix
 
   # column name
   term
