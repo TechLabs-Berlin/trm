@@ -1,8 +1,17 @@
 const jwt = require('jsonwebtoken')
 const faker = require('faker')
 
-exports.buildHandler = ({ config, log }) => {
+exports.buildHandler = ({ config, fetch, log }) => {
   const authorization = require('../store/authorization')({ log })
+  const jwtUtil = require('../util/jwt')({
+    jwtKey: config.jwtKey
+  })
+  const buildTRMAPI = require('trm-api')({
+    graphqlURL: config.graphqlURL,
+    token: jwtUtil.generate(),
+    fetch,
+    log
+  })
 
   return async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
@@ -21,12 +30,24 @@ exports.buildHandler = ({ config, log }) => {
 
     const firstName = faker.name.firstName()
     const lastName = faker.name.lastName()
-    const attributes = {
-      email: faker.internet.email(firstName, lastName),
-      avatar: faker.image.avatar(),
-      groupEmails: ['team_berlin@techlabs.org'] ,
+    const email = faker.internet.email(firstName, lastName)
+    const location = 'BERLIN'
+
+    const trmAPI = await buildTRMAPI
+    const teamMember = await trmAPI.createTeamMember({
+      email,
       firstName,
       lastName,
+      location,
+    })
+    const attributes = {
+      avatar: faker.image.avatar(),
+      groupEmails: ['team_berlin@techlabs.org'],
+      teamMemberID: teamMember.id,
+      email,
+      firstName,
+      lastName,
+      functionalTeam: 'BOARD',
     }
 
     const token = jwt.sign(
