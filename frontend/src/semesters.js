@@ -40,12 +40,20 @@ const TechieKeyPrefixExplanation = () => (
   </Alert>
 )
 
+const EdyoucatedTeamIDExplanation = () => (
+  <Alert variant="outlined" severity="info">
+    <p>The edyoucated team ID refers to the team you created on the edyoucated platform. You can see it in the URL when you open the <i>Analytics Report</i> for your team.</p>
+    <p>If you don't manage to find it, please reach out on Slack. This is a todo to be improved in the future.</p>
+  </Alert>
+)
+
 export const SemesterEdit = props => (
   <Edit undoable={false} title={<SemesterTitle />} {...props}>
       <SimpleForm redirect="edit">
           <TermSelectInput source="term" validate={required()} />
           <TextInput source="description" validate={required()} />
           <TextInput source="edyoucated_team_id" />
+          <EdyoucatedTeamIDExplanation />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />
@@ -61,6 +69,8 @@ export const SemesterCreate = props => (
     <SimpleForm undoable={false}>
           <TermSelectInput source="term" validate={required()} />
           <TextInput source="description" validate={required()} />
+          <TextInput source="edyoucated_team_id" />
+          <EdyoucatedTeamIDExplanation />
           <DateInput source="starts_at" />
           <DateInput source="application_period_ends_at" />
           <DateInput source="academy_phase_ends_at" />

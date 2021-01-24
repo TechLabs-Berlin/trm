@@ -448,6 +448,7 @@
       - edyoucated_team_id
       - ends_at
       - starts_at
+      - techie_key_prefix
       - term
       backend_only: false
   select_permissions:
