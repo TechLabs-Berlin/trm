@@ -185,7 +185,32 @@ To contribute code, we use a Pull Request workflow:
 1. Create a branch with your proposed changes and [open a Pull Request](https://github.com/TechLabs-Berlin/trm/compare)
 2. We work with you for review and merge your code into the `main` branch.
 
+## Setup on Gitpod
+
+*Gitpod just [recently announced](https://www.gitpod.io/blog/root-docker-and-vscode/) they're now supporting Docker in
+their workspaces. The following guide will guide you through the setup process. It works quite well, though be aware
+they may be some quirks left.*
+
+[Watch a Screencast](https://drive.google.com/file/d/1E1__v4erHnUtEwWK6rQULTeCGecA-nE6/view?usp=sharing) of @Shark setting up the frontend on Gitpod.
+
+Or follow these steps:
+
+1. Go to [gitpod.io/settings](https://gitpod.io/settings/), login and enable "Feature Preview". Choose "Code" as Default IDE.
+1. Go to https://gitpod.io/#https://github.com/TechLabs-Berlin/trm to create a new workspace for the TRM project.
+1. Download and install newest docker-compose (https://docs.docker.com/compose/install/) in the workspace.
+1. Run `sudo docker-up`. You need to leave the command running, thus open a new terminal by clicking on the plus icon.
+1. In `docker-compose.yml`, replace the keys under `depends_on:` with an array of the container names.
+
+   *Currently, the healthchecks don't work on Gitpod. This is why you need to tell docker-compose to bring up dependent
+   services even though they are unhealthy. This step probably won't be necessary in the future.*
+1. Follow normal [Setup guide](#Setup)
+
+   *Ignore warnings about services being unhealthy.*
+1. In `/frontend`, copy `config.example.js` to `config.js`
+1. Go to Remote Explorer Tab in the Sidebar
+   1. For Port 8000: Allow public access, copy URL & set as `authFnURL`
+   1. For Port 8080: Allow public access, copy URL & set as `graphqlApiURL`
+1. Open Port 3000 in the browser (click on the globe icon in the Remote Explorer Tab)
 ## License
 
 The `TechLabs-Berlin/trm` project is [licensed MIT](LICENSE.txt). Learn more about MIT license on [_choosealicense.com_](https://choosealicense.com/licenses/mit/).
-
