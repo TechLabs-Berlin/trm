@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const { mustBeAuthorized } = require('./auth')
 
 exports.resolvers = {
@@ -43,20 +44,25 @@ exports.resolvers = {
         }))
       }
     },
-    edyoucated_activity: async (_, { userIDs }, { req, edyoucated, jwt, log }) => {
+    edyoucated_activity: async (_ignore, { userIDs }, { req, edyoucated, jwt, log }) => {
       mustBeAuthorized({ jwt, req })
 
       log.info(`edyoucated_activity: finding activity for ${userIDs.length} users`)
       log.debug(`edyoucated_activity: finding activity for userIDs`, { userIDs })
-      const activity = await edyoucated.getTrackProgress({
-        userIDs
-      })
-      log.info(`edyoucated_activity: found activity for ${Object.keys(activity).length} users`)
-      log.debug(`edyoucated_activity: found activity for users`, { activity })
-      return Object.entries(activity).map(([id, value]) => ({
-        id,
-        value
-      }))
+      let results = []
+      for(const thisIDs of _.chunk(userIDs, 100)) {
+        const activity = await edyoucated.getTrackProgress({
+          userIDs: thisIDs,
+        })
+        log.info(`edyoucated_activity: found activity for ${Object.keys(activity).length} users`)
+        log.debug(`edyoucated_activity: found activity for users`, { activity })
+        const thisResults = Object.entries(activity).map(([id, value]) => ({
+          id,
+          value
+        }))
+        results = results.concat(thisResults)
+      }
+      return results
     }
   }
 }
