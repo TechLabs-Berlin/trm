@@ -52,7 +52,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - uses: dorny/paths-filter@e2bed85912bf87322673b976228bde722213a6df
+      id: changes
+      with:
+        filters: |
+          database:
+            - 'database/**'
+
     - name: Setup gcloud
+      if: steps.changes.outputs.database == 'true'
       uses: google-github-actions/setup-gcloud@master
       with:
         version: '308.0.0'
@@ -60,17 +68,21 @@ jobs:
         export_default_credentials: true
 
     - name: Configure gcloud Auth for Docker
+      if: steps.changes.outputs.database == 'true'
       run: gcloud auth configure-docker europe-west3-docker.pkg.dev
 
     - name: Try to pull existing image
+      if: steps.changes.outputs.database == 'true'
       continue-on-error: true
       run: docker pull ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/}
 
     - name: Build Hasura image
+      if: steps.changes.outputs.database == 'true'
       # ${GITHUB_REF##*/} gets branch name
       run: docker build -t ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/} .
 
     - name: Push Hasura image
+      if: steps.changes.outputs.database == 'true'
       # ${GITHUB_REF##*/} gets branch name
       run: docker push ${{ needs.infrastructure_common.outputs.artifact_registry_repository_prefix }}/hasura:${GITHUB_REF##*/}
 
