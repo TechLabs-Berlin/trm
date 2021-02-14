@@ -344,6 +344,7 @@
       set:
         location: x-hasura-Location
       columns:
+      - assigned_team_member_id
       - description
       - name
       - semester_id
@@ -352,6 +353,7 @@
   - role: journey
     permission:
       columns:
+      - assigned_team_member_id
       - created_at
       - description
       - id
@@ -366,6 +368,7 @@
   - role: journey
     permission:
       columns:
+      - assigned_team_member_id
       - description
       - name
       - semester_id

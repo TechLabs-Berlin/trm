@@ -19,6 +19,9 @@ export const ProjectList = props => (
   <List {...props} perPage={25}>
       <Datagrid rowClick="edit">
           <TextField source="name" />
+          <ReferenceField label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" link="show">
+            <TextField source="first_name" />
+          </ReferenceField>
       </Datagrid>
   </List>
 )
@@ -35,6 +38,9 @@ export const ProjectEdit = props => (
           </ReferenceInput>
           <TextInput source="name" validate={required()} />
           <TextInput source="description" />
+          <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+            <SelectInput optionText="first_name" />
+          </ReferenceInput>
           <ReferenceManyField label="Techies" reference="techies" target="project_id">
             <Datagrid>
               <ReferenceField label="Techie" source="id" reference="techies">
@@ -55,6 +61,9 @@ export const ProjectCreate = props => (
           </ReferenceInput>
           <TextInput source="name" validate={required()} />
           <TextInput source="description" />
+          <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
+            <SelectInput optionText="first_name" />
+          </ReferenceInput>
       </SimpleForm>
   </Create>
 )
