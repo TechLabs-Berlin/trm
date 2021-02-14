@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>My PDF</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Livvic">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page1">
+    <img src="TL_Icon.png" class="page1--techlabs-logo">
+    <div class="page1--white-box">
+      <div class="page1--grey-box">
+        <div class="page1--grey-box-container">
+          <svg>
+            <polygon points="450,0 550,0 550,1000 0,1000 0,500" style="fill:#454545" />
+          </svg>
+          <p>Digital Shaper Certificate</p>
+          <div class="subtitle">
+            <div class="subtitle--container">
+              <div class="year">
+                ${ year }
+              </div>
+              <div class="summary">
+                <strong>${ firstName } ${ lastName }</strong> completed the TechLabs Academy Track <strong>${ trackName
+                  }</strong> successfully with the final project <strong>${ projectName }</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page1--pink-box">
+      <div class="content">
+        <div class="content-upper">
+          <div class="name">
+            ${ firstName } ${ lastName }
+          </div>
+          <div class="logo">
+            <a href="https://www.techlabs.org">
+              <img src="TL_Logo_W.png">
+            </a>
+          </div>
+        </div>
+        <div class="content-lower">
+          ${ trackName } | ${ location }
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="page1--bottom-box">
+      <div class="page1--bottom-box-container">
+        <a href="https://www.techlabs.org">www.techlabs.org</a>
+        <img src="gic.svg">
+      </div>
+    </div>
+  </div>
+  <div class="pagebreak"></div>
+  <div class="page2">
+    <img src="TL_Icon.png" class="page1--techlabs-logo">
+    <svg class="page2--filler">
+      <polygon points="0,0 370,0 0,370" style="fill:#ffffff" />
+    </svg>
+    <div class="page2--content">
+      <h1>Track: ${ trackName }</h1>
+      <p>${ trackDescription }</p>
+      <h1>Project: ${ projectName }</h1>
+      <p class="track-description">${ projectDescription }</p>
+    </div>
+  </div>
+</body>
+
+</html>

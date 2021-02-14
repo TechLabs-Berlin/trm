@@ -1,0 +1,35 @@
+---
+BARCELONA:
+  name: Barcelona
+DUESSELDORF:
+  name: Düsseldorf
+BERLIN:
+  name: Berlin
+DORTMUND:
+  name: Dortmund
+COPENHAGEN:
+  name: Copenhagen
+MUNICH:
+  name: Munich
+MUENSTER:
+  name: Münster
+CURITIBA:
+  name: Curitiba
+AACHEN:
+  name: Aachen
+MEDELLIN:
+  name: Medellin
+HAMBURG:
+  name: Hamburg
+PLAYGROUND:
+  name: Playground
+GLOBAL:
+  name: Global
+CODEATHOME:
+  name: '#codeathome'
+MANNHEIM:
+  name: Mannheim
+STOCKHOLM:
+  name: Stockholm
+LONDON:
+  name: London

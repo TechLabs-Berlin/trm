@@ -1,0 +1,23 @@
+---
+DS:
+  name: Data Science
+  description: |
+    In the Data Science Track the techie learns basic coding skills in Python and then applies them directly to
+    Data Science tasks — from data import to data preparation and visualization to building advanced
+    machine learning models.
+AI:
+  name: Artificial Intelligence
+  description: |
+    In the Artificial Intelligence Track the techie learns about the possibilities of current AI techniques,
+    attains Python skills, and builds first image recognition applications.
+WEBDEV:
+  name: Web Development
+  description: |
+    In the Web Development Track the techie learns to build first interactive web applications and
+    gets to know the web development toolbox (e.g. HTML, CSS, JavaScript, React.js, and many more).
+UX:
+  name: User Experience Design
+  description: |
+    In the the User Experience Design Track the techie is introduced to the design process, defines
+    a certain problem and applies several UX methods alongside his way of solving that problem
+    with a user-centered, digital solution.

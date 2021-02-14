@@ -16,5 +16,8 @@
     "node-fetch": "^2.6.1",
     "sinon": "^9.2.0",
     "supertest": "^5.0.0"
+  },
+  "dependencies": {
+    "yaml": "~1.0"
   }
 }

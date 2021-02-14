@@ -1,16 +1,16 @@
 variable "project" {}
 variable "region" {}
 variable "database_passwords" {
-  type = map
+  type = map(any)
 }
 variable "hasura_passwords" {
-  type = map
+  type = map(any)
 }
 variable "hasura_jwt_keys" {
-  type = map
+  type = map(any)
 }
 variable "oauth_credentials" {
-  type = map
+  type = map(any)
 }
 variable "domain" {}
 variable "gsuite_domain" {}
@@ -34,6 +34,6 @@ variable "edyoucated_aws_region" {}
 variable "edyoucated_api_url" {}
 variable "edyoucated_organization_id" {}
 variable "trm_data_folder_id" {
-  type = map
+  type = map(any)
 }
 variable "google_impersonate_subject" {}

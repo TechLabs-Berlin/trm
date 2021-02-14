@@ -58,6 +58,33 @@ module "database" {
   google_dns_managed_zone = local.google_dns_managed_zone
 }
 
+resource "google_service_account" "certificate-generator" {
+  project    = var.project
+  account_id = "trm-cert-gen-${terraform.workspace}"
+}
+
+module "pdf-generator" {
+  source = "./modules/pdf-generator"
+
+  project = var.project
+  region  = var.region
+
+  service_account_email = google_service_account.certificate-generator.email
+}
+
+module "certificate-generator" {
+  source = "./modules/certificate-generator"
+
+  project = var.project
+  region  = var.region
+
+  service_account_email = google_service_account.certificate-generator.email
+  hasura_jwt_keys       = var.hasura_jwt_keys
+  graphql_url           = module.database.hasura_url
+  gotenberg_url         = module.pdf-generator.gotenberg_url
+}
+
+
 data "google_service_account" "auth" {
   account_id = "trm-auth"
   project    = var.project
@@ -209,10 +236,11 @@ resource "local_file" "frontend_config" {
   filename        = "${path.module}/output/config.${terraform.workspace}.js"
   file_permission = "0644"
   content = templatefile("${path.module}/config.js.tmpl", {
-    environment        = terraform.workspace,
-    hasura_url         = module.database.hasura_url,
-    functions_auth_url = module.functions_auth.https_trigger_url,
-    oauth_client_id    = var.oauth_credentials[terraform.workspace].client_id,
-    gsuite_domain      = var.gsuite_domain
+    environment                         = terraform.workspace,
+    hasura_url                          = module.database.hasura_url,
+    functions_auth_url                  = module.functions_auth.https_trigger_url,
+    functions_certificate_generator_url = module.certificate-generator.url,
+    oauth_client_id                     = var.oauth_credentials[terraform.workspace].client_id,
+    gsuite_domain                       = var.gsuite_domain
   })
 }

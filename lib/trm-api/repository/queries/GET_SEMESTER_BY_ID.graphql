@@ -4,6 +4,8 @@ query($semesterID: uuid!) {
       export_folder_id
     }
     techies {
+      id
+      state
       edyoucated_user_id
     }
     location

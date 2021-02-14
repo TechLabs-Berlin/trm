@@ -18,7 +18,7 @@ resource "google_cloudfunctions_function" "main" {
   name    = var.name
   runtime = "nodejs12"
 
-  available_memory_mb   = 128
+  available_memory_mb   = var.available_memory_mb
   timeout               = var.timeout
   max_instances         = 10
   source_archive_bucket = var.storage_bucket_name

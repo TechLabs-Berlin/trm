@@ -8,6 +8,7 @@ query($id: uuid!) {
     location
     semester_id
     state
+    track
     application_track_choice
     techie_key
     updated_at
@@ -17,7 +18,14 @@ query($id: uuid!) {
     github_handle
     linkedin_profile_url
     slack_member_id
-    project_id
     track
+    project_id
+    project {
+      name
+      description
+    }
+    semester {
+      term
+    }
   }
 }

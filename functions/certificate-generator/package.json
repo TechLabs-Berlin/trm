@@ -1,0 +1,26 @@
+{
+  "name": "trm-function-certificate-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node dev.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^5.2.0",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "node-cache": "^5.1.2",
+    "node-fetch": "^2.6.1",
+    "promise-retry": "^2.0.1",
+    "tiny-async-pool": "^1.2.0",
+    "trm-api": "file:./pkg/trm-api"
+  },
+  "devDependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}

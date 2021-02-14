@@ -21,3 +21,7 @@ variable "schedule" {
 variable "service_account_email" {
   default = null
 }
+
+variable "available_memory_mb" {
+  default = 128
+}

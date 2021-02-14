@@ -129,6 +129,40 @@ services:
 
       # JWT_KEY is a stub for development & test, it is not valid for any deployed environment
       JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
+  fn-certificate-generator:
+    build:
+      context: .
+      dockerfile: functions/certificate-generator/Dockerfile
+    ports:
+      - "8001:8080"
+    volumes:
+      - /usr/src/app/node_modules
+      - /usr/src/app/pkg/trm-api
+      # - ./lib/trm-api:/usr/src/app/pkg/trm-api
+      - ./functions/certificate-generator:/usr/src/app
+    environment:
+      # When NODE_ENV != production, function returns stubbed values
+      NODE_ENV: staging
+
+      PORT: '8080'
+
+      # Uncomment DEBUG to enable debug logging
+      # DEBUG: '1'
+
+      # JWT_KEY is a stub for development & test, it is not valid for any deployed environment
+      JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
+
+      # Points to the hasura service
+      GRAPHQL_URL: http://hasura:8080/v1/graphql
+
+      # Following variables are stubbed for development & test
+      GOTENBERG_URL: http://gotenberg:3000
+    depends_on:
+      gotenberg:
+        condition: service_healthy
+  gotenberg:
+    build:
+     context: pdf-generator
   data-generator:
     build:
       context: lib

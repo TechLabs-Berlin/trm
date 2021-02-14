@@ -1,0 +1,240 @@
+html {
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 99%;
+  font-family: 'Livvic', serif;
+  font-size: 24px;
+}
+
+.page1 {
+  width: 100%;
+  min-height: 100%;
+  background-image: repeating-linear-gradient(-45deg, #454545, #454545 10px, white 10px, white 30px) !important;
+  position: relative;
+}
+
+.page1--techlabs-logo {
+  width: 200px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+}
+
+.page1--white-box {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 550px;
+  height: 1000px;
+  background-color: white;
+}
+
+.page1--grey-box {
+  position: absolute;
+  left: 50px;
+  width: 700px;
+  height: 100%;
+}
+
+.page1--grey-box-container {
+  position: relative;
+  width: 700px;
+  height: 100%;
+}
+
+.page1--grey-box-container p {
+  position: absolute;
+  display: block;
+  top: 540px;
+  left: 30px;
+  color: #f7f7fb;
+  font-weight: bolder;
+  letter-spacing: .2rem;
+  font-size: 42pt;
+  text-transform: uppercase;
+  line-height: 130%;
+}
+
+.page1--grey-box-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.subtitle {
+  width: 500px;
+  position: absolute;
+  left: 20px;
+  bottom: 100px;
+  color: #f7f7fb;
+  z-index: 10;
+}
+
+.subtitle--container {
+  position: relative;
+}
+
+.subtitle--container .year {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  font-size: 24pt;
+}
+
+.subtitle--container .summary {
+  position: absolute;
+  top: 0;
+  left: 100px;
+  font-size: 12pt;
+  line-height: 130%;
+  letter-spacing: .1rem;
+}
+
+.subtitle--container .summary strong {
+  font-weight: bold;
+}
+
+.page1--pink-box {
+  position: absolute;
+  width: 600px;
+  left: 100px;
+  top: 715px;
+  min-height: 100px;
+
+  background-color: #fa1e5a;
+}
+
+.page1--pink-box .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100px;
+  margin: 20px;
+}
+
+.page1--pink-box .content-upper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.page1--pink-box .content-upper .name {
+  font-size: 28pt;
+  letter-spacing: .1rem;
+  color: #f7f7fb;
+  font-weight: bold;
+  flex-grow: 2;
+}
+
+.page1--pink-box .content-upper .logo img {
+  width: 150px;
+}
+
+.page1--pink-box .content-lower {
+  font-size: 16pt;
+  letter-spacing: .1rem;
+  color: #f7f7fb;
+}
+
+.page1--bottom-box {
+  height: 100px;
+  width: 101%;
+  padding-left: 45px;
+  background-color: white;
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+}
+
+.page1--bottom-box-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.page1--bottom-box-container img {
+  position: absolute;
+  width: 400px;
+  right: 10px;
+  top: 40px;
+}
+
+.page1--bottom-box-container a {
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 30px;
+
+  color: #454545;
+  text-decoration: none;
+  letter-spacing: .1rem;
+}
+
+.page2 {
+  width: 100%;
+  min-height: 100%;
+  background-image: repeating-linear-gradient(-45deg, #454545, #454545 20px, white 20px, white 40px) !important;
+  position: relative;
+}
+
+.page2--techlabs-logo {
+  width: 200px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+}
+
+.page2--filler {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 370px;
+  height: 370px;
+}
+
+.page2--content {
+  position: absolute;
+  left: 15px;
+  top: 240px;
+  width: 90%;
+  height: 73%;
+  padding: 20px;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page2--content h1 {
+  font-size: 24pt;
+  letter-spacing: .2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-weight: bolder;
+}
+
+.page2--content h1:first-child {
+  margin-top: 1rem;
+}
+
+
+.page2--content h1:not(:first-child) {
+  margin-top: 3rem;
+}
+
+.page2--content p {
+  font-size: 14pt;
+  letter-spacing: .1rem;
+  line-height: 150%;
+}
+
+.page2--content p.track-description {
+  white-space: pre-line;
+}
+
+@media print {
+  .pagebreak { page-break-before: always; }
+}
