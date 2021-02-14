@@ -79,9 +79,10 @@ module.exports = ({buildTRMAPI, log}) => {
           techieID: techie.id
         })
         log.debug(`Associated techie ${techie.id} with form response ${newState.id}`, { id })
-        const updatedTechieMasterData = techieutil.processTechieMasterData({
+        const updatedTechieMasterData = await techieutil.processTechieMasterData({
           attributes: techie,
-          formAnswers: newState.answers
+          formAnswers: newState.answers,
+          trmAPI,
         })
         await trmAPI.updateTechieMasterData(updatedTechieMasterData)
         log.debug(`Updated techie master data`, { masterData: updatedTechieMasterData, id })

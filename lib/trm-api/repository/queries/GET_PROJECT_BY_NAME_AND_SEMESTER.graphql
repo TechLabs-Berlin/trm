@@ -1,0 +1,5 @@
+query ($name: String!, $semesterID: uuid!) {
+  projects(where: {name: {_eq: $name}, semester_id: {_eq: $semesterID}}) {
+    id
+  }
+}

@@ -1,11 +1,12 @@
 const expect = require('chai').expect
+const sinon = require('sinon')
 
 const techie = require('../../util/techie')
 
 describe('techie utils', () => {
   describe('processTechieMasterData', () => {
-    it('throws away extra attributes', () => {
-      const result = techie.processTechieMasterData({
+    it('throws away extra attributes', async () => {
+      const result = await techie.processTechieMasterData({
         attributes: {
           id: 'ID',
           email: 'EMAIL',
@@ -26,8 +27,8 @@ describe('techie utils', () => {
         techie_key: 'Techie123'
       })
     })
-    it('adds non-existing source attributes', () => {
-      expect(techie.processTechieMasterData({
+    it('adds non-existing source attributes', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {
           first_name: 'Felix'
         },
@@ -42,8 +43,8 @@ describe('techie utils', () => {
         first_name: 'Felix'
       })
     })
-    it('updates existing email', () => {
-      expect(techie.processTechieMasterData({
+    it('updates existing email', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {
           email: 'OLD',
           first_name: 'Felix'
@@ -59,8 +60,8 @@ describe('techie utils', () => {
         first_name: 'Felix'
       })
     })
-    it('extracts firstName', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts firstName', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           first_name: {
@@ -72,8 +73,8 @@ describe('techie utils', () => {
         first_name: 'NEW'
       })
     })
-    it('extracts lastName', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts lastName', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           last_name: {
@@ -85,8 +86,8 @@ describe('techie utils', () => {
         last_name: 'NEW'
       })
     })
-    it('extracts application_track_choice', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts application_track_choice', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           application_track_choice: {
@@ -98,7 +99,7 @@ describe('techie utils', () => {
         application_track_choice: 'DS'
       })
 
-      expect(techie.processTechieMasterData({
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           application_track_choice: {
@@ -110,7 +111,7 @@ describe('techie utils', () => {
         application_track_choice: 'AI'
       })
 
-      expect(techie.processTechieMasterData({
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           application_track_choice: {
@@ -122,7 +123,7 @@ describe('techie utils', () => {
         application_track_choice: 'WEBDEV'
       })
 
-      expect(techie.processTechieMasterData({
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           application_track_choice: {
@@ -134,8 +135,8 @@ describe('techie utils', () => {
         application_track_choice: 'UX'
       })
     })
-    it('extracts gender', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts gender', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           gender: {
@@ -147,7 +148,7 @@ describe('techie utils', () => {
         gender: 'male'
       })
 
-      expect(techie.processTechieMasterData({
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           gender: {
@@ -159,7 +160,7 @@ describe('techie utils', () => {
         gender: 'female'
       })
 
-      expect(techie.processTechieMasterData({
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           gender: {
@@ -169,8 +170,8 @@ describe('techie utils', () => {
         }
       })).to.deep.equal({})
     })
-    it('extracts age', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts age', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           age: {
@@ -182,8 +183,8 @@ describe('techie utils', () => {
         age: 22
       })
     })
-    it('extracts google_account', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts google_account', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           google_account: {
@@ -195,8 +196,8 @@ describe('techie utils', () => {
         google_account: 'abc@def.com'
       })
     })
-    it('extracts github_handle', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts github_handle', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           github_handle: {
@@ -208,8 +209,8 @@ describe('techie utils', () => {
         github_handle: 'Kathie23'
       })
     })
-    it('extracts linkedin_profile_url', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts linkedin_profile_url', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           linkedin_profile_url: {
@@ -221,8 +222,8 @@ describe('techie utils', () => {
         linkedin_profile_url: 'https://linkedin.com/someprofile'
       })
     })
-    it('extracts slack_member_id', () => {
-      expect(techie.processTechieMasterData({
+    it('extracts slack_member_id', async () => {
+      expect(await techie.processTechieMasterData({
         attributes: {},
         formAnswers: {
           slack_member_id: {
@@ -232,6 +233,31 @@ describe('techie utils', () => {
         }
       })).to.deep.equal({
         slack_member_id: 'U1234'
+      })
+    })
+    it('extracts project_id from project_name', async () => {
+      const trmAPI = {
+        getProjectByNameAndSemester: sinon.mock().once().withArgs({
+          name: 'Team A',
+          semesterID: 'SEMESTER_ID',
+        }).returns({
+          found: true,
+          project: { id: 'PROJECT_ID' }
+        })
+      }
+      expect(await techie.processTechieMasterData({
+        attributes: {
+          semester_id: 'SEMESTER_ID'
+        },
+        formAnswers: {
+          project_name: {
+            type: 'choice',
+            value: 'Team A'
+          }
+        },
+        trmAPI,
+      })).to.deep.equal({
+        project_id: 'PROJECT_ID'
       })
     })
   })

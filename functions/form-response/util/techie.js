@@ -5,26 +5,26 @@ const pick = (o, ...fields) => {
   }, {});
 }
 
-const answerExtractors = {
-  email(answer) {
+const answerExtractors = ({trmAPI}) => ({
+  email({answer, attributes}) {
     if(answer.type !== 'email') {
       return {}
     }
     return { email: answer.value }
   },
-  first_name(answer) {
+  first_name({answer, attributes}) {
     if(answer.type !== 'text') {
       return {}
     }
     return { first_name: answer.value }
   },
-  last_name(answer) {
+  last_name({answer, attributes}) {
     if(answer.type !== 'text') {
       return {}
     }
     return { last_name: answer.value }
   },
-  application_track_choice(answer) {
+  application_track_choice({answer, attributes}) {
     if(answer.type !== 'choice') {
       return {}
     }
@@ -42,7 +42,7 @@ const answerExtractors = {
         return {}
     }
   },
-  track(answer) {
+  track({answer, attributes}) {
     if(answer.type !== 'choice') {
       return {}
     }
@@ -60,7 +60,7 @@ const answerExtractors = {
         return {}
     }
   },
-  gender(answer) {
+  gender({answer, attributes}) {
     if(answer.type !== 'choice') {
       return {}
     }
@@ -73,7 +73,7 @@ const answerExtractors = {
         return {}
     }
   },
-  age(answer) {
+  age({answer, attributes}) {
     if(answer.type !== 'number') {
       return {}
     }
@@ -82,45 +82,60 @@ const answerExtractors = {
     }
     return { age: answer.value }
   },
-  google_account(answer) {
+  google_account({answer, attributes}) {
     if(answer.type !== 'email') {
       return {}
     }
     return { google_account: answer.value }
   },
-  github_handle(answer) {
+  github_handle({answer, attributes}) {
     if(answer.type !== 'text') {
       return {}
     }
     return { github_handle: answer.value }
   },
-  linkedin_profile_url(answer) {
+  linkedin_profile_url({answer, attributes}) {
     if(answer.type !== 'url') {
       return {}
     }
     return { linkedin_profile_url: answer.value }
   },
-  slack_member_id(answer) {
+  slack_member_id({answer, attributes}) {
     if(answer.type !== 'text') {
       return {}
     }
     return { slack_member_id: answer.value }
+  },
+  async project_name({answer, attributes}) {
+    if(!['text', 'choice'].includes(answer.type)) {
+      return {}
+    }
+    const result = await trmAPI.getProjectByNameAndSemester({
+      name: answer.value,
+      semesterID: attributes.semester_id,
+    })
+    if(!result.found) {
+      return {}
+    }
+    return { project_id: result.project.id }
   }
-}
+})
 
 module.exports = {
-  processTechieMasterData: ({attributes, formAnswers}) => {
-    const attributesWithExtractors = Object.entries(formAnswers).reduce((attrs, [field, answer]) => {
-      if(field in answerExtractors) {
-        const result = answerExtractors[field](answer)
-        Object.assign(attrs, result)
+  processTechieMasterData: async ({attributes, formAnswers, trmAPI}) => {
+    const thisExtractors = answerExtractors({trmAPI})
+    const attributesAfterExtractors = Object.assign({}, attributes)
+    for(const [field, answer] of Object.entries(formAnswers)) {
+      if(!(field in thisExtractors)) {
+        continue
       }
-      return attrs
-    }, attributes)
+      const result = await thisExtractors[field]({answer, attributes})
+      Object.assign(attributesAfterExtractors, result)
+    }
 
     // selects the given keys from attributesWithExtractors
     const selectedAttributes = pick(
-      attributesWithExtractors,
+      attributesAfterExtractors,
       'id',
       'email',
       'first_name',
