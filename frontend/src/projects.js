@@ -37,7 +37,7 @@ export const ProjectEdit = props => (
             <SelectInput optionText="description" validate={required()} />
           </ReferenceInput>
           <TextInput source="name" validate={required()} />
-          <TextInput source="description" />
+          <TextInput multiline source="description" />
           <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
             <SelectInput optionText="first_name" />
           </ReferenceInput>
@@ -60,7 +60,7 @@ export const ProjectCreate = props => (
             <SelectInput optionText="description" validate={required()} />
           </ReferenceInput>
           <TextInput source="name" validate={required()} />
-          <TextInput source="description" />
+          <TextInput multiline source="description" />
           <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members">
             <SelectInput optionText="first_name" />
           </ReferenceInput>
