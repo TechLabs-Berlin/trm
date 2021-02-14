@@ -170,6 +170,8 @@ jobs:
     name: Build Frontend
     runs-on: ubuntu-latest
     needs: [infrastructure_app]
+    outputs:
+      changed: ${{ steps.changes.outputs.frontend }}
     defaults:
       run:
         working-directory: frontend
@@ -177,24 +179,36 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - uses: dorny/paths-filter@e2bed85912bf87322673b976228bde722213a6df
+      id: changes
+      with:
+        filters: |
+          frontend:
+            - 'frontend/**'
+
     - name: Download frontend config
+      if: steps.changes.outputs.frontend == 'true'
       uses: actions/download-artifact@v2
       with:
         name: frontend-config
         path: frontend/src
 
     - name: Rename frontend config
+      if: steps.changes.outputs.frontend == 'true'
       run: mv src/config.${GITHUB_REF##*/}.js src/config.js
 
     - uses: actions/setup-node@v2-beta
+      if: steps.changes.outputs.frontend == 'true'
       with:
         node-version: '14'
 
     - name: Get yarn cache directory path
+      if: steps.changes.outputs.frontend == 'true'
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
 
     - uses: actions/cache@v2
+      if: steps.changes.outputs.frontend == 'true'
       id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -203,12 +217,15 @@ jobs:
           ${{ runner.os }}-yarn-v2
 
     - name: yarn install
+      if: steps.changes.outputs.frontend == 'true'
       run: yarn install
 
     - name: yarn build
+      if: steps.changes.outputs.frontend == 'true'
       run: yarn build
 
     - name: Upload frontend build
+      if: steps.changes.outputs.frontend == 'true'
       uses: actions/upload-artifact@v2
       with:
         name: frontend-build
@@ -219,7 +236,7 @@ jobs:
     name: Deploy Frontend (Staging)
     runs-on: ubuntu-latest
     needs: [frontend_build]
-    if: ${{ github.ref == 'refs/heads/staging' }}
+    if: ${{ github.ref == 'refs/heads/staging' && needs.frontend_build.changed == 'true' }}
     steps:
     - name: Get deploy repo
       id: deploy-repo
@@ -261,7 +278,7 @@ jobs:
     name: Deploy Frontend (Production)
     runs-on: ubuntu-latest
     needs: [frontend_build]
-    if: ${{ github.ref == 'refs/heads/production' }}
+    if: ${{ github.ref == 'refs/heads/production' && needs.frontend_build.changed == 'true' }}
     steps:
     - name: Get deploy repo
       id: deploy-repo
