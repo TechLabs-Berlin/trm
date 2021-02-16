@@ -238,7 +238,7 @@ jobs:
     name: Deploy Frontend (Staging)
     runs-on: ubuntu-latest
     needs: [frontend_build]
-    if: ${{ github.ref == 'refs/heads/staging' && needs.frontend_build.changed == 'true' }}
+    if: github.ref == 'refs/heads/staging' && needs.frontend_build.outputs.changed == 'true'
     steps:
     - name: Get deploy repo
       id: deploy-repo
@@ -280,7 +280,7 @@ jobs:
     name: Deploy Frontend (Production)
     runs-on: ubuntu-latest
     needs: [frontend_build]
-    if: ${{ github.ref == 'refs/heads/production' && needs.frontend_build.changed == 'true' }}
+    if: github.ref == 'refs/heads/production' && needs.frontend_build.outputs.changed == 'true'
     steps:
     - name: Get deploy repo
       id: deploy-repo
