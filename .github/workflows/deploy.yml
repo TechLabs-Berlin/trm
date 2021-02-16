@@ -55,6 +55,7 @@ jobs:
     - uses: dorny/paths-filter@e2bed85912bf87322673b976228bde722213a6df
       id: changes
       with:
+        base: ${{ github.ref }}
         filters: |
           database:
             - 'database/**'
@@ -182,6 +183,7 @@ jobs:
     - uses: dorny/paths-filter@e2bed85912bf87322673b976228bde722213a6df
       id: changes
       with:
+        base: ${{ github.ref }}
         filters: |
           frontend:
             - 'frontend/**'
