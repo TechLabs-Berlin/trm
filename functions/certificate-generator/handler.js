@@ -101,11 +101,11 @@ module.exports = ({ buildTRMAPI, jwt, log, pdfGenerator }) => {
           return pdfGenerator({ files })
             .catch(err => {
               // retry for status code 5xx
-              if(err.status >= 500 && err.status < 600) {
-                log.warning(`PDF generator failed with code ${err.code}, retrying`, { err })
+              if(err.status === 429 || (err.status >= 500 && err.status < 600)) {
+                log.warning(`PDF generator failed with code ${err.status}, retrying`, { err })
                 retry(err)
               }
-              log.error(`PDF generator failed with code ${err.code}, aborting`, { err })
+              log.error(`PDF generator failed with code ${err.status}, aborting`, { err })
               throw err
             })
         })
