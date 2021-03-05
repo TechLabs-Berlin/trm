@@ -125,6 +125,7 @@ export const TechieEdit = props => {
               <NumberInput source="age" />
               <TextInput source="email" />
               <TrackSelectField source="application_track_choice" />
+              <TrackSelectInput source="track" />
               <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
                   <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
               </ReferenceInput>
@@ -146,9 +147,6 @@ export const TechieEdit = props => {
             </FormTab>
             <FormTab label="Application">
               <FormResponseAnswersField record={applicationForm} label="Application Form" />
-            </FormTab>
-            <FormTab label="Academy">
-              <TrackSelectInput source="track" />
             </FormTab>
             <FormTab label="Form Submissions">
               <ReferenceManyField label="Form Responses by Techie" reference="form_responses" target="techie_id">
