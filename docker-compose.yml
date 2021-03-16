@@ -73,8 +73,8 @@ services:
         condition: service_healthy
   fn-auth:
     build:
-      context: .
-      dockerfile: functions/auth/Dockerfile
+      context: functions
+      dockerfile: auth/Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -98,7 +98,8 @@ services:
       GOOGLE_IMPERSONATE_SUBJECT: someuser@techlabs.org
   fn-edyoucated:
     build:
-      context: functions/edyoucated
+      context: functions
+      dockerfile: edyoucated/Dockerfile
     environment:
       # When NODE_ENV != production, function returns stubbed values
       NODE_ENV: test
@@ -119,7 +120,8 @@ services:
       EDYOUCATED_ORGANIZATION_ID: an-id
   fn-gsheets:
     build:
-      context: functions/gsheets
+      context: functions
+      dockerfile: gsheets/Dockerfile
     environment:
       # When NODE_ENV != production, function returns stubbed values
       NODE_ENV: test
@@ -131,8 +133,8 @@ services:
       JWT_KEY: I1J1ffr5N0wPftYwff12ZYtqpWAY1oEcmYxDbdfS7TnEt3a693gjTrXn94s0PmC+ap/S9roPY8gpWENGVNf7YxIjjhkUS+VaE7GvFmoTV5OgKTq0WZxu2hs5rOIoPXpWm6TXroZACZGc8U0BLawmzZclIb4nezyJsWPIUxP+YnQphikH//AMmMsxcDEyDGnyNdObW5SP4Pk+UuV7gKeweMNdoy1oI0M6sX2cWTdsd1BOwPteY3ef8cRaa0t2VPjGgJSiFeMbLzBaZB1m221/S3u1PhYqEBZXHVv7H+fqYjz2yaTPf12s0ohZolrtD6MzVnwFJmcX8QYSSTHr9QFmJA==
   fn-certificate-generator:
     build:
-      context: .
-      dockerfile: functions/certificate-generator/Dockerfile
+      context: functions
+      dockerfile: certificate-generator/Dockerfile
     ports:
       - "8001:8080"
     volumes:
@@ -165,7 +167,7 @@ services:
      context: pdf-generator
   data-generator:
     build:
-      context: lib
+      context: functions/lib
       dockerfile: data-generator/Dockerfile
     environment:
       # Uncomment DEBUG to enable debug logging

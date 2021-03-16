@@ -13,7 +13,7 @@
     "flat": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
-    "trm-api": "file:./pkg/trm-api"
+    "trm-api": "file:../lib/trm-api"
   },
   "devDependencies": {
     "chai": "^4.2.0",

@@ -7,9 +7,8 @@ RUN mkdir -p /usr/src/app \
  && chown app:app /usr/src/app
 WORKDIR /usr/src/app
 RUN mkdir /usr/src/app/pkg
-COPY lib/trm-api /usr/src/app/pkg/trm-api
-COPY functions/certificate-generator/package.json functions/certificate-generator/package-lock.json /usr/src/app/
+COPY certificate-generator/package.json certificate-generator/package-lock.json /usr/src/app/
+COPY lib /usr/src/lib
 RUN npm install
-COPY functions/certificate-generator /usr/src/app/
-
+COPY certificate-generator /usr/src/app/
 CMD ["server.js"]

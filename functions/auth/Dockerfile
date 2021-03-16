@@ -6,9 +6,8 @@ RUN mkdir -p /usr/src/app \
  && adduser -s /bin/false -D app \
  && chown app:app /usr/src/app
 WORKDIR /usr/src/app
-COPY functions/auth/package.json functions/auth/package-lock.json /usr/src/app/
+COPY auth/package.json auth/package-lock.json /usr/src/app/
+COPY lib /usr/src/lib
 RUN npm install
-COPY functions/auth /usr/src/app/
-RUN rm -rf pkg/trm-api
-COPY lib/trm-api /usr/src/app/pkg/trm-api
+COPY auth /usr/src/app/
 CMD ["dev.js"]

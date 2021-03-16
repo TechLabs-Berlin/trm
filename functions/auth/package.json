@@ -12,7 +12,7 @@
     "google-auth-library": "^6.0.6",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
-    "trm-api": "file:./pkg/trm-api"
+    "trm-api": "file:../lib/trm-api"
   },
   "devDependencies": {
     "express": "^4.17.1",

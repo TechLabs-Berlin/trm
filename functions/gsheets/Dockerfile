@@ -6,7 +6,8 @@ RUN mkdir -p /usr/src/app \
  && adduser -s /bin/false -D app \
  && chown app:app /usr/src/app
 WORKDIR /usr/src/app
-COPY package.json package-lock.json /usr/src/app/
+COPY gsheets/package.json gsheets/package-lock.json /usr/src/app/
+COPY lib /usr/src/lib
 RUN npm install
-COPY . /usr/src/app
+COPY gsheets /usr/src/app
 CMD ["dev.js"]

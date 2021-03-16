@@ -17,7 +17,7 @@
     "node-fetch": "^2.6.1",
     "promise-retry": "^2.0.1",
     "tiny-async-pool": "^1.2.0",
-    "trm-api": "file:./pkg/trm-api"
+    "trm-api": "file:../lib/trm-api"
   },
   "devDependencies": {
     "express": "^4.17.1",

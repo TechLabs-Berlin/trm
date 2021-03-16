@@ -142,7 +142,7 @@ jobs:
         filters: |
           code_changed:
             - 'functions/certificate-generator/**'
-            - 'lib/trm-api/**'
+            - 'functions/lib/trm-api/**'
 
     - name: Setup gcloud
       if: steps.changes.outputs.code_changed == 'true'
@@ -209,22 +209,13 @@ jobs:
 
     - name: Prepare function dependencies
       run: |
-        rm functions/typeform/pkg/trm-api
-        cp -rp lib/trm-api functions/typeform/pkg
+        cp -rp functions/lib/trm-api functions/typeform
+        cp -rp functions/lib/trm-api functions/form-response
+        cp -rp functions/lib/trm-api functions/activity-import
+        cp -rp functions/lib/trm-api functions/export
+        cp -rp functions/lib/trm-api functions/auth
 
-        rm functions/form-response/pkg/trm-api
-        cp -rp lib/trm-api functions/form-response/pkg
-
-        rm functions/activity-import/pkg/trm-api
-        cp -rp lib/trm-api functions/activity-import/pkg
-
-        rm functions/export/pkg/trm-api
-        cp -rp lib/trm-api functions/export/pkg
-
-        rm functions/auth/pkg/trm-api
-        cp -rp lib/trm-api functions/auth/pkg
-
-        cp -rp lib/trm-api functions/certificate-generator/pkg
+        sed -i -e 's/file:\.\.\/lib\/trm-api/file:\.\/trm-api/g' functions/*/package*.json
       working-directory: .
 
     - name: Setup Terraform
