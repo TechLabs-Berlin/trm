@@ -128,7 +128,7 @@ export const TechieEdit = props => {
               <ReferenceInput label="Assigned Team Member" source="assigned_team_member_id" reference="team_members" allowEmpty={true}>
                   <SelectInput optionText={(record) => `${record.first_name} ${record.last_name}`} />
               </ReferenceInput>
-              <ReferenceInput label="Project" source="project_id" reference="projects" allowEmpty={true}>
+              <ReferenceInput label="Project" source="project_id" reference="projects" allowEmpty={true} perPage={250}>
                   <SelectInput optionText="name" />
               </ReferenceInput>
               <TextInput multiline source="notes" />
