@@ -28,7 +28,11 @@ export const FormResponseAnswersField = ({ record = {}}) => {
             return <React.Fragment key={key}>{item}<br/></React.Fragment>
           })
         } else if(answer.type === 'choices') {
-          text = <ul>{answer.value.map(v => <li>{v}</li>)}</ul>
+          if(answer.value) {
+            text = <ul>{answer.value.map(v => <li>{v}</li>)}</ul>
+          } else {
+            text = 'None chosen'
+          }
         } else if(answer.type === 'boolean') {
           if(answer.value) {
             text = 'True'
