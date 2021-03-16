@@ -1,0 +1,21 @@
+name: Smoke Test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2.2.1
+    - run: pip install docker-compose-wait
+
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+      continue-on-error: true
+    - run: docker-compose build --parallel
+
+    - run: docker-compose up -d frontend
+    - run: docker-compose-wait
+
+    - name: Check docker-compose ps
+      run: docker-compose ps
+      if: ${{ always() }}
