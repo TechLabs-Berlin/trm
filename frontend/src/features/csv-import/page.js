@@ -69,6 +69,7 @@ const csvSchema = {
   google_account: () => [],
   github_handle: () => [],
   linkedin_profile_url: () => [],
+  edyoucated_user_id: () => [],
   age: () => [],
   project_name: () => [],
   state: (value) => {

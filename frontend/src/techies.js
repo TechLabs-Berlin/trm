@@ -135,7 +135,7 @@ export const TechieEdit = props => {
               <TextInput multiline source="notes" />
               <TextInput source="google_account" />
               <TextInput source="github_handle" />
-              <TextField source="edyoucated_user_id" />
+              <TextInput source="edyoucated_user_id" />
               <TextInput source="linkedin_profile_url" />
               <TextInput source="slack_member_id" />
               <TextField source="id" />

@@ -84,6 +84,7 @@ const Input = ({ csv, validation, onUpdateCSV }) => {
               <li><strong>google_account</strong></li>
               <li><strong>github_handle</strong></li>
               <li><strong>linkedin_profile_url</strong></li>
+              <li><strong>edyoucated_user_id</strong></li>
               <li><strong>age</strong></li>
               <li><strong>state</strong>: one of <i>PROSPECT</i>, <i>APPLICANT</i>, <i>REJECTED</i>, <i>LEARNER</i>, <i>DROPPED</i>, or <i>ALUMNI</i></li>
               <li><strong>track</strong>: one of <i>DS</i>, <i>AI</i>, <i>WEBDEV</i>, or <i>UX</i></li>
