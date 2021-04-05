@@ -9,7 +9,6 @@ import {
   uniq,
   range,
   orderBy,
-  reverse,
   property
 } from 'lodash'
 
