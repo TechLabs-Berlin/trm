@@ -8,7 +8,7 @@ import {
   groupBy,
   uniq,
   range,
-  sortBy,
+  orderBy,
   reverse,
   property
 } from 'lodash'
@@ -126,7 +126,9 @@ const techieActivityReportProvider = async (action, resource, params) => {
       last_name: activity[0].techie.last_name,
       weeks: weeks.map(w => w.label),
     }
-    const memo = {}
+    const memo = {
+      edyoucated: 0
+    }
     for(const { n, label } of weeks) {
       const weekBase = {}
       for(const type of types) {
@@ -143,16 +145,7 @@ const techieActivityReportProvider = async (action, resource, params) => {
           }
           continue
         }
-        if(!memo.edyoucated) {
-          weekBase[type] = {
-            type,
-            value: { absolute: value },
-          }
-          memo.edyoucated = value
-          continue
-        }
         weekBase[type] = {
-          absolute: false,
           value: { absolute: value, relative: value - memo.edyoucated },
           type,
         }
@@ -164,19 +157,15 @@ const techieActivityReportProvider = async (action, resource, params) => {
     return acc
   }, [])
 
-  let data = formattedActivity
-
+  let data
   if(field === 'id') {
-    data = sortBy(data, techie => techie.last_name)
+    data = orderBy(formattedActivity, techie => techie.last_name, order.toLowerCase())
   } else {
-    data = sortBy(data, techie => {
+    data = orderBy(formattedActivity, techie => {
       const dp = property(field)(techie)
       if(!dp) return 0
-      return dp.value
-    })
-  }
-  if(order === 'DESC') {
-    data = reverse(data)
+      return dp
+    }, order.toLowerCase())
   }
 
   return {
