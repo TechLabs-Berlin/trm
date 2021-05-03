@@ -92,6 +92,13 @@ const csvSchema = {
     }
     return []
   },
+  drop_out_reason: (value) => {
+    const validValues = ['REGISTRATION_FORM', 'PERSONALIZATION_FORM', 'PROJECT_FORM', 'HATCHING_FAIL', 'DROPPED_ACADEMY', 'DROPPED_PROJECT']
+    if(!validValues.includes(value)) {
+      return [`${value} not in ${validValues.join(', ')}`]
+    }
+    return []
+  },
 }
 
 const validate = (csv) => {

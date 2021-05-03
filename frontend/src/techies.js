@@ -25,6 +25,7 @@ import { StateSelectField } from './fields/stateSelect'
 import { StateSelectInput } from './inputs/stateSelect'
 import { TrackSelectField } from './fields/trackSelect'
 import { TrackSelectInput } from './inputs/trackSelect'
+import { DropOutSelectInput } from "./inputs/dropOutSelect";
 import TimestampField from './fields/timestamp'
 import BulkUpdateTechieStateButton from "./components/buttons/bulkUpdateTechieState";
 import BulkUpdateAssignedTeamMemberButton from "./components/buttons/bulkUpdateAssignedTeamMember";
@@ -132,6 +133,7 @@ export const TechieEdit = props => {
                   <SelectInput optionText="name" />
               </ReferenceInput>
               <TextInput multiline source="notes" />
+              <DropOutSelectInput label="Drop Out Reason" source="drop_out_reason"/>
               <TextInput source="google_account" />
               <TextInput source="github_handle" />
               <TextField source="edyoucated_user_id" />
