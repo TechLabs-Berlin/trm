@@ -260,5 +260,78 @@ describe('techie utils', () => {
         project_id: 'PROJECT_ID'
       })
     })
+    it('extracts drop_out_reason', async () => {
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Didn’t submit Registration form'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'REGISTRATION_FORM'
+      })
+
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Didn’t submit Personalization form'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'PERSONALIZATION_FORM'
+      })
+
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Didn’t submit Project Preference form'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'PROJECT_FORM'
+      })
+
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Didn’t pass the Hatching Phase'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'HATCHING_FAIL'
+      })
+
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Dropped during Academy Phase'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'DROPPED_ACADEMY'
+      })
+
+      expect(await techie.processTechieMasterData({
+        attributes: {},
+        formAnswers: {
+          drop_out_reason: {
+            type: 'choice',
+            value: 'Dropped during Project Phase'
+          }
+        }
+      })).to.deep.equal({
+        drop_out_reason: 'DROPPED_PROJECT'
+      })
+    })
   })
 })

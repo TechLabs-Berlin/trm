@@ -90,6 +90,7 @@ const Input = ({ csv, validation, onUpdateCSV }) => {
               <li><strong>track</strong>: one of <i>DS</i>, <i>AI</i>, <i>WEBDEV</i>, or <i>UX</i></li>
               <li><strong>gender</strong>: one of <i>male</i>, or <i>female</i></li>
               <li><strong>project_name</strong>: <i>Name</i> of a <NavLink to="/projects">Project</NavLink></li>
+              <li><strong>drop_out_reason</strong>: one of <i>REGISTRATION_FORM</i>, <i>PERSONALIZATION_FORM</i>, <i>PROJECT_FORM</i>, <i>HATCHING_FAIL</i>, <i>DROPPED_ACADEMY</i>, or <i>DROPPED_PROJECT</i></li>
             </ul>
           </p>
         </Typography>

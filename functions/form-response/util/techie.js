@@ -118,8 +118,29 @@ const answerExtractors = ({trmAPI}) => ({
       return {}
     }
     return { project_id: result.project.id }
-  }
-})
+  },
+  drop_out_reason({ answer, attributes }) {
+		if (answer.type !== "choice") {
+			return {};
+		}
+		switch (answer.value.toLowerCase()) {
+			case 'didn’t submit registration form':
+				return { drop_out_reason: 'REGISTRATION_FORM' }
+			case 'didn’t submit personalization form':
+				return { drop_out_reason: 'PERSONALIZATION_FORM' }
+			case 'didn’t submit project preference form':
+				return { drop_out_reason: 'PROJECT_FORM'}
+			case 'didn’t pass the hatching phase':
+				return { drop_out_reason: 'HATCHING_FAIL' }
+			case 'dropped during academy phase':
+				return { drop_out_reason: 'DROPPED_ACADEMY' }
+			case 'dropped during project phase':
+				return { drop_out_reason: 'DROPPED_PROJECT'}
+			default:
+				return {};
+		}
+}}
+)
 
 module.exports = {
   processTechieMasterData: async ({attributes, formAnswers, trmAPI}) => {
@@ -150,7 +171,8 @@ module.exports = {
       'github_handle',
       'linkedin_profile_url',
       'slack_member_id',
-      'project_id'
+      'project_id',
+      'drop_out_reason'
     )
 
     return selectedAttributes

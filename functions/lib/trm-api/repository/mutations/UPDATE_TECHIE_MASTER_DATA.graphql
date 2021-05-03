@@ -1,39 +1,41 @@
 mutation(
-  $id: uuid!,
-  $email: String,
-  $first_name: String,
-  $last_name: String,
-  $state: techie_lifecycle_states_enum!,
-  $techie_key: String!,
-  $application_track_choice: tracks_enum,
-  $track: tracks_enum,
-  $gender: String,
-  $age: smallint,
-  $google_account: String,
-  $github_handle: String,
-  $linkedin_profile_url: String,
-  $slack_member_id: String,
-  $project_id: uuid
+	$id: uuid!,
+	$email: String,
+	$first_name: String,
+	$last_name: String,
+	$state: techie_lifecycle_states_enum!,
+	$techie_key: String!,
+	$application_track_choice: tracks_enum,
+	$track: tracks_enum,
+	$gender: String,
+	$age: smallint,
+	$google_account: String,
+	$github_handle: String,
+	$linkedin_profile_url: String,
+	$slack_member_id: String,
+	$project_id: uuid,
+	$drop_out_reason: String
 ) {
-  update_techies_by_pk(
-    pk_columns: {id: $id},
-    _set: {
-      email: $email,
-      first_name: $first_name,
-      last_name: $last_name,
-      state: $state,
-      techie_key: $techie_key,
-      application_track_choice: $application_track_choice,
-      track: $track,
-      gender: $gender,
-      age: $age,
-      google_account: $google_account,
-      github_handle: $github_handle,
-      linkedin_profile_url: $linkedin_profile_url,
-      slack_member_id: $slack_member_id,
-      project_id: $project_id,
-      updated_at: "now()"
-    }) {
-    id
-  }
+	update_techies_by_pk(
+		pk_columns: {id: $id},
+		_set: {
+			email: $email,
+			first_name: $first_name,
+			last_name: $last_name,
+			state: $state,
+			techie_key: $techie_key,
+			application_track_choice: $application_track_choice,
+			track: $track,
+			gender: $gender,
+			age: $age,
+			google_account: $google_account,
+			github_handle: $github_handle,
+			linkedin_profile_url: $linkedin_profile_url,
+			slack_member_id: $slack_member_id,
+			project_id: $project_id,
+			updated_at: "now()",
+			drop_out_reason: $drop_out_reason
+		}) {
+		id
+	}
 }

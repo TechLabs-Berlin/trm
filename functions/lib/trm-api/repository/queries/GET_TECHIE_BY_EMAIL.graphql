@@ -18,5 +18,6 @@ query($location: locations_enum!, $semesterID: uuid!, $email: String!) {
     slack_member_id
     project_id
     track
+    drop_out_reason
   }
 }

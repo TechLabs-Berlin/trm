@@ -775,6 +775,7 @@
       - application_track_choice
       - assigned_team_member_id
       - created_at
+      - drop_out_reason
       - edyoucated_imported_at
       - edyoucated_next_import_after
       - edyoucated_user_id
@@ -806,6 +807,7 @@
       - application_track_choice
       - assigned_team_member_id
       - created_at
+      - drop_out_reason
       - edyoucated_imported_at
       - edyoucated_next_import_after
       - edyoucated_user_id

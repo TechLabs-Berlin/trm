@@ -27,5 +27,6 @@ query($id: uuid!) {
     semester {
       term
     }
+    drop_out_reason
   }
 }
