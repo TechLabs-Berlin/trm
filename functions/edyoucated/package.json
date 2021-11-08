@@ -12,7 +12,7 @@
   "dependencies": {
     "amazon-cognito-identity-js": "^4.4.0",
     "apollo-log": "^0.2.0",
-    "apollo-server": "^2.18.2",
+    "apollo-server": "^2.25.3",
     "apollo-server-cloud-functions": "^2.18.2",
     "aws-appsync": "^4.0.1",
     "cross-fetch": "^3.0.6",
