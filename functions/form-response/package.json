@@ -12,7 +12,7 @@
   "dependencies": {
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "trm-api": "file:../lib/trm-api",
     "uuid": "^8.3.0"
   },
