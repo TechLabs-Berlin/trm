@@ -58,12 +58,12 @@ module.exports = ({buildTRMAPI, trmDataFolderID, log}) => {
           const bestGuessMember = teamMembersWithCanonicalName.find(m => m.canonical_name === bestGuess.target)
           // not finding them can not happen technically, but check anyway
           if(!bestGuessMember) {
-            log.warn(`expected to find ${bestGuess.target} in edyoucated members, but didn't, ignoring...`)
+            log.warning(`expected to find ${bestGuess.target} in edyoucated members, but didn't, ignoring...`)
             continue
           }
 
           if(edyoucatedUserIDsInSemester.includes(bestGuessMember.id)) {
-            log.warn(`edyoucated user id ${bestGuessMember.id} for ${bestGuessMember.name} is already in use for semester ${semesterID}, ignoring...`)
+            log.warning(`edyoucated user id ${bestGuessMember.id} for ${bestGuessMember.name} is already in use for semester ${semesterID}, ignoring...`)
             continue
           }
 
