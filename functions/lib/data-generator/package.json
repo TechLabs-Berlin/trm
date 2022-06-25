@@ -14,7 +14,7 @@
     "faker": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "trm-api": "file:../trm-api"
   }
 }
