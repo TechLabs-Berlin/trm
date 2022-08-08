@@ -62,7 +62,7 @@ jobs:
 
     - name: Setup gcloud
       if: steps.changes.outputs.database == 'true'
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         version: '308.0.0'
         service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -108,7 +108,7 @@ jobs:
 
     - name: Setup gcloud
       if: steps.changes.outputs.pdf_generator == 'true'
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         version: '308.0.0'
         service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
@@ -146,7 +146,7 @@ jobs:
 
     - name: Setup gcloud
       if: steps.changes.outputs.code_changed == 'true'
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0
       with:
         version: '308.0.0'
         service_account_key: ${{ secrets.GOOGLE_CREDENTIALS }}
