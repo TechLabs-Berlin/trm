@@ -1,7 +1,7 @@
 {
   "name": "trm-function-certificate-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Certificate Generator",
   "main": "index.js",
   "scripts": {
     "dev": "node dev.js"
