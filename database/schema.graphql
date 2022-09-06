@@ -2347,6 +2347,7 @@ input project_team_members_set_input {
 
 # columns and relationships of "projects"
 type projects {
+  assigned_team_member_id: uuid
   created_at: timestamp!
   description: String
   id: uuid!
@@ -2465,6 +2466,7 @@ input projects_bool_exp {
   _and: [projects_bool_exp]
   _not: projects_bool_exp
   _or: [projects_bool_exp]
+  assigned_team_member_id: uuid_comparison_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
   id: uuid_comparison_exp
@@ -2489,6 +2491,7 @@ enum projects_constraint {
 
 # input type for inserting data into table "projects"
 input projects_insert_input {
+  assigned_team_member_id: uuid
   created_at: timestamp
   description: String
   id: uuid
@@ -2504,6 +2507,7 @@ input projects_insert_input {
 
 # aggregate max on columns
 type projects_max_fields {
+  assigned_team_member_id: uuid
   created_at: timestamp
   description: String
   id: uuid
@@ -2514,6 +2518,7 @@ type projects_max_fields {
 
 # order by max() on columns of table "projects"
 input projects_max_order_by {
+  assigned_team_member_id: order_by
   created_at: order_by
   description: order_by
   id: order_by
@@ -2524,6 +2529,7 @@ input projects_max_order_by {
 
 # aggregate min on columns
 type projects_min_fields {
+  assigned_team_member_id: uuid
   created_at: timestamp
   description: String
   id: uuid
@@ -2534,6 +2540,7 @@ type projects_min_fields {
 
 # order by min() on columns of table "projects"
 input projects_min_order_by {
+  assigned_team_member_id: order_by
   created_at: order_by
   description: order_by
   id: order_by
@@ -2566,6 +2573,7 @@ input projects_on_conflict {
 
 # ordering options when selecting data from "projects"
 input projects_order_by {
+  assigned_team_member_id: order_by
   created_at: order_by
   description: order_by
   id: order_by
@@ -2586,6 +2594,9 @@ input projects_pk_columns_input {
 
 # select columns of table "projects"
 enum projects_select_column {
+  # column name
+  assigned_team_member_id
+
   # column name
   created_at
 
@@ -2610,6 +2621,7 @@ enum projects_select_column {
 
 # input type for updating data in table "projects"
 input projects_set_input {
+  assigned_team_member_id: uuid
   created_at: timestamp
   description: String
   id: uuid
@@ -2621,6 +2633,9 @@ input projects_set_input {
 
 # update columns of table "projects"
 enum projects_update_column {
+  # column name
+  assigned_team_member_id
+
   # column name
   created_at
 
@@ -6098,6 +6113,7 @@ type techies {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp!
+  drop_out_reason: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -6274,6 +6290,7 @@ input techies_bool_exp {
   application_track_choice: tracks_enum_comparison_exp
   assigned_team_member_id: uuid_comparison_exp
   created_at: timestamp_comparison_exp
+  drop_out_reason: String_comparison_exp
   edyoucated_imported_at: timestamp_comparison_exp
   edyoucated_next_import_after: timestamp_comparison_exp
   edyoucated_user_id: String_comparison_exp
@@ -6328,6 +6345,7 @@ input techies_insert_input {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp
+  drop_out_reason: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -6364,6 +6382,7 @@ type techies_max_fields {
   age: smallint
   assigned_team_member_id: uuid
   created_at: timestamp
+  drop_out_reason: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -6388,6 +6407,7 @@ input techies_max_order_by {
   age: order_by
   assigned_team_member_id: order_by
   created_at: order_by
+  drop_out_reason: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -6412,6 +6432,7 @@ type techies_min_fields {
   age: smallint
   assigned_team_member_id: uuid
   created_at: timestamp
+  drop_out_reason: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -6436,6 +6457,7 @@ input techies_min_order_by {
   age: order_by
   assigned_team_member_id: order_by
   created_at: order_by
+  drop_out_reason: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -6483,6 +6505,7 @@ input techies_order_by {
   application_track_choice: order_by
   assigned_team_member_id: order_by
   created_at: order_by
+  drop_out_reason: order_by
   edyoucated_imported_at: order_by
   edyoucated_next_import_after: order_by
   edyoucated_user_id: order_by
@@ -6532,6 +6555,9 @@ enum techies_select_column {
 
   # column name
   created_at
+
+  # column name
+  drop_out_reason
 
   # column name
   edyoucated_imported_at
@@ -6600,6 +6626,7 @@ input techies_set_input {
   application_track_choice: tracks_enum
   assigned_team_member_id: uuid
   created_at: timestamp
+  drop_out_reason: String
   edyoucated_imported_at: timestamp
   edyoucated_next_import_after: timestamp
   edyoucated_user_id: String
@@ -6675,6 +6702,9 @@ enum techies_update_column {
 
   # column name
   created_at
+
+  # column name
+  drop_out_reason
 
   # column name
   edyoucated_imported_at
