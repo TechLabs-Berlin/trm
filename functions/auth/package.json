@@ -15,7 +15,7 @@
     "trm-api": "file:../lib/trm-api"
   },
   "devDependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "faker": "^5.1.0",
     "morgan": "^1.10.0"
   }
