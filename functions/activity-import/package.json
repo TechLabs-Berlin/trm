@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "diacritic": "0.0.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
