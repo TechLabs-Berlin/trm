@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "flat": "^5.0.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "node-fetch": "^2.6.1",
     "trm-api": "file:../lib/trm-api"
   },
