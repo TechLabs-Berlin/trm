@@ -15,7 +15,7 @@
     "prop-types": "^15.7.2",
     "ra-data-hasura-graphql": "Steams/ra-data-hasura-graphql#f2afa00a7ab338c4c538c5959864c674938f2191",
     "react": "^17.0.1",
-    "react-admin": "^3.11.2",
+    "react-admin": "^3.19.12",
     "react-dom": "^17.0.1",
     "react-google-login": "^5.2.2",
     "react-json-view": "^1.19.1",
